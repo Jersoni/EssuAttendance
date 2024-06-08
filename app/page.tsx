@@ -16,7 +16,7 @@ export default function Home() {
       <div className="p-4 flex flex-col overflow-y-scroll h-[90vh] pb-40">
         <div className="ongoing-attendance mt-5">
           <h2 className="text-xl font-semibold">Ongoing Attendance</h2>
-          <div className="border border-gray-400 bg-gray-100 h-fit rounded-md mt-5 p-3" onClick={handleClick}>
+          <div className="border border-black border-opacity-20 bg-gray-50 h-fit rounded-md mt-5 p-3" onClick={handleClick}>
             <span className="event__title">Lorem Ipsum - Morning session</span>
             <div className="mt-2">
               <div>
@@ -33,7 +33,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="border border-gray-400 bg-gray-100 h-fit rounded-md mt-5 p-3">
+          <div className="border border-black border-opacity-20 bg-gray-50 h-fit rounded-md mt-5 p-3">
             <span className="event__title">Lorem Ipsum - Afternoon session</span>
             <div className="mt-2">
               <div>
@@ -53,7 +53,7 @@ export default function Home() {
         </div>
         <div className="upcoming-events mt-16">
           <h2 className="text-xl font-semibold">Upcoming Events</h2>
-          <div className="border border-gray-400 bg-gray-100 h-fit rounded-md mt-5 p-3">
+          <div className="border border-black border-opacity-20 bg-gray-50 h-fit rounded-md mt-5 p-3">
             <span className="event__title">Seminar</span>
             <div className="mt-2">
               <div>
@@ -66,7 +66,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="border border-gray-400 bg-gray-100 h-fit rounded-md mt-5 p-3">
+          <div className="border border-black border-opacity-20 bg-gray-50 h-fit rounded-md mt-5 p-3">
             <span className="event__title">Christmas Party</span>
             <div className="mt-2">
               <div>
