@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="home">
       <Navbar />
-      <div className="p-4 flex flex-col overflow-y-scroll h-[90vh] pb-32">
+      <div className="p-4 flex flex-col overflow-y-scroll h-[90vh] pb-40">
         <div className="ongoing-attendance mt-5">
           <h2 className="text-xl font-semibold">Ongoing Attendance</h2>
           <div className="border border-gray-400 bg-gray-100 h-fit rounded-md mt-5 p-3" onClick={handleClick}>

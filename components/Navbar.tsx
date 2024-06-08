@@ -24,7 +24,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className='m-3 ml-2'>
+        <div className='p-3 pl-2 border-b border-b-black border-opacity-40'>
             {/* menu button */}
             <div className='flex flex-row items-center'>
                 <button className='z-30 grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-300' type="button" aria-label="Open Menu" onClick={handleClick}>
