@@ -1,14 +1,19 @@
+"use client"
 import { Navbar } from "@/components";
 
 export default function Home() {
 
+  const handleClick = () => {
+    console.log("clicked")
+  }
+
   return (
     <div className="home">
       <Navbar />
-      <div className="p-4">
+      <div className="p-4 flex flex-col overflow-y-scroll max-h-[80vh] ">
         <div className="ongoing-attendance mt-5">
           <h2 className="text-xl font-semibold">Ongoing Attendance</h2>
-          <div className="border border-gray-400 bg-gray-100 h-fit rounded-md mt-5 p-3">
+          <div className="border border-gray-400 bg-gray-100 h-fit rounded-md mt-5 p-3" onClick={handleClick}>
             <span className="event__title">Lorem Ipsum - Morning session</span>
             <div className="mt-2">
               <div>

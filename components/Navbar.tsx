@@ -65,7 +65,7 @@ const Navbar = () => {
             </div>
 
             {/* Just a backdrop */}
-            <div className={`absolute top-0 left-0 h-full w-full bg-black z-10 transition-all ${isOpen ? ("opacity-70") : ("opacity-0 delay-100")}`} onClick={isOpen ? handleClick : undefined}></div>
+            <div className={`absolute top-0 left-0 h-full w-full bg-black z-10 transition-all ${isOpen ? ("opacity-70 block") : ("opacity-0 delay-100 hidden")}`} onClick={isOpen ? handleClick : undefined}></div>
         </div>
     )
 }
