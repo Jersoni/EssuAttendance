@@ -10,6 +10,7 @@ import { RiHome2Line } from "react-icons/ri";
 import { LuUser } from "react-icons/lu";
 import { LuArchive } from "react-icons/lu";
 import { IoMdInformationCircleOutline } from "react-icons/io";
+import { IoCloseOutline } from "react-icons/io5";
 
 const Navbar = () => {
 
@@ -23,12 +24,14 @@ const Navbar = () => {
     };
 
     return (
-        <div className='flex flex-row items-center m-3'>
+        <div className='m-3 ml-2'>
             {/* menu button */}
-            <button className='z-30 grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-300' type="button" aria-label="Open Menu" onClick={handleClick}>
-                <LuMenu size={24} />
-            </button>
-            <h1 className='text-[20px] font-bold z-30'>AttendEase</h1>
+            <div className='flex flex-row items-center'>
+                <button className='z-30 grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-300' type="button" aria-label="Open Menu" onClick={handleClick}>
+                    {isOpen ? (<IoCloseOutline size={30} />) : (<LuMenu size={24} />)}
+                </button>
+                <h1 className='text-[20px] font-bold z-30 translate-y-[1px]'>AttendEase</h1>
+            </div>
 
             {/* Navbar menu */}
             <div className={`absolute transition-all ease-out duration-500 bg-white flex h-full p-3 w-[85vw] pt-20 z-20 
@@ -62,7 +65,7 @@ const Navbar = () => {
             </div>
 
             {/* Just a backdrop */}
-            <div className={`absolute top-0 left-0 h-full w-full bg-black z-10 transition-all ${isOpen ? ("opacity-70") : ("opacity-0 delay-100")}`}></div>
+            <div className={`absolute top-0 left-0 h-full w-full bg-black z-10 transition-all ${isOpen ? ("opacity-70") : ("opacity-0 delay-100")}`} onClick={isOpen ? handleClick : undefined}></div>
         </div>
     )
 }

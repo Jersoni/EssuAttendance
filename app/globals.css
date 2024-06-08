@@ -23,6 +23,24 @@ body {
   transition-duration: 200ms;
 }
 
+.event__title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.event__label {
+  display: inline-block;
+  width: 110px;
+  font-size: 14px;
+}
+
+.event__info {
+  font-size: 14px;
+  opacity: 80%;
+}
+
+
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
