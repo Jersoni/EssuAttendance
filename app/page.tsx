@@ -1,10 +1,13 @@
 "use client"
 import { Navbar } from "@/components";
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
 
+  const router = useRouter()
+
   const handleClick = () => {
-    console.log("clicked")
+    router.push("/attendance")
   }
 
   return (
