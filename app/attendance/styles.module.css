@@ -1,0 +1,16 @@
+.studentContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    border-bottom: 1px solid black;
+}
+
+.info {
+    display: inline-block;
+    width: 120px;
+    font-size: 14px;
+}
+
+.description {
+    opacity: 60%;
+}

@@ -1,10 +1,12 @@
 import Navbar from './Navbar'
 import Footer from './Footer'
-import ReturnButton from './ReturnButton'
+import PageHeader from './PageHeader'
+import SearchBar from './SearchBar'
 
 // export components here
 export {
-    ReturnButton,
     Footer,
-    Navbar
+    Navbar,
+    PageHeader,
+    SearchBar,
 }
