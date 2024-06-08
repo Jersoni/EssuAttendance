@@ -6,7 +6,7 @@ export default function Home() {
     <div className="home">
       <Navbar />
       <div className="p-4">
-        <div className="ongoing-attendance">
+        <div className="ongoing-attendance mt-5">
           <h2 className="text-xl font-semibold">Ongoing Attendance</h2>
           <div className="border border-gray-400 bg-gray-100 h-fit rounded-md mt-5 p-3">
             <span className="event__title">Lorem Ipsum - Morning session</span>
@@ -43,7 +43,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="upcoming-events mt-12">
+        <div className="upcoming-events mt-16">
           <h2 className="text-xl font-semibold">Upcoming Events</h2>
           <div className="border border-gray-400 bg-gray-100 h-fit rounded-md mt-5 p-3">
             <span className="event__title">Seminar</span>

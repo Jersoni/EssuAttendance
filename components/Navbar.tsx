@@ -30,7 +30,7 @@ const Navbar = () => {
                 <button className='z-30 grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-300' type="button" aria-label="Open Menu" onClick={handleClick}>
                     {isOpen ? (<IoCloseOutline size={30} />) : (<LuMenu size={24} />)}
                 </button>
-                <h1 className='text-[20px] font-bold z-30 translate-y-[1px]'>AttendEase</h1>
+                <h1 className='text-[20px] font-bold z-30 translate-y-[1px]'>SSC attendance</h1>
             </div>
 
             {/* Navbar menu */}
