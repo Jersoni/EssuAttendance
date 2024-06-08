@@ -1,5 +1,6 @@
 "use client"
 import { Navbar } from "@/components";
+import { Footer } from "@/components";
 
 export default function Home() {
 
@@ -10,7 +11,7 @@ export default function Home() {
   return (
     <div className="home">
       <Navbar />
-      <div className="p-4 flex flex-col overflow-y-scroll max-h-[80vh] ">
+      <div className="p-4 flex flex-col overflow-y-scroll max-h-[100vh] ">
         <div className="ongoing-attendance mt-5">
           <h2 className="text-xl font-semibold">Ongoing Attendance</h2>
           <div className="border border-gray-400 bg-gray-100 h-fit rounded-md mt-5 p-3" onClick={handleClick}>
@@ -77,6 +78,8 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        <Footer />
       </div>
     </div>
   );
