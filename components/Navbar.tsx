@@ -34,7 +34,7 @@ const Navbar = () => {
             </div>
 
             {/* Navbar menu */}
-            <div className={`absolute transition-all ease-out duration-500 bg-white flex h-full p-3 w-[85vw] pt-20 z-20 
+            <div className={`absolute transition-all ease-out duration-200 bg-white flex h-full p-3 w-[85vw] pt-20 z-20 
             ${isOpen ? ("top-0 left-0") : ("left-[-85vw] top-0")}`}>
                 <ul>
                     <li>
