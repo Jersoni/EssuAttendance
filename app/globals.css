@@ -4,19 +4,23 @@
 
 
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 0, 0, 0;
-  --background-end-rgb: 0, 0, 0;
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: row;
+  padding: 12px;
+  border-radius: 6px;
+  width: calc(85vw - 12px - 12px);
+  transition: all 0.5s ease-out;
+  transition-duration: 200ms;
 }
 
 @layer utilities {
