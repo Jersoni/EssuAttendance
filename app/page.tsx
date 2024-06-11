@@ -15,7 +15,7 @@ export default function Home() {
 
       <Navbar />
 
-      <div className="p-4 flex flex-col overflow-y-scroll h-[90vh] pb-40">
+      <div className="p-4 flex flex-col overflow-y-scroll h-[90vh] pb-40 pt-20">
 
         {/* ON GOING ATTENDANCE BLOCK */}
         <div className="ongoing-attendance mt-5">

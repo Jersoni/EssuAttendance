@@ -10,13 +10,13 @@ interface searchBarProps {
 // SearchBar component
 const SearchBar: React.FC<searchBarProps> = ({className}) => {
   return (
-    <form className={`${className}`}>
-        <RiSearchLine className='absolute opacity-70 translate-x-4 translate-y-3' size={24} />
-        <input 
-            type="text" 
-            className='border border-gray-500 rounded-md p-3 pl-[52px] w-full'
-            placeholder='Search'
-        />
+    <form className={`${className} rounded-md flex flex-row items-center pl-[15px] w-full bg-[#ECEDF1]`}>
+      <RiSearchLine className='opacity-40' size={24} />
+      <input 
+          type="text" 
+          className='bg-[#ECEDF1] outline-none rounded-md p-3 w-full'
+          placeholder={"Search"}
+      />
     </form>
   )
 }

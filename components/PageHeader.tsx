@@ -15,7 +15,7 @@ const PageHeader: React.FC<headerProps> = ({title, returnPath}) => {
     const router = useRouter()
 
     return (
-        <div className="p-3 pl-2 border-b border-b-black border-opacity-20 shadow">
+        <div className=" absolute w-full bg-white/20 backdrop-filter backdrop-blur-md z-50 p-3 pl-2 border-b border-b-black border-opacity-20 shadow">
             <div className="flex flex-row items-center">
 
                 {/* return button */}

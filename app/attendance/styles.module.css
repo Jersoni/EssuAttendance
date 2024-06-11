@@ -1,16 +1,21 @@
 .studentContainer {
     display: flex;
     flex-direction: column;
-    padding: 16px;
-    border-bottom: 1px solid black;
+    padding: 20px 16px;
+    border-bottom: 1px solid #d0d0d0;
 }
 
 .info {
     display: inline-block;
     width: 120px;
     font-size: 14px;
+    opacity: 50%;
 }
 
-.description {
-    opacity: 60%;
+.radioGroup {
+    padding-inline: 16px;
 }
+
+/* .description {
+    opacity: 40%;
+} */
