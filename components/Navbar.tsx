@@ -12,26 +12,32 @@ import { LuArchive } from "react-icons/lu";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 
-const Navbar = () => {
+// navbar props
+interface navbarProps {
+    title?: string; // to allow custom title for navbar header
+}
+
+
+const Navbar: React.FC<navbarProps> = ({title = 'SSC Attendance'}) => { // given default value for navbar title
 
     // get current path
     const pathname = usePathname()
 
     // click handler for menu btn
     const [isOpen, setIsOpen] = useState(false);
-    const handleClick = () => {
+    const handleClick = () => {``
         setIsOpen(!isOpen);
     };
 
     return (
         <>
-            <div className='p-3 pl-2 absolute w-full bg-white/20 backdrop-blur-md z-50 border-b border-b-black border-opacity-20 shadow'>
+            <div className='p-3 pl-2 absolute w-full bg-white/20 backdrop-filter backdrop-blur-md z-50 border-b border-b-black border-opacity-20 shadow'>
                 {/* menu button */}
                 <div className='flex flex-row items-center'>
                     <button className='z-30 grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-200' type="button" aria-label="Open Menu" onClick={handleClick}>
                         {isOpen ? (<IoCloseOutline size={30} />) : (<LuMenu size={24} />)}
                     </button>
-                    <h1 className='text-[20px] font-bold z-30 translate-y-[1px]'>SSC attendance</h1>
+                    <h1 className='text-[20px] font-bold z-30 translate-y-[1px]'>{title}</h1>
                 </div>
 
                 {/* Navbar menu */}

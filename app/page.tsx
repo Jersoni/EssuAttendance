@@ -15,13 +15,13 @@ export default function Home() {
 
       <Navbar />
 
-      <div className="p-4 flex flex-col overflow-y-scroll h-[90vh] pb-40 pt-20">
+      <div className="p-4 flex flex-col overflow-y-scroll h-[100vh] pb-40 pt-20">
 
         {/* ON GOING ATTENDANCE BLOCK */}
         <div className="ongoing-attendance mt-5">
           <h2 className="text-xl font-semibold">Ongoing Attendance</h2>
         
-          <div className="border border-black border-opacity-20 bg-gray-100 h-fit rounded-md mt-5 p-3" onClick={handleClick}>
+          <div className="border border-[#d0d0d0] bg-gray-100 h-fit rounded-md mt-5 p-3" onClick={handleClick}>
             <span className="event__title">Lorem Ipsum - Morning session</span>
             <div className="mt-2">
               <div>
@@ -39,7 +39,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="border border-black border-opacity-20 bg-gray-100 h-fit rounded-md mt-5 p-3">
+          <div className="border border-[#d0d0d0] bg-gray-100 h-fit rounded-md mt-5 p-3">
             <span className="event__title">Lorem Ipsum - Afternoon session</span>
             <div className="mt-2">
               <div>
