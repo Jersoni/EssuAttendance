@@ -13,7 +13,7 @@ interface headerProps {
 const PageHeader: React.FC<headerProps> = ({title, returnPath}) => {
 
     const router = useRouter()
-    const themeColorGreen: string = "#006610"
+    const themeColorGreen: string = "#006C11"
 
     return (
         <div className=" absolute w-full bg-white/20 backdrop-filter backdrop-blur-md z-50 p-3 pl-2 border-b border-b-black border-opacity-20 shadow">
@@ -25,7 +25,7 @@ const PageHeader: React.FC<headerProps> = ({title, returnPath}) => {
                 </button>
 
                 {/* header title */}
-                <span className={`absolute text-[${themeColorGreen}] left-0 text-center w-full text-xl font-bold`}>{title}</span>
+                <span className={`absolute text-[${themeColorGreen}] left-0 text-center w-full text-xl font-extrabold`}>{title}</span>
                 
             </div>
         </div>

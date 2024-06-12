@@ -20,7 +20,7 @@ interface navbarProps {
 
 const Navbar: React.FC<navbarProps> = ({title = 'SSC Attendance'}) => { // given default value for navbar title
 
-    const themeColorGreen: string = "#006610" // theme color
+    const themeColorGreen: string = "#006C11" // theme color
     const pathname = usePathname() // get current path
 
     // click handler for menu btn
@@ -40,7 +40,7 @@ const Navbar: React.FC<navbarProps> = ({title = 'SSC Attendance'}) => { // given
                     </button>
                     
                     {/* TITLE */}
-                    <h1 className={` text-[${themeColorGreen}] text-[20px] font-bold z-30 translate-y-[1px]`}>{title}</h1>
+                    <h1 className={`text-[${themeColorGreen}] text-[20px] font-extrabold z-30 translate-y-[1px]`}>{title}</h1>
                 </div>
 
                 {/* Navbar menu */}

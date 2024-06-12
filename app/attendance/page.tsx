@@ -19,7 +19,7 @@ const Attendance = () => {
 
         <div className='p-4 pb-0 pt-0'>
           <h2 className='font-semibold text-lg opacity-90'>Lorem Ipsum - Morning session</h2>
-          <p className='opacity-60'>June 10, 2024</p>
+          <p className='opacity-60 font-medium'>June 10, 2024</p>
           <SearchBar className='mt-5' />
         </div>
 
