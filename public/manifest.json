@@ -1,0 +1,9 @@
+{
+    "name": "SSC Attendance",
+    "short_name": "SSC",
+    "theme_color": "#FFFFFF",
+    "background_color": "#FFFFFF",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait"
+  }

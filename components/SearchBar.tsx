@@ -11,11 +11,11 @@ interface searchBarProps {
 const SearchBar: React.FC<searchBarProps> = ({className}) => {
   return (
     <form className={`${className} rounded-md flex flex-row items-center pl-[15px] w-full bg-[#ECEDF1]`}>
-      <RiSearchLine className='opacity-40' size={24} />
+      <RiSearchLine className='opacity-60' size={24} />
       <input 
           type="text" 
           className='bg-[#ECEDF1] outline-none rounded-md p-3 w-full'
-          placeholder={"Search"}
+          placeholder={"Search name, ID, etc..."}
       />
     </form>
   )

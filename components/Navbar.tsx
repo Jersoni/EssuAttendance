@@ -20,8 +20,8 @@ interface navbarProps {
 
 const Navbar: React.FC<navbarProps> = ({title = 'SSC Attendance'}) => { // given default value for navbar title
 
-    // get current path
-    const pathname = usePathname()
+    const themeColorGreen: string = "#006610" // theme color
+    const pathname = usePathname() // get current path
 
     // click handler for menu btn
     const [isOpen, setIsOpen] = useState(false);
@@ -32,12 +32,15 @@ const Navbar: React.FC<navbarProps> = ({title = 'SSC Attendance'}) => { // given
     return (
         <>
             <div className='p-3 pl-2 absolute w-full bg-white/20 backdrop-filter backdrop-blur-md z-50 border-b border-b-black border-opacity-20 shadow'>
+
                 {/* menu button */}
                 <div className='flex flex-row items-center'>
                     <button className='z-30 grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-200' type="button" aria-label="Open Menu" onClick={handleClick}>
-                        {isOpen ? (<IoCloseOutline size={30} />) : (<LuMenu size={24} />)}
+                        {isOpen ? (<IoCloseOutline color={themeColorGreen} size={30} />) : (<LuMenu color={themeColorGreen} size={24} />)}
                     </button>
-                    <h1 className='text-[20px] font-bold z-30 translate-y-[1px]'>{title}</h1>
+                    
+                    {/* TITLE */}
+                    <h1 className={` text-[${themeColorGreen}] text-[20px] font-bold z-30 translate-y-[1px]`}>{title}</h1>
                 </div>
 
                 {/* Navbar menu */}
