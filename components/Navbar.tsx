@@ -40,7 +40,7 @@ const Navbar: React.FC<navbarProps> = ({title = 'SSC Attendance'}) => { // given
                     </button>
                     
                     {/* TITLE */}
-                    <h1 className={`text-[${themeColorGreen}] text-[20px] font-extrabold z-30 translate-y-[1px]`}>{title}</h1>
+                    <h1 className={`text-[#006C11] text-[20px] font-extrabold z-30 translate-y-[1px]`}>{title}</h1>
                 </div>
 
                 {/* Navbar menu */}

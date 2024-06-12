@@ -25,7 +25,7 @@ const PageHeader: React.FC<headerProps> = ({title, returnPath}) => {
                 </button>
 
                 {/* header title */}
-                <span className={`absolute text-[${themeColorGreen}] left-0 text-center w-full text-xl font-extrabold`}>{title}</span>
+                <span className={`absolute text-[#006C11] left-0 text-center w-full text-xl font-extrabold`}>{title}</span>
                 
             </div>
         </div>
