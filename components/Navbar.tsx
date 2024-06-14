@@ -70,7 +70,7 @@ const Navbar: React.FC<navbarProps> = ({title = 'SSC Attendance'}) => { // given
                     </div>
 
                     {/* Navbar menu */}
-                    <div className={`absolute transition-all ease-out duration-200 bg-white flex min-h-[100vh] p-3 w-[85vw] pt-20 z-20 
+                    <div className={`absolute transition-all ease-out duration-200 bg-white flex min-h-[100vh] p-3 w-[70vw] pt-20 z-20 
                     ${isOpen ? ("top-0 left-0") : ("left-[-85vw] top-0")}`}>
                         <ul>
                             <li>

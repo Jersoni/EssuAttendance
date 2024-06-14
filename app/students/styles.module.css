@@ -8,6 +8,7 @@
     flex-direction: column;
     padding: 20px 16px;
     border-bottom: 1px solid #d0d0d0;
+    font-weight: 500;
 }
 
 .info {
@@ -15,6 +16,7 @@
     width: 120px;
     font-size: 14px;
     opacity: 50%;
+    font-weight: 400;
 }
 
 .radioGroup {

@@ -5,8 +5,6 @@ import { useState } from "react";
 
 const Page = () => {
 
-  const [toggleFilter, setToggleFilter] = useState(false);
-
   return (
     <>
       
