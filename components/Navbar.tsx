@@ -12,15 +12,15 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 
 // navbar props
-interface navbarProps {
-    title?: string; // to allow custom title for navbar header
-}
 
 
-const Navbar: React.FC<navbarProps> = ({title = 'SSC Attendance'}) => { // given default value for navbar title
+const Navbar = () => { // given default value for navbar title
 
     const themeColorGreen: string = "#006C11" // theme color
     const pathname = usePathname() // get current path
+
+    let convertedPathname = pathname.slice(1).charAt(0).toUpperCase() + pathname.slice(1).slice(1);
+    if (convertedPathname === '') convertedPathname = "SSC Attendance"
 
     // Memoized excluded routes using useMemo
     const excludedRoutes = useMemo(() => ['/login', '/signup', '/attendance'], []);
@@ -66,7 +66,7 @@ const Navbar: React.FC<navbarProps> = ({title = 'SSC Attendance'}) => { // given
                         </button>
                         
                         {/* TITLE */}
-                        <h1 className={`text-[#006C11] text-[20px] font-extrabold z-30 translate-y-[1px]`}>{title}</h1>
+                        <h1 className={`text-[#006C11] text-[20px] font-extrabold z-30 translate-y-[1px]`}>{convertedPathname}</h1>
                     </div>
 
                     {/* Navbar menu */}
@@ -76,33 +76,33 @@ const Navbar: React.FC<navbarProps> = ({title = 'SSC Attendance'}) => { // given
                             <li>
                                 <Link href="/" className={`nav-item ${pathname === '/' ? 'bg-gray-200' : ''}`}>
                                     <RiHome2Line className='mr-3' size={24} />
-                                    <span className='font-medium'>Home</span>
+                                    <span>Home</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/students" className={`nav-item ${pathname === '/students' ? 'bg-gray-200' : ''}`}>
                                     <LuUser className='mr-3' size={24} />
-                                    <span className='font-medium'>Students</span>
+                                    <span>Students</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/archive" className={`nav-item ${pathname === '/archive' ? 'bg-gray-200' : ''}`}>
                                     <LuArchive className='mr-3' size={24} />
-                                    <span className='font-medium'>Archive</span>
+                                    <span>Archive</span>
                                 </Link>
                             </li>
                             <li>
                                 <Link href="/about" className={`nav-item ${pathname === '/about' ? 'bg-gray-200' : ''}`}>
                                     <IoMdInformationCircleOutline className='mr-3' size={24} />
-                                    <span className='font-medium'>About</span>
+                                    <span>About</span>
                                 </Link>
                             </li>
                         </ul>
                     </div>
                 </div>
             )}
-                {/* Just a backdrop */}
-                <div className={`absolute top-0 left-0 h-full w-full bg-black z-40 transition-all ${isOpen ? ("opacity-70 block") : ("opacity-0 delay-100 hidden")}`} onClick={isOpen ? handleClick : undefined}></div>
+            {/* Just a backdrop */}
+            <div className={`absolute top-0 left-0 h-full w-full bg-black z-40 transition-all ${isOpen ? ("opacity-70 block") : ("opacity-0 delay-100 hidden")}`} onClick={isOpen ? handleClick : undefined}></div>
             
         </>
     )
