@@ -1,5 +1,4 @@
 "use client"
-import { Navbar } from "@/components";
 import { useRouter } from 'next/navigation'
 
 export default function Home() {
@@ -12,9 +11,6 @@ export default function Home() {
 
   return (
     <div className="home">
-
-      <Navbar />
-
       <div className="p-4 flex flex-col overflow-y-scroll h-[100vh] pb-40 pt-20">
 
         {/* ON GOING ATTENDANCE BLOCK */}

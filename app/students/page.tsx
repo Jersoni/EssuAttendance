@@ -1,26 +1,19 @@
 'use client'
 import { Navbar, SearchBar } from "@/components";
 import styles from './styles.module.css';
-import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 import { useState } from "react";
 
 const Page = () => {
 
   const [toggleFilter, setToggleFilter] = useState(false);
 
-
-
   return (
     <>
-      <Navbar title="Students" />
-      <div className="max-h-[100vh] overflow-y-auto pt-28 pb-40">
+      
+      <div className="max-h-[100vh] overflow-y-auto pt-24 pb-40">
 
-        <div className="px-3 flex flex-row">
-          <SearchBar />
-          <button className="flex flex-row rounded-md p-3 items-center ml-3 shadow">
-            <HiOutlineAdjustmentsHorizontal size={24} />
-            <span className="ml-2">Filter</span>
-          </button>
+        <div className="px-3">
+          <SearchBar className="mt-5"/>
         </div>
 
         <div className={` ${styles.studentsList} mt-8 `}> 

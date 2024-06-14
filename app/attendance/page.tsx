@@ -20,7 +20,7 @@ const Attendance = () => {
         <div className='p-4 pb-0 pt-0'>
           <h2 className='font-semibold text-lg opacity-90'>Lorem Ipsum - Morning session</h2>
           <p className='opacity-60 font-medium'>June 10, 2024</p>
-          <SearchBar className='mt-5' />
+          <SearchBar className='mt-6' />
         </div>
 
         <div className={`mt-8 ${styles.radioGroup}`}>
@@ -56,145 +56,100 @@ const Attendance = () => {
 
           <div className={`${styles.studentContainer}`}>
             <h2 className=''>Caibog, Jerson D.</h2>
-            <div className='mt-2'>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Student ID</span>
-                <span className={`${styles.info} ${styles.description}`}>22-0224</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Course</span>
-                <span className={`${styles.info} ${styles.description}`}>BSIT</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Year & Section</span>
-                <span className={`${styles.info} ${styles.description}`}>2 - A</span>
-              </div>
+            <div className={`${styles.infoContainer}`}>
+              <span className={`${styles.info}`}>22-0224</span>
+              <div className='min-h-[2px] min-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+              <span className={`${styles.info}`}>BSIT 2-A</span>
             </div>
           </div>
 
           <div className={`${styles.studentContainer}`}>
             <h2 className=''>Ranido, Christian Rhey O.</h2>
-            <div className='mt-2'>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Student ID</span>
-                <span className={`${styles.info} ${styles.description}`}>22-0224</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Course</span>
-                <span className={`${styles.info} ${styles.description}`}>BSIT</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Year & Section</span>
-                <span className={`${styles.info} ${styles.description}`}>2 - A</span>
-              </div>
+            <div className={`${styles.infoContainer}`}>
+              <span className={`${styles.info}`}>22-0224</span>
+              <div className='min-h-[2px] min-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+              <span className={`${styles.info}`}>BSIT 2-A</span>
             </div>
           </div>
 
           <div className={`${styles.studentContainer}`}>
-            <h2 className=''>Ranido, Christian Rhey O.</h2>
-            <div className='mt-2'>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Student ID</span>
-                <span className={`${styles.info} ${styles.description}`}>22-0224</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Course</span>
-                <span className={`${styles.info} ${styles.description}`}>BSIT</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Year & Section</span>
-                <span className={`${styles.info} ${styles.description}`}>2 - A</span>
-              </div>
-            </div>
-          </div>
-
-          <div className={`${styles.studentContainer}`}>
-            <h2 className=''>Ranido, Christian Rhey O.</h2>
-            <div className='mt-2'>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Student ID</span>
-                <span className={`${styles.info} ${styles.description}`}>22-0224</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Course</span>
-                <span className={`${styles.info} ${styles.description}`}>BSIT</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Year & Section</span>
-                <span className={`${styles.info} ${styles.description}`}>2 - A</span>
-              </div>
+            <h2 className=''>Suson, Jinky B.</h2>
+            <div className={`${styles.infoContainer}`}>
+              <span className={`${styles.info}`}>22-0224</span>
+              <div className='min-h-[2px] min-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+              <span className={`${styles.info}`}>BSIT 2-A</span>
             </div>
           </div>
 
           <div className={`${styles.studentContainer}`}>
             <h2 className=''>Caibog, Jerson D.</h2>
-            <div className='mt-2'>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Student ID</span>
-                <span className={`${styles.info} ${styles.description}`}>22-0224</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Course</span>
-                <span className={`${styles.info} ${styles.description}`}>BSIT</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Year & Section</span>
-                <span className={`${styles.info} ${styles.description}`}>2 - A</span>
-              </div>
-            </div>
-          </div>
-
-          <div className={`${styles.studentContainer}`}>
-            <h2 className=''>Ranido, Christian Rhey O.</h2>
-            <div className='mt-2'>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Student ID</span>
-                <span className={`${styles.info} ${styles.description}`}>22-0224</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Course</span>
-                <span className={`${styles.info} ${styles.description}`}>BSIT</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Year & Section</span>
-                <span className={`${styles.info} ${styles.description}`}>2 - A</span>
-              </div>
+            <div className={`${styles.infoContainer}`}>
+              <span className={`${styles.info}`}>22-0224</span>
+              <div className='min-h-[2px] min-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+              <span className={`${styles.info}`}>BSIT 2-A</span>
             </div>
           </div>
 
           <div className={`${styles.studentContainer}`}>
             <h2 className=''>Caibog, Jerson D.</h2>
-            <div className='mt-2'>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Student ID</span>
-                <span className={`${styles.info} ${styles.description}`}>22-0224</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Course</span>
-                <span className={`${styles.info} ${styles.description}`}>BSIT</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Year & Section</span>
-                <span className={`${styles.info} ${styles.description}`}>2 - A</span>
-              </div>
+            <div className={`${styles.infoContainer}`}>
+              <span className={`${styles.info}`}>22-0224</span>
+              <div className='min-h-[2px] min-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+              <span className={`${styles.info}`}>BSIT 2-A</span>
             </div>
           </div>
 
           <div className={`${styles.studentContainer}`}>
-            <h2 className=''>Ranido, Christian Rhey O.</h2>
-            <div className='mt-2'>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Student ID</span>
-                <span className={`${styles.info} ${styles.description}`}>22-0224</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Course</span>
-                <span className={`${styles.info} ${styles.description}`}>BSIT</span>
-              </div>
-              <div className='flex flex-row'>
-                <span className={`${styles.info}`}>Year & Section</span>
-                <span className={`${styles.info} ${styles.description}`}>2 - A</span>
-              </div>
+            <h2 className=''>Caibog, Jerson D.</h2>
+            <div className={`${styles.infoContainer}`}>
+              <span className={`${styles.info}`}>22-0224</span>
+              <div className='min-h-[2px] min-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+              <span className={`${styles.info}`}>BSIT 2-A</span>
+            </div>
+          </div>
+
+          <div className={`${styles.studentContainer}`}>
+            <h2 className=''>Caibog, Jerson D.</h2>
+            <div className={`${styles.infoContainer}`}>
+              <span className={`${styles.info}`}>22-0224</span>
+              <div className='min-h-[2px] min-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+              <span className={`${styles.info}`}>BSIT 2-A</span>
+            </div>
+          </div>
+
+          <div className={`${styles.studentContainer}`}>
+            <h2 className=''>Caibog, Jerson D.</h2>
+            <div className={`${styles.infoContainer}`}>
+              <span className={`${styles.info}`}>22-0224</span>
+              <div className='min-h-[2px] min-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+              <span className={`${styles.info}`}>BSIT 2-A</span>
+            </div>
+          </div>
+
+          <div className={`${styles.studentContainer}`}>
+            <h2 className=''>Caibog, Jerson D.</h2>
+            <div className={`${styles.infoContainer}`}>
+              <span className={`${styles.info}`}>22-0224</span>
+              <div className='min-h-[2px] min-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+              <span className={`${styles.info}`}>BSIT 2-A</span>
+            </div>
+          </div>
+
+          <div className={`${styles.studentContainer}`}>
+            <h2 className=''>Caibog, Jerson D.</h2>
+            <div className={`${styles.infoContainer}`}>
+              <span className={`${styles.info}`}>22-0224</span>
+              <div className='min-h-[2px] min-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+              <span className={`${styles.info}`}>BSIT 2-A</span>
+            </div>
+          </div>
+
+          <div className={`${styles.studentContainer}`}>
+            <h2 className=''>Caibog, Jerson D.</h2>
+            <div className={`${styles.infoContainer}`}>
+              <span className={`${styles.info}`}>22-0224</span>
+              <div className='min-h-[2px] min-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+              <span className={`${styles.info}`}>BSIT 2-A</span>
             </div>
           </div>
 
