@@ -4,11 +4,11 @@ Write all notes & reminders here
 
 ### My Resoures
 
-- ...
+- empty
 
 ### My Conventions
 
-- ...
+- empty
 
 <br>
 
@@ -23,8 +23,6 @@ Write all notes & reminders here
 - Write Comments
 - Semantic HTML
 - Line breaks to separate different blocks of code
-- Mag eenglish laak kay mas understandable tas para mahiara HAHHAHAHA
-
 
 
 
