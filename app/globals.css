@@ -48,3 +48,28 @@ body {
     text-wrap: balance;
   }
 }
+
+.studentsList {
+  height: fit-content;
+  border-top: 1px solid #d0d0d0;
+}
+
+.studentContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+  border-bottom: 1px solid #d0d0d0;
+  font-weight: 500;
+}
+
+.info {
+  display: inline-block;
+  width: 120px;
+  font-size: 14px;
+  opacity: 50%;
+  font-weight: 400;
+}
+
+.radioGroup {
+  padding-inline: 16px;
+}

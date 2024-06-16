@@ -1,25 +1,39 @@
+import React from "react"
 
-export default function studentList({}) {
+
+interface Student {
+  id: number
+  firstName: string
+  lastName: string
+  college: string
+  yearLevel: number
+  section: string
+}
+
+const StudentList: React.FC<{ studentData: Student }> = ({ studentData }) => {
   return (
     <div>
 
-      <div>
-            <h2 >Caibog, Jerson D.</h2>
-            <div>
-              <div >
-                <span>Student ID</span>
-                <span>22-0224</span>
+      <div className={'.studentContainer'}>
+            <h2>{`${studentData.lastName}, ${studentData.firstName}`}</h2>
+            <div className='mt-2'>
+              <div className='flex flex-row'>
+                <span className=".info">Student ID</span>
+                <span className='.info .description'>{studentData.id}</span>
               </div>
-              <div>
-                <span>Course</span>
-                <span>BSIT</span>
+              <div className='flex flex-row'>
+                <span className=".info">Course</span>
+                <span className='.info .description'>{studentData.college}</span>
               </div>
-              <div>
-                <span>Year & Section</span>
-                <span>2 - A</span>
+              <div className='flex flex-row'>
+                <span className=".info">Year & Section</span>
+                <span className='.info .description'>{`${studentData.yearLevel}- ${studentData.section}`}</span>
               </div>
             </div>
           </div>
     </div>
   )
 }
+
+
+export default StudentList;
