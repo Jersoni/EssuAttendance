@@ -1,4 +1,6 @@
 import React from "react"
+import styles from './styles.module.css';
+
 
 
 interface Student {
@@ -14,20 +16,20 @@ const StudentList: React.FC<{ studentData: Student }> = ({ studentData }) => {
   return (
     <div>
 
-      <div className={'.studentContainer'}>
+      <div className={styles.studentContainer}>
             <h2>{`${studentData.lastName}, ${studentData.firstName}`}</h2>
             <div className='mt-2'>
               <div className='flex flex-row'>
-                <span className=".info">Student ID</span>
-                <span className='.info .description'>{studentData.id}</span>
+                <span className={styles.info}>Student ID</span>
+                <span className={`${styles.info} ${styles.description}`}>{studentData.id}</span>
               </div>
               <div className='flex flex-row'>
-                <span className=".info">Course</span>
-                <span className='.info .description'>{studentData.college}</span>
+                <span className={styles.info}>Course</span>
+                <span className={`${styles.info} ${styles.description}`}>{studentData.college}</span>
               </div>
               <div className='flex flex-row'>
-                <span className=".info">Year & Section</span>
-                <span className='.info .description'>{`${studentData.yearLevel}- ${studentData.section}`}</span>
+                <span className={styles.info}>Year & Section</span>
+                <span className={`${styles.info} ${styles.description}`}>{`${studentData.yearLevel}- ${studentData.section}`}</span>
               </div>
             </div>
           </div>

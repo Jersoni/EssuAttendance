@@ -1,10 +1,67 @@
 "use client"
 import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react';
+import EventsList from './EventsList';
+
+interface Event {
+  id: number
+  title: string
+  location: string
+  loginTime: string
+  logoutTime: string
+  fineAmount: number
+  eventDate: string
+}
+
+interface ParsedEvent extends Omit<Event, 'eventDate'> {
+  eventDate: Date; // Converted to JavaScript Date object
+}
+
 
 
 // eslint-disable-next-line @next/next/no-async-client-component
-export default function Home() {
+const Home: React.FC = () => {
 
+  // const [events, setEvents] = useState<ParsedEvent[]>([]);
+  const [ongoingEvents, setOngoingEvents] = useState<ParsedEvent[]>([]);
+  const [upcomingEvents, setUpcomingEvents] = useState<ParsedEvent[]>([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const res = await fetch('http://localhost:3000/api/events')
+
+        if(!res.ok) {
+          console.log("There is an error fetching the events")
+        }
+
+        const events = await res.json()
+        const currentDate = new Date()
+
+        const parsedEvents = events.map((event: { eventDate: string | Date; }) => ({
+          ...event,
+          eventDate: new Date(event.eventDate)
+        }));
+
+        const ongoing = parsedEvents.filter((event: { eventDate: string | Date; }) => event.eventDate <= currentDate);
+        const upcoming = parsedEvents.filter((event: { eventDate: string | Date; })=> event.eventDate > currentDate);
+
+        // setEvents(parsedEvents);
+        setOngoingEvents(ongoing);
+        setUpcomingEvents(upcoming);
+
+
+        
+      } catch (error) {
+        console.error(error)
+      }
+      
+
+    }
+
+    fetchEvents()
+
+  }, [])
 
   const router = useRouter()
 
@@ -18,80 +75,26 @@ export default function Home() {
 
         {/* ON GOING ATTENDANCE BLOCK */}
         <div className="ongoing-attendance mt-5">
-          <h2 className="text-xl font-semibold">Ongoing Attendance</h2>
-        
-          <div className="border border-[#d0d0d0] bg-gray-100 h-fit rounded-md mt-5 p-3" onClick={handleClick}>
-            <span className="event__title">Lorem Ipsum - Morning session</span>
-            <div className="mt-2">
-              <div>
-                <span className="event__label">Venue</span>
-                <span className="event__info">Covered court</span>
-              </div>
-              <div>
-                <span className="event__label">Login time</span>
-                <span className="event__info">8:00 AM</span>
-              </div>
-              <div>
-                <span className="event__label">Logout time</span>
-                <span className="event__info">12:00 PM</span>
-              </div>
-            </div>
-          </div>
 
-          <div className="border border-[#d0d0d0] bg-gray-100 h-fit rounded-md mt-5 p-3">
-            <span className="event__title">Lorem Ipsum - Afternoon session</span>
-            <div className="mt-2">
-              <div>
-                <span className="event__label">Venue</span>
-                <span className="event__info">Covered court</span>
-              </div>
-              <div>
-                <span className="event__label">Login time</span>
-                <span className="event__info">1:00 PM</span>
-              </div>
-              <div>
-                <span className="event__label">Logout time</span>
-                <span className="event__info">4:00 PM</span>
-              </div>
-            </div>
-          </div>
+          {ongoingEvents.length !== 0 && <h2 className="text-xl font-semibold">Ongoing Attendance</h2>}
+          {ongoingEvents.length !== 0 && ongoingEvents.map(event => (
+                <EventsList key={event.id} eventData={event} />
+              ))}
 
         </div>
 
         {/* UPCOMING EVENTS BLOCK */}
         <div className="upcoming-events mt-16">
-          <h2 className="text-xl font-semibold">Upcoming Events</h2>
 
-          <div className="border border-black border-opacity-20 bg-gray-100 h-fit rounded-md mt-5 p-3">
-            <span className="event__title">Seminar</span>
-            <div className="mt-2">
-              <div>
-                <span className="event__label">Venue</span>
-                <span className="event__info">Covered court</span>
-              </div>
-              <div>
-                <span className="event__label">Schedule</span>
-                <span className="event__info">June 10, 2024</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="border border-black border-opacity-20 bg-gray-100 h-fit rounded-md mt-5 p-3">
-            <span className="event__title">Christmas Party</span>
-            <div className="mt-2">
-              <div>
-                <span className="event__label">Venue</span>
-                <span className="event__info">Covered court</span>
-              </div>
-              <div>
-                <span className="event__label">Schedule</span>
-                <span className="event__info">December 20, 2024</span>
-              </div>
-            </div>
-          </div>
+          {upcomingEvents.length !== 0 && <h2 className="text-xl font-semibold">Upcoming Events</h2>}
+          {upcomingEvents.length !== 0 && upcomingEvents.map(event => (
+                <EventsList key={event.id} eventData={event} />
+              ))}
 
         </div>
       </div>
     </div>
   );
 }
+
+export default Home

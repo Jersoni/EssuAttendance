@@ -25,10 +25,11 @@ export async function POST(req) {
         location,
         loginTime,
         logoutTime,
-        fineAmount
+        fineAmount,
+        eventDate
     } = await req.json()
 
-    if(!title || !location || !loginTime || !logoutTime || !fineAmount) {
+    if(!title || !location || !loginTime || !logoutTime || !fineAmount || !eventDate) {
         return NextResponse.json({mssg: "Please fillout all the fields."}, {status: 401})
     }
 
@@ -39,7 +40,8 @@ export async function POST(req) {
         location,
         loginTime,
         logoutTime,
-        fineAmount
+        fineAmount,
+        eventDate
       })
 
     if(error) { 

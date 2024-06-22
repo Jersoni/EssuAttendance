@@ -41,7 +41,7 @@ export async function DELETE(req) {
   
     if(error) { 
         console.log(error)
-        return NextResponse.json({error: "there is an error getting the students."}, {status: 401})
+        return NextResponse.json({error: "there is an error deleting the students."}, {status: 401})
     }
   
     return NextResponse.json({mssg: "student deleted sucessfully"}, {status: 201})

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 // imported components
 import { SearchBar } from "@/components";
-import StudentList from "@/components/StudentList";
+import StudentList from "./StudentList";
 
 interface Student {
   id: number
@@ -25,7 +25,7 @@ const Page: React.FC = () => {
         const res = await fetch('http://localhost:3000/api/students')
         const json = await res.json()
 
-        if(!res.status) {
+        if(!res.ok) {
           console.error('Error fetch students.')
           return
         }
@@ -62,9 +62,11 @@ const Page: React.FC = () => {
         </div>
 
         <div className={` ${styles.studentsList} mt-8 `}> 
-          {data.map(student => (
+          {data.length !== 0 && data.map(student => (
             <StudentList key={student.id} studentData={student} />
           ))}
+
+          {!data && <span>Could not fetch students forn the database.</span>}
           
         </div>
       </div>
