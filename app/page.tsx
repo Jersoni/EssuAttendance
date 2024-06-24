@@ -1,5 +1,4 @@
 "use client"
-import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react';
 import EventsList from './EventsList';
 
@@ -63,12 +62,6 @@ const Home: React.FC = () => {
 
   }, [])
 
-  const router = useRouter()
-
-  const handleClick = () => {
-    router.push("/attendance")
-  }
-
   return (
     <div className="home">
       <div className="p-4 flex flex-col overflow-y-scroll h-[100vh] pb-40 pt-20">
@@ -78,7 +71,7 @@ const Home: React.FC = () => {
 
           {ongoingEvents.length !== 0 && <h2 className="text-xl font-semibold">Ongoing Attendance</h2>}
           {ongoingEvents.length !== 0 && ongoingEvents.map(event => (
-                <EventsList key={event.id} eventData={event} />
+                <EventsList key={event.id} eventData={event}/>
               ))}
 
         </div>

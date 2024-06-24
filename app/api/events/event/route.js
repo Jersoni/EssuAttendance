@@ -10,9 +10,10 @@ export async function GET(req) {
   
   
     const { data, error } = await supabase
-      .from("event")
-      .select()
-      .eq("id", id)
+    .from('event')
+    .select('*')
+    .eq('id', id)
+    .single()
   
     if(error) { 
         console.log(error)
