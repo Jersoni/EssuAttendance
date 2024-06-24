@@ -7,7 +7,6 @@ const Page = () => {
 
   return (
     <>
-      
       <div className="max-h-[100vh] overflow-y-auto pt-24 pb-40">
 
         <div className="px-3">
