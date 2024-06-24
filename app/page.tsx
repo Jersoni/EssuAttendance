@@ -3,6 +3,8 @@ import { useRouter } from 'next/navigation'
 
 export default function Home() {
 
+  const rhey = "hasndba"
+
   const router = useRouter()
 
   const handleClick = () => {
