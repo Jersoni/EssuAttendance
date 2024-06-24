@@ -41,7 +41,18 @@ body {
   opacity: 80%;
 }
 
-
+.filter__card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  height: 50px;
+  width: 100%;
+  background-color: white;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
 
 @layer utilities {
   .text-balance {
