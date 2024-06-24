@@ -5,8 +5,6 @@ import styles from './styles.module.css';
 
 const Attendance = () => {
 
-  const jerson = 1
-
   const [selectedValue, setSelectedValue] = useState<string>('present');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
