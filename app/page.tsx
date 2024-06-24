@@ -28,7 +28,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/events')
+        const res = await fetch('/api/events')
 
         if(!res.ok) {
           console.log("There is an error fetching the events")

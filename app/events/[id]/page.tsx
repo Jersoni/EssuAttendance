@@ -41,7 +41,7 @@ const EventPage: React.FC = ({ params }: any) => {
 const getEvent = async () => {
 
   try {
-    const res = await fetch(`http://localhost:3000/api/events/event?id=${params.id}`, {
+    const res = await fetch(`/api/events/event?id=${params.id}`, {
       method: "GET"
     })
 
@@ -59,7 +59,7 @@ const getEvent = async () => {
 
 const getAttendees = async () => {
   try {
-    const res = await fetch(`http://localhost:3000/api/attendance?id=${params.id}`,{
+    const res = await fetch(`/api/attendance?id=${params.id}`,{
       method: "GET"
     })
   

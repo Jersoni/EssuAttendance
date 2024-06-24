@@ -13,7 +13,7 @@ interface Event {
   }
 
 interface ParsedEvent extends Omit<Event, 'eventDate'> {
-    eventDate: Date; // Converted to JavaScript Date object
+    eventDate: Date; //Converted to JavaScript Date object
   }
 
 

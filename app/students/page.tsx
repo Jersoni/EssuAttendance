@@ -22,7 +22,7 @@ const Page: React.FC = () => {
   useEffect(() => {
     const getStudents = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/students')
+        const res = await fetch('/api/students')
         const json = await res.json()
 
         if(!res.ok) {
