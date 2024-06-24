@@ -62,7 +62,8 @@ const Navbar = () => { // given default value for navbar title
                     {/* menu button */}
                     <div className='flex flex-row items-center'>
                         <button className='z-30 grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-200' type="button" aria-label="Open Menu" onClick={handleClick}>
-                            {isOpen ? (<IoCloseOutline color={themeColorGreen} size={32} />) : (<LuMenu color={themeColorGreen} size={28} />)}
+                            {isOpen ? (<IoCloseOutline color={themeColorGreen} size={32} />) : 
+                            (<LuMenu color={themeColorGreen} size={28} />)}
                         </button>
                         
                         {/* TITLE */}

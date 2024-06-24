@@ -2,7 +2,7 @@
 import React from 'react'
 import { RiSearchLine } from "react-icons/ri"
 import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
-import { FilterButton } from "@/components"
+import { Filter } from "@/components"
 
 // used to be able to add className for SearchBar
 interface searchBarProps {
@@ -21,7 +21,7 @@ const SearchBar: React.FC<searchBarProps> = ({className}) => {
             placeholder={"Search name, ID, etc..."}
         />
       </form>
-      <FilterButton />
+      <Filter />
     </div>
   )
 }
