@@ -82,6 +82,7 @@ const getAttendees = async () => {
 useEffect(() => {
   getEvent()
   getAttendees()
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [])
 
 return (
