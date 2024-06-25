@@ -81,7 +81,7 @@ const Home: React.FC = () => {
 
           {upcomingEvents.length !== 0 && <h2 className="text-xl font-semibold">Upcoming Events</h2>}
           {upcomingEvents.length !== 0 && upcomingEvents.map(event => (
-                <EventsList key={event.id} eventData={event} />
+                <EventsList key={event.id} eventData={event}  />
               ))}
 
         </div>
