@@ -1,7 +1,7 @@
 // eslint-disable @next/next/no-async-client-component 
 "use client"
 import { PageHeader, SearchBar } from '@/components';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.css';
 import StudentDetails from './StudentDetails';
 
@@ -32,6 +32,7 @@ const EventPage: React.FC = ({ params }: any) => {
   const [selectedValue, setSelectedValue] = useState<string>('present');
   const [event, setEvent] = useState<Event>()
   const [students, setStudents] = useState<Student[]>([])
+  const fetchRef = useRef(false)
 
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +66,6 @@ const getAttendees = async () => {
   
     if(res) {
       const json = await res.json() 
-      console.log(json)
       if(json) setStudents(json)  
     }
 
@@ -80,6 +80,9 @@ const getAttendees = async () => {
   
 // eslint-disable-next-line react-hooks/rules-of-hooks
 useEffect(() => {
+  if(fetchRef.current) return;
+  fetchRef.current = true;
+  
   getEvent()
   getAttendees()
 // eslint-disable-next-line react-hooks/exhaustive-deps

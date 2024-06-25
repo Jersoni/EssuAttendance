@@ -1,6 +1,6 @@
 'use client'
 import styles from './styles.module.css';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // imported components
 import { SearchBar } from "@/components";
@@ -18,8 +18,13 @@ interface Student {
 const Page: React.FC = () => {
 
   const [ data, setData ] = useState<Student[]>([])
+  const fetchRef = useRef(false)
 
   useEffect(() => {
+
+    if(fetchRef.current) return;
+    fetchRef.current = true;
+    
     const getStudents = async () => {
       try {
         const res = await fetch('/api/students')

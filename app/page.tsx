@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import EventsList from './EventsList';
 
 interface Event {
@@ -24,8 +24,13 @@ const Home: React.FC = () => {
   // const [events, setEvents] = useState<ParsedEvent[]>([]);
   const [ongoingEvents, setOngoingEvents] = useState<ParsedEvent[]>([]);
   const [upcomingEvents, setUpcomingEvents] = useState<ParsedEvent[]>([]);
+  const fetchRef = useRef(false);
 
   useEffect(() => {
+
+    if (fetchRef.current) return; // If already fetched, do nothing
+    fetchRef.current = true; // Mark as fetched
+    
     const fetchEvents = async () => {
       try {
         const res = await fetch('/api/events')
