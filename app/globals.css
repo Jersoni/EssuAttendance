@@ -62,14 +62,12 @@ body {
 
 .studentsList {
   height: fit-content;
-  border-top: 1px solid #d0d0d0;
 }
 
 .student-card__student-container {
   display: flex;
   flex-direction: column;
   padding: 12px 16px;
-  border-bottom: 1px solid #d0d0d0;
   font-weight: 500;
 }
 

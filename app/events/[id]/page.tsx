@@ -23,8 +23,6 @@ interface Student {
   section: string
 }
 
-
-
 const EventPage: React.FC = ({ params }: any) => {
 
   const [selectedValue, setSelectedValue] = useState<string>('present');
@@ -72,9 +70,6 @@ const getAttendees = async () => {
   }
 
 }
-
-
-
   
 // eslint-disable-next-line react-hooks/rules-of-hooks
 useEffect(() => {
