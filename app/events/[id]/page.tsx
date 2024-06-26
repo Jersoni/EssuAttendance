@@ -3,6 +3,7 @@
 import { PageHeader, SearchBar, StudentCard } from '@/components';
 import { useEffect, useState } from 'react';
 import styles from './styles.module.css';
+import { Suspense } from 'react';
 
 interface Event {
   id: number
@@ -78,15 +79,14 @@ useEffect(() => {
 
 return (
   <>
-
     <PageHeader title={event?.title} returnPath='/' />
-
+    
     <div className='max-h-[100vh] overflow-y-auto pb-40 pt-20 p-4'>
 
       <SearchBar />
 
-      <div className={`mt-8`}>
-        <label className={`inline-block w-1/2 rounded-full p-2 font-semibold text-center ${selectedValue === "present" ? "bg-[#ECEDF1]" : "text-gray-500"}`} htmlFor='present'>
+      <div className={`mt-6`}>
+        <label className={`inline-block w-1/2 rounded-full p-1 font-semibold text-center ${selectedValue === "present" ? "bg-[#ECEDF1]" : "text-gray-500"}`} htmlFor='present'>
           <input 
             type="radio" 
             name="radioGroup" 
@@ -98,7 +98,7 @@ return (
           />
           Present
         </label>
-        <label className={`inline-block w-1/2 rounded-full p-2 font-semibold text-center ${selectedValue === "absent" ? "bg-[#ECEDF1]" : "text-gray-500"}`} htmlFor="absent">
+        <label className={`inline-block w-1/2 rounded-full p-1 font-semibold text-center ${selectedValue === "absent" ? "bg-[#ECEDF1]" : "text-gray-500"}`} htmlFor="absent">
           <input 
             type="radio" 
             name="radioGroup" 

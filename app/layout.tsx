@@ -7,7 +7,7 @@ import Head from 'next/head';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SSC Attendance",
+  title: "SSC Logbook",
   description: "Coded by yours truly",
   manifest: "/manifest.json",
   authors: [
@@ -40,7 +40,7 @@ export default function RootLayout({
     <html lang="en">
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
-        <meta name="theme-color" content="#045511"/>
+        <meta name="theme-color" content="#fff"/>
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <body className={inter.className}>
