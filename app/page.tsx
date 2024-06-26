@@ -63,26 +63,30 @@ const Home: React.FC = () => {
   }, [])
 
   return (
-    <div className="home bg-gray-100">
+    <div className="home bg-gray-200">
       <div className="p-4 flex flex-col overflow-y-scroll h-[100vh] pb-40 pt-20">
 
         {/* ON GOING ATTENDANCE BLOCK */}
         <div className="ongoing-attendance mt-5">
 
-          {ongoingEvents.length !== 0 && <h2 className="text-lg font-semibold">Ongoing Attendance</h2>}
-          {ongoingEvents.length !== 0 && ongoingEvents.map(event => (
-            <EventCard key={event.id} eventData={event}/>
-          ))}
+          {ongoingEvents.length !== 0 && <h2 className="text-2xl font-semibold">Today</h2>}
+          <div className='mt-4'>
+            {ongoingEvents.length !== 0 && ongoingEvents.map(event => (
+              <EventCard key={event.id} eventData={event}/>
+            ))}
+          </div>
 
         </div>
 
         {/* UPCOMING EVENTS BLOCK */}
-        <div className="upcoming-events mt-16">
+        <div className="upcoming-events mt-12">
 
-          {upcomingEvents.length !== 0 && <h2 className="text-lg font-semibold">Upcoming Events</h2>}
-          {upcomingEvents.length !== 0 && upcomingEvents.map(event => (
-            <EventCard key={event.id} eventData={event} />
-          ))}
+          {upcomingEvents.length !== 0 && <h2 className="text-2xl font-semibold">Upcoming Events</h2>}
+          <div className='mt-4'>
+            {upcomingEvents.length !== 0 && upcomingEvents.map(event => (
+              <EventCard key={event.id} eventData={event} />
+            ))}
+          </div>
 
         </div>
       </div>

@@ -2,22 +2,25 @@
 import Link from 'next/link';
 import { useState, useEffect, useMemo } from 'react';
 import { usePathname } from 'next/navigation'
+import { Bebas_Neue } from "next/font/google";
 
 // Imported icons from https://react-icons.github.io/react-icons/search/#q=help (see installation documentation)
-import { LuMenu } from "react-icons/lu";
 import { RiHome2Line } from "react-icons/ri";
 import { LuUser } from "react-icons/lu";
 import { LuArchive } from "react-icons/lu";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
+import { HiOutlineMenuAlt2 } from "react-icons/hi";
+
+const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"] })
 
 const Navbar = () => { // given default value for navbar title
 
-    const themeColorGreen: string = "#006C11" // theme color
+    const themeColorGreen: string = "#045511" // theme color
     const pathname = usePathname() // get current path
 
     let convertedPathname = pathname.slice(1).charAt(0).toUpperCase() + pathname.slice(1).slice(1);
-    if (convertedPathname === '') convertedPathname = "SSC Attendance"
+    if (convertedPathname === '') convertedPathname = "SSC LOGBOOK"
 
     const excludedRoutes = useMemo(() => ['/login', '/signup', '/attendance'], []);
     const condition = excludedRoutes.indexOf(pathname) === -1 && pathname.substring(0, 7) !== "/events"
@@ -54,17 +57,17 @@ const Navbar = () => { // given default value for navbar title
     return (
         <>
             {condition ? (
-                <div className='p-3 pl-2 absolute w-full bg-white/90 z-50 border-b border-b-black border-opacity-20 shadow'>
+                <div className='p-3 pl-2 absolute w-full z-50 border-b border-b-black border-opacity-20 bg-white shadow'>
 
                     {/* menu button */}
                     <div className='flex flex-row items-center'>
                         <button className='z-30 grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-200' type="button" aria-label="Open Menu" onClick={handleClick}>
                             {isOpen ? (<IoCloseOutline color={themeColorGreen} size={32} />) : 
-                            (<LuMenu color={themeColorGreen} size={28} />)}
+                            (<HiOutlineMenuAlt2 color={themeColorGreen} size={28} />)}
                         </button>
                         
                         {/* TITLE */}
-                        <h1 className={`text-[#006C11] text-[20px] font-bold z-30 translate-y-[1px]`}>{convertedPathname}</h1>
+                        <h1 className={`text-[#045511] text-[20px] font-bold z-30 translate-y-[1px] text-2xl ${bebasNeue.className}`}>{convertedPathname}</h1>
                     </div>
 
                     {/* Navbar menu */}
