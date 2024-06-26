@@ -17,8 +17,8 @@ const SearchBar: React.FC<searchBarProps> = ({className}) => {
         <RiSearchLine className='opacity-40' size={24} />
         <input 
             type="text" 
-            className='bg-gray-100 outline-none rounded-md p-3 w-full'
-            placeholder={"Search name, ID, etc..."}
+            className='bg-gray-100 outline-none rounded-md p-2 w-full'
+            placeholder={"Search"}
         />
       </form>
       <Filter />

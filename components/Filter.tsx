@@ -14,9 +14,8 @@ const Filter = () => {
 
     return (
         <div>
-            <button className="flex flex-row rounded-md p-3 px-4 items-center ml-3 shadow border h-fit" onClick={handleClick}>
+            <button className="flex flex-row rounded-md p-2 items-center ml-3 shadow border h-fit" onClick={handleClick}>
                 <HiOutlineAdjustmentsHorizontal size={24} />
-                <span className="ml-2 font-medium">Filter</span>
             </button>
             
 

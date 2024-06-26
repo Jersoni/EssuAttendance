@@ -80,17 +80,13 @@ useEffect(() => {
 return (
   <>
 
-    <PageHeader title={'Attendance'} returnPath='/' />
+    <PageHeader title={event?.title} returnPath='/' />
 
-    <div className='max-h-[100vh] overflow-y-auto pb-40 pt-24'>
+    <div className='max-h-[100vh] overflow-y-auto pb-40 pt-20 p-4'>
 
-      <div className='p-4 pb-0 pt-0'>
-        <h2 className='font-semibold text-lg opacity-90'>{event?.title}</h2>
-        <p className='opacity-60 font-medium'>{event?.eventDate}</p>
-        <SearchBar className='mt-6' />
-      </div>
+      <SearchBar />
 
-      <div className={`mt-8 ${styles.radioGroup}`}>
+      <div className={`mt-8`}>
         <label className={`inline-block w-1/2 rounded-full p-2 font-semibold text-center ${selectedValue === "present" ? "bg-[#ECEDF1]" : "text-gray-500"}`} htmlFor='present'>
           <input 
             type="radio" 
