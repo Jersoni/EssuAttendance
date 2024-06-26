@@ -21,7 +21,7 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
 
   return (
     <Link href={`/events/${eventData.id}`}>
-      <div className="bg-white shadow-sm border h-fit rounded-md mt-4 p-3">
+      <div className="bg-white shadow-sm h-fit rounded-2xl mt-3 p-3">
         <span className="event__title">{eventData.title}</span>
         <div className="mt-2">
           <div className='flex flex-row items-center gap-2'>

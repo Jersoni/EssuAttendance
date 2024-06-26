@@ -58,13 +58,13 @@ const Home: React.FC = () => {
   }, [])
 
   return (
-    <div className="home bg-gray-100">
+    <div className="home bg-gray-200">
       <div className="p-4 flex flex-col overflow-y-scroll h-[100vh] pb-40 pt-20">
 
         {/* ON GOING ATTENDANCE BLOCK */}
         <div className="ongoing-attendance mt-5">
 
-          {ongoingEvents.length !== 0 && <h2 className="text-lg font-semibold">Ongoing Attendance</h2>}
+          {ongoingEvents.length !== 0 && <h2 className="text-lg font-semibold">Today</h2>}
           {ongoingEvents.length !== 0 && ongoingEvents.map(event => (
             <EventCard key={event.id} eventData={event}/>
           ))}
