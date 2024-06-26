@@ -16,12 +16,11 @@ const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"] })
 
 const Navbar = () => { // given default value for navbar title
 
-
-    const themeColorGreen: string = "#006C11" // theme color
+    const themeColorGreen: string = "#045511" // theme color
     const pathname = usePathname() // get current path
 
     let convertedPathname = pathname.slice(1).charAt(0).toUpperCase() + pathname.slice(1).slice(1);
-    if (convertedPathname === '') convertedPathname = "SSC"
+    if (convertedPathname === '') convertedPathname = "SSC LOGBOOK"
 
     const excludedRoutes = useMemo(() => ['/login', '/signup', '/attendance'], []);
     const condition = excludedRoutes.indexOf(pathname) === -1 && pathname.substring(0, 7) !== "/events"
@@ -68,7 +67,7 @@ const Navbar = () => { // given default value for navbar title
                         </button>
                         
                         {/* TITLE */}
-                        <h1 className={`text-[#006C11] text-[20px] font-bold z-30 translate-y-[1px] text-2xl ${bebasNeue.className}`}>{convertedPathname}</h1>
+                        <h1 className={`text-[#045511] text-[20px] font-bold z-30 translate-y-[1px] text-2xl ${bebasNeue.className}`}>{convertedPathname}</h1>
                     </div>
 
                     {/* Navbar menu */}

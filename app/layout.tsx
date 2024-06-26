@@ -40,6 +40,7 @@ export default function RootLayout({
     <html lang="en">
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
+        <meta name="theme-color" content="#045511"/>
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <body className={inter.className}>
