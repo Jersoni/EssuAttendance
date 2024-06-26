@@ -38,7 +38,7 @@ body {
 
 .event__info {
   font-size: 14px;
-  opacity: 80%;
+  color: rgb(54, 54, 54);
 }
 
 .filter__card {
@@ -68,6 +68,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 12px 0px;
+  border-bottom: 1px solid #d0d0d0;
   font-weight: 500;
 }
 

@@ -1,4 +1,7 @@
 import Link from 'next/link'
+import { MdOutlineLocationOn } from "react-icons/md";
+import { TbLogin2 } from "react-icons/tb";
+import { TbLogout2 } from "react-icons/tb";
 
 interface Event {
     id: number
@@ -18,19 +21,19 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
 
   return (
     <Link href={`/events/${eventData.id}`}>
-      <div className="bg-white shadow-sm border h-fit rounded-md mt-5 p-3">
+      <div className="bg-white shadow-sm border h-fit rounded-md mt-4 p-3">
         <span className="event__title">{eventData.title}</span>
         <div className="mt-2">
-          <div>
-            <span className="event__label">Venue</span>
+          <div className='flex flex-row items-center gap-2'>
+            <MdOutlineLocationOn size={16} className='opacity-80'/>
             <span className="event__info">{eventData.location}</span>
           </div>
-          <div>
-            <span className="event__label">Login time</span>
+          <div className='flex flex-row items-center gap-2'>
+            <TbLogin2 size={16} className='opacity-80' />
             <span className="event__info">{eventData.loginTime}</span>
           </div>
-          <div>
-            <span className="event__label">Logout time</span>
+          <div className='flex flex-row items-center gap-2'>
+            <TbLogout2 size={16} className='opacity-80'/>
             <span className="event__info">{eventData.logoutTime}</span>
           </div>
         </div>
