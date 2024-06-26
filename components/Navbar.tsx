@@ -20,7 +20,7 @@ const Navbar = () => { // given default value for navbar title
     if (convertedPathname === '') convertedPathname = "SSC Attendance"
 
     const excludedRoutes = useMemo(() => ['/login', '/signup', '/attendance'], []);
-    const condition = excludedRoutes.indexOf(pathname) === -1 && pathname.substring(0, 6) === "events"
+    const condition = excludedRoutes.indexOf(pathname) === -1 && pathname.substring(0, 7) !== "/events"
 
     // click handler for menu btn
     const [isOpen, setIsOpen] = useState(false);
