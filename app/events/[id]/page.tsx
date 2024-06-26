@@ -1,10 +1,8 @@
 // eslint-disable @next/next/no-async-client-component 
 "use client"
-import { PageHeader, SearchBar } from '@/components';
+import { PageHeader, SearchBar, StudentCard } from '@/components';
 import { useEffect, useState } from 'react';
 import styles from './styles.module.css';
-import StudentDetails from './StudentDetails';
-
 
 interface Event {
   id: number
@@ -128,7 +126,7 @@ return (
 
       <div className={`${styles.studentsList} mt-8`}>
         {students.length !== 0 && students.map(student => (
-          <StudentDetails key={student.id} studentData={student}/>
+          <StudentCard key={student.id} studentData={student}/>
         ))}
         {students.length === 0 && <span>No student sttended this event.</span>}
       </div>

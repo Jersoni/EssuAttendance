@@ -65,22 +65,24 @@ body {
   border-top: 1px solid #d0d0d0;
 }
 
-.studentContainer {
+.student-card__student-container {
   display: flex;
   flex-direction: column;
-  padding: 20px 16px;
+  padding: 12px 16px;
   border-bottom: 1px solid #d0d0d0;
   font-weight: 500;
 }
 
-.info {
+.student-card__info-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.student-card__info {
   display: inline-block;
-  width: 120px;
+  width: fit-content;
   font-size: 14px;
   opacity: 50%;
   font-weight: 400;
-}
-
-.radioGroup {
-  padding-inline: 16px;
 }

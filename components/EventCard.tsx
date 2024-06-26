@@ -1,6 +1,4 @@
 import Link from 'next/link'
-import React from 'react'
-
 
 interface Event {
     id: number
@@ -10,19 +8,17 @@ interface Event {
     logoutTime: string
     fineAmount: number
     eventDate: string
-  }
+}
 
 interface ParsedEvent extends Omit<Event, 'eventDate'> {
-    eventDate: Date; //Converted to JavaScript Date object
-  }
+    eventDate: Date; // Converted to JavaScript Date object
+}
 
+const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
 
-const EventsList: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
-
-  
   return (
     <Link href={`/events/${eventData.id}`}>
-      <div className="border border-[#d0d0d0] bg-gray-100 h-fit rounded-md mt-5 p-3">
+      <div className="bg-white shadow-sm border h-fit rounded-md mt-5 p-3">
         <span className="event__title">{eventData.title}</span>
         <div className="mt-2">
           <div>
@@ -43,4 +39,4 @@ const EventsList: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
   )
 }
 
-export default EventsList
+export default EventsCard
