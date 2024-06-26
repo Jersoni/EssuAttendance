@@ -2,6 +2,16 @@
     height: fit-content;
 }
 
+.radioLabel {
+    display: inline-block;
+    width: 50%;
+    border-radius: 999px;
+    padding: 4px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-align: center;
+}
+
 /* .description {
     opacity: 40%;
 } */

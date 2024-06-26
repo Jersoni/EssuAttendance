@@ -26,7 +26,7 @@ const Attendance = () => {
         </div>
 
         <div className={`mt-8 ${styles.radioGroup}`}>
-          <label className={`inline-block w-1/2 rounded-full p-2 font-semibold text-center ${selectedValue === "present" ? "bg-[#ECEDF1]" : "text-gray-500"}`} htmlFor='present'>
+          <label className={`inline-block w-1/2 rounded-full p-2 text-sm font-semibold text-center ${selectedValue === "present" ? "bg-[#ECEDF1]" : "text-gray-500"}`} htmlFor='present'>
             <input 
               type="radio" 
               name="radioGroup" 
