@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react';
-import EventsList from './EventsList';
+import { EventCard } from '@/components';
 
 interface Event {
   id: number
@@ -15,8 +15,6 @@ interface Event {
 interface ParsedEvent extends Omit<Event, 'eventDate'> {
   eventDate: Date; // Converted to JavaScript Date object
 }
-
-
 
 // eslint-disable-next-line @next/next/no-async-client-component
 const Home: React.FC = () => {
@@ -54,12 +52,9 @@ const Home: React.FC = () => {
         setOngoingEvents(ongoing);
         setUpcomingEvents(upcoming);
 
-
-        
       } catch (error) {
         console.error(error)
       }
-      
 
     }
 
@@ -68,7 +63,7 @@ const Home: React.FC = () => {
   }, [])
 
   return (
-    <div className="home">
+    <div className="home bg-gray-100">
       <div className="p-4 flex flex-col overflow-y-scroll h-[100vh] pb-40 pt-20">
 
         {/* ON GOING ATTENDANCE BLOCK */}
@@ -76,8 +71,8 @@ const Home: React.FC = () => {
 
           {ongoingEvents.length !== 0 && <h2 className="text-xl font-semibold">Ongoing Attendance</h2>}
           {ongoingEvents.length !== 0 && ongoingEvents.map(event => (
-                <EventsList key={event.id} eventData={event}/>
-              ))}
+            <EventCard key={event.id} eventData={event}/>
+          ))}
 
         </div>
 
@@ -86,8 +81,8 @@ const Home: React.FC = () => {
 
           {upcomingEvents.length !== 0 && <h2 className="text-xl font-semibold">Upcoming Events</h2>}
           {upcomingEvents.length !== 0 && upcomingEvents.map(event => (
-                <EventsList key={event.id} eventData={event}  />
-              ))}
+            <EventCard key={event.id} eventData={event} />
+          ))}
 
         </div>
       </div>

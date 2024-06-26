@@ -16,7 +16,7 @@ const PageHeader: React.FC<headerProps> = ({title, returnPath}) => {
     const themeColorGreen: string = "#006C11"
 
     return (
-        <div className=" absolute w-full bg-white/90 z-50 p-3 pl-2 border-b border-b-black border-opacity-20 shadow">
+        <div className=" absolute w-full bg-white z-50 p-3 pl-2">
             <div className="flex flex-row items-center">
 
                 {/* return button */}
@@ -25,7 +25,7 @@ const PageHeader: React.FC<headerProps> = ({title, returnPath}) => {
                 </button>
 
                 {/* header title */}
-                <span className={`absolute text-[#006C11] left-0 text-center w-full text-xl font-extrabold`}>{title}</span>
+                <span className={`text-[#006C11] left-0 w-full text-xl font-extrabold`}>{title}</span>
                 
             </div>
         </div>

@@ -11,9 +11,6 @@ import { LuArchive } from "react-icons/lu";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { IoCloseOutline } from "react-icons/io5";
 
-// navbar props
-
-
 const Navbar = () => { // given default value for navbar title
 
     const themeColorGreen: string = "#006C11" // theme color
@@ -22,8 +19,8 @@ const Navbar = () => { // given default value for navbar title
     let convertedPathname = pathname.slice(1).charAt(0).toUpperCase() + pathname.slice(1).slice(1);
     if (convertedPathname === '') convertedPathname = "SSC Attendance"
 
-    // Memoized excluded routes using useMemo
     const excludedRoutes = useMemo(() => ['/login', '/signup', '/attendance'], []);
+    const condition = excludedRoutes.indexOf(pathname) === -1 && pathname.substring(0, 7) !== "/events"
 
     // click handler for menu btn
     const [isOpen, setIsOpen] = useState(false);
@@ -56,7 +53,7 @@ const Navbar = () => { // given default value for navbar title
 
     return (
         <>
-            {excludedRoutes.indexOf(pathname) === -1 && (
+            {condition ? (
                 <div className='p-3 pl-2 absolute w-full bg-white/90 z-50 border-b border-b-black border-opacity-20 shadow'>
 
                     {/* menu button */}
@@ -101,7 +98,8 @@ const Navbar = () => { // given default value for navbar title
                         </ul>
                     </div>
                 </div>
-            )}
+            ) : ("")}
+
             {/* Just a backdrop */}
             <div className={`absolute top-0 left-0 h-full w-full bg-black z-40 transition-all ${isOpen ? ("opacity-70 block") : ("opacity-0 delay-100 hidden")}`} onClick={isOpen ? handleClick : undefined}></div>
             

@@ -4,7 +4,11 @@ import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 import { GoPlus } from "react-icons/go";
 import { Button } from '@/components';
 
-const Filter = () => {
+interface filterButtonProps {
+    className?: string;
+}
+
+const Filter: React.FC<filterButtonProps> = ({className}) => {
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -14,9 +18,8 @@ const Filter = () => {
 
     return (
         <div>
-            <button className="flex flex-row rounded-md p-3 px-4 items-center ml-3 shadow border h-fit" onClick={handleClick}>
+            <button type={"button"} className={className} onClick={handleClick}>
                 <HiOutlineAdjustmentsHorizontal size={24} />
-                <span className="ml-2 font-medium">Filter</span>
             </button>
             
 

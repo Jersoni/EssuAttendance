@@ -1,10 +1,8 @@
 // eslint-disable @next/next/no-async-client-component 
 "use client"
-import { PageHeader, SearchBar } from '@/components';
-import { useEffect, useRef, useState } from 'react';
+import { PageHeader, SearchBar, StudentCard } from '@/components';
+import { useEffect,useRef, useState } from 'react';
 import styles from './styles.module.css';
-import StudentDetails from './StudentDetails';
-
 
 interface Event {
   id: number
@@ -24,8 +22,6 @@ interface Student {
   yearLevel: number
   section: string
 }
-
-
 
 const EventPage: React.FC = ({ params }: any) => {
 
@@ -74,9 +70,6 @@ const getAttendees = async () => {
   }
 
 }
-
-
-
   
 // eslint-disable-next-line react-hooks/rules-of-hooks
 useEffect(() => {
@@ -91,17 +84,13 @@ useEffect(() => {
 return (
   <>
 
-    <PageHeader title={'Attendance'} returnPath='/' />
+    <PageHeader title={event?.title} returnPath='/' />
 
-    <div className='max-h-[100vh] overflow-y-auto pb-40 pt-24'>
+    <div className='max-h-[100vh] overflow-y-auto pb-40 pt-20 p-4'>
 
-      <div className='p-4 pb-0 pt-0'>
-        <h2 className='font-semibold text-lg opacity-90'>{event?.title}</h2>
-        <p className='opacity-60 font-medium'>{event?.eventDate}</p>
-        <SearchBar className='mt-6' />
-      </div>
+      <SearchBar />
 
-      <div className={`mt-8 ${styles.radioGroup}`}>
+      <div className={`mt-8`}>
         <label className={`inline-block w-1/2 rounded-full p-2 font-semibold text-center ${selectedValue === "present" ? "bg-[#ECEDF1]" : "text-gray-500"}`} htmlFor='present'>
           <input 
             type="radio" 
@@ -132,7 +121,7 @@ return (
 
       <div className={`${styles.studentsList} mt-8`}>
         {students.length !== 0 && students.map(student => (
-          <StudentDetails key={student.id} studentData={student}/>
+          <StudentCard key={student.id} studentData={student}/>
         ))}
         {students.length === 0 && <span>No student sttended this event.</span>}
       </div>
