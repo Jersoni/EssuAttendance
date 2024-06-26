@@ -64,7 +64,7 @@ const Navbar = () => { // given default value for navbar title
                         </button>
                         
                         {/* TITLE */}
-                        <h1 className={`text-[#006C11] text-[20px] font-extrabold z-30 translate-y-[1px]`}>{convertedPathname}</h1>
+                        <h1 className={`text-[#006C11] text-[20px] font-bold z-30 translate-y-[1px]`}>{convertedPathname}</h1>
                     </div>
 
                     {/* Navbar menu */}

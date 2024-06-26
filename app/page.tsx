@@ -69,7 +69,7 @@ const Home: React.FC = () => {
         {/* ON GOING ATTENDANCE BLOCK */}
         <div className="ongoing-attendance mt-5">
 
-          {ongoingEvents.length !== 0 && <h2 className="text-xl font-semibold">Ongoing Attendance</h2>}
+          {ongoingEvents.length !== 0 && <h2 className="text-lg font-semibold">Ongoing Attendance</h2>}
           {ongoingEvents.length !== 0 && ongoingEvents.map(event => (
             <EventCard key={event.id} eventData={event}/>
           ))}
@@ -79,7 +79,7 @@ const Home: React.FC = () => {
         {/* UPCOMING EVENTS BLOCK */}
         <div className="upcoming-events mt-16">
 
-          {upcomingEvents.length !== 0 && <h2 className="text-xl font-semibold">Upcoming Events</h2>}
+          {upcomingEvents.length !== 0 && <h2 className="text-lg font-semibold">Upcoming Events</h2>}
           {upcomingEvents.length !== 0 && upcomingEvents.map(event => (
             <EventCard key={event.id} eventData={event} />
           ))}

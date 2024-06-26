@@ -66,7 +66,7 @@ const Page: React.FC = () => {
           <SearchBar className="mt-5"/>
         </div>
 
-        <div className={` ${styles.studentsList} mt-8 `}> 
+        <div className={` ${styles.studentsList} mt-6 `}> 
           {data.length !== 0 && data.map(student => (
             <StudentList key={student.id} studentData={student} />
           ))}
