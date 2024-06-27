@@ -29,6 +29,7 @@ const Navbar = () => { // given default value for navbar title
     const [isOpen, setIsOpen] = useState(false);
     const handleClick = () => {
         setIsOpen(!isOpen);
+        console.log(window.scrollY);
     };
 
     // set previous pathname
@@ -58,7 +59,7 @@ const Navbar = () => { // given default value for navbar title
         condition ? (
             <>
                 {/* header */}
-                <div className='absolute w-full border-b border-b-black border-opacity-20 bg-white shadow z-30 h-[4.5rem]'></div>
+                <div className={` absolute w-full border-b border-b-black border-opacity-20 bg-white shadow z-30 h-[4.5rem]`}></div>
 
                 {/* menu button */}
                 <div className='flex flex-row items-center absolute z-[100] p-3 pl-2'>
@@ -75,8 +76,8 @@ const Navbar = () => { // given default value for navbar title
                 </div>
                 
                 {/* Navbar menu */}
-                <div className={`absolute transition-all ease-out duration-200 bg-white flex min-h-[100vh] p-3 w-[70vw] pt-20 z-50 
-                ${isOpen ? ("top-0 left-0") : ("left-[-85vw] top-0")}`}>
+                <div className={`absolute transition-all bg-white flex min-h-[100vh] p-3 w-[70vw] pt-20 z-50 bottom-0 left-0
+                ${isOpen ? ("") : ("translate-x-[-100%]")}`}>
                     <ul>
                         <li>
                             <Link href="/" className={`nav-item ${pathname === '/' ? 'bg-gray-200' : ''}`}>
