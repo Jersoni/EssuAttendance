@@ -9,7 +9,7 @@ interface Event {
   title: string
   location: string
   loginTime: string
-  logoutTime: string
+logoutTime: string
   fineAmount: number
   eventDate: string
 }
@@ -119,10 +119,10 @@ return (
       {/* STUDENTS LIST */}
 
       <div className={`${styles.studentsList} mt-8`}>
-        {students.length !== 0 && students.map(student => (
+        {students && students.length !== 0 && students.map(student => (
           <StudentCard key={student.id} studentData={student}/>
         ))}
-        {students.length === 0 && <span>No student sttended this event.</span>}
+        {students && students.length === 0 && <span>No student sttended this event.</span>}
       </div>
     </div>
   </>
