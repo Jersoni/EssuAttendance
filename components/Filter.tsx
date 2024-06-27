@@ -49,26 +49,26 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
                         <div className='flex flex-col rounded-2xl mt-2 overflow-hidden bg-white h-fit w-full p-4'>
                             <div className='flex-col items-start h-fit'>
                                 <span>Sort by</span>
-                                <div className='mt-2 pl-1 flex flex-col gap-1'>
+                                <div className='mt-2 pl-1'>
                                     <div className='flex gap-3'>
-                                        <input className='scale-150' type="radio" name="sort" id="id"  />
+                                        <input type="radio" name="sort" id="id"  />
                                         <label htmlFor="id" className='opacity-90'>Student ID</label>
                                     </div>
                                     <div className='flex gap-3'>
-                                        <input className='scale-150' type="radio" name="sort" id="surname" />
+                                        <input type="radio" name="sort" id="surname" />
                                         <label htmlFor="surname" className='opacity-90'>Surname</label>
                                     </div>
                                 </div>
                             </div>
                             <div className='flex-col items-start h-fit mt-4'>
                                 <span>Order</span>
-                                <div className='mt-2 pl-1 flex flex-col gap-1'>
+                                <div className='mt-2 pl-1'>
                                     <div className='flex gap-3'>
-                                        <input className='scale-150' type="radio" name="order" id="asc" />
+                                        <input type="radio" name="order" id="asc" />
                                         <label htmlFor="asc" className='opacity-90'>Ascending</label>
                                     </div>
                                     <div className='flex gap-3'>
-                                        <input className='scale-150' type="radio" name="order" id="desc" />
+                                        <input type="radio" name="order" id="desc" />
                                         <label htmlFor="desc" className='opacity-90'>Descending</label>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
                         <Button variant='primary' onClick={handleClick}>Apply</Button>
                     </div>
                 </div>
-                <div className={`bg-black bg-opacity-40 h-full w-full absolute top-0 left-0 z-50 transition-all ${isOpen ? "block" : "hidden"}`}></div>
+                <div onClick={handleClick} className={`bg-black bg-opacity-40 h-full w-full absolute top-0 left-0 z-50 transition-all ${isOpen ? "block" : "hidden"}`}></div>
             </div>
 
 
