@@ -134,7 +134,5 @@ return (
 )
 }
 
-
-
 export default EventPage
 

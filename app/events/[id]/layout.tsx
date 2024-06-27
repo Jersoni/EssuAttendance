@@ -1,6 +1,6 @@
-import styles from './styles.module.css'
- 
-export default function AttendanceLayout({
+import './styles.module.css'
+
+export default function EventAttendanceLayout({
   children,
 }: {
   children: React.ReactNode
