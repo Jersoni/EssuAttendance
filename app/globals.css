@@ -37,7 +37,7 @@ body {
 }
 
 .event__title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
 }
 
@@ -52,17 +52,32 @@ body {
   color: rgb(54, 54, 54);
 }
 
+.event__class {
+  background-color: rgb(226, 230, 236);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
 .filter__card {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  height: 50px;
+  height: 55px;
   width: 100%;
   background-color: white;
-  border-radius: 0.5rem;
-  margin-top: 1rem;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+.filter__card:last-child {
+  border-bottom: none;
+}
+
+.filter__selected-total {
+  position: absolute;
+  right: 3.8rem;
+  opacity: .7;
 }
 
 @layer utilities {

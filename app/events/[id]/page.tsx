@@ -82,7 +82,7 @@ return (
   <>
     <PageHeader title={event?.title} returnPath='/' />
     
-    <div className='max-h-[100vh] overflow-y-auto pb-40 pt-20 p-4'>
+    <div className='max-h-[100vh] overflow-y-auto pb-40 pt-20 p-5'>
 
       <SearchBar />
 

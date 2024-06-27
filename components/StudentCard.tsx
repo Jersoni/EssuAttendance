@@ -13,8 +13,10 @@ return (
       <h2 className=''>{`${studentData.lastName}, ${studentData.firstName}`}</h2>
       <div className={`student-card__info-container`}>
         <span className={`student-card__info`}>{studentData.id}</span>
-        <div className='min-h-[2px] min-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
-        <span className={`student-card__info`}>{`${studentData.college} ${studentData.yearLevel}-${studentData.section}`}</span>
+        <div className='min-h-[2px] min-w-[2px] max-h-[2px] max-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+        <span className={`student-card__info`}>{`${studentData.college}`}</span>
+        <div className='min-h-[2px] min-w-[2px] max-h-[2px] max-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+        <span className={`student-card__info`}>{`${studentData.yearLevel}-${studentData.section}`}</span>
       </div>
   </div>
 )
