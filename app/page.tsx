@@ -73,7 +73,7 @@ const Home: React.FC = () => {
       </Button>
 
       {/* NEW EVENT FORM */}
-      <div className={`${isOpen ? "" : "translate-y-full" } p-5 absolute rounded-t-2xl left-0 bottom-0 h-[95vh] w-full bg-white z-[120] transition-all`}>
+      <div className={`${isOpen ? "" : "translate-y-full" } p-5 absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all`}>
         <h1 className='font-semibold text-xl'>New Attendance Log</h1>
         <Button variant='close' onClick={toggleNewEventForm} className='absolute right-2 top-2'></Button>
 
