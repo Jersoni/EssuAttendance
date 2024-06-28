@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { EventCard } from '@/components';
 import { RiStickyNoteAddLine } from "react-icons/ri";
+import { Button } from '@/components';
 
 interface Event {
   id: number
@@ -20,7 +21,7 @@ interface ParsedEvent extends Omit<Event, 'eventDate'> {
 // eslint-disable-next-line @next/next/no-async-client-component
 const Home: React.FC = () => {
 
-  // const [events, setEvents] = useState<ParsedEvent[]>([]);
+  // fetch event data
   const [ongoingEvents, setOngoingEvents] = useState<ParsedEvent[]>([]);
   const [upcomingEvents, setUpcomingEvents] = useState<ParsedEvent[]>([]);
 
@@ -51,19 +52,60 @@ const Home: React.FC = () => {
       } catch (error) {
         console.error(error)
       }
-
     }
-
     fetchEvents()
-
   }, [])
+
+  // newEventButton Click Handler
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleNewEventForm = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <div className="p-4 flex flex-col overflow-y-scroll h-[100vh] pb-40 pt-20 bg-gray-200">
 
-      <button className='absolute bottom-5 right-5 flex flex-row items-center rounded-full shadow-lg bg-[#0b754e] p-5 ml-auto'>
+
+
+      {/* NEW EVENT BUTTON */}
+      <Button variant={'fixed-circle'} onClick={toggleNewEventForm}>
         <RiStickyNoteAddLine size={24} color='white' />
-      </button>
+      </Button>
+
+      {/* NEW EVENT FORM */}
+      <div className={`${isOpen ? "" : "translate-y-full" } p-5 absolute rounded-t-2xl left-0 bottom-0 h-[95vh] w-full bg-white z-[120] transition-all`}>
+        <h1 className='font-semibold text-xl'>New Attendance Log</h1>
+        <Button variant='close' onClick={toggleNewEventForm} className='absolute right-2 top-2'></Button>
+
+        <form action="" className='mt-5 flex flex-col gap-4'>
+          <div className='flex flex-col gap-2'>
+            <label htmlFor="eventTitle">Event Title</label>
+            <input type="text" name="eventTitle" id="eventTitle" className={`border border-black`} />
+          </div>
+          <div className='flex flex-col gap-2'>
+            <label htmlFor="eventTitle">Venue</label>
+            <input type="text" name="eventTitle" id="eventTitle" className={`border border-black`} />
+          </div>
+          <div className='flex flex-col gap-2'>
+            <label htmlFor="eventTitle">Date</label>
+            <input type="date" name="eventTitle" id="eventTitle" className={`border border-black`} />
+          </div>
+          <div className='flex flex-row gap-6'>
+            <div className='flex flex-col gap-2 w-full'>
+              <label htmlFor="eventTitle">Login Time</label>
+              <input type="time" name="eventTitle" id="eventTitle" className={`border border-black`} />
+            </div>
+            <div className='flex flex-col gap-2 w-full'>
+              <label htmlFor="eventTitle">Logout Time</label>
+              <input type="time" name="eventTitle" id="eventTitle" className={`border border-black`} />
+            </div>
+          </div>
+        </form>
+      </div>
+      {/* BACKDROP */}
+      <div className={`z-[110] bottom-0 left-0 absolute h-full w-full bg-black bg-opacity-70 ${isOpen ? "block" : "hidden" }`}></div>
+
+
 
       {/* ON GOING ATTENDANCE BLOCK */}
       <div className="ongoing-attendance mt-6">

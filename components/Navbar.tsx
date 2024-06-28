@@ -63,7 +63,7 @@ const Navbar = () => { // given default value for navbar title
 
                 {/* menu button */}
                 <div className='flex flex-row items-center absolute z-[100] p-3 pl-2'>
-                    <button className='z-[80] grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-200' type="button" aria-label="Open Menu" onClick={handleClick}>
+                    <button className='z-[70] grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-200' type="button" aria-label="Open Menu" onClick={handleClick}>
                         {isOpen ? (
                             <IoCloseOutline color={themeColorGreen} size={32} />
                         ) : (
@@ -76,7 +76,7 @@ const Navbar = () => { // given default value for navbar title
                 </div>
                 
                 {/* Navbar menu */}
-                <div className={`absolute transition-all bg-white flex min-h-[100vh] p-3 w-[70vw] pt-20 z-50 bottom-0 left-0
+                <div className={`absolute transition-all bg-white flex min-h-[100vh] p-3 w-[70vw] pt-20 z-50 top-0 left-0
                 ${isOpen ? ("") : ("translate-x-[-100%]")}`}>
                     <ul>
                         <li>
