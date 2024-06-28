@@ -16,11 +16,11 @@ const PageHeader: React.FC<headerProps> = ({title, returnPath}) => {
     const themeColorGreen: string = "#045511"
 
     return (
-        <div className=" absolute w-full bg-white z-50 p-3 pl-2">
+        <div className=" absolute w-full bg-white z-50 p-2 pl-1">
             <div className="flex flex-row items-center">
 
                 {/* return button */}
-                <button type="button" className="z-30 grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-300" onClick={() => {router.push(`${returnPath}`)}}>
+                <button type="button" className="z-30 grid place-items-center h-12 min-w-12 rounded-full active:bg-gray-200" onClick={() => {router.push(`${returnPath}`)}}>
                     <IoChevronBack size={24} color={themeColorGreen} />
                 </button>
 
