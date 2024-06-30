@@ -101,9 +101,7 @@ const Home: React.FC = () => {
           </div>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="date">Date</label>
-            <input type="date" onChange={(e) => {
-                setDate(e.target.value)
-              }} name="date" id="date" className={`form__input w-full`} />
+            <input type="date" name="date" id="date" className={`form__input !w-full`} />
           </div>
           <div className='flex flex-row gap-6'>
             <div className='flex flex-col gap-1 w-full'>
