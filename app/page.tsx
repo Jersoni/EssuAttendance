@@ -86,7 +86,7 @@ const Home: React.FC = () => {
         <h1 className='font-semibold text-xl p-5 border-b border-gray-400'>New Attendance Log</h1>
         <Button variant='close' onClick={toggleNewEventForm} className='absolute right-2 top-2'></Button>
 
-        <form action="" className='p-5 pb-40 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
+        <form action="" className='p-5 pb-80 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="title">Event Title</label>
             <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} />
@@ -144,11 +144,11 @@ const Home: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className='flex gap-3 absolute bottom-0 left-0 p-5 pb-12 border-t border-gray-400 w-full bg-white'>
-            <Button variant='secondary'>Cancel</Button>
-            <Button onClick={handlePost}>Post</Button>
-          </div>
         </form>
+        <div className='flex gap-3 absolute bottom-0 left-0 p-5 pb-12 border-t border-gray-400 w-full bg-white'>
+          <Button variant='secondary'>Cancel</Button>
+          <Button onClick={handlePost}>Post</Button>
+        </div>
       </div>
 
       {/* BACKDROP */}
