@@ -72,9 +72,8 @@ const Home: React.FC = () => {
   };
 
 
-
   return (
-    <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll"} p-4 flex flex-col h-[100vh] pb-40 pt-20 bg-gray-200`}>
+    <div className={`${isOpen ? "" : ""} p-4 flex flex-col h-[100vh] pb-40 pt-20 bg-gray-200`}>
 
       {/* NEW EVENT BUTTON */}
       <Button variant={'fixed-circle'} onClick={toggleNewEventForm}>
@@ -82,7 +81,7 @@ const Home: React.FC = () => {
       </Button>
 
       {/* NEW EVENT FORM */}
-      <div className={`${isOpen ? "" : "translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all`}>
+      <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all`}>
 
         <h1 className='font-semibold text-xl p-5 pb-0'>New Attendance Log</h1>
         <Button variant='close' onClick={toggleNewEventForm} className='absolute right-2 top-2'></Button>
