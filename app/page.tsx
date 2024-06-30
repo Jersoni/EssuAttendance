@@ -146,7 +146,7 @@ const Home: React.FC = () => {
           </div>
         </form>
       </div>
-      <div className='flex gap-3 absolute bottom-0 left-0 p-5 pb-12 border-t border-gray-400 w-full bg-white'>
+      <div className={`z-[120] ${isOpen ? "block" : "hidden"} flex gap-3 absolute bottom-0 left-0 p-5 pb-12 border-t border-gray-400 w-full bg-white`}>
         <Button variant='secondary'>Cancel</Button>
         <Button onClick={handlePost}>Post</Button>
       </div>
