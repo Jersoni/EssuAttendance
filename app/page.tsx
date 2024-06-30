@@ -73,7 +73,7 @@ const Home: React.FC = () => {
 
 
   return (
-    <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll"} p-4 pt-20 pb-40 flex flex-col h-[100vh] bg-gray-200`}>
+    <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll"} p-4 pt-20 pb-40 flex flex-col h-[100vh] bg-gray-300`}>
 
       {/* NEW EVENT BUTTON */}
       <Button variant={'fixed-circle'} onClick={toggleNewEventForm}>
@@ -103,7 +103,7 @@ const Home: React.FC = () => {
             <label className='form__label' htmlFor="date">Date</label>
             <input type="date" onChange={(e) => {
                 setDate(e.target.value)
-              }} name="date" id="date" className={`form__input`} />
+              }} name="date" id="date" className={`form__input w-full`} />
           </div>
           <div className='flex flex-row gap-6'>
             <div className='flex flex-col gap-1 w-full'>
@@ -146,9 +146,9 @@ const Home: React.FC = () => {
           </div>
         </form>
       </div>
-      <div className={`z-[120] ${isOpen ? "block" : "hidden"} flex gap-3 absolute bottom-0 left-0 p-5 pb-12 border-t border-gray-400 w-full bg-white`}>
-        <Button variant='secondary'>Cancel</Button>
-        <Button onClick={handlePost}>Post</Button>
+      <div className={`z-[120] ${isOpen ? "block" : "hidden"} flex gap-3 absolute bottom-0 left-0 p-5 pb-12 border-t border-gray-300 w-full bg-white`}>
+        <Button variant='secondary' onClick={toggleNewEventForm}>Cancel</Button>
+        <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
       </div>
 
 
