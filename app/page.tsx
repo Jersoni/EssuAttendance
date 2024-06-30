@@ -144,7 +144,7 @@ const Home: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className='flex gap-3 w-full bg-white mt-auto'>
+          <div className='flex gap-3 w-full bg-white mt-auto border border-black min-h-[200vh]'>
             <Button variant='secondary'>Cancel</Button>
             <Button onClick={handlePost}>Post</Button>
           </div>
