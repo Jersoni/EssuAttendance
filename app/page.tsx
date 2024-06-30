@@ -73,7 +73,7 @@ const Home: React.FC = () => {
 
 
   return (
-    <div className={`${isOpen ? "" : ""} p-4 flex flex-col h-[100vh] pb-40 pt-20 bg-gray-200`}>
+    <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll"} p-4 pt-20 pb-40 flex flex-col h-[100vh] bg-gray-200`}>
 
       {/* NEW EVENT BUTTON */}
       <Button variant={'fixed-circle'} onClick={toggleNewEventForm}>
@@ -81,12 +81,12 @@ const Home: React.FC = () => {
       </Button>
 
       {/* NEW EVENT FORM */}
-      <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all`}>
+      <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] border border-black h-[95vh] w-full bg-white z-[120] transition-all`}>
 
-        <h1 className='font-semibold text-xl p-5 pb-0'>New Attendance Log</h1>
+        <h1 className='font-semibold text-xl p-5 border-b border-gray-400'>New Attendance Log</h1>
         <Button variant='close' onClick={toggleNewEventForm} className='absolute right-2 top-2'></Button>
 
-        <form action="" className='mt-5 p-5 pb-12 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
+        <form action="" className='p-5 pb-40 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="title">Event Title</label>
             <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} />
@@ -144,7 +144,7 @@ const Home: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className='flex gap-3 w-full bg-white mt-auto border border-black min-h-[200vh]'>
+          <div className='flex gap-3 absolute bottom-0 left-0 p-5 pb-12 border-t border-gray-400 w-full bg-white'>
             <Button variant='secondary'>Cancel</Button>
             <Button onClick={handlePost}>Post</Button>
           </div>
