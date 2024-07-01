@@ -22,7 +22,7 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
                 <HiOutlineAdjustmentsHorizontal size={24} />
             </button>
             
-
+            
             {/* Filter */}
             <div>
                 <div className={`bg-gray-100 absolute h-[550px] bottom-0 w-full left-0 right-0 mx-auto transition-all ${isOpen ? "" : "translate-y-full" } z-[60] rounded-t-3xl flex flex-col justify-between`}>
