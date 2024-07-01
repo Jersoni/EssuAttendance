@@ -131,7 +131,7 @@ const EventPage: React.FC = ({ params }: any) => {
       </div>
 
       {/* NEW EVENT BUTTON */}
-      <Button variant={'fixed-circle'} onClick={() => router.push('/scanner')}>
+      <Button variant={'fixed-circle'} onClick={() => router.push('/reader')}>
         <span className='text-white font-semibold'>QR</span>
       </Button>
 
