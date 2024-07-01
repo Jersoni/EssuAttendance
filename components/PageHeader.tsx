@@ -15,7 +15,7 @@ const PageHeader: React.FC<headerProps> = ({title}) => {
     const themeColorGreen: string = "#045511"
 
     return (
-        <div className="border border-gray-300 w-full bg-white z-50 p-2 pl-1">
+        <div className="w-full bg-white z-50 p-2 pl-1">
             <div className="flex flex-row items-center">
 
                 {/* return button */}

@@ -82,7 +82,7 @@ const EventPage: React.FC = ({ params }: any) => {
     <>
       <PageHeader title={event?.title} />
       
-      <div className='max-h-[100vh] overflow-y-auto pb-40 p-5'>
+      <div className='max-h-[100vh] overflow-y-auto pb-40 p-5 pt-3'>
 
         <SearchBar />
 
@@ -131,7 +131,7 @@ const EventPage: React.FC = ({ params }: any) => {
       </div>
 
       {/* NEW EVENT BUTTON */}
-      <Button variant={'fixed-circle'} onClick={() => router.push('/reader')}>
+      <Button variant={'fixed-circle'} onClick={() => router.push('/scanner')}>
         <span className='text-white font-semibold'>QR</span>
       </Button>
 

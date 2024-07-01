@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { PageHeader } from '@/components'
 import { useRouter } from 'next/navigation'
 import { Html5QrcodeScanner } from 'html5-qrcode'
