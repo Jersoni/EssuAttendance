@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react';
 import { EventCard } from '@/components';
+import { RiStickyNoteAddLine } from "react-icons/ri";
 
 interface Event {
   id: number
@@ -63,32 +64,38 @@ const Home: React.FC = () => {
   }, [])
 
   return (
-    <div className="home bg-gray-200">
-      <div className="p-4 flex flex-col overflow-y-scroll h-[100vh] pb-40 pt-20">
+    <div className="p-4 flex flex-col overflow-y-scroll h-[100vh] pb-40 pt-20 bg-gray-200">
 
-        {/* ON GOING ATTENDANCE BLOCK */}
-        <div className="ongoing-attendance mt-5">
+      <button className='absolute bottom-5 right-5 flex flex-row items-center rounded-full shadow-lg bg-[#0b754e] p-5 ml-auto'>
+        <RiStickyNoteAddLine size={24} color='white' />
+      </button>
 
-          {ongoingEvents.length !== 0 && <h2 className="text-2xl font-semibold">Today</h2>}
-          <div className='mt-4'>
-            {ongoingEvents.length !== 0 && ongoingEvents.map(event => (
-              <EventCard key={event.id} eventData={event}/>
-            ))}
+      {/* ON GOING ATTENDANCE BLOCK */}
+      <div className="ongoing-attendance mt-6">
+        {upcomingEvents.length !== 0 && (
+          <div className='flex flex-row gap-2 items-center'>
+            <h2 className="text-2xl font-bold">Today</h2>
+            <h3 className='text-xl font-bold opacity-40'>06/20/24</h3>
           </div>
+        )}
+        <div className='mt-6'>
+          {ongoingEvents.length !== 0 && ongoingEvents.map(event => (
+            <EventCard key={event.id} eventData={event}/>
+          ))}
+        </div>
+      </div>
 
+      {/* UPCOMING EVENTS BLOCK */}
+      <div className="upcoming-events mt-12">
+        {upcomingEvents.length !== 0 && (
+          <h2 className="text-2xl font-bold">Upcoming Events</h2>
+        )}
+        <div className='mt-6'>
+          {upcomingEvents.length !== 0 && upcomingEvents.map(event => (
+            <EventCard key={event.id} eventData={event} />
+          ))}
         </div>
 
-        {/* UPCOMING EVENTS BLOCK */}
-        <div className="upcoming-events mt-12">
-
-          {upcomingEvents.length !== 0 && <h2 className="text-2xl font-semibold">Upcoming Events</h2>}
-          <div className='mt-4'>
-            {upcomingEvents.length !== 0 && upcomingEvents.map(event => (
-              <EventCard key={event.id} eventData={event} />
-            ))}
-          </div>
-
-        </div>
       </div>
     </div>
   );

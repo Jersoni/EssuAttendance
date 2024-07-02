@@ -1,11 +1,11 @@
 'use client'
-import React from 'react'
 import { useRouter } from 'next/navigation';
 import { IoChevronBack } from "react-icons/io5";
+import { Suspense } from 'react';
 
 // props for customizing the header properties
 interface headerProps {
-    title?: string; // header title
+    title?: string ; // header title
     returnPath?: string; // onClick path or route (ex. /about)
 }
 
@@ -25,7 +25,11 @@ const PageHeader: React.FC<headerProps> = ({title, returnPath}) => {
                 </button>
 
                 {/* header title */}
-                <span className={`text-[#045511] left-0 w-full text-xl font-semibold`}>{title}</span>
+                {title ? (
+                    <span className={`text-[#045511] left-0 w-full text-xl font-semibold`}>{title}</span>
+                ) : (
+                    <div className='h-6 w-40 bg-gray-200 rounded-lg animate-pulse'></div>
+                )}
                 
             </div>
         </div>

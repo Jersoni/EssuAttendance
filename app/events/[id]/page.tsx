@@ -3,6 +3,8 @@
 import { PageHeader, SearchBar, StudentCard } from '@/components';
 import { useEffect,useRef, useState } from 'react';
 import styles from './styles.module.css';
+import { TbChecklist } from "react-icons/tb";
+import { FaRegCalendarXmark } from "react-icons/fa6";
 
 interface Event {
   id: number
@@ -82,27 +84,30 @@ useEffect(() => {
 
 return (
   <>
-
     <PageHeader title={event?.title} returnPath='/' />
-
-    <div className='max-h-[100vh] overflow-y-auto pb-40 pt-20 p-4'>
+    
+    <div className='max-h-[100vh] overflow-y-auto pb-40 pt-20 p-5'>
 
       <SearchBar />
 
-      <div className={`mt-8`}>
-        <label className={`inline-block w-1/2 rounded-full p-2 font-semibold text-center ${selectedValue === "present" ? "bg-[#ECEDF1]" : "text-gray-500"}`} htmlFor='present'>
-          <input 
+      {/* TOGGLE OPTIONS */}
+      <div className={`mt-6 border-2 w-56 ml-auto border-gray-200 rounded-full bg-gray-100 flex flex-row items-center`}>
+        <label className={`${styles.radioLabel} ${selectedValue === "present" ? "bg-[#ffffff] shadow-[3px_0_6px_rgba(0,0,0,0.1)]" : "text-gray-400"}`} htmlFor='present'>
+          <input
             type="radio" 
             name="radioGroup" 
             id="present"
             value="present"
             checked={selectedValue === "present"}
             onChange={handleChange}
-            className='absolute opacity-0' 
+            className='absolute opacity-0'
           />
-          Present
+          <div className='flex items-center w-full h-fit gap-1.5 justify-center'>
+            <TbChecklist size={18} />
+            <span className=''>Present</span>
+          </div>
         </label>
-        <label className={`inline-block w-1/2 rounded-full p-2 font-semibold text-center ${selectedValue === "absent" ? "bg-[#ECEDF1]" : "text-gray-500"}`} htmlFor="absent">
+        <label className={`${styles.radioLabel} ${selectedValue === "absent" ? "bg-[#ffffff] shadow-[-3px_0_6px_rgba(0,0,0,0.1)]" : "text-gray-400"}`} htmlFor="absent">
           <input 
             type="radio" 
             name="radioGroup" 
@@ -112,7 +117,10 @@ return (
             onChange={handleChange}
             className='absolute opacity-0' 
           />
-          Absent
+          <div className='flex items-center w-full h-fit gap-1.5 justify-center'>
+            <FaRegCalendarXmark size={16} />
+            <span className=''>Absent</span>
+          </div>
         </label>
       </div>
 
@@ -129,8 +137,6 @@ return (
   
 )
 }
-
-
 
 export default EventPage
 

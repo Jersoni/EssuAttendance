@@ -1,6 +1,6 @@
 import './styles.module.css'
  
-export default function ArchiveLayout({
+export default function StudentsLayout({
   children,
 }: {
   children: React.ReactNode

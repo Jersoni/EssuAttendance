@@ -1,10 +1,15 @@
 'use client'
 import styles from './styles.module.css';
+<<<<<<< HEAD
 import { useEffect, useRef, useState } from "react";
 
 // imported components
 import { SearchBar } from "@/components";
 import StudentList from "./StudentList";
+=======
+import { useEffect, useState } from "react";
+import { SearchBar, StudentCard } from "@/components";
+>>>>>>> b8932a6c20e9accd8c32a4b2bea36f4ccb2eb84f
 
 interface Student {
   id: number
@@ -58,24 +63,15 @@ const Page: React.FC = () => {
 
   
   return (
-    <>
-      
-      <div className="max-h-[100vh] overflow-y-auto pt-24 pb-40">
-
-        <div className="px-3">
-          <SearchBar className="mt-5"/>
-        </div>
-
-        <div className={` ${styles.studentsList} mt-6 `}> 
-          {data.length !== 0 && data.map(student => (
-            <StudentList key={student.id} studentData={student} />
-          ))}
-
-          {!data && <span>Could not fetch students forn the database.</span>}
-          
-        </div>
+    <div className="max-h-[100vh] overflow-y-auto pt-24 pb-40 px-5">
+      <SearchBar className="mt-5"/>
+      <div className={` ${styles.studentsList} mt-6`}> 
+        {data.length !== 0 && data.map(student => (
+          <StudentCard key={student.id} studentData={student}/>
+        ))}
+        {!data && <span>Could not fetch students forn the database.</span>}
       </div>
-    </>
+    </div>
   )
 }
 
