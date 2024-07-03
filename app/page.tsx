@@ -73,7 +73,7 @@ const Home: React.FC = () => {
 
 
   return (
-    <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll"} p-4 pt-20 pb-40 flex flex-col h-[100vh] bg-gray-300`}>
+    <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll"} p-4 pt-20 pb-40 flex flex-col h-[100vh] bg-gray-100`}>
 
       {/* NEW EVENT BUTTON */}
       <Button variant={'fixed-circle'} onClick={toggleNewEventForm}>
