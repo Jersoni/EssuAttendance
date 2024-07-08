@@ -25,7 +25,7 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
             
             {/* Filter */}
             <div>
-                <div className={`bg-gray-100 absolute h-[550px] bottom-0 w-full left-0 right-0 mx-auto transition-all ${isOpen ? "" : "translate-y-full" } z-[60] rounded-t-3xl flex flex-col justify-between`}>
+                <div className={`bg-gray-100 absolute h-[550px] bottom-0 w-full left-0 right-0 mx-auto transition-all duration-200 ${isOpen ? "" : "translate-y-full" } z-[60] rounded-t-3xl flex flex-col justify-between`}>
                     <div className='p-5 pb-0'>
                         <h2 className='text-xl font-semibold text-center'>Filter</h2>
                         <Button variant='close' onClick={handleClick} className='absolute right-2 top-2'></Button>

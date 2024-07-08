@@ -76,7 +76,7 @@ const Navbar = () => { // given default value for navbar title
                 </div>
                 
                 {/* Navbar menu */}
-                <div className={`absolute transition-all bg-white flex min-h-[100vh] p-3 w-[70vw] pt-20 z-50 top-0 left-0
+                <div className={`absolute transition-all duration-200 bg-white flex min-h-[100vh] p-3 w-[70vw] pt-20 z-50 top-0 left-0
                 ${isOpen ? ("") : ("translate-x-[-100%]")}`}>
                     <ul>
                         <li>

@@ -81,7 +81,7 @@ const Home: React.FC = () => {
       </Button>
 
       {/* NEW EVENT FORM */}
-      <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-gray-100 z-[120] transition-all`}>
+      <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all duration-300`}>
 
         <div className='flex flex-row items-center p-1'>
           <h1 className='font-semibold text-lg p-5 absolute text-center w-full'>New Attendance Log</h1>
@@ -138,11 +138,11 @@ const Home: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className={`z-[120] flex gap-3 w-full absolute left-0 bottom-0 p-5 pb-8`}>
-            <Button variant='secondary' onClick={toggleNewEventForm}>Cancel</Button>
-            <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
-          </div>
         </form>
+      </div>
+      <div className={`${isOpen ? "block" : "hidden" } z-[120] flex gap-3 w-full absolute left-0 bottom-0 p-5 pb-8`}>
+        <Button variant='secondary' onClick={toggleNewEventForm}>Cancel</Button>
+        <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
       </div>
 
 
