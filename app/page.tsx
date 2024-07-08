@@ -111,7 +111,7 @@ const Home: React.FC = () => {
           <Button variant='close' className='ml-auto z-[120]' onClick={toggleNewEventForm}></Button>
         </div>
 
-        <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-[80vh] pb-64'>
+        <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-[80vh] pb-[18rem]'>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="title">Title</label>
             <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} placeholder='e.g Seminar' />
