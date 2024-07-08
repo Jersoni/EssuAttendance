@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { EventCard } from '@/components';
 import { RiStickyNoteAddLine } from "react-icons/ri";
-import { Button } from '@/components';
+import { Button, ToggleBox } from '@/components';
 
 interface Event {
   id: number
@@ -136,37 +136,27 @@ const Home: React.FC = () => {
             <div className='flex flex-col gap-1 w-1/2'>
               <label className='form__label' htmlFor="logout">Logout Time</label>
               <div onClick={handleLogoutTimeClick} className='form__input w-full flex items-center !pl-0'>
-                <input type="time" name="logout" id="logout" className={`w-full pl-[14px] bg-white outline-none`}/>
+                <input ref={logoutTimeInputRef} type="time" name="logout" id="logout" className={`w-full pl-[14px] bg-white outline-none`}/>
               </div>
             </div>
           </div>
           <div className='flex flex-col gap-1'>
             <label className='form__label'>Attendees</label>
-            <div className='h-10 flex flex-wrap'>
-              <div className='flex gap-2 items-center ml-3'>
-                <input type="checkbox" name="colleges" id="bsit" className={`form__checkbox`} />
-                <label className='form__colleges' htmlFor="bsit">BSIT</label>
-              </div>
-              <div className='flex gap-2 items-center ml-3'>
-                <input type="checkbox" name="colleges" id="bot" className={`form__checkbox`} />
-                <label className='form__colleges' htmlFor="bot">BOT</label>
-              </div>
-              <div className='flex gap-2 items-center ml-3'>
-                <input type="checkbox" name="colleges" id="infotech" className={`form__checkbox`} />
-                <label className='form__colleges' htmlFor="infotech">BSInfoTech</label>
-              </div>
-              <div className='flex gap-2 items-center ml-3'>
-                <input type="checkbox" name="colleges" id="bse" className={`form__checkbox`} />
-                <label className='form__colleges' htmlFor="bse">BSE</label> 
-              </div>
-              <div className='flex gap-2 items-center ml-3'>
-                <input type="checkbox" name="colleges" id="bsed" className={`form__checkbox`} />
-                <label className='form__colleges' htmlFor="bsed">BSEd.</label>
-              </div>
-              <div className='flex gap-2 items-center ml-3'>
-                <input type="checkbox" name="colleges" id="bsce" className={`form__checkbox`} />
-                <label className='form__colleges' htmlFor="bsce">BSCE</label>
-              </div>
+            <div className='h-10 flex flex-wrap mt-2 gap-2'>
+              <ToggleBox text='All Colleges' />
+              <ToggleBox text='BSCE' />
+              <ToggleBox text='BSIT' />
+              <ToggleBox text='BS INFO TECH' />
+              <ToggleBox text='BOT' />
+              <ToggleBox text='BSHM' />
+              <ToggleBox text='BSTM' />
+              <ToggleBox text='BSE' />
+              <ToggleBox text='BSBA' />
+              <ToggleBox text='BSAIS' />
+              <ToggleBox text='BAC' />
+              <ToggleBox text='BSEd.' />
+              <ToggleBox text='BEED' />
+              <ToggleBox text='BTVTED' />
             </div>
           </div>
         </form>
