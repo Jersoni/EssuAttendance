@@ -85,10 +85,10 @@ const Home: React.FC = () => {
 
         <div className='flex flex-row items-center p-1'>
           <h1 className='font-semibold text-lg p-5 absolute text-center w-full'>New Attendance Log</h1>
-          <Button variant='close' className='ml-auto' onClick={toggleNewEventForm}></Button>
+          <Button variant='close' className='ml-auto z-[120]' onClick={toggleNewEventForm}></Button>
         </div>
 
-        <form action="" className='p-5 pt-0 pb-80 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
+        <form action="" className='p-5 pt-0 pb-24 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="title">Title</label>
             <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} />
@@ -99,7 +99,7 @@ const Home: React.FC = () => {
           </div>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="date">Date</label>
-            <input type="date" name="date" id="date" className={`form__input w-fit`} />
+            <input type="date" name="date" id="date" className={`form__input w-full`} />
           </div>
           <div className='flex flex-col gap-1 w-fit'>
             <label className='form__label' htmlFor="login">Login Time</label>
@@ -138,7 +138,7 @@ const Home: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className={`z-[120] ${isOpen ? "block" : "hidden"} flex gap-3 mt-12 w-full`}>
+          <div className={`z-[120] flex gap-3 w-full absolute left-0 bottom-0 p-5 pb-6`}>
             <Button variant='secondary' onClick={toggleNewEventForm}>Cancel</Button>
             <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
           </div>
