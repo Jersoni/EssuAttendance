@@ -82,7 +82,7 @@ useEffect(() => {
     <>
       <PageHeader title={event?.title} />
       
-      <div className='max-h-[100vh] overflow-y-auto pb-40 p-5 pt-3'>
+      <div className='max-h-[100vh] overflow-y-auto pb-40 p-5 pt-0'>
 
         <SearchBar />
 

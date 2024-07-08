@@ -21,7 +21,7 @@
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .nav-item {
@@ -48,13 +48,16 @@ body {
 }
 
 .event__info {
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 500;
+  /* opacity: .9; */
   color: rgb(54, 54, 54);
 }
 
 .event__class {
-  background-color: rgb(226, 230, 236);
-  border-radius: 999px;
+  background-color: rgb(243, 244, 246);
+  border: 1px solid rgb(202, 205, 208);
+  border-radius: 4px;
   padding: 4px 12px;
 }
 
@@ -114,28 +117,33 @@ body {
 
 .form__label {
   font-size: 14px;
-  padding-left: 8px;
-  color: gray;
-  font-weight: 500;
+  padding-left: 5px;
+  color: rgb(45, 45, 45);
+  font-weight: 400;
 }
 
 .form__input {
-  border: 2px solid rgb(229 231 235);
+  border: 1px solid rgb(209 213 219);
   /* background-color: rgb(243 244 246); */
   background-color: white;
-  border-radius: 16px;
-  height: 50px;
+  border-radius: 12px;
+  height: 40px;
   padding-inline: 14px;
   outline: none;
 }
 
 .form__checkbox {
-  opacity: 100%;
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .form__colleges {
-  border: 1px solid;
-  border-radius: 999px;
-  padding-inline: 5px;
-  
+  border: 1px solid rgb(209 213 219);
+  border-radius: 7px;
+  padding: 4px 14px;
+  z-index: 120;
+  font-size: 14px;
+  height: fit-content;
 }

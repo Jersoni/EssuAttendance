@@ -59,7 +59,7 @@ const Navbar = () => { // given default value for navbar title
         condition ? (
             <>
                 {/* header */}
-                <div className={` absolute w-full border-b border-b-black border-opacity-20 bg-white shadow z-30 h-[4.5rem]`}></div>
+                <div className={` absolute w-full border-b border-gray-300 bg-white z-30 h-[4.5rem]`}></div>
 
                 {/* menu button */}
                 <div className='flex flex-row items-center absolute z-[100] p-3 pl-2'>
@@ -76,29 +76,29 @@ const Navbar = () => { // given default value for navbar title
                 </div>
                 
                 {/* Navbar menu */}
-                <div className={`absolute transition-all bg-white flex min-h-[100vh] p-3 w-[70vw] pt-20 z-50 top-0 left-0
+                <div className={`absolute transition-all duration-200 bg-white flex min-h-[100vh] p-3 w-[70vw] pt-20 z-50 top-0 left-0
                 ${isOpen ? ("") : ("translate-x-[-100%]")}`}>
                     <ul>
                         <li>
-                            <Link href="/" className={`nav-item ${pathname === '/' ? 'bg-gray-200' : ''}`}>
+                            <Link href="/" className={`nav-item ${pathname === '/' ? 'bg-[#E5E7EB] bg-opacity-60' : ''}`}>
                                 <RiHome2Line className='mr-3' size={24} />
                                 <span>Home</span>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/students" className={`nav-item ${pathname === '/students' ? 'bg-gray-200' : ''}`}>
+                            <Link href="/students" className={`nav-item ${pathname === '/students' ? 'bg-[#E5E7EB] bg-opacity-60' : ''}`}>
                                 <LuUser className='mr-3' size={24} />
                                 <span>Students</span>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/archive" className={`nav-item ${pathname === '/archive' ? 'bg-gray-200' : ''}`}>
+                            <Link href="/archive" className={`nav-item ${pathname === '/archive' ? 'bg-[#E5E7EB] bg-opacity-60' : ''}`}>
                                 <LuArchive className='mr-3' size={24} />
                                 <span>Archive</span>
                             </Link>
                         </li>
                         <li>
-                            <Link href="/about" className={`nav-item ${pathname === '/about' ? 'bg-gray-200' : ''}`}>
+                            <Link href="/about" className={`nav-item ${pathname === '/about' ? 'bg-[#E5E7EB] bg-opacity-60' : ''}`}>
                                 <IoMdInformationCircleOutline className='mr-3' size={24} />
                                 <span>About</span>
                             </Link>

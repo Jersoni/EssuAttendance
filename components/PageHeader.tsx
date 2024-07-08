@@ -25,7 +25,7 @@ const PageHeader: React.FC<headerProps> = ({title}) => {
 
                 {/* header title */}
                 {title ? (
-                    <span className={`text-[#045511] left-0 w-full text-xl font-semibold`}>{title}</span>
+                    <span className={`text-[#045511] left-0 w-full text-lg font-semibold absolute text-center `}>{title}</span>
                 ) : (
                     <div className='h-6 w-40 bg-gray-200 rounded-lg animate-pulse'></div>
                 )}

@@ -6,6 +6,7 @@ import Filter from './Filter'
 import Button from './Button'
 import EventCard from './EventCard'
 import StudentCard from './StudentCard'
+import ToggleBox from './ToggleBox'
 
 export {
     Footer,
@@ -15,5 +16,6 @@ export {
     Filter,
     Button,
     EventCard,
-    StudentCard
+    StudentCard,
+    ToggleBox
 }
