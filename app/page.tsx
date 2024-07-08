@@ -96,7 +96,7 @@ const Home: React.FC = () => {
 
 
   return (
-    <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll"} p-4 pt-20 pb-40 flex flex-col h-[100vh] bg-gray-100`}>
+    <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll"} p-4 pt-20 pb-96 flex flex-col h-[100vh] bg-gray-100`}>
 
       {/* NEW EVENT BUTTON */}
       <Button variant={'fixed-circle'} className='z-[120]' onClick={toggleNewEventForm}>
@@ -167,10 +167,8 @@ const Home: React.FC = () => {
         <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
       </div>
 
-
       {/* BACKDROP */}
       <div className={`z-[110] bottom-0 left-0 absolute h-full w-full bg-black bg-opacity-70 ${isOpen ? "block" : "hidden" }`}></div>
-
 
 
       {/* ON GOING ATTENDANCE BLOCK */}
