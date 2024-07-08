@@ -1,15 +1,9 @@
 'use client'
 import styles from './styles.module.css';
-<<<<<<< HEAD
 import { useEffect, useRef, useState } from "react";
 
 // imported components
-import { SearchBar } from "@/components";
-import StudentList from "./StudentList";
-=======
-import { useEffect, useState } from "react";
 import { SearchBar, StudentCard } from "@/components";
->>>>>>> b8932a6c20e9accd8c32a4b2bea36f4ccb2eb84f
 
 interface Student {
   id: number
