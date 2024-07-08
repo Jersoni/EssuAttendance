@@ -111,7 +111,7 @@ const Home: React.FC = () => {
           <Button variant='close' className='ml-auto z-[120]' onClick={toggleNewEventForm}></Button>
         </div>
 
-        <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-[80vh] pb-44'>
+        <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-[80vh] pb-52'>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="title">Title</label>
             <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} placeholder='e.g Seminar' />
@@ -145,8 +145,8 @@ const Home: React.FC = () => {
             <div className='h-10 flex flex-wrap mt-2 gap-2'>
               <ToggleBox text='All Colleges' />
               <ToggleBox text='BSCE' />
+              <ToggleBox text='BS INFO TECH' /> 
               <ToggleBox text='BSIT' />
-              <ToggleBox text='BS INFO TECH' />
               <ToggleBox text='BOT' />
               <ToggleBox text='BSHM' />
               <ToggleBox text='BSTM' />
@@ -154,9 +154,9 @@ const Home: React.FC = () => {
               <ToggleBox text='BSBA' />
               <ToggleBox text='BSAIS' />
               <ToggleBox text='BAC' />
+              <ToggleBox text='BTVTED' />
               <ToggleBox text='BSEd.' />
               <ToggleBox text='BEED' />
-              <ToggleBox text='BTVTED' />
               <input type="text" placeholder='' />
             </div>
           </div>

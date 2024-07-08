@@ -144,5 +144,6 @@ body {
   border-radius: 7px;
   padding: 4px 14px;
   z-index: 120;
+  font-size: 14px;
   height: fit-content;
 }
