@@ -97,16 +97,14 @@ const Home: React.FC = () => {
           </div>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="date">Date</label>
-            <div className={`form__input flex`}>
-              <input type="date" name="date" id="date" className='bg-gray-100 w-full' />
-            </div>
+            <input type="date" name="date" id="date" className={`form__input w-fit`} />
           </div>
-          <div className='flex flex-row gap-6'>
-            <div className='flex flex-col gap-1 w-full'>
+          <div className='flex flex-row gap-5'>
+            <div className='flex flex-col gap-1 w-fit'>
               <label className='form__label' htmlFor="login">Login Time</label>
               <input type="time" name="login" id="login" className={`form__input`}/>
             </div>
-            <div className='flex flex-col gap-1 w-full'>
+            <div className='flex flex-col gap-1 w-fit'>
               <label className='form__label' htmlFor="logout">Logout Time</label>
               <input type="time" name="logout" id="logout" className={`form__input`}/>
             </div>
