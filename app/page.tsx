@@ -76,7 +76,7 @@ const Home: React.FC = () => {
     <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll"} p-4 pt-20 pb-40 flex flex-col h-[100vh] bg-gray-100`}>
 
       {/* NEW EVENT BUTTON */}
-      <Button variant={'fixed-circle'} onClick={toggleNewEventForm}>
+      <Button variant={'fixed-circle'} className='z-[120]' onClick={toggleNewEventForm}>
         <RiStickyNoteAddLine size={24} color='white' />
       </Button>
 
@@ -159,8 +159,8 @@ const Home: React.FC = () => {
       <div className="ongoing-attendance mt-6">
         {upcomingEvents.length !== 0 && (
           <div className='flex flex-row gap-2 items-center'>
-            <h2 className="text-2xl font-bold">Today</h2>
-            <h3 className='text-xl font-bold opacity-40'>06/20/24</h3>
+            <h2 className="text-xl font-bold">Today</h2>
+            <h3 className='text-lg font-bold opacity-40'>06/20/24</h3>
           </div>
         )}
         <div className='mt-6'>
@@ -173,7 +173,7 @@ const Home: React.FC = () => {
       {/* UPCOMING EVENTS BLOCK */}
       <div className="upcoming-events mt-12">
         {upcomingEvents.length !== 0 && (
-          <h2 className="text-2xl font-bold">Upcoming Events</h2>
+          <h2 className="text-xl font-bold">Upcoming</h2>
         )}
         <div className='mt-6'>
           {upcomingEvents.length !== 0 && upcomingEvents.map(event => (

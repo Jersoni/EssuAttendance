@@ -22,7 +22,7 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
 
   return (
     <Link href={`/events/${eventData.id}`}>
-      <div className="flex flex-col bg-white border border-gray-300 h-fit rounded-lg mt-4 p-4">
+      <div className="flex flex-col bg-white border border-gray-300 h-fit rounded-xl mt-4 p-4">
         <div className='flex flex-row items-center justify-between'>
           <span className="event__title">{eventData.title}</span>
           <IoIosArrowForward size={20} className='opacity-70'/>
