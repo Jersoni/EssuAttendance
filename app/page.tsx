@@ -111,7 +111,7 @@ const Home: React.FC = () => {
           <Button variant='close' className='ml-auto z-[120]' onClick={toggleNewEventForm}></Button>
         </div>
 
-        <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
+        <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-[80vh] pb-44'>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="title">Title</label>
             <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} placeholder='e.g Seminar' />
@@ -161,7 +161,7 @@ const Home: React.FC = () => {
           </div>
         </form>
       </div>
-      <div className={`${isOpen ? "block" : "hidden" } z-[120] flex gap-3 w-full absolute left-0 bottom-0 p-5 pb-8`}>
+      <div className={`${isOpen ? "block" : "hidden" } z-[120] flex gap-3 w-full absolute left-0 bottom-0 p-5 pb-8 bg-white`}>
         <Button variant='secondary' onClick={toggleNewEventForm}>Cancel</Button>
         <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
       </div>
