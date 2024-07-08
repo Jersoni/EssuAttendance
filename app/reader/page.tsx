@@ -34,10 +34,8 @@ const QrScanner = () => {
     <>
       <PageHeader title='QR Reader' />
       <div className='p-5 '>
-        <div>QrScanner</div>
-
         {scanResult 
-        ? <div>Success: {scanResult}</div>
+        ? <div>Result: {scanResult}</div>
         : <div id='reader'></div>
         }
       </div>

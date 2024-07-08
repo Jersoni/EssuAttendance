@@ -81,14 +81,14 @@ const Home: React.FC = () => {
       </Button>
 
       {/* NEW EVENT FORM */}
-      <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all`}>
+      <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-gray-100 z-[120] transition-all`}>
 
-        <div className='flex flex-row justify-between border-b border-gray-300 p-5'>
-          <h1 className='font-semibold text-lg'>New Attendance Log</h1>
-          <Button variant='close' className='' onClick={toggleNewEventForm}></Button>
+        <div className='flex flex-row items-center p-1'>
+          <h1 className='font-semibold text-lg p-5 absolute text-center w-full'>New Attendance Log</h1>
+          <Button variant='close' className='ml-auto' onClick={toggleNewEventForm}></Button>
         </div>
 
-        <form action="" className='p-5 pb-80 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
+        <form action="" className='p-5 pt-0 pb-80 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="title">Title</label>
             <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} />
@@ -101,15 +101,13 @@ const Home: React.FC = () => {
             <label className='form__label' htmlFor="date">Date</label>
             <input type="date" name="date" id="date" className={`form__input w-fit`} />
           </div>
-          <div className='flex flex-row gap-5'>
-            <div className='flex flex-col gap-1 w-fit'>
-              <label className='form__label' htmlFor="login">Login Time</label>
-              <input type="time" name="login" id="login" className={`form__input`}/>
-            </div>
-            <div className='flex flex-col gap-1 w-fit'>
-              <label className='form__label' htmlFor="logout">Logout Time</label>
-              <input type="time" name="logout" id="logout" className={`form__input`}/>
-            </div>
+          <div className='flex flex-col gap-1 w-fit'>
+            <label className='form__label' htmlFor="login">Login Time</label>
+            <input type="time" name="login" id="login" className={`form__input`}/>
+          </div>
+          <div className='flex flex-col gap-1 w-fit'>
+            <label className='form__label' htmlFor="logout">Logout Time</label>
+            <input type="time" name="logout" id="logout" className={`form__input`}/>
           </div>
           <div className='flex flex-col gap-1'>
             <label className='form__label'>Attendees</label>
@@ -140,11 +138,11 @@ const Home: React.FC = () => {
               </div>
             </div>
           </div>
+          <div className={`z-[120] ${isOpen ? "block" : "hidden"} flex gap-3 mt-12 w-full`}>
+            <Button variant='secondary' onClick={toggleNewEventForm}>Cancel</Button>
+            <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
+          </div>
         </form>
-      </div>
-      <div className={`z-[120] ${isOpen ? "block" : "hidden"} flex gap-3 absolute bottom-0 left-0 p-5 pb-12 border-t border-gray-300 w-full bg-white`}>
-        <Button variant='secondary' onClick={toggleNewEventForm}>Cancel</Button>
-        <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
       </div>
 
 
