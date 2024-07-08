@@ -115,7 +115,9 @@ const Home: React.FC = () => {
           <div className='flex flex-row gap-4 w-full flex-wrap'>
             <div className='flex flex-col gap-1 w-fit'>
               <label className='form__label' htmlFor="login">Login Time</label>
-              <input type="time" name="login" id="login" className={`form__input w-fit`}/>
+              <div className='form__input w-fit'>
+                <input type="time" name="login" id="login" className={``}/>
+              </div>
             </div>
             <div className='flex flex-col gap-1 w-fit'>
               <label className='form__label' htmlFor="logout">Logout Time</label>
