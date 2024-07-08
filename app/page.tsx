@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { EventCard } from '@/components';
 import { RiStickyNoteAddLine } from "react-icons/ri";
+import { Button } from '@/components';
 
 interface Event {
   id: number
@@ -20,7 +21,16 @@ interface ParsedEvent extends Omit<Event, 'eventDate'> {
 // eslint-disable-next-line @next/next/no-async-client-component
 const Home: React.FC = () => {
 
-  // const [events, setEvents] = useState<ParsedEvent[]>([]);
+
+  const [date, setDate] = useState("");
+
+  const handlePost = () => {
+    const today = new Date(date)
+    const time = today.getTime()
+    console.log(time)
+  }
+
+  // fetch event data
   const [ongoingEvents, setOngoingEvents] = useState<ParsedEvent[]>([]);
   const [upcomingEvents, setUpcomingEvents] = useState<ParsedEvent[]>([]);
   const fetchRef = useRef(false);
@@ -56,19 +66,99 @@ const Home: React.FC = () => {
       } catch (error) {
         console.error(error)
       }
-
     }
-
     fetchEvents()
-
   }, [])
 
-  return (
-    <div className="p-4 flex flex-col overflow-y-scroll h-[100vh] pb-40 pt-20 bg-gray-200">
+  // newEventButton Click Handler
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleNewEventForm = () => {
+    setIsOpen(!isOpen);
+  };
 
-      <button className='absolute bottom-5 right-5 flex flex-row items-center rounded-full shadow-lg bg-[#0b754e] p-5 ml-auto'>
+
+  return (
+    <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll"} p-4 pt-20 pb-40 flex flex-col h-[100vh] bg-gray-300`}>
+
+      {/* NEW EVENT BUTTON */}
+      <Button variant={'fixed-circle'} onClick={toggleNewEventForm}>
         <RiStickyNoteAddLine size={24} color='white' />
-      </button>
+      </Button>
+
+      {/* NEW EVENT FORM */}
+      <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all`}>
+
+        <h1 className='font-semibold text-xl p-5 border-b border-gray-300'>New Attendance Log</h1>
+        <Button variant='close' onClick={toggleNewEventForm} className='absolute right-2 top-2'></Button>
+
+        <form action="" className='p-5 pb-80 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
+          <div className='flex flex-col gap-1'>
+            <label className='form__label' htmlFor="title">Event Title</label>
+            <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} />
+          </div>
+          <div className='flex flex-col gap-1'>
+            <label className='form__label' htmlFor="description">Description</label>
+            <input autoComplete='off' type="text" name="description" id="description" className={`form__input`} />
+          </div>
+          <div className='flex flex-col gap-1'>
+            <label className='form__label' htmlFor="venue">Venue</label>
+            <input autoComplete='off' type="text" name="venue" id="venue" className={`form__input`} />
+          </div>
+          <div className='flex flex-col gap-1'>
+            <label className='form__label' htmlFor="date">Date</label>
+            <input type="date" name="date" id="date" className={`form__input !w-full`} />
+          </div>
+          <div className='flex flex-row gap-6'>
+            <div className='flex flex-col gap-1 w-full'>
+              <label className='form__label' htmlFor="login">Login Time</label>
+              <input type="time" name="login" id="login" className={`form__input`}/>
+            </div>
+            <div className='flex flex-col gap-1 w-full'>
+              <label className='form__label' htmlFor="logout">Logout Time</label>
+              <input type="time" name="logout" id="logout" className={`form__input`}/>
+            </div>
+          </div>
+          <div className='flex flex-col gap-1'>
+            <label className='form__label'>Attendees</label>
+            <div className='h-10 flex flex-wrap'>
+              <div className='flex gap-2 items-center ml-3'>
+                <input type="checkbox" name="colleges" id="bsit" className={`form__checkbox`} />
+                <label className='form__colleges' htmlFor="bsit">BSIT</label>
+              </div>
+              <div className='flex gap-2 items-center ml-3'>
+                <input type="checkbox" name="colleges" id="bot" className={`form__checkbox`} />
+                <label className='form__colleges' htmlFor="bot">BOT</label>
+              </div>
+              <div className='flex gap-2 items-center ml-3'>
+                <input type="checkbox" name="colleges" id="infotech" className={`form__checkbox`} />
+                <label className='form__colleges' htmlFor="infotech">BSInfoTech</label>
+              </div>
+              <div className='flex gap-2 items-center ml-3'>
+                <input type="checkbox" name="colleges" id="bse" className={`form__checkbox`} />
+                <label className='form__colleges' htmlFor="bse">BSE</label> 
+              </div>
+              <div className='flex gap-2 items-center ml-3'>
+                <input type="checkbox" name="colleges" id="bsed" className={`form__checkbox`} />
+                <label className='form__colleges' htmlFor="bsed">BSEd.</label>
+              </div>
+              <div className='flex gap-2 items-center ml-3'>
+                <input type="checkbox" name="colleges" id="bsce" className={`form__checkbox`} />
+                <label className='form__colleges' htmlFor="bsce">BSCE</label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div className={`z-[120] ${isOpen ? "block" : "hidden"} flex gap-3 absolute bottom-0 left-0 p-5 pb-12 border-t border-gray-300 w-full bg-white`}>
+        <Button variant='secondary' onClick={toggleNewEventForm}>Cancel</Button>
+        <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
+      </div>
+
+
+      {/* BACKDROP */}
+      <div className={`z-[110] bottom-0 left-0 absolute h-full w-full bg-black bg-opacity-70 ${isOpen ? "block" : "hidden" }`}></div>
+
+
 
       {/* ON GOING ATTENDANCE BLOCK */}
       <div className="ongoing-attendance mt-6">
