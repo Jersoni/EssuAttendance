@@ -96,7 +96,7 @@ const Home: React.FC = () => {
 
 
   return (
-    <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll"} p-4 pt-20 pb-96 flex flex-col h-[100vh] bg-gray-100`}>
+    <div className={`${isOpen ? "!overflow-hidden" : "overflow-y-scroll"} p-4 pt-20 pb-40 flex flex-col h-[100vh] bg-gray-100`}>
 
       {/* NEW EVENT BUTTON */}
       <Button variant={'fixed-circle'} className='z-[120]' onClick={toggleNewEventForm}>
@@ -104,14 +104,14 @@ const Home: React.FC = () => {
       </Button>
 
       {/* NEW EVENT FORM */}
-      <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all duration-300`}>
+      <div className={`${isOpen ? "" : "translate-y-full" } overflow-y-scroll absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all duration-300`}>
 
         <div className='flex flex-row items-center p-1'>
           <h1 className='font-semibold text-lg p-5 absolute text-center w-full'>New Attendance Log</h1>
           <Button variant='close' className='ml-auto z-[120]' onClick={toggleNewEventForm}></Button>
         </div>
 
-        <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-[80vh] pb-52'>
+        <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-[80vh] pb-64'>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="title">Title</label>
             <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} placeholder='e.g Seminar' />
