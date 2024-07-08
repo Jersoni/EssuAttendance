@@ -112,13 +112,15 @@ const Home: React.FC = () => {
               <input type="date" name="date" ref={dateInputRef} id="date" className='outline-none border bg-white p-0 w-full' />
             </div>
           </div>
-          <div className='flex flex-col gap-1 w-fit'>
-            <label className='form__label' htmlFor="login">Login Time</label>
-            <input type="time" name="login" id="login" className={`form__input`}/>
-          </div>
-          <div className='flex flex-col gap-1 w-fit'>
-            <label className='form__label' htmlFor="logout">Logout Time</label>
-            <input type="time" name="logout" id="logout" className={`form__input`}/>
+          <div className='flex flex-row gap-4 w-full flex-wrap'>
+            <div className='flex flex-col gap-1 w-fit'>
+              <label className='form__label' htmlFor="login">Login Time</label>
+              <input type="time" name="login" id="login" className={`form__input w-fit`}/>
+            </div>
+            <div className='flex flex-col gap-1 w-fit'>
+              <label className='form__label' htmlFor="logout">Logout Time</label>
+              <input type="time" name="logout" id="logout" className={`form__input w-fit`}/>
+            </div>
           </div>
           <div className='flex flex-col gap-1'>
             <label className='form__label'>Attendees</label>
