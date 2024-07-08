@@ -83,8 +83,10 @@ const Home: React.FC = () => {
       {/* NEW EVENT FORM */}
       <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all`}>
 
-        <h1 className='font-semibold text-lg p-5 border-b border-gray-300'>New Attendance Log</h1>
-        <Button variant='close' onClick={toggleNewEventForm} className='absolute right-2 top-2'></Button>
+        <div className='flex flex-row justify-between border-b border-gray-300 p-5'>
+          <h1 className='font-semibold text-lg'>New Attendance Log</h1>
+          <Button variant='close' className='' onClick={toggleNewEventForm}></Button>
+        </div>
 
         <form action="" className='p-5 pb-80 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
           <div className='flex flex-col gap-1'>
@@ -159,7 +161,7 @@ const Home: React.FC = () => {
             <h3 className='text-lg font-bold opacity-40'>06/20/24</h3>
           </div>
         )}
-        <div className='mt-6'>
+        <div>
           {ongoingEvents.length !== 0 && ongoingEvents.map(event => (
             <EventCard key={event.id} eventData={event}/>
           ))}
@@ -171,7 +173,7 @@ const Home: React.FC = () => {
         {upcomingEvents.length !== 0 && (
           <h2 className="text-xl font-bold">Upcoming</h2>
         )}
-        <div className='mt-6'>
+        <div>
           {upcomingEvents.length !== 0 && upcomingEvents.map(event => (
             <EventCard key={event.id} eventData={event} />
           ))}

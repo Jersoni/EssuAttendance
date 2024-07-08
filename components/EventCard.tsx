@@ -39,11 +39,11 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
         </div>
         <div className="mt-5 flex flex-row justify-between">
           <div className='flex flex-row items-center gap-1 w-fit'>
-            <TiLocation size={19} className='opacity-60 translate-y-[-1px]'/>
+            <TiLocation size={17} className='opacity-60 translate-y-[-1px]'/>
             <span className="event__info">{eventData.location}</span>
           </div>
           <div className='flex flex-row items-center gap-2 w-fit'>
-            <FaClock size={15} className='opacity-60 translate-y-[1px]' />
+            <FaClock size={12} className='opacity-60 translate-y-[1px]' />
             <div>
               <span className="event__info">{eventData.loginTime}</span>
               <span className="event__info mx-1">-</span>
