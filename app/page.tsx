@@ -22,10 +22,24 @@ interface ParsedEvent extends Omit<Event, 'eventDate'> {
 const Home: React.FC = () => {
 
   const dateInputRef = useRef(null);
+  const loginTimeInputRef = useRef(null);
+  const logoutTimeInputRef = useRef(null);
 
   const handleDateClick = () => {
     if (dateInputRef.current) {
       (dateInputRef.current as HTMLInputElement).focus();
+    }
+  }
+
+  const handleLoginTimeClick = () => {
+    if (loginTimeInputRef.current) {
+      (loginTimeInputRef.current as HTMLInputElement).focus();
+    }
+  }
+
+  const handleLogoutTimeClick = () => {
+    if (logoutTimeInputRef.current) {
+      (logoutTimeInputRef.current as HTMLInputElement).focus();
     }
   }
 
@@ -112,16 +126,18 @@ const Home: React.FC = () => {
               <input type="date" name="date" ref={dateInputRef} id="date" className='outline-none pl-[14px] rounded-full bg-white p-0 w-full' />
             </div>
           </div>
-          <div className='flex flex-row gap-4 w-full flex-wrap'>
-            <div className='flex flex-col gap-1 w-fit'>
+          <div className='flex flex-row gap-4 w-full'>
+            <div className='flex flex-col gap-1 w-1/2'>
               <label className='form__label' htmlFor="login">Login Time</label>
-              <div className='form__input w-fit'>
-                <input type="time" name="login" id="login" className={``}/>
+              <div onClick={handleLoginTimeClick} className='form__input w-full flex items-center pl-0'>
+                <input ref={loginTimeInputRef} type="time" name="login" id="login" className={`w-full pl-[14px] bg-white outline-none`}/>
               </div>
             </div>
-            <div className='flex flex-col gap-1 w-fit'>
+            <div className='flex flex-col gap-1 w-1/2'>
               <label className='form__label' htmlFor="logout">Logout Time</label>
-              <input type="time" name="logout" id="logout" className={`form__input w-fit`}/>
+              <div onClick={handleLogoutTimeClick} className='form__input w-full flex items-center pl-0'>
+                <input type="time" name="logout" id="logout" className={`w-full pl-[14px] bg-white outline-none`}/>
+              </div>
             </div>
           </div>
           <div className='flex flex-col gap-1'>
