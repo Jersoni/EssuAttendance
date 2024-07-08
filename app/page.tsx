@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { EventCard } from '@/components';
 import { RiStickyNoteAddLine } from "react-icons/ri";
 import { Button } from '@/components';
@@ -21,6 +21,13 @@ interface ParsedEvent extends Omit<Event, 'eventDate'> {
 // eslint-disable-next-line @next/next/no-async-client-component
 const Home: React.FC = () => {
 
+  const dateInputRef = useRef(null);
+
+  const handleDateClick = () => {
+    if (dateInputRef.current) {
+      (dateInputRef.current as HTMLInputElement).focus();
+    }
+  }
 
   const [date, setDate] = useState("");
 
@@ -35,6 +42,8 @@ const Home: React.FC = () => {
   const [upcomingEvents, setUpcomingEvents] = useState<ParsedEvent[]>([]);
 
   useEffect(() => {
+
+
     const fetchEvents = async () => {
       try {
         const res = await fetch('/api/events')
@@ -99,7 +108,9 @@ const Home: React.FC = () => {
           </div>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="date">Date</label>
-            <input type="date" name="date" id="date" className={`form__input w-full`} />
+            <div className={`form__input w-full flex`} onClick={handleDateClick}>
+              <input type="date" name="date" ref={dateInputRef} id="date" className='outline-none' />
+            </div>
           </div>
           <div className='flex flex-col gap-1 w-fit'>
             <label className='form__label' htmlFor="login">Login Time</label>
