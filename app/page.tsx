@@ -157,7 +157,7 @@ const Home: React.FC = () => {
               <ToggleBox text='BTVTED' />
               <ToggleBox text='BSEd.' />
               <ToggleBox text='BEED' />
-              <input type="text" placeholder='' />
+              <input type="text" placeholder='Other (comma separated)' className={`form__input w-full`}/>
             </div>
           </div>
         </form>
