@@ -129,13 +129,13 @@ const Home: React.FC = () => {
           <div className='flex flex-row gap-4 w-full'>
             <div className='flex flex-col gap-1 w-1/2'>
               <label className='form__label' htmlFor="login">Login Time</label>
-              <div onClick={handleLoginTimeClick} className='form__input w-full flex items-center pl-0'>
+              <div onClick={handleLoginTimeClick} className='form__input w-full flex items-center !pl-0'>
                 <input ref={loginTimeInputRef} type="time" name="login" id="login" className={`w-full pl-[14px] bg-white outline-none`}/>
               </div>
             </div>
             <div className='flex flex-col gap-1 w-1/2'>
               <label className='form__label' htmlFor="logout">Logout Time</label>
-              <div onClick={handleLogoutTimeClick} className='form__input w-full flex items-center pl-0'>
+              <div onClick={handleLogoutTimeClick} className='form__input w-full flex items-center !pl-0'>
                 <input type="time" name="logout" id="logout" className={`w-full pl-[14px] bg-white outline-none`}/>
               </div>
             </div>
