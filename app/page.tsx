@@ -83,17 +83,13 @@ const Home: React.FC = () => {
       {/* NEW EVENT FORM */}
       <div className={`${isOpen ? "overflow-hidden" : "overflow-y-scroll translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all`}>
 
-        <h1 className='font-semibold text-xl p-5 border-b border-gray-300'>New Attendance Log</h1>
+        <h1 className='font-semibold text-lg p-5 border-b border-gray-300'>New Attendance Log</h1>
         <Button variant='close' onClick={toggleNewEventForm} className='absolute right-2 top-2'></Button>
 
         <form action="" className='p-5 pb-80 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
           <div className='flex flex-col gap-1'>
-            <label className='form__label' htmlFor="title">Event Title</label>
+            <label className='form__label' htmlFor="title">Title</label>
             <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} />
-          </div>
-          <div className='flex flex-col gap-1'>
-            <label className='form__label' htmlFor="description">Description</label>
-            <input autoComplete='off' type="text" name="description" id="description" className={`form__input`} />
           </div>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="venue">Venue</label>
@@ -101,7 +97,9 @@ const Home: React.FC = () => {
           </div>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="date">Date</label>
-            <input type="date" name="date" id="date" className={`form__input !w-full`} />
+            <div className={`form__input flex`}>
+              <input type="date" name="date" id="date" className='bg-gray-100 w-full' />
+            </div>
           </div>
           <div className='flex flex-row gap-6'>
             <div className='flex flex-col gap-1 w-full'>
