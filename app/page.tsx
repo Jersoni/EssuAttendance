@@ -88,7 +88,7 @@ const Home: React.FC = () => {
           <Button variant='close' className='ml-auto z-[120]' onClick={toggleNewEventForm}></Button>
         </div>
 
-        <form action="" className='p-5 pt-0 pb-24 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
+        <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="title">Title</label>
             <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} />
@@ -138,7 +138,7 @@ const Home: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className={`z-[120] flex gap-3 w-full absolute left-0 bottom-0 p-5 pb-6`}>
+          <div className={`z-[120] flex gap-3 w-full absolute left-0 bottom-0 p-5 pb-8`}>
             <Button variant='secondary' onClick={toggleNewEventForm}>Cancel</Button>
             <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
           </div>
