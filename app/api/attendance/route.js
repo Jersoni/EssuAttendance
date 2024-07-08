@@ -12,8 +12,6 @@ export async function GET(req) {
       .select('studentId')
       .eq('eventId', id);
 
-    console.log("attendance data: ",attendanceData)
-
 
     if(attendanceError) { 
         console.log(attendanceError.message)
@@ -21,8 +19,6 @@ export async function GET(req) {
     }
 
     const studentIds = attendanceData.map(row => row.studentId);
-    console.log('Student IDs:', studentIds);
-
 
     if (studentIds.length === 0) {
       console.log('No students attended the event.');
@@ -33,10 +29,7 @@ export async function GET(req) {
     .from("student")
     .select("*")
     .in("id", studentIds)
-
     
-    console.log("students data: ", studentsData)
-
     
     if (studentsError) {
       console.error('Error fetching students data:', studentsError.message);

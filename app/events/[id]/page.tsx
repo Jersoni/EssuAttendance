@@ -1,7 +1,7 @@
 // eslint-disable @next/next/no-async-client-component 
 "use client"
 import { PageHeader, SearchBar, StudentCard, Button } from '@/components';
-import { useEffect, useState } from 'react';
+import { useEffect,useRef, useState } from 'react';
 import styles from './styles.module.css';
 import { TbChecklist } from "react-icons/tb";
 import { FaRegCalendarXmark } from "react-icons/fa6";
@@ -12,7 +12,7 @@ interface Event {
   title: string
   location: string
   loginTime: string
-  logoutTime: string
+logoutTime: string
   fineAmount: number
   eventDate: string
 }
@@ -31,7 +31,7 @@ const EventPage: React.FC = ({ params }: any) => {
   const [selectedValue, setSelectedValue] = useState<string>('present');
   const [event, setEvent] = useState<Event>()
   const [students, setStudents] = useState<Student[]>([])
-  const router = useRouter()
+
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(event.target.value);
@@ -55,28 +55,28 @@ const EventPage: React.FC = ({ params }: any) => {
       
   }
 
-  const getAttendees = async () => {
-    try {
-      const res = await fetch(`/api/attendance?id=${params.id}`,{
-        method: "GET"
-      })
-    
-      if(res) {
-        const json = await res.json() 
-        console.log(json)
-        if(json) setStudents(json)  
-      }
+const getAttendees = async () => {
+  try {
+    const res = await fetch(`/api/attendance?id=${params.id}`,{
+      method: "GET"
+    })
+  
+    if(res) {
+      const json = await res.json() 
+      console.log(json)
+      if(json) setStudents(json)  
+    }
 
     } catch (error) {
       console.log(error)
     }
   }
   
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    getEvent()
-    getAttendees()
-  }, [])
+// eslint-disable-next-line react-hooks/rules-of-hooks
+useEffect(() => {
+  getEvent()
+  getAttendees()
+}, [])
 
   return (
     <>
@@ -122,23 +122,16 @@ const EventPage: React.FC = ({ params }: any) => {
 
         {/* STUDENTS LIST */}
 
-        <div className={`${styles.studentsList} mt-8`}>
-          {students.length !== 0 && students.map(student => (
-            <StudentCard key={student.id} studentData={student}/>
-          ))}
-          {students.length === 0 && <span>No student sttended this event.</span>}
-        </div>
+      <div className={`${styles.studentsList} mt-8`}>
+        {students.length !== 0 && students.map(student => (
+          <StudentCard key={student.id} studentData={student}/>
+        ))}
+        {students.length === 0 && <span>No student sttended this event.</span>}
       </div>
-
-      {/* NEW EVENT BUTTON */}
-      <Button variant={'fixed-circle'} onClick={() => router.push('/reader')}>
-        <span className='text-white font-semibold'>QR</span>
-      </Button>
-
-      
-
-    </>
-  )
+    </div>
+  </>
+  
+)
 }
 
 export default EventPage

@@ -30,6 +30,7 @@ const Home: React.FC = () => {
   // fetch event data
   const [ongoingEvents, setOngoingEvents] = useState<ParsedEvent[]>([]);
   const [upcomingEvents, setUpcomingEvents] = useState<ParsedEvent[]>([]);
+  const fetchRef = useRef(false);
 
   useEffect(() => {
 
