@@ -114,11 +114,11 @@ const Home: React.FC = () => {
         <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-[86vh]'>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="title">Title</label>
-            <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} />
+            <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} placeholder='e.g Seminar' />
           </div>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="venue">Venue</label>
-            <input autoComplete='off' type="text" name="venue" id="venue" className={`form__input`} />
+            <input autoComplete='off' type="text" name="venue" id="venue" className={`form__input`} placeholder='e.g Covered Court' />
           </div>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="date">Date</label>
