@@ -108,8 +108,8 @@ const Home: React.FC = () => {
           </div>
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="date">Date</label>
-            <div className={`form__input w-full flex`} onClick={handleDateClick}>
-              <input type="date" name="date" ref={dateInputRef} id="date" className='outline-none bg-white p-0 w-full' />
+            <div className={`form__input !pl-0 w-full flex`} onClick={handleDateClick}>
+              <input type="date" name="date" ref={dateInputRef} id="date" className='outline-none pl-[14px] rounded-full bg-white p-0 w-full' />
             </div>
           </div>
           <div className='flex flex-row gap-4 w-full flex-wrap'>
