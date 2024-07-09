@@ -21,7 +21,7 @@ const SearchBar: React.FC<searchBarProps> = ({className}) => {
             placeholder={"Search"}
         />
       </form>
-      <Filter className={`p-2 border border-gray-200 rounded-2xl bg-gray-100`}/>
+      <Filter className={`p-2 border border-gray-200 rounded-full bg-gray-100`}/>
     </div>
   )
 }

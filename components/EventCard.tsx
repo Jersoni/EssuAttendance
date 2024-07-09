@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { TiLocation } from "react-icons/ti";
 import { FaClock } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
+import { FaMoneyBillWave } from "react-icons/fa";
 
 interface Event {
     id: number
@@ -49,6 +50,10 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
               <span className="event__info mx-1">-</span>
               <span className="event__info">{eventData.logoutTime}</span>
             </div>
+          </div>
+          <div className='flex flex-row items-center gap-2 w-fit'>
+            <FaMoneyBillWave size={15} className='ml-[1px] opacity-60 translate-y-[1px]' />
+            <span className="event__info">P25.00</span>
           </div>
         </div>
       </div>

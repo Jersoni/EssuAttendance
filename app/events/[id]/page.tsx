@@ -87,7 +87,7 @@ useEffect(() => {
         <SearchBar />
 
         {/* TOGGLE OPTIONS */}
-        <div className={`mt-5 border-2 w-full ml-auto border-gray-200 rounded-full bg-gray-100 flex flex-row items-center`}>
+        <div className={`mt-4 border-2 w-full ml-auto border-gray-200 rounded-full bg-gray-100 flex flex-row items-center`}>
           <label className={`${styles.radioLabel} ${selectedValue === "present" ? "bg-[#ffffff] shadow-[3px_0_6px_rgba(0,0,0,0.1)]" : "text-gray-400"}`} htmlFor='present'>
             <input
               type="radio" 

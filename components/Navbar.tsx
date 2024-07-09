@@ -29,7 +29,6 @@ const Navbar = () => { // given default value for navbar title
     const [isOpen, setIsOpen] = useState(false);
     const handleClick = () => {
         setIsOpen(!isOpen);
-        console.log(window.scrollY);
     };
 
     // set previous pathname
