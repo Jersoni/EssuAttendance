@@ -22,7 +22,7 @@ const Navbar = () => { // given default value for navbar title
     let convertedPathname = pathname.slice(1).charAt(0).toUpperCase() + pathname.slice(1).slice(1);
     if (convertedPathname === '') convertedPathname = "SSC LOGBOOK"
 
-    const excludedRoutes = useMemo(() => ['/login', '/signup', '/reader'], []);
+    const excludedRoutes = useMemo(() => ['/login', '/signup', '/scanner'], []);
     const condition = excludedRoutes.indexOf(pathname) === -1 && pathname.substring(0, 7) !== "/events"
 
     // click handler for menu btn
@@ -58,7 +58,7 @@ const Navbar = () => { // given default value for navbar title
         condition ? (
             <>
                 {/* header */}
-                <div className={` absolute w-full border-b border-gray-300 bg-white z-30 h-[4.5rem]`}></div>
+                <div className={` absolute w-full ${pathname === '/' ? "" : ""} bg-white z-30 h-[4.5rem]`}></div>
 
                 {/* menu button */}
                 <div className='flex flex-row items-center absolute z-[100] p-3 pl-2'>

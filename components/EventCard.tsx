@@ -23,7 +23,7 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
 
   return (
     <Link href={`/events/${eventData.id}`}>
-      <div className="flex flex-col bg-white border border-gray-300 h-fit rounded-xl mt-4 p-4">
+      <div className="flex flex-col bg-white h-fit rounded-xl mt-4 p-4">
         <div className='flex flex-row items-center justify-between'>
           <span className="event__title">{eventData.title}</span>
           <IoIosArrowForward size={20} className='opacity-70'/>
@@ -51,7 +51,7 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
               <span className="event__info">{eventData.logoutTime}</span>
             </div>
           </div>
-          <div className='flex flex-row items-center gap-2 w-fit'>
+          <div className='flex flex-row items-center gap-2 mt-1 w-fit'>
             <FaMoneyBillWave size={15} className='ml-[1px] opacity-60 translate-y-[1px]' />
             <span className="event__info">P25.00</span>
           </div>

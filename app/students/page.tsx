@@ -57,8 +57,8 @@ const Page: React.FC = () => {
 
   
   return (
-    <div className="max-h-[100vh] overflow-y-auto pt-24 pb-40 px-5">
-      <SearchBar className="mt-5"/>
+    <div className="max-h-[100vh] overflow-y-auto pt-[4.5rem] pb-40 px-5">
+      <SearchBar />
       <div className={` ${styles.studentsList} mt-6`}> 
         {data.length !== 0 && data.map(student => (
           <StudentCard key={student.id} studentData={student}/>

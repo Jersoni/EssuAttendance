@@ -56,7 +56,7 @@ const NewEventForm = () => {
                     </div>
                     <div className='flex flex-col gap-1'>
                         <label className='form__label' htmlFor="fine">Fine</label>
-                        <input autoComplete='off' type="text" name="fine" id="fine" className={`form__input`} placeholder='e.g P25.00' />
+                        <input autoComplete='off' type="number" name="fine" id="fine" className={`form__input`} placeholder='e.g 25.00' />
                     </div>
                     <div className='flex flex-col gap-1'>
                         <label className='form__label' htmlFor="date">Date</label>

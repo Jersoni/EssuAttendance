@@ -5,19 +5,19 @@ import { Suspense } from 'react';
 
 // props for customizing the header properties
 interface headerProps {
-    title?: string ; // header title
+    title?: string; // header title
+    children?: React.ReactNode;
 }
 
 // PageHeader Component
-const PageHeader: React.FC<headerProps> = ({title}) => {
+const PageHeader: React.FC<headerProps> = ({title, children}) => {
 
     const router = useRouter()
     const themeColorGreen: string = "#045511"
 
     return (
-        <div className="w-full bg-white z-50 p-2 pl-1">
+        <div className="w-full bg-white z-50 p-2 pl-1 pr-5">
             <div className="flex flex-row items-center">
-
                 {/* return button */}
                 <button type="button" className="z-30 grid place-items-center h-12 min-w-12 rounded-full active:bg-gray-200" onClick={() => {router.back()}}>
                     <IoChevronBack size={24} color={themeColorGreen} />
@@ -29,6 +29,8 @@ const PageHeader: React.FC<headerProps> = ({title}) => {
                 ) : (
                     <div className='h-6 w-40 bg-gray-200 rounded-lg animate-pulse'></div>
                 )}
+
+                {children}
                 
             </div>
         </div>

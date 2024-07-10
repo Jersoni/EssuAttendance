@@ -6,6 +6,7 @@ import styles from './styles.module.css';
 import { TbChecklist } from "react-icons/tb";
 import { FaRegCalendarXmark } from "react-icons/fa6";
 import { useRouter } from 'next/navigation';
+import { PiScanBold } from "react-icons/pi";
 
 interface Event {
   id: number
@@ -28,10 +29,11 @@ interface Student {
 
 const EventPage: React.FC = ({ params }: any) => {
 
+  const router = useRouter()
+
   const [selectedValue, setSelectedValue] = useState<string>('present');
   const [event, setEvent] = useState<Event>()
   const [students, setStudents] = useState<Student[]>([])
-
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(event.target.value);
@@ -72,17 +74,19 @@ const getAttendees = async () => {
     }
   }
   
-// eslint-disable-next-line react-hooks/rules-of-hooks
-useEffect(() => {
-  getEvent()
-  getAttendees()
-}, [])
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    getEvent()
+    getAttendees()
+  }, [])
 
   return (
     <>
-      <PageHeader title={event?.title} />
+      <PageHeader title={event?.title}>
+        <PiScanBold onClick={() => router.push('/scanner')} size={24}  className='ml-auto fill-gray-700 z-[120]' />
+      </PageHeader>
       
-      <div className='max-h-[100vh] overflow-y-auto pb-40 p-5 pt-0'>
+      <div className='max-h-[100vh] overflow-y-auto pb-40 p-5 pt-3'>
 
         <SearchBar />
 
@@ -129,9 +133,9 @@ useEffect(() => {
         {students.length === 0 && <span>No student sttended this event.</span>}
       </div>
     </div>
-  </>
   
-)
+  </>
+  )
 }
 
 export default EventPage

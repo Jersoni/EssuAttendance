@@ -56,7 +56,6 @@ body {
 
 .event__class {
   background-color: rgb(243, 244, 246);
-  border: 1px solid rgb(202, 205, 208);
   border-radius: 4px;
   padding: 4px 12px;
 }
