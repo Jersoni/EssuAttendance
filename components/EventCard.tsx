@@ -82,7 +82,7 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
 const EventCardActions = () => (
   <div className='flex'>
 
-    <RiEdit2Line onClick={(e) => {e.preventDefault(); console.log('edit') }} size={40} className='opacity-80 p-2 rounded-full'/>
+    <RiEdit2Line onClick={(e) => {e.preventDefault()}} size={40} className='opacity-80 p-2 rounded-full'/>
       
     <PiTrashSimpleBold onClick={(e) => {e.preventDefault()}} size={40} className='opacity-80 p-2 rounded-full'/>
       

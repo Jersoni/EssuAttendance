@@ -48,7 +48,7 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
                                 <IoIosArrowForward size={15}/>
                             </div>
                         </div>
-                        <div className='flex flex-col rounded-2xl mt-2 overflow-hidden bg-white h-fit w-full p-4'>
+                        <div className='flex flex-col rounded-2xl mt-4 overflow-hidden bg-white h-fit w-full p-4'>
                             <div className='flex-col items-start h-fit'>
                                 <span>Sort by</span>
                                 <div className='mt-2 pl-1'>

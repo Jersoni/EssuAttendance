@@ -107,8 +107,6 @@ export default Home
 
 
 
-
-
 // NEW EVENT FORM COMPONENT
 const NewEventForm = () => {
 
@@ -140,7 +138,7 @@ const NewEventForm = () => {
   return (
     <div>
       {/* NEW EVENT BUTTON */}
-      <Button variant={'small-circle'} className='z-[60] absolute top-4 right-5' onClick={toggleNewEventForm}>
+      <Button variant={'small-circle'} className='z-[30] absolute top-4 right-5' onClick={toggleNewEventForm}>
           <FiPlus size={24} />
       </Button>
 

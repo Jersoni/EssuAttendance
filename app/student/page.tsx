@@ -2,10 +2,12 @@ import { PageHeader, Button } from '@/components'
 import { GoArrowUpRight } from "react-icons/go";
 import { RiEdit2Line } from "react-icons/ri";
 import { BiEraser } from "react-icons/bi";
+import { FiPlus } from "react-icons/fi";
 
 const Student = () => {
   return (
     <div className='h-[100vh] bg-gray-100'>
+
         <PageHeader title="Student Profile" />
         <div className="max-h-[100vh] overflow-y-auto pb-40 px-5">
             <div className='flex mt-7 items-center justify-between'>
