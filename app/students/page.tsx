@@ -1,7 +1,7 @@
 'use client'
 import styles from './styles.module.css';
 import { useEffect, useRef, useState } from "react";
-import { SearchBar, StudentCard, Button } from "@/components";
+import { SearchBar, StudentCard, Button, Filter } from "@/components";
 import { FiPlus } from "react-icons/fi";
 
 interface Student {
@@ -57,7 +57,8 @@ const Page: React.FC = () => {
   
   return (
     <div className="max-h-[100vh] overflow-y-auto pt-[4.5rem] pb-40 px-5">
-      <NewStudentForm />
+      <NewStudentForm /> {/* Scroll down to see component */}
+      <Filter className='absolute right-5 top-4 z-[30]' />
       <SearchBar />
       <div className={` ${styles.studentsList} mt-6`}> 
         {data.length !== 0 && data.map(student => (
@@ -90,7 +91,7 @@ const NewStudentForm = () => {
   return (
     <>
       {/* NEW STUDENT BUTTON */}
-      <Button variant={'small-circle'} className='z-[30] absolute top-4 right-5' onClick={toggleNewStudentForm}>
+      <Button variant={'small-circle'} className='z-[30] absolute top-4 right-[70px]' onClick={toggleNewStudentForm}>
         <FiPlus size={24} />
       </Button>
 
@@ -121,7 +122,7 @@ const NewStudentForm = () => {
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="suffix">Suffix</label>
-            <input autoComplete='off' type="text" name="suffix" id="suffix" className={`form__input`} />
+            <input autoComplete='off' type="text" name="suffix" id="suffix" className={`form__input`} onBlur={() => {console.log("blur")}} />
           </div>
 
           <div className='flex flex-col gap-1'>
@@ -180,7 +181,7 @@ const NewStudentForm = () => {
       </div>
 
       {/* BACKDROP */}
-      <div className={`z-[110] bottom-0 left-0 absolute h-full w-full bg-black bg-opacity-70 ${isOpen ? "block" : "hidden" }`}></div>
+      <div className={`z-[110] bottom-0 left-0 absolute h-full w-full bg-black bg-opacity-70 ${isOpen ? "block" : "hidden" }`} onClick={toggleNewStudentForm}></div>
     </>
   )
 }

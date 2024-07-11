@@ -211,7 +211,7 @@ const NewEventForm = () => {
       </div>
 
       {/* BACKDROP */}
-      <div className={`z-[110] bottom-0 left-0 absolute h-full w-full bg-black bg-opacity-70 ${isOpen ? "block" : "hidden" }`}></div>
+      <div className={`z-[110] bottom-0 left-0 absolute h-full w-full bg-black bg-opacity-70 ${isOpen ? "block" : "hidden" }`} onClick={toggleNewEventForm}></div>
     </div>
   )
 }
