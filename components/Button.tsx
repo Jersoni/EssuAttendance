@@ -3,7 +3,7 @@ import { IoCloseOutline } from "react-icons/io5";
 
 interface ButtonProps {
   children?: React.ReactNode; // Content of the button
-  variant?: 'primary' | 'secondary' | 'clear' | 'close' | 'fixed-circle'; // Optional variant for different styles
+  variant?: 'primary' | 'secondary' | 'clear' | 'close' | 'small-circle'; // Optional variant for different styles
   onClick?: () => void; // Optional function for click event handling
   disabled?: boolean; // Optional prop for disabling the button
   className?: string; // Optional class name for custom styling
@@ -16,7 +16,7 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', onClick,
     ${variant === 'secondary' ? 'py-2 px-4 w-48 bg-white border border-gray-300' : ''}
     ${variant === 'clear' ? 'px-4 py-2 w-40 shadow-none' : ''}
     ${variant === 'close' ? 'w-fit p-4 !h-fit ' : ''}
-    ${variant === 'fixed-circle' ? 'fixed bottom-5 right-5 flex flex-row items-center rounded-full shadow-lg bg-[#089662] p-5 ml-auto' : ''}
+    ${variant === 'small-circle' ? 'flex items-center rounded-full bg-gray-100 p-2 ml-auto' : ''}
     ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
   `;
 

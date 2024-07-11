@@ -2,6 +2,7 @@
 import React, { useState, useRef } from 'react';
 import { RiStickyNoteAddLine } from "react-icons/ri";
 import { Button, ToggleBox } from '@/components';
+import { FiPlus } from "react-icons/fi";
 
 const NewEventForm = () => {
 
@@ -33,8 +34,8 @@ const NewEventForm = () => {
     return (
         <div>
             {/* NEW EVENT BUTTON */}
-            <Button variant={'fixed-circle'} className='z-[120]' onClick={toggleNewEventForm}>
-                <RiStickyNoteAddLine size={24} color='white' />
+            <Button variant={'small-circle'} className='z-[60] absolute top-4 right-5' onClick={toggleNewEventForm}>
+                <FiPlus size={24} />
             </Button>
 
             {/* NEW EVENT FORM */}
