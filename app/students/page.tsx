@@ -61,7 +61,7 @@ const Page: React.FC = () => {
       <SearchBar />
       <div className={` ${styles.studentsList} mt-6`}> 
         {data.length !== 0 && data.map(student => (
-          <StudentCard key={student.id} studentData={student}/>
+          <StudentCard key={student.id} studentData={student} />
         ))}
         {!data && <span>Could not fetch students forn the database.</span>}
       </div>

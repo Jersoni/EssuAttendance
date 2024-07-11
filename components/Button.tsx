@@ -11,7 +11,7 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', onClick, disabled, className }) => {
   const buttonClasses = `
-    rounded-full h-fit
+    rounded-full h-fit text-sm
     ${variant === 'primary' ? 'py-2 px-4 w-48 text-white bg-[#089662] active:bg-[#1FAB4F]' : ''}
     ${variant === 'secondary' ? 'py-2 px-4 w-48 bg-white border border-gray-300' : ''}
     ${variant === 'clear' ? 'px-4 py-2 w-40 shadow-none' : ''}
