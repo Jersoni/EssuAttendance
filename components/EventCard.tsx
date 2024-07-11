@@ -1,8 +1,12 @@
+'use client'
 import Link from 'next/link'
 import { TiLocation } from "react-icons/ti";
 import { FaClock } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaMoneyBillWave } from "react-icons/fa";
+import { RiEdit2Line } from "react-icons/ri";
+import { useEffect, useState } from 'react';
+import { PiTrashSimpleBold } from "react-icons/pi";
 
 interface Event {
     id: number
@@ -19,14 +23,27 @@ interface ParsedEvent extends Omit<Event, 'eventDate'> {
     eventDate: Date; // Converted to JavaScript Date object
 }
 
+// Main
 const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
+
+  const [isAdmin, setIsAdmin] = useState(false)
+  
+  useEffect(() => {
+    setIsAdmin(true) // set to admin as of the moment
+  }, [setIsAdmin])
 
   return (
     <Link href={`/events/${eventData.id}`}>
       <div className="flex flex-col bg-white h-fit rounded-xl mt-4 p-4">
         <div className='flex flex-row items-center justify-between'>
           <span className="event__title">{eventData.title}</span>
-          <IoIosArrowForward size={20} className='opacity-70'/>
+          <div>
+            {isAdmin ? (
+              <EventCardActions /> // scroll to bottom to see component
+            ) : (
+              <IoIosArrowForward size={20} className='opacity-70'/>
+            )}
+          </div>
         </div>
         <span className='text-xs font-medium mt-2 text-gray-500'>Attendees</span>
         <div className='text-xs flex flex-wrap gap-1 mt-2'>
@@ -60,5 +77,16 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
     </Link>
   )
 }
+
+// Edit and Delete Actions
+const EventCardActions = () => (
+  <div className='flex'>
+
+    <RiEdit2Line onClick={(e) => {e.preventDefault(); console.log('edit') }} size={40} className='opacity-80 p-2 rounded-full'/>
+      
+    <PiTrashSimpleBold onClick={(e) => {e.preventDefault()}} size={40} className='opacity-80 p-2 rounded-full'/>
+      
+  </div>
+)
 
 export default EventsCard

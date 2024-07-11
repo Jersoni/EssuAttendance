@@ -1,12 +1,14 @@
 // eslint-disable @next/next/no-async-client-component 
 "use client"
-import { PageHeader, SearchBar, StudentCard, Button } from '@/components';
+import { PageHeader, SearchBar, StudentCard, Button, Filter } from '@/components';
 import { useEffect,useRef, useState } from 'react';
 import styles from './styles.module.css';
 import { TbChecklist } from "react-icons/tb";
 import { FaRegCalendarXmark } from "react-icons/fa6";
 import { useRouter } from 'next/navigation';
 import { PiScanBold } from "react-icons/pi";
+import { LuScanLine } from "react-icons/lu";
+
 
 interface Event {
   id: number
@@ -82,9 +84,13 @@ const getAttendees = async () => {
 
   return (
     <>
-      <PageHeader title={event?.title}>
-        <PiScanBold onClick={() => router.push('/scanner')} size={24}  className='ml-auto fill-gray-700 z-[120]' />
-      </PageHeader>
+      <PageHeader title={event?.title}></PageHeader>
+
+      <Button variant='small-circle' className='absolute top-4 right-[70px]'>
+        <LuScanLine onClick={() => router.push('/scanner')} size={24} />
+      </Button>
+
+      <Filter className='absolute right-5 top-4' />
       
       <div className='max-h-[100vh] overflow-y-auto pb-40 p-5 pt-3'>
 

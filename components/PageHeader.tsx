@@ -16,7 +16,7 @@ const PageHeader: React.FC<headerProps> = ({title, children}) => {
     const themeColorGreen: string = "#045511"
 
     return (
-        <div className="w-full bg-white z-50 p-2 pl-1 pr-5">
+        <div className="w-full bg-white z-50 p-3 pl-1 pr-5">
             <div className="flex flex-row items-center">
                 {/* return button */}
                 <button type="button" className="z-30 grid place-items-center h-12 min-w-12 rounded-full active:bg-gray-200" onClick={() => {router.back()}}>

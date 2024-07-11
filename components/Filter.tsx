@@ -1,8 +1,10 @@
 "use client"
 import React, { useRef, useState } from 'react'
-import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
+import { LuListFilter } from "react-icons/lu";
 import { IoIosArrowForward } from "react-icons/io";
 import { Button } from '@/components';
+import { BiFilterAlt } from "react-icons/bi";
+
 
 interface filterButtonProps {
     className?: string;
@@ -14,13 +16,14 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
 
     const handleClick = () => {
         setIsOpen(!isOpen)
+        console.log("filter")
     };
 
     return (
         <div>
-            <button type={"button"} className={className} onClick={handleClick}>
-                <HiOutlineAdjustmentsHorizontal size={24} />
-            </button>
+            <Button variant='small-circle' className={className} onClick={() => {handleClick()}}>
+                <LuListFilter size={24} />
+            </Button>
             
             {/* Filter */}
             <div>
