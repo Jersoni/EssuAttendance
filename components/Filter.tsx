@@ -1,5 +1,5 @@
 "use client"
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { LuListFilter } from "react-icons/lu";
 import { IoIosArrowForward } from "react-icons/io";
 import { Button } from '@/components';
@@ -13,11 +13,30 @@ interface filterButtonProps {
 const Filter: React.FC<filterButtonProps> = ({className}) => {
 
     const [isOpen, setIsOpen] = useState(false)
+    const [isBlock, setIsBlock] = useState(false)
+    const timeoutIdRef = useRef<number | null>(null);
 
     const handleClick = () => {
-        setIsOpen(!isOpen)
-        console.log("filter")
+
+        if (timeoutIdRef.current !== null)
+            clearTimeout(timeoutIdRef.current)
+
+        isBlock ? timeoutIdRef.current = window.setTimeout(() => { setIsBlock(false) }, 200)
+        : setIsBlock(true);
+
+        isOpen ? setIsOpen(false) 
+        : setTimeout(() => setIsOpen(true), 10);
+
     };
+
+    useEffect(() => {
+        // Clean up timeout on component unmount
+        return () => {
+          if (timeoutIdRef.current !== null) {
+            clearTimeout(timeoutIdRef.current);
+          }
+        };
+    }, []);
 
     return (
         <div>
@@ -27,7 +46,7 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
             
             {/* Filter */}
             <div>
-                <div className={`bg-gray-100 absolute h-[550px] bottom-0 w-full left-0 right-0 mx-auto transition-all duration-200 ${isOpen ? "" : "translate-y-full" } z-[60] rounded-t-3xl flex flex-col justify-between`}>
+                <div className={`bg-gray-100 absolute h-[550px] w-full left-0 right-0 mx-auto transition-all duration-200 bottom-0 ${isBlock ? "" : "hidden"} ${isOpen ? "" : "translate-y-full" } z-[60] rounded-t-3xl flex flex-col justify-between`}>
                     <div className='p-5 pb-0'>
                         <h2 className='text-xl font-semibold text-center'>Filter</h2>
                         <Button variant='close' onClick={handleClick} className='absolute right-2 top-2'></Button>

@@ -135,6 +135,10 @@ const NewEventForm = () => {
       setIsOpen(!isOpen);
   };
 
+  function scrollTop() {
+    window.scrollTo(0, 0)
+  }
+
   return (
     <div>
       {/* NEW EVENT BUTTON */}
@@ -153,15 +157,15 @@ const NewEventForm = () => {
         <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-[80vh] pb-[8rem]'>
           <div className='flex flex-col gap-1'>
               <label className='form__label' htmlFor="title">Title</label>
-              <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} placeholder='e.g Seminar' />
+              <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} placeholder='e.g Seminar' onBlur={scrollTop} />
           </div>
           <div className='flex flex-col gap-1'>
               <label className='form__label' htmlFor="venue">Venue</label>
-              <input autoComplete='off' type="text" name="venue" id="venue" className={`form__input`} placeholder='e.g Covered Court' />
+              <input autoComplete='off' type="text" name="venue" id="venue" className={`form__input`} placeholder='e.g Covered Court' onBlur={scrollTop} />
           </div>
           <div className='flex flex-col gap-1'>
               <label className='form__label' htmlFor="fine">Fine</label>
-              <input autoComplete='off' type="number" name="fine" id="fine" className={`form__input`} placeholder='e.g 25.00' />
+              <input autoComplete='off' type="number" name="fine" id="fine" className={`form__input`} placeholder='e.g 25.00' onBlur={scrollTop} />
           </div>
           <div className='flex flex-col gap-1'>
               <label className='form__label' htmlFor="date">Date</label>
@@ -200,7 +204,7 @@ const NewEventForm = () => {
               <ToggleBox text='BTVTED' />
               <ToggleBox text='BSEd.' />
               <ToggleBox text='BEED' />
-              <input type="text" placeholder='Other (comma separated)' className={`form__input w-full`}/>
+              <input type="text" placeholder='Other (comma separated)' className={`form__input w-full`} onBlur={scrollTop} />
             </div>
           </div>
         </form>

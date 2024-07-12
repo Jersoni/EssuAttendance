@@ -83,11 +83,15 @@ const NewStudentForm = () => {
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const handleClear = () => {
+  function handleClear() {
     formRef.current?.reset();
     console.log("clear")
   };
 
+  function scrollTop() {
+    window.scrollTo(0, 0)
+  }
+  
   return (
     <>
       {/* NEW STUDENT BUTTON */}
@@ -107,27 +111,27 @@ const NewStudentForm = () => {
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="firstName">First Name</label>
-            <input autoComplete='off' type="text" name="firstName" id="firstName" className={`form__input`} />
+            <input autoComplete='off' type="text" name="firstName" id="firstName" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="lastName">Last Name</label>
-            <input autoComplete='off' type="text" name="lastName" id="lastName" className={`form__input`} />
+            <input autoComplete='off' type="text" name="lastName" id="lastName" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="middleName">Middle Initial</label>
-            <input autoComplete='off' type="text" name="middleName" id="middleName" className={`form__input`} />
+            <input autoComplete='off' type="text" name="middleName" id="middleName" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="suffix">Suffix</label>
-            <input autoComplete='off' type="text" name="suffix" id="suffix" className={`form__input`} onBlur={() => {console.log("blur")}} />
+            <input autoComplete='off' type="text" name="suffix" id="suffix" className={`form__input`} onBlur={scrollTop} />
           </div>
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="studentID">Student ID</label>
-            <input autoComplete='off' type="text" name="studentID" id="studentID" className={`form__input`} />
+            <input autoComplete='off' type="text" name="studentID" id="studentID" className={`form__input`} onBlur={scrollTop} />
           </div>
 
           <div className='flex flex-col gap-1'>
@@ -163,7 +167,7 @@ const NewStudentForm = () => {
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="studentID">Section</label>
-            <input autoComplete='off' type="text" name="studentID" id="studentID" className={`form__input`} />
+            <input autoComplete='off' type="text" name="studentID" id="studentID" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
         </form>
