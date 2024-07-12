@@ -5,7 +5,6 @@ import { IoIosArrowForward } from "react-icons/io";
 import { Button } from '@/components';
 import { BiFilterAlt } from "react-icons/bi";
 
-
 interface filterButtonProps {
     className?: string;
 }
@@ -16,7 +15,8 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
     const [isBlock, setIsBlock] = useState(false)
     const timeoutIdRef = useRef<number | null>(null);
 
-    const handleClick = () => {
+    // open & close click handler
+    const toggleFilter = () => {
 
         if (timeoutIdRef.current !== null)
             clearTimeout(timeoutIdRef.current)
@@ -40,16 +40,16 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
 
     return (
         <div>
-            <Button variant='small-circle' className={className} onClick={() => {handleClick()}}>
+            <Button variant='small-circle' className={className} onClick={() => {toggleFilter()}}>
                 <LuListFilter size={24} />
             </Button>
             
             {/* Filter */}
             <div>
-                <div className={`bg-gray-100 absolute h-[550px] w-full left-0 right-0 mx-auto transition-all duration-200 bottom-0 ${isBlock ? "" : "hidden"} ${isOpen ? "" : "translate-y-full" } z-[60] rounded-t-3xl flex flex-col justify-between`}>
+                <div className={`bg-gray-100 absolute h-[500px] w-full left-0 right-0 mx-auto transition-all duration-200 bottom-0 ${isBlock ? "" : "hidden"} ${isOpen ? "" : "translate-y-full" } z-[140] rounded-t-3xl flex flex-col justify-between text-sm`}>
                     <div className='p-5 pb-0'>
-                        <h2 className='text-xl font-semibold text-center'>Filter</h2>
-                        <Button variant='close' onClick={handleClick} className='absolute right-2 top-2'></Button>
+                        <h2 className='text-lg font-semibold text-center'>Filter</h2>
+                        <Button variant='close' onClick={toggleFilter} className='absolute right-2 top-2'></Button>
                         <div className='flex flex-col rounded-2xl mt-4 overflow-hidden'>
                             <div className='filter__card'>
                                 <span>Course</span>
@@ -67,41 +67,23 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
                                 <IoIosArrowForward size={15}/>
                             </div>
                         </div>
-                        <div className='flex flex-col rounded-2xl mt-4 overflow-hidden bg-white h-fit w-full p-4'>
-                            <div className='flex-col items-start h-fit'>
-                                <span>Sort by</span>
-                                <div className='mt-2 pl-1'>
-                                    <div className='flex gap-3'>
-                                        <input type="radio" name="sort" id="id"  />
-                                        <label htmlFor="id" className='opacity-90'>Student ID</label>
-                                    </div>
-                                    <div className='flex gap-3'>
-                                        <input type="radio" name="sort" id="surname" />
-                                        <label htmlFor="surname" className='opacity-90'>Surname</label>
-                                    </div>
-                                </div>
+                        <div className='flex flex-row rounded-2xl mt-4 overflow-hidden bg-white h-fit w-full p-4 pb-8'>
+                            <div className='flex-col w-1/2 items-start h-fit'>
+                                <span className='font-medium text-gray-700'>SORT BY</span>
+                                <FilterOptions options={SORTBY_OPTIONS} />
                             </div>
-                            <div className='flex-col items-start h-fit mt-4'>
-                                <span>Order</span>
-                                <div className='mt-2 pl-1'>
-                                    <div className='flex gap-3'>
-                                        <input type="radio" name="order" id="asc" />
-                                        <label htmlFor="asc" className='opacity-90'>Ascending</label>
-                                    </div>
-                                    <div className='flex gap-3'>
-                                        <input type="radio" name="order" id="desc" />
-                                        <label htmlFor="desc" className='opacity-90'>Descending</label>
-                                    </div>
-                                </div>
+                            <div className='flex-col w-1/2 items-start h-fit'>
+                                <span className='font-medium text-gray-700'>ORDER</span>
+                                <FilterOptions options={ORDER_OPTIONS} />
                             </div>
                         </div>
                     </div>
-                    <div className='flex flex-row gap-3 left-0 w-full items-center p-5 pb-16'>
-                        <Button variant='secondary'>Clear all</Button>
-                        <Button variant='primary' onClick={handleClick}>Apply</Button>
+                    <div className='flex flex-row gap-3 left-0 w-full items-center p-5 pb-12'>
+                        <Button variant='secondary' onClick={toggleFilter} >Clear all</Button>
+                        <Button variant='primary' onClick={toggleFilter}>Apply</Button>
                     </div>
                 </div>
-                <div onClick={handleClick} className={`bg-black bg-opacity-40 h-full w-full absolute top-0 left-0 z-50 transition-all ${isOpen ? "block" : "hidden"}`}></div>
+                <div onClick={toggleFilter} className={`bg-black bg-opacity-70 h-full w-full absolute top-0 left-0 z-[100] transition-all ${isOpen ? "block" : "hidden"}`}></div>
             </div>
 
 
@@ -109,4 +91,63 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
     )
 }
 
-export default Filter
+
+// COMPONENTS
+
+interface SelectedOptions {
+    options: Array<OptionsProps>;
+}
+
+interface OptionsProps {
+    value: string;
+    label: string;
+    name: string;
+}
+
+const SORTBY_OPTIONS: OptionsProps[] = [
+    { value: 'surname', label: 'Surname', name: 'sortby' },
+    { value: 'id', label: 'Student ID', name: 'sortby' },
+];
+
+const ORDER_OPTIONS: OptionsProps[] = [
+    { value: 'ascending', label: 'Ascending', name: 'order' },
+    { value: 'descending', label: 'Descending', name: 'order' },
+];
+
+const FilterOptions: React.FC<SelectedOptions> = ({ options }) => {
+    
+    const [isSelected, setIsSelected] = useState<string>('')
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsSelected(e.target.value);
+    }
+    
+    return (
+        <div className='flex flex-col mt-4 pl-1 gap-2'>
+            {options.map((option, index) => (
+                <div className='flex items-center' key={option.value} onClick={() => {console.log(option.value)}}>
+                    <input 
+                        type="radio" 
+                        name={option.name}
+                        value={option.value} 
+                        id={option.value} 
+                        onChange={handleChange} 
+                        className='hidden'
+                        defaultChecked={index === 0}
+                    />
+                    <div className='border border-black h-5 w-5 rounded-full flex items-center justify-center'>
+                        {isSelected === option.value || index === 0
+                            ? <div className='h-[15px] w-[15px] rounded-full bg-gray-700 relative'></div>
+                            : ""
+                        }
+                    </div>
+                    <label htmlFor={option.value} className='opacity-90 absolute pl-7 z-[130]'>
+                        {option.label}
+                    </label>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+export default Filter  

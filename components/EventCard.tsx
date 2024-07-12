@@ -68,8 +68,8 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
               <span className="event__info">{eventData.logoutTime}</span>
             </div>
           </div>
-          <div className='flex flex-row items-center gap-2 mt-1 w-fit'>
-            <FaMoneyBillWave size={15} className='ml-[1px] opacity-60 translate-y-[1px]' />
+          <div className=' flex flex-row items-center gap-2 mt-1 w-fit'>
+            <FaMoneyBillWave size={15} className='ml-[1px] opacity-60 translate-y-[-1px]' />
             <span className="event__info">P25.00</span>
           </div>
         </div>

@@ -56,11 +56,11 @@ const Page: React.FC = () => {
 
   
   return (
-    <div className="max-h-[100vh] overflow-y-auto pt-[4.5rem] pb-40 px-5">
+    <div className={` max-h-[100vh] pt-[4.5rem] pb-40 px-5`}>
       <NewStudentForm /> {/* Scroll down to see component */}
       <Filter className='absolute right-5 top-4 z-[30]' />
-      <SearchBar />
-      <div className={` ${styles.studentsList} mt-6`}> 
+      <div className={` ${styles.studentsList} overflow-y-auto min-h-[calc(100vh-4.5rem)] max-h-[calc(100vh-4.5rem)]`}> 
+        <SearchBar className='mb-6' />
         {data.length !== 0 && data.map(student => (
           <StudentCard key={student.id} studentData={student} />
         ))}
@@ -100,7 +100,7 @@ const NewStudentForm = () => {
       </Button>
 
       {/* NEW EVENT FORM */}
-      <div className={`${isOpen ? "" : "translate-y-full" } overflow-y-scroll absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all duration-300`}>
+      <div className={`${isOpen ? "" : "translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all duration-300`}>
 
         <div className='flex flex-row items-center p-1'>
         <h1 className='font-semibold text-lg p-5 absolute text-center w-full'>New Student</h1>

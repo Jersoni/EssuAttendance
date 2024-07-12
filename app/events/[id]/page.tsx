@@ -83,7 +83,7 @@ const getAttendees = async () => {
   }, [])
 
   return (
-    <>
+    <div className='min-h-screen max-h-screen'>
       <PageHeader title={event?.title}></PageHeader>
 
       <Button variant='small-circle' className='absolute top-4 right-[70px]'>
@@ -140,7 +140,7 @@ const getAttendees = async () => {
       </div>
     </div>
   
-  </>
+  </div>
   )
 }
 

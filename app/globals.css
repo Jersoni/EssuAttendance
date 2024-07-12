@@ -22,6 +22,37 @@ body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
   overflow: hidden !important;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+@media (min-width: 600px) {
+  body {
+    position: relative;
+  }
+}
+
+body::before {
+  content: "";
+  display: inline-block;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  background-color: rgb(25, 25, 25);
+  right: 100%;
+  z-index: 200;
+}
+
+body::after {
+  content: "";
+  display: inline-block;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  background-color: rgb(25, 25, 25);
+  left: 100%;
+  top: 0;
+  z-index: 210;
 }
 
 .nav-item {
@@ -30,6 +61,7 @@ body {
   padding: 12px;
   border-radius: 6px;
   width: calc(70vw - 12px - 12px);
+  max-width: calc(336px - 12px - 12px);
   transition: all 0.5s ease-out;
   transition-duration: 200ms;
   font-weight: 500;
