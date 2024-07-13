@@ -40,7 +40,7 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
 
     return (
         <div>
-            <Button variant='small-circle' className={className} onClick={() => {toggleFilter()}}>
+            <Button variant='small-circle' className={className} onClick={toggleFilter}>
                 <LuListFilter size={24} />
             </Button>
             
@@ -70,7 +70,7 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
                         <div className='flex flex-row rounded-2xl mt-4 overflow-hidden bg-white h-fit w-full p-4 pb-8'>
                             <div className='flex-col w-1/2 items-start h-fit'>
                                 <span className='font-medium text-gray-700'>SORT BY</span>
-                                <FilterOptions options={SORTBY_OPTIONS} />
+                                <FilterOptions options={SORTBY_OPTIONS} /> 
                             </div>
                             <div className='flex-col w-1/2 items-start h-fit'>
                                 <span className='font-medium text-gray-700'>ORDER</span>
@@ -92,7 +92,7 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
 }
 
 
-// COMPONENTS
+// COMPONENT
 
 interface SelectedOptions {
     options: Array<OptionsProps>;
@@ -121,26 +121,36 @@ const FilterOptions: React.FC<SelectedOptions> = ({ options }) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setIsSelected(e.target.value);
     }
+
+    // set the default or initial option (first option)
+    useEffect(() => {
+        options.map((option, index) => {
+            index === 0 && setIsSelected(option.value)
+        })
+    }, [options])
     
     return (
         <div className='flex flex-col mt-4 pl-1 gap-2'>
             {options.map((option, index) => (
                 <div className='flex items-center' key={option.value} onClick={() => {console.log(option.value)}}>
-                    <input 
+
+                    {/* Hidden Radio Button */}
+                    <input
                         type="radio" 
                         name={option.name}
                         value={option.value} 
                         id={option.value} 
                         onChange={handleChange} 
                         className='hidden'
-                        defaultChecked={index === 0}
+                        defaultChecked={index === 0} // Check the first option by default
                     />
+
+                    {/* Customized Radio Button */}
                     <div className='border border-black h-5 w-5 rounded-full flex items-center justify-center'>
-                        {isSelected === option.value || index === 0
-                            ? <div className='h-[15px] w-[15px] rounded-full bg-gray-700 relative'></div>
-                            : ""
-                        }
+                        {isSelected === option.value
+                            && <div className='h-[15px] w-[15px] rounded-full bg-gray-700 relative'></div>}
                     </div>
+
                     <label htmlFor={option.value} className='opacity-90 absolute pl-7 z-[130]'>
                         {option.label}
                     </label>
