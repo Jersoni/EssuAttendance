@@ -43,14 +43,14 @@ const NewEventForm = () => {
         </Button>
   
         {/* NEW EVENT FORM */}
-        <div className={`${isOpen ? "" : "translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all duration-300`}>
+        <div className={`${isOpen ? "" : "translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
   
           <div className='flex flex-row items-center p-1'>
           <h1 className='font-semibold text-lg p-5 absolute text-center w-full'>New Attendance Log</h1>
           <Button variant='close' className='ml-auto z-[120]' onClick={toggleNewEventForm}></Button>
           </div>
   
-          <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-[80vh] pb-[8rem]'>
+          <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-full pb-[8rem]'>
             <div className='flex flex-col gap-1'>
                 <label className='form__label' htmlFor="title">Title</label>
                 <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} placeholder='e.g Seminar' onBlur={scrollTop} />
@@ -100,14 +100,16 @@ const NewEventForm = () => {
                 <ToggleBox text='BTVTED' />
                 <ToggleBox text='BSEd.' />
                 <ToggleBox text='BEED' />
+                <ToggleBox text='BSN' />
+                <ToggleBox text='BSCRIM' />
                 <input type="text" placeholder='Other (comma separated)' className={`form__input w-full`} onBlur={scrollTop} />
               </div>
             </div>
           </form>
-        </div>
-        <div className={`${isOpen ? "block" : "hidden" } z-[120] flex gap-3 w-full absolute left-0 bottom-0 p-5 pb-8 bg-white`}>
-          <Button variant='secondary' onClick={toggleNewEventForm}>Cancel</Button>
-          <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
+          <div className={`z-[120] flex gap-3 w-ful p-5 pb-8 bg-white`}>
+            <Button variant='secondary' onClick={toggleNewEventForm}>Cancel</Button>
+            <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
+          </div>
         </div>
   
         {/* BACKDROP */}

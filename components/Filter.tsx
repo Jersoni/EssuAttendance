@@ -45,36 +45,27 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
             </Button>
             
             {/* Filter */}
-            <div>
-                <div className={`bg-gray-100 absolute h-[500px] w-full left-0 right-0 mx-auto transition-all duration-200 bottom-0 ${isBlock ? "" : "hidden"} ${isOpen ? "" : "translate-y-full" } z-[140] rounded-t-3xl flex flex-col justify-between text-sm`}>
-                    <div className='p-5 pb-0'>
-                        <h2 className='text-lg font-semibold text-center'>Filter</h2>
+            <div className=''>
+                <div className={`bg-gray-100 absolute h-fit w-full left-0 right-0 mx-auto transition-all duration-200 bottom-0 ${isBlock ? "" : "hidden"} ${isOpen ? "" : "translate-y-full" } z-[140] rounded-t-3xl flex flex-col justify-between text-sm`}>
+                    <h2 className='p-5 text-lg font-semibold text-center'>Filter</h2>
+                    <div className='px-5 pb-0 overflow-y-scroll min-h-full'>
+                        {/* X BUTTON */}
                         <Button variant='close' onClick={toggleFilter} className='absolute right-2 top-2'></Button>
-                        <div className='flex flex-col rounded-2xl mt-4 overflow-hidden'>
-                            <div className='filter__card'>
-                                <span>Course</span>
-                                <span className='filter__selected-total'>5</span>
-                                <IoIosArrowForward size={15}/>
-                            </div>
-                            <div className='filter__card'>
-                                <span>Year</span>
-                                <span className='filter__selected-total'>All</span>
-                                <IoIosArrowForward size={15}/>
-                            </div>
-                            <div className='filter__card'>
-                                <span>Section</span>
-                                <span className='filter__selected-total'>All</span>
-                                <IoIosArrowForward size={15}/>
-                            </div>
+
+                        {/* FILTER */}
+                        <div className='flex flex-col gap-4'>
+                            <DropDownChecklist options={COURSE} label='COURSE' />
+                            <DropDownChecklist options={YEAR} label='YEAR' />
+                            <DropDownChecklist options={SECTION} label='SECTION' />
                         </div>
                         <div className='flex flex-row rounded-2xl mt-4 overflow-hidden bg-white h-fit w-full p-4 pb-8'>
                             <div className='flex-col w-1/2 items-start h-fit'>
                                 <span className='font-medium text-gray-700'>SORT BY</span>
-                                <FilterOptions options={SORTBY_OPTIONS} /> 
+                                <RadioList options={SORTBY_OPTIONS} /> 
                             </div>
                             <div className='flex-col w-1/2 items-start h-fit'>
                                 <span className='font-medium text-gray-700'>ORDER</span>
-                                <FilterOptions options={ORDER_OPTIONS} />
+                                <RadioList options={ORDER_OPTIONS} />
                             </div>
                         </div>
                     </div>
@@ -85,36 +76,115 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
                 </div>
                 <div onClick={toggleFilter} className={`bg-black bg-opacity-70 h-full w-full absolute top-0 left-0 z-[100] transition-all ${isOpen ? "block" : "hidden"}`}></div>
             </div>
-
-
         </div>
     )
 }
 
+// INTERFACES
 
-// COMPONENT
-
-interface SelectedOptions {
-    options: Array<OptionsProps>;
-}
-
-interface OptionsProps {
+interface HTMLInputListProps {
     value: string;
     label: string;
     name: string;
 }
 
-const SORTBY_OPTIONS: OptionsProps[] = [
+interface HTMLInputList {
+    options: Array<HTMLInputListProps>;
+    label?: string;
+}
+
+// DATA
+
+const COURSE: HTMLInputListProps[] = [
+    {value: 'ALL', label: 'Select All', name: 'course'},
+    {value: 'BSCE', label: 'BSCE', name: 'course'},
+    {value: 'BSINFOTECH', label: 'BS INFO TECH', name: 'course'},
+    {value: 'BSIT', label: 'BSIT', name: 'course'},
+    {value: 'BOT', label: 'BOT', name: 'course'},
+    {value: 'BSHM', label: 'BSHM', name: 'course'},
+    {value: 'BSTM', label: 'BSTM', name: 'course'},
+    {value: 'BSE', label: 'BSE', name: 'course'},
+    {value: 'BSBA', label: 'BSBA', name: 'course'},
+    {value: 'BSAIS', label: 'BSAIS', name: 'course'},
+    {value: 'BAC', label: 'BAC', name: 'course'},
+    {value: 'BTVTED', label: 'BTVTED', name: 'course'},
+    {value: 'BSED', label: 'BSEd.', name: 'course'},
+    {value: 'BEED', label: 'BEED', name: 'course'},
+    {value: 'BSN', label: 'BSN', name: 'course'},
+    {value: 'BSCRIM', label: 'BSCRIM', name: 'course'},
+]
+
+const YEAR: HTMLInputListProps[] = [
+    {value: 'ALL', label: 'Select All', name: 'year'},
+    {value: '1', label: '1', name: 'year'},
+    {value: '2', label: '2', name: 'year'},
+    {value: '3', label: '3', name: 'year'},
+    {value: '4', label: '4', name: 'year'},
+]
+
+const SECTION: HTMLInputListProps[] = [
+    {value: 'ALL', label: 'Select All', name: 'section'},
+    {value: 'A', label: 'A', name: 'section'},
+    {value: 'B', label: 'B', name: 'section'},
+    {value: 'C', label: 'C', name: 'section'},
+    {value: 'D', label: 'D', name: 'section'},
+    {value: 'E', label: 'E', name: 'section'},
+]
+
+const SORTBY_OPTIONS: HTMLInputListProps[] = [
     { value: 'surname', label: 'Surname', name: 'sortby' },
     { value: 'id', label: 'Student ID', name: 'sortby' },
 ];
 
-const ORDER_OPTIONS: OptionsProps[] = [
+const ORDER_OPTIONS: HTMLInputListProps[] = [
     { value: 'ascending', label: 'Ascending', name: 'order' },
     { value: 'descending', label: 'Descending', name: 'order' },
 ];
 
-const FilterOptions: React.FC<SelectedOptions> = ({ options }) => {
+
+// COMPONENT DROPDOWN CHECKLIST
+
+const DropDownChecklist: React.FC<HTMLInputList> = ({ options, label }) => {
+
+    const [isOpen, setIsOpen] = useState(false)
+
+    const handleCLick = () => {
+        setIsOpen(!isOpen)
+    }
+
+    return (
+        <>
+        <div className='filter__card relative' onClick={() => {!isOpen && handleCLick()}}>
+            <span className='mr-auto font-medium text-gray-700'>{label}</span>
+            {/* MODAL */}
+            <div className={`${isOpen ? "" : "hidden"} ${label === 'SECTION' && 'translate-y-[-90px]'} p-5 mt-4 absolute bg-white z-[180] rounded-2xl w-full top-8`}>
+                <div className='flex flex-col overflow-y-scroll max-h-44'>
+                    {options.map((option) => (
+                        <div className='flex py-[7px] border-b items-center' key={option.value}>
+                            <input 
+                                type="checkbox" 
+                                id={option.value} 
+                                name={option.name} 
+                                value={option.value} 
+                                className={`relative appearance-none min-h-5 min-w-5 bg-white border border-gray-800 rounded-full checked:before:content-[''] checked:before:absolute checked:before:h-[15px] checked:before:w-[15px] checked:before:bg-gray-700 checked:before:rounded-full checked:before:translate-y-[1.5px] checked:before:translate-x-[1.5px] `}
+                                defaultChecked={option.value === 'ALL'}
+                            />
+                            <label htmlFor={option.value} className='w-full pl-2'>{option.label}</label>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+        {/* Hidden backdrop */}
+        <div onClick={handleCLick} className={`${isOpen ? "block" : "hidden"} rounded-t-3xl opacity-20 z-[140] absolute h-full w-full top-0 left-0 bg-black`}></div>
+        </>
+    )
+}
+
+
+// COMPONENT RADIOLIST
+
+const RadioList: React.FC<HTMLInputList> = ({ options }) => {
     
     const [isSelected, setIsSelected] = useState<string>('')
 
@@ -148,10 +218,11 @@ const FilterOptions: React.FC<SelectedOptions> = ({ options }) => {
                     {/* Customized Radio Button */}
                     <div className='border border-black h-5 w-5 rounded-full flex items-center justify-center'>
                         {isSelected === option.value
-                            && <div className='h-[15px] w-[15px] rounded-full bg-gray-700 relative'></div>}
+                            && <div className='h-[15px] w-[15px] rounded-full bg-gray-700 relative'></div>
+                        }
                     </div>
 
-                    <label htmlFor={option.value} className='opacity-90 absolute pl-7 z-[130]'>
+                    <label htmlFor={option.value} className='opacity-90 pl-2 z-[130]'>
                         {option.label}
                     </label>
                 </div>

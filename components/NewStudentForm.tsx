@@ -29,14 +29,14 @@ const NewStudentForm = () => {
         </Button>
   
         {/* NEW EVENT FORM */}
-        <div className={`${isOpen ? "" : "translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all duration-300`}>
+        <div className={`${isOpen ? "" : "translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
   
           <div className='flex flex-row items-center p-1'>
           <h1 className='font-semibold text-lg p-5 absolute text-center w-full'>New Student</h1>
           <Button variant='close' className='ml-auto z-[120]' onClick={toggleNewStudentForm}></Button>
           </div>
   
-          <form ref={formRef} action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-[80vh] pb-[8rem]'>
+          <form ref={formRef} action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-full pb-[8rem]'>
   
             <div className='flex flex-col gap-1'>
               <label className='form__label' htmlFor="firstName">First Name</label>
@@ -80,6 +80,8 @@ const NewStudentForm = () => {
                 <option value="">BTVTED</option>
                 <option value="">BSEd.</option>
                 <option value="">BEED</option>
+                <option value="">BSN</option>
+                <option value="">BSCRIM</option>
               </select>
             </div>
   
@@ -100,18 +102,18 @@ const NewStudentForm = () => {
             </div>
   
           </form>
+          <div className={`z-[120] flex gap-3 w-full p-5 pb-8 bg-white`}>
+            <Button variant='secondary' onClick={() => {
+              handleClear()
+              toggleNewStudentForm()
+            }}>Cancel</Button>
+            <Button variant='primary' onClick={() => {
+              handleClear()
+              toggleNewStudentForm()
+            }}>Post</Button>
+          </div>
         </div>
   
-        <div className={`${isOpen ? "block" : "hidden" } z-[120] flex gap-3 w-full absolute left-0 bottom-0 p-5 pb-8 bg-white`}>
-          <Button variant='secondary' onClick={() => {
-            handleClear()
-            toggleNewStudentForm()
-          }}>Cancel</Button>
-          <Button variant='primary' onClick={() => {
-            handleClear()
-            toggleNewStudentForm()
-          }}>Post</Button>
-        </div>
   
         {/* BACKDROP */}
         <div className={`z-[110] bottom-0 left-0 absolute h-full w-full bg-black bg-opacity-70 ${isOpen ? "block" : "hidden" }`} onClick={toggleNewStudentForm}></div>

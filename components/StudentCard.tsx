@@ -12,7 +12,7 @@ interface Student {
 
 const  StudentCard: React.FC<{studentData: Student}> = ({ studentData }) => {
 return (
-  <Link href={'/student'} className={`student-card__student-container`}>
+  <Link href={'/students/student'} className={`student-card__student-container`}>
     <div>
       <h2 className='text-[14px]'>{`${studentData.lastName}, ${studentData.firstName}`}</h2>
       <div className={`student-card__info-container`}>

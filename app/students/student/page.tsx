@@ -58,7 +58,7 @@ const Student = () => {
                 </div>
                 <div className='flex pt-5 mt-10 border-t border-gray-300 justify-between'>
                     <p className='text-sm text-gray-500'>TOTAL</p>
-                    <p className='text-gray-500'>₱ 100.00</p>
+                    <p className='text-gray-500'>₱ 75.00</p>
                 </div>
             </div>
             <div className='flex flex-col items-end mt-5 gap-2'>
