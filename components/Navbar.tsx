@@ -64,14 +64,14 @@ const Navbar = () => { // given default value for navbar title
                 <div className='flex flex-row items-center absolute z-[100] p-3 pl-2'>
                     <button className='z-[70] grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-200' type="button" aria-label="Open Menu" onClick={handleClick}>
                         {isOpen ? (
-                            <IoCloseOutline color={themeColorGreen} size={32} />
+                            <IoCloseOutline color={'#065f46'} size={32} />
                         ) : (
-                            <HiOutlineMenuAlt2 color={themeColorGreen} size={28} />
+                            <HiOutlineMenuAlt2 color={'#065f46'} size={28} />
                         )}
                     </button>
                     
                     {/* TITLE */}
-                    <h1 onClick={handleClick} className={`text-[#045511] font-bold z-30 translate-y-[1px] text-2xl ${bebasNeue.className}`}>{convertedPathname}</h1>
+                    <h1 onClick={handleClick} className={`text-emerald-800 font-bold z-30 translate-y-[1px] text-2xl ${bebasNeue.className}`}>{convertedPathname}</h1>
                 </div>
                 
                 {/* Navbar menu */}

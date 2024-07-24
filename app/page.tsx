@@ -73,8 +73,8 @@ const Home: React.FC = () => {
       <div className="ongoing-attendance mt-6">
         {upcomingEvents.length !== 0 && (
           <div className='flex flex-row gap-2 items-center'>
-            <h2 className="text-lg font-bold">TODAY</h2>
-            <h3 className='text-lg font-bold opacity-40'>06/20/24</h3>
+            <h2 className="text-lg font-bold text-gray-400">TODAY</h2>
+            <h3 className='text-md font-bold text-gray-400'>06/20/24</h3>
           </div>
         )}
         <div>
@@ -87,7 +87,7 @@ const Home: React.FC = () => {
       {/* UPCOMING EVENTS BLOCK */}
       <div className="upcoming-events mt-12">
         {upcomingEvents.length !== 0 && (
-          <h2 className="text-lg font-bold">UPCOMING</h2>
+          <h2 className="text-lg font-bold text-gray-400">UPCOMING</h2>
         )}
         <div>
           {upcomingEvents.length !== 0 && upcomingEvents.map(event => (

@@ -69,8 +69,8 @@ body::after {
 }
 
 .event__title {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 17px;
+  font-weight: 600;
 }
 
 .event__label {

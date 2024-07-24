@@ -1,9 +1,8 @@
 "use client"
 import React, { useRef, useState, useEffect } from 'react'
 import { LuListFilter } from "react-icons/lu";
-import { IoIosArrowForward } from "react-icons/io";
+import { GoChevronDown } from "react-icons/go";
 import { Button } from '@/components';
-import { BiFilterAlt } from "react-icons/bi";
 
 interface filterButtonProps {
     className?: string;
@@ -80,7 +79,7 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
     )
 }
 
-// INTERFACES
+// COMPONENT DROPDOWN CHECKLIST
 
 interface HTMLInputListProps {
     value: string;
@@ -96,7 +95,7 @@ interface HTMLInputList {
 // DATA
 
 const COURSE: HTMLInputListProps[] = [
-    {value: 'ALL', label: 'Select All', name: 'course'},
+    {value: 'AllCourses', label: 'Select All', name: 'course'},
     {value: 'BSCE', label: 'BSCE', name: 'course'},
     {value: 'BSINFOTECH', label: 'BS INFO TECH', name: 'course'},
     {value: 'BSIT', label: 'BSIT', name: 'course'},
@@ -115,7 +114,7 @@ const COURSE: HTMLInputListProps[] = [
 ]
 
 const YEAR: HTMLInputListProps[] = [
-    {value: 'ALL', label: 'Select All', name: 'year'},
+    {value: 'AllYears', label: 'Select All', name: 'year'},
     {value: '1', label: '1', name: 'year'},
     {value: '2', label: '2', name: 'year'},
     {value: '3', label: '3', name: 'year'},
@@ -123,26 +122,13 @@ const YEAR: HTMLInputListProps[] = [
 ]
 
 const SECTION: HTMLInputListProps[] = [
-    {value: 'ALL', label: 'Select All', name: 'section'},
+    {value: 'AllSections', label: 'Select All', name: 'section'},
     {value: 'A', label: 'A', name: 'section'},
     {value: 'B', label: 'B', name: 'section'},
     {value: 'C', label: 'C', name: 'section'},
     {value: 'D', label: 'D', name: 'section'},
     {value: 'E', label: 'E', name: 'section'},
 ]
-
-const SORTBY_OPTIONS: HTMLInputListProps[] = [
-    { value: 'surname', label: 'Surname', name: 'sortby' },
-    { value: 'id', label: 'Student ID', name: 'sortby' },
-];
-
-const ORDER_OPTIONS: HTMLInputListProps[] = [
-    { value: 'ascending', label: 'Ascending', name: 'order' },
-    { value: 'descending', label: 'Descending', name: 'order' },
-];
-
-
-// COMPONENT DROPDOWN CHECKLIST
 
 const DropDownChecklist: React.FC<HTMLInputList> = ({ options, label }) => {
 
@@ -152,22 +138,58 @@ const DropDownChecklist: React.FC<HTMLInputList> = ({ options, label }) => {
         setIsOpen(!isOpen)
     }
 
+    const firstOptionsValue = options[0].value
+    const [checked, setChecked] = useState<string[]>([firstOptionsValue]);
+
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target
+
+        if(value !== firstOptionsValue) {
+            if (!checked.includes(value)) {
+                // add value to array
+                let removedAll = checked.filter(item => item !== firstOptionsValue)
+                setChecked([...removedAll, value]);
+            }
+            else {
+                // remove value from array
+                setChecked(checked.filter(item => item !== value))
+            } 
+        } else {
+            // set array to ALL only
+            setChecked([firstOptionsValue])
+        }
+        
+    };
+
+    useEffect(() => {
+        if (checked.length === 0) {
+            setChecked([firstOptionsValue])
+        }
+    }, [checked, firstOptionsValue]);
+
     return (
         <>
         <div className='filter__card relative' onClick={() => {!isOpen && handleCLick()}}>
-            <span className='mr-auto font-medium text-gray-700'>{label}</span>
+            <span className='flex justify-between w-full items-center mr-auto font-medium text-gray-800'>
+                {label}
+                <div className='flex items-center gap-3'>
+                    <span>{checked[0] === firstOptionsValue ? "All" : checked.length}</span>
+                    <GoChevronDown />
+                </div>
+            </span>
             {/* MODAL */}
             <div className={`${isOpen ? "" : "hidden"} ${label === 'SECTION' && 'translate-y-[-90px]'} p-5 mt-4 absolute bg-white z-[180] rounded-2xl w-full top-8`}>
                 <div className='flex flex-col overflow-y-scroll max-h-44'>
                     {options.map((option) => (
                         <div className='flex py-[7px] border-b items-center' key={option.value}>
-                            <input 
+                            <input
                                 type="checkbox" 
                                 id={option.value} 
-                                name={option.name} 
+                                name={option.name}
                                 value={option.value} 
                                 className={`relative appearance-none min-h-5 min-w-5 bg-white border border-gray-800 rounded-full checked:before:content-[''] checked:before:absolute checked:before:h-[15px] checked:before:w-[15px] checked:before:bg-gray-700 checked:before:rounded-full checked:before:translate-y-[1.5px] checked:before:translate-x-[1.5px] `}
-                                defaultChecked={option.value === 'ALL'}
+                                checked={checked.includes(option.value)}
+                                onChange={handleCheckboxChange}
                             />
                             <label htmlFor={option.value} className='w-full pl-2'>{option.label}</label>
                         </div>
@@ -183,6 +205,16 @@ const DropDownChecklist: React.FC<HTMLInputList> = ({ options, label }) => {
 
 
 // COMPONENT RADIOLIST
+
+const SORTBY_OPTIONS: HTMLInputListProps[] = [
+    { value: 'surname', label: 'Surname', name: 'sortby' },
+    { value: 'id', label: 'Student ID', name: 'sortby' },
+];
+
+const ORDER_OPTIONS: HTMLInputListProps[] = [
+    { value: 'ascending', label: 'Ascending', name: 'order' },
+    { value: 'descending', label: 'Descending', name: 'order' },
+];
 
 const RadioList: React.FC<HTMLInputList> = ({ options }) => {
     
@@ -202,7 +234,7 @@ const RadioList: React.FC<HTMLInputList> = ({ options }) => {
     return (
         <div className='flex flex-col mt-4 pl-1 gap-2'>
             {options.map((option, index) => (
-                <div className='flex items-center' key={option.value} onClick={() => {console.log(option.value)}}>
+                <div className='flex items-center' key={option.value}>
 
                     {/* Hidden Radio Button */}
                     <input
