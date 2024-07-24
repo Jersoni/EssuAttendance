@@ -5,8 +5,8 @@ interface Student {
   id: number
   firstName: string
   lastName: string
-  college: string
-  yearLevel: number
+  course: string
+  year: number
   section: string
 }
 
@@ -18,7 +18,7 @@ return (
       <div className={`student-card__info-container`}>
         <span className={`student-card__info`}>{studentData.id}</span>
         <div className='min-h-[2px] min-w-[2px] max-h-[2px] max-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
-        <span className={`student-card__info`}>{`${studentData.college} ${studentData.yearLevel}${studentData.section}`}</span>
+        <span className={`student-card__info`}>{`${studentData.course} ${studentData.year}${studentData.section}`}</span>
       </div>
     </div>
     <IoIosArrowForward className="opacity-80"/>

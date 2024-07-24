@@ -7,8 +7,8 @@ interface Student {
   id: number
   firstName: string
   lastName: string
-  college: string
-  yearLevel: number
+  course: string
+  year: number
   section: string
 }
 
@@ -42,7 +42,6 @@ const Page: React.FC = () => {
       } catch (error) {
         console.error(error)
       }
-
     }
 
     getStudents()

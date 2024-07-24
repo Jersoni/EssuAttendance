@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from "@/lib/supabase";
 
-
 // get all student
 export async function GET() {
 
@@ -43,9 +42,8 @@ export async function POST(req) {
       })
 
     if(error) {
-        return NextResponse.json({mssg: "there is an error getting the inserting the student."}, {status: 401})
+        return NextResponse.json({mssg: "there is an error inserting the student."}, {status: 401})
     }
 
     return NextResponse.json({mssg: "Student created Successfully"}, {status: 201})
-
 }

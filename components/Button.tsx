@@ -7,9 +7,11 @@ interface ButtonProps {
   onClick?: () => void; // Optional function for click event handling
   disabled?: boolean; // Optional prop for disabling the button
   className?: string; // Optional class name for custom styling
+  type?: "button" | "submit" | "reset" // button type
+  form?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', onClick, disabled, className }) => {
+const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', onClick, disabled, className, type = 'button', form }) => {
   const buttonClasses = `
     rounded-full h-fit text-sm
     ${variant === 'primary' ? 'py-2 px-4 w-56 text-white bg-[#089662] active:bg-[#1FAB4F]' : ''}
@@ -21,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', onClick,
   `;
 
   return (
-    <button type="button" className={`${buttonClasses} ${className}`} onClick={onClick} disabled={disabled}>
+    <button type={type} form={form} className={`${buttonClasses} ${className}`} onClick={onClick} disabled={disabled}>
       {children}
       {variant === 'close' && ( <IoCloseOutline size={24}/> )}
     </button>
