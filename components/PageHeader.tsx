@@ -6,11 +6,12 @@ import { Suspense } from 'react';
 // props for customizing the header properties
 interface headerProps {
     title?: string; // header title
+    subtitle?: string // text under title
     children?: React.ReactNode;
 }
 
 // PageHeader Component
-const PageHeader: React.FC<headerProps> = ({title, children}) => {
+const PageHeader: React.FC<headerProps> = ({title, subtitle, children}) => {
 
     const router = useRouter()
     const themeColorGreen: string = "#065f46"
@@ -25,7 +26,10 @@ const PageHeader: React.FC<headerProps> = ({title, children}) => {
 
                 {/* header title */}
                 {title ? (
-                    <span className={`text-emerald-800 left-0 w-full text-lg font-semibold absolute text-center `}>{title}</span>
+                    <div className={`text-emerald-800 left-0 w-full text-lg font-semibold absolute text-center flex flex-col `}>
+                        <span>{title}</span>
+                        <span className='text-sm font-normal'>{subtitle}</span> 
+                    </div>
                 ) : (
                     <div className='h-6 w-40 bg-gray-200 rounded-lg animate-pulse'></div>
                 )}

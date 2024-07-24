@@ -43,7 +43,7 @@ const NewEventForm = () => {
         </Button>
   
         {/* NEW EVENT FORM */}
-        <div className={`${isOpen ? "" : "translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
+        <div className={`${isOpen ? "" : "translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] bottom-0 w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
   
           <div className='flex flex-row items-center p-1'>
           <h1 className='font-semibold text-lg p-5 absolute text-center w-full'>New Attendance Log</h1>

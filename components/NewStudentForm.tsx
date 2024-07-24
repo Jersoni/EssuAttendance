@@ -22,14 +22,14 @@ const NewStudentForm = () => {
     }
     
     return (
-      <>
+      <div>
         {/* NEW STUDENT BUTTON */}
         <Button variant={'small-circle'} className='z-[30] absolute top-4 right-[70px]' onClick={toggleNewStudentForm}>
           <FiPlus size={24} />
         </Button>
   
         {/* NEW EVENT FORM */}
-        <div className={`${isOpen ? "" : "translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] h-[95vh] w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
+        <div className={`${isOpen ? "" : "translate-y-full" } bottom-0 absolute rounded-t-2xl left-0 top-0 mt-[5vh] w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
   
           <div className='flex flex-row items-center p-1'>
           <h1 className='font-semibold text-lg p-5 absolute text-center w-full'>New Student</h1>
@@ -117,7 +117,7 @@ const NewStudentForm = () => {
   
         {/* BACKDROP */}
         <div className={`z-[110] bottom-0 left-0 absolute h-full w-full bg-black bg-opacity-70 ${isOpen ? "block" : "hidden" }`} onClick={toggleNewStudentForm}></div>
-      </>
+      </div>
     )
 }
 

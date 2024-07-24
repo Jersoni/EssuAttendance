@@ -84,7 +84,7 @@ const getAttendees = async () => {
 
   return (
     <div className='min-h-screen max-h-screen'>
-      <PageHeader title={event?.title}></PageHeader>
+      <PageHeader title={event?.title} subtitle='January 1, 2024'></PageHeader>
 
       {/* SCANNER BUTTON */}
       <Button variant='small-circle' className='absolute top-4 right-[70px]'>
