@@ -52,10 +52,10 @@ const Page: React.FC = () => {
   console.log(data)
   
   return (
-    <div className={` max-h-[100vh] pt-[4.5rem] pb-40 px-5`}>
+    <div className={` max-h-[100vh] pt-[4.5rem]`}>
       <NewStudentForm /> {/* Scroll down to see component */}
       <Filter className='absolute right-5 top-4 z-[30]' />
-      <div className={` ${styles.studentsList} overflow-y-auto min-h-[calc(100vh-4.5rem)] max-h-[calc(100vh-4.5rem)]`}> 
+      <div className={` ${styles.studentsList} pb-40 px-5 overflow-y-auto min-h-[calc(100vh-4.5rem)] max-h-[calc(100vh-4.5rem)]`}> 
         <SearchBar className='mb-6' />
         {data.length !== 0 && data.map(student => (
           <StudentCard key={student.id} studentData={student} />

@@ -1,5 +1,5 @@
 'use client'
-import {useEffect, useRef, useState } from "react";
+import {HTMLInputTypeAttribute, useEffect, useRef, useState } from "react";
 import { Button } from "@/components";
 import { FiPlus } from "react-icons/fi";
 import supabase from '../lib/supabaseClient';
@@ -24,13 +24,6 @@ const NewStudentForm = () => {
   const [isOpen, setIsOpen] = useState(false)
   const toggleNewStudentForm = () => {
       setIsOpen(!isOpen);
-  };
-
-  const formRef = useRef<HTMLFormElement>(null);
-
-  function handleClear() {
-    formRef.current?.reset();
-    console.log("clear")
   };
 
   function scrollTop() {
@@ -61,11 +54,9 @@ const NewStudentForm = () => {
 
     if (error) {
       console.error(error);
-      console.log("omg error")
       // Handle error, e.g., show an error message to the user
     } else {
       console.log(data);
-      console.log("success")
       // Handle success, e.g., show a success message to the user
       setFormData({ 
         firstName: '',
@@ -82,38 +73,51 @@ const NewStudentForm = () => {
     }
   }
 
+  // OnChange handler for all input elements
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
 
-    const {name, value} = e.target
+    let {name, value} = e.target
 
-    const needsConversion = name === 'year' || name === 'id'
-
-    let updatedValue: string | number = value
-
-    if (needsConversion) {
-      try {
-        updatedValue = parseInt(value);
-      } catch (error) {
-        console.error('Error converting age to integer:', error);
-        // Optionally, display an error message to the user
-      }
+    let updatedValue: string | number = value.charAt(0).toUpperCase() + value.slice(1);
+    
+    // convert year and id input to number and remove dashes if any
+    if (name === 'year' || name === 'id') {
+      updatedValue = parseInt(value.replace(/-/g, ''));
     }
-
+    
     setFormData({ ...formData, [name]: updatedValue });
   };
 
+  // keydown event on input
+  const handleKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+
+    const { name, value } = e.target as HTMLInputElement
+
+    if (name === 'section') {
+      if((e.target as HTMLInputElement).value.length > 0) {
+        if (e.key !== 'Backspace') {
+          e.preventDefault()
+        }
+      }
+    }
+
+    if (name === 'id')
+      if ( /^[a-zA-Z]$/.test(e.key) || value.length > 6 && e.key !== 'Backspace')
+        e.preventDefault()
+      
+  }
+
   useEffect(() => {
-    console.log(formData)
+    // console.log(formData)
   }, [formData])
 
   return (
     <div>
-      {/* NEW STUDENT BUTTON */}
       <Button variant={'small-circle'} className='z-[30] absolute top-4 right-[70px]' onClick={toggleNewStudentForm}>
         <FiPlus size={24} />
       </Button>
 
-      {/* NEW EVENT FORM */}
+      {/* NEW   STUDENT FORM */}
       <div className={`${isOpen ? "" : "translate-y-full" } bottom-0 absolute rounded-t-2xl left-0 top-0 mt-[5vh] w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
 
         <div className='flex flex-row items-center p-1'>
@@ -121,7 +125,7 @@ const NewStudentForm = () => {
         <Button variant='close' className='ml-auto z-[120]' onClick={toggleNewStudentForm}></Button>
         </div>
 
-        <form ref={formRef} id="newStudentForm" onSubmit={handleSubmit} className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-full pb-[8rem]'>
+        <form id="newStudentForm" onSubmit={handleSubmit} className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-full pb-[8rem]'>
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="firstName">First Name</label>
@@ -134,7 +138,7 @@ const NewStudentForm = () => {
           </div>
 
           <div className='flex flex-col gap-1'>
-            <label className='form__label' htmlFor="middleName">Middle Initial</label>
+            <label className='form__label' htmlFor="middleName">Middle Name</label>
             <input onChange={handleChange} autoComplete='off' type="text" name="middleName" id="middleName" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
@@ -145,7 +149,7 @@ const NewStudentForm = () => {
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="id">Student ID</label>
-            <input onChange={handleChange} autoComplete='off' type="text" name="id" id="id" className={`form__input`} onBlur={scrollTop} />
+            <input onChange={handleChange} onKeyDown={handleKeydown} autoComplete='off' type="text" name="id" id="id" className={`form__input`} onBlur={scrollTop} />
           </div>
 
           <div className='flex flex-col gap-1'>
@@ -183,17 +187,17 @@ const NewStudentForm = () => {
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="section">Section</label>
-            <input onChange={handleChange} autoComplete='off' type="text" name="section" id="section" className={`form__input`} onBlur={scrollTop}  />
+            <input onChange={handleChange} onKeyDown={handleKeydown} autoComplete='off' type="text" name="section" id="section" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
         </form>
+
+        {/* FORM ACTION BUTTONS */}
         <div className={`z-[120] flex gap-3 w-full p-5 pb-8 bg-white`}>
           <Button variant='secondary' onClick={() => {
-            // handleClear()
             toggleNewStudentForm()
           }}>Cancel</Button>
           <Button type="submit" form="newStudentForm" variant='primary' onClick={() => {
-            // handleClear()
             toggleNewStudentForm()
           }}>Post</Button>
         </div>
