@@ -104,7 +104,7 @@ const NewStudentForm = () => {
     if (name === 'id')
       if ( /^[a-zA-Z]$/.test(e.key) || value.length > 6 && e.key !== 'Backspace')
         e.preventDefault()
-      
+
   }
 
   useEffect(() => {
@@ -129,17 +129,17 @@ const NewStudentForm = () => {
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="firstName">First Name</label>
-            <input onChange={handleChange} autoComplete='off' type="text" name="firstName" id="firstName" className={`form__input`} onBlur={scrollTop}  />
+            <input required onChange={handleChange} autoComplete='off' type="text" name="firstName" id="firstName" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="lastName">Last Name</label>
-            <input onChange={handleChange} autoComplete='off' type="text" name="lastName" id="lastName" className={`form__input`} onBlur={scrollTop}  />
+            <input required onChange={handleChange} autoComplete='off' type="text" name="lastName" id="lastName" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="middleName">Middle Name</label>
-            <input onChange={handleChange} autoComplete='off' type="text" name="middleName" id="middleName" className={`form__input`} onBlur={scrollTop}  />
+            <input required onChange={handleChange} autoComplete='off' type="text" name="middleName" id="middleName" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
           <div className='flex flex-col gap-1'>
@@ -149,12 +149,12 @@ const NewStudentForm = () => {
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="id">Student ID</label>
-            <input onChange={handleChange} onKeyDown={handleKeydown} autoComplete='off' type="text" name="id" id="id" className={`form__input`} onBlur={scrollTop} />
+            <input required onChange={handleChange} onKeyDown={handleKeydown} autoComplete='off' type="text" name="id" id="id" className={`form__input`} onBlur={scrollTop} />
           </div>
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="course">Course</label>
-            <select onChange={handleChange} name="course" id="course" className='form__input'>
+            <select required onChange={handleChange} name="course" id="course" className='form__input'>
               <option value="NoCoure" selected></option>
               <option value="BSCE">BSCE</option>
               <option value="BSINFOTECH">BS INFO TECH</option>
@@ -176,7 +176,7 @@ const NewStudentForm = () => {
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="year">Year</label>
-            <select onChange={handleChange} name="year" id="year" className='form__input'>
+            <select required onChange={handleChange} name="year" id="year" className='form__input'>
               <option value="NoYear" selected></option>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -187,7 +187,7 @@ const NewStudentForm = () => {
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="section">Section</label>
-            <input onChange={handleChange} onKeyDown={handleKeydown} autoComplete='off' type="text" name="section" id="section" className={`form__input`} onBlur={scrollTop}  />
+            <input required onChange={handleChange} onKeyDown={handleKeydown} autoComplete='off' type="text" name="section" id="section" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
         </form>

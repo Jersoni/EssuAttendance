@@ -6,9 +6,7 @@ import styles from './styles.module.css';
 import { TbChecklist } from "react-icons/tb";
 import { FaRegCalendarXmark } from "react-icons/fa6";
 import { useRouter } from 'next/navigation';
-import { PiScanBold } from "react-icons/pi";
 import { LuScanLine } from "react-icons/lu";
-
 
 interface Event {
   id: number
@@ -24,8 +22,9 @@ interface Student {
   id: number
   firstName: string
   lastName: string
-  college: string
-  yearLevel: number
+  middleName: string
+  course: string
+  year: number
   section: string
 }
 
@@ -133,15 +132,14 @@ const getAttendees = async () => {
 
         {/* STUDENTS LIST */}
 
-      <div className={`${styles.studentsList} mt-8`}>
-        {students.length !== 0 && students.map(student => (
-          <StudentCard key={student.id} studentData={student}/>
-        ))}
-        {students.length === 0 && <span>No student sttended this event.</span>}
+        <div className={`${styles.studentsList} mt-8`}>
+          {students.length !== 0 && students.map(student => (
+            <StudentCard key={student.id} studentData={student}/>
+          ))}
+          {students.length === 0 && <span>No student sttended this event.</span>}
+        </div>
       </div>
     </div>
-  
-  </div>
   )
 }
 

@@ -63,7 +63,7 @@ const Student = () => {
             </div>
             <div className='flex flex-col items-end mt-5 gap-2'>
                 <Button variant='secondary' >Download QR Code</Button>
-                <Button variant='secondary' >Delete Data</Button>
+                <Button variant='secondary' >Delete Student Data</Button>
             </div>
         </div>
     </div>

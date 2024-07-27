@@ -7,6 +7,7 @@ interface Student {
   id: number
   firstName: string
   lastName: string
+  middleName: string
   course: string
   year: number
   section: string
@@ -46,9 +47,10 @@ const Page: React.FC = () => {
 
     getStudents()
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
+  
   console.log(data)
   
   return (

@@ -57,11 +57,11 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
         </div> */}
         <div className="mt-3 flex flex-col">
           <div className='flex flex-row items-center gap-2 w-fit'>
-            <TiLocation size={17} className='opacity-70'/>
+            <TiLocation size={17} className='opacity-60'/>
             <span className="event__info">{eventData.location}</span>
           </div>
           <div className='flex flex-row items-center gap-3 w-fit'>
-            <FaClock size={12} className='ml-[2px] opacity-70 translate-y-[1px]' />
+            <FaClock size={12} className='ml-[2px] opacity-60 translate-y-[1px]' />
             <div>
               <span className="event__info">{eventData.loginTime}</span>
               <span className="event__info mx-1">-</span>
@@ -69,7 +69,7 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
             </div>
           </div>
           <div className=' flex flex-row items-center gap-3 mt-1 w-fit'>
-            <FaMoneyBillWave size={15} className='ml-[1px] opacity-70 translate-y-[-1px]' />
+            <FaMoneyBillWave size={15} className='ml-[1px] opacity-60 translate-y-[-1px]' />
             <span className="event__info">P25.00</span>
           </div>
         </div>
