@@ -7,6 +7,7 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import { RiEdit2Line } from "react-icons/ri";
 import { useEffect, useState } from 'react';
 import { PiTrashSimpleBold } from "react-icons/pi";
+import { Button } from '@/components';
 
 interface Event {
     id: number
@@ -78,13 +79,19 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
   )
 }
 
-// Edit and Delete Actions
+// EDIT and DELETE Buttons Component
 const EventCardActions = () => (
-  <div className='flex'>
-
-    <RiEdit2Line onClick={(e) => {e.preventDefault()}} size={40} className='opacity-80 p-2 rounded-full'/>
+  <div className='flex gap-2'>
+    
+    <Button 
+      variant='small-square' onClick={(e) => {e.preventDefault()}} >
+      <RiEdit2Line size={20} className='fill-gray-700' />
+    </Button>
       
-    <PiTrashSimpleBold onClick={(e) => {e.preventDefault()}} size={40} className='opacity-80 p-2 rounded-full'/>
+    <Button 
+      variant='small-square' onClick={(e) => {e.preventDefault()}} >
+      <PiTrashSimpleBold size={20} className='fill-gray-700' />
+    </Button>
       
   </div>
 )

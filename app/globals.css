@@ -23,6 +23,7 @@ body {
   background: rgb(var(--background-rgb));
   overflow: hidden !important;
   max-width: 500px;
+  width: 100vw;
   margin: 0 auto;
 }
 
@@ -38,10 +39,12 @@ body::before {
   height: 100vh;
   width: 100vw;
   position: absolute;
-  background-color: rgb(25, 25, 25);
+  background-color: rgb(255, 255, 255);
   right: 100%;
   z-index: 200;
 }
+
+/*
 
 body::after {
   content: "";
@@ -53,7 +56,7 @@ body::after {
   left: 100%;
   top: 0;
   z-index: 210;
-}
+} */
 
 .nav-item {
   display: flex;

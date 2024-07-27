@@ -12,7 +12,9 @@ const Student = () => {
         <div className="max-h-[100vh] overflow-y-auto pb-40 px-5">
             <div className='flex mt-7 items-center justify-between'>
                 <h2 className='text-sm font-semibold text-[#414855]'>PROFILE</h2>
-                <RiEdit2Line size={24} className='fill-gray-700'/>
+                <Button variant='small-square' className='bg-white'>
+                    <RiEdit2Line size={20} className='fill-gray-700'/>
+                </Button>
             </div>
             <div className='flex flex-col gap-1 mt-3 h-fit p-5 pr-7 w-full bg-white rounded-lg text-sm'>
                 <div className='flex flex-row gap-4'>
@@ -30,7 +32,9 @@ const Student = () => {
             </div>
             <div className='flex mt-7 items-center justify-between'>
                 <h2 className='text-sm font-semibold text-[#414855]'>ACCUMULATED FINES</h2>
-                <BiEraser size={24} className='fill-gray-700'/>
+                <Button variant='small-square' className='bg-white'>
+                    <BiEraser size={20} className='fill-gray-700'/>
+                </Button>
             </div>
             <div className='mt-3 h-fit p-5 w-full bg-white rounded-lg flex flex-col text-sm'>
                 <div className='flex flex-col gap-2'>
