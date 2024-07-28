@@ -61,12 +61,12 @@ const Home: React.FC = () => {
       {/* ON GOING ATTENDANCE BLOCK */}
       <div className="ongoing-attendance mt-6">
         {upcomingEvents.length !== 0 && (
-          <div className='flex flex-row gap-2 items-center'>
-            <h2 className="text-lg font-bold text-gray-400">TODAY</h2>
+          <div className='flex flex-row gap-2 items-center justify-center'>
+            <h2 className="text-md font-bold text-gray-700">TODAY</h2>
             <h3 className='text-md font-bold text-gray-400'>06/20/24</h3>
           </div>
         )}
-        <div>
+        <div className='mt-8'>
           {ongoingEvents.length !== 0 && ongoingEvents.map(event => (
             <EventCard key={event.id} eventData={event}/>
           ))}
@@ -76,9 +76,9 @@ const Home: React.FC = () => {
       {/* UPCOMING EVENTS BLOCK */}
       <div className="upcoming-events mt-12">
         {upcomingEvents.length !== 0 && (
-          <h2 className="text-lg font-bold text-gray-400">UPCOMING</h2>
+          <h2 className="text-md font-bold text-gray-700 text-center">UPCOMING</h2>
         )}
-        <div>
+        <div className='mt-8'>
           {upcomingEvents.length !== 0 && upcomingEvents.map(event => (
             <EventCard key={event.id} eventData={event} />
           ))}
