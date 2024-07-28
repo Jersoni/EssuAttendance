@@ -1,21 +1,12 @@
 'use client'
-import {HTMLInputTypeAttribute, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components";
 import { FiPlus } from "react-icons/fi";
 import supabase from '../lib/supabaseClient';
 import { useRouter } from "next/navigation";
+import { StudentProps } from "@/types";
 
 // NEW STUDENT FORM COMPONENT
-interface FormData {
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  suffix: string;
-  id: number;
-  course: string;
-  year: number;
-  section: string;
-}
 
 const NewStudentForm = () => {
 
@@ -32,7 +23,7 @@ const NewStudentForm = () => {
 
   // Backend logic
 
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<StudentProps>({
     firstName: "",
     lastName: "",
     middleName: "",

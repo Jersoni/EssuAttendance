@@ -7,41 +7,21 @@ import { TbChecklist } from "react-icons/tb";
 import { FaRegCalendarXmark } from "react-icons/fa6";
 import { useRouter } from 'next/navigation';
 import { LuScanLine } from "react-icons/lu";
-
-interface Event {
-  id: number
-  title: string
-  location: string
-  loginTime: string
-logoutTime: string
-  fineAmount: number
-  eventDate: string
-}
-
-interface Student {
-  id: number
-  firstName: string
-  lastName: string
-  middleName: string
-  course: string
-  year: number
-  section: string
-}
+import { EventProps, StudentProps } from '@/types';
 
 const EventPage: React.FC = ({ params }: any) => {
 
   const router = useRouter()
 
   const [selectedValue, setSelectedValue] = useState<string>('present');
-  const [event, setEvent] = useState<Event>()
-  const [students, setStudents] = useState<Student[]>([])
+  const [event, setEvent] = useState<EventProps>()
+  const [students, setStudents] = useState<StudentProps[]>([])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(event.target.value);
   }
 
   const getEvent = async () => {
-
     try {
       const res = await fetch(`/api/events/event?id=${params.id}`, {
         method: "GET"
@@ -55,22 +35,22 @@ const EventPage: React.FC = ({ params }: any) => {
     } catch (error) {
       console.log(error)
     }
-      
   }
 
-const getAttendees = async () => {
-  try {
-    const res = await fetch(`/api/attendance?id=${params.id}`,{
-      method: "GET"
-    })
-  
-    if(res) {
-      const json = await res.json() 
-      console.log(json)
-      if(json) setStudents(json)  
-    }
+  const getAttendees = async () => {
+    try {
+      const res = await fetch(`/api/attendance?id=${params.id}`,{
+        method: "GET"
+      })
+    
+      if(res) {
+        const json = await res.json() 
+        console.log(json)
+        if(json) setStudents(json)  
+      }
+    } 
 
-    } catch (error) {
+    catch (error) {
       console.log(error)
     }
   }

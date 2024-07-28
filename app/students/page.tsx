@@ -2,26 +2,13 @@
 import styles from './styles.module.css';
 import { useEffect, useRef, useState } from "react";
 import { SearchBar, StudentCard, NewStudentForm, Filter } from "@/components";
-
-interface Student {
-  id: number
-  firstName: string
-  lastName: string
-  middleName: string
-  course: string
-  year: number
-  section: string
-}
+import { StudentProps } from '@/types';
 
 const Page: React.FC = () => {
 
-  const [ data, setData ] = useState<Student[]>([])
-  const fetchRef = useRef(false)
+  const [ data, setData ] = useState<StudentProps[]>([])
 
   useEffect(() => {
-
-    if(fetchRef.current) return;
-    fetchRef.current = true;
     
     const getStudents = async () => {
       try {
@@ -47,12 +34,9 @@ const Page: React.FC = () => {
 
     getStudents()
 
-    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  
-  console.log(data)
-  
+    
   return (
     <div className={` max-h-[100vh] pt-[4.5rem]`}>
       <NewStudentForm /> {/* Scroll down to see component */}

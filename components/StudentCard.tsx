@@ -1,18 +1,8 @@
 import { IoIosArrowForward } from "react-icons/io";
 import Link from "next/link";
+import { StudentProps } from "@/types";
 
-interface Student {
-  id: number
-  firstName: string
-  lastName: string
-  middleName: string
-  course: string
-  year: number
-  section: string
-}
-
-const  StudentCard: React.FC<{studentData: Student}> = ({ studentData }) => {
-
+const  StudentCard: React.FC<{studentData: StudentProps}> = ({ studentData }) => {
   
   // First Name & Last Name
   function capitalizeFirstLetter(string: string) {
@@ -43,10 +33,8 @@ const  StudentCard: React.FC<{studentData: Student}> = ({ studentData }) => {
   // Section
   let section = studentData.section.toUpperCase()
 
-
-
   return (
-    <Link href={'/students/student'} className={`student-card__student-container`}>
+    <Link href={`/students/${studentData.id}`} className={`student-card__student-container`}>
       <div>
         <h2 className='text-[14px]'>{`${lastName}, ${firstName} ${middleInitial}`} </h2>
         <div className={`student-card__info-container`}>
@@ -55,7 +43,7 @@ const  StudentCard: React.FC<{studentData: Student}> = ({ studentData }) => {
           <span className={`student-card__info`}>{`${course} ${studentData.year}${section}`}</span>
         </div>
       </div>
-      <IoIosArrowForward className="opacity-80"/>
+      <IoIosArrowForward className="opacity-40"/>
     </Link>
   )
 

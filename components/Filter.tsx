@@ -93,7 +93,6 @@ interface HTMLInputList {
 }
 
 // DATA
-
 const COURSE: HTMLInputListProps[] = [
     {value: 'AllCourses', label: 'Select All', name: 'course'},
     {value: 'BSCE', label: 'BSCE', name: 'course'},

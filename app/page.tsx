@@ -1,19 +1,9 @@
 "use client"
 import React, { useEffect, useState, useRef } from 'react';
 import { EventCard, NewEventForm } from '@/components';
+import { EventProps } from '@/types';
 
-
-interface Event {
-  id: number
-  title: string
-  location: string
-  loginTime: string
-  logoutTime: string
-  fineAmount: number
-  eventDate: string
-}
-
-interface ParsedEvent extends Omit<Event, 'eventDate'> {
+interface ParsedEvent extends Omit<EventProps, 'eventDate'> {
   eventDate: Date; // Converted to JavaScript Date object
 }
 
@@ -31,7 +21,6 @@ const Home: React.FC = () => {
   // fetch event data
   const [ongoingEvents, setOngoingEvents] = useState<ParsedEvent[]>([]);
   const [upcomingEvents, setUpcomingEvents] = useState<ParsedEvent[]>([]);
-  const fetchRef = useRef(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -65,7 +54,7 @@ const Home: React.FC = () => {
   }, [])
 
   return (
-    <div className={`overflow-y-scroll p-4 pt-20 pb-40 flex flex-col h-[100vh] bg-gray-100`}>
+    <div className={` overflow-y-scroll p-4 pt-20 pb-40 flex flex-col h-[100vh] bg-gray-100`}>
         
       <NewEventForm /> {/* Scroll to bottom to see component */}
 

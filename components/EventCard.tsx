@@ -8,20 +8,10 @@ import { RiEdit2Line } from "react-icons/ri";
 import { useEffect, useState } from 'react';
 import { PiTrashSimpleBold } from "react-icons/pi";
 import { Button } from '@/components';
+import { EventProps } from '@/types';
 
-interface Event {
-    id: number
-    title: string
-    location: string
-    loginTime: string
-    logoutTime: string
-    fineAmount: number
-    eventDate: string
-    classes?: string
-}
-
-interface ParsedEvent extends Omit<Event, 'eventDate'> {
-    eventDate: Date; // Converted to JavaScript Date object
+interface ParsedEvent extends Omit<EventProps, 'eventDate'> {
+  eventDate: Date; // Converted to JavaScript Date object
 }
 
 // Main

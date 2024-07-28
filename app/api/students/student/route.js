@@ -7,11 +7,11 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url)
   const id = searchParams.get('id')
 
-
   const { data, error } = await supabase
     .from("student")
     .select("*")
     .eq("id", id)
+    .single()
 
   if(error) { 
       console.log(error)

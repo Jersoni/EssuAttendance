@@ -16,14 +16,14 @@ const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"] })
 
 const Navbar = () => { // given default value for navbar title
 
-    const themeColorGreen: string = "#045511" // theme color
-    const pathname = usePathname() // get current path
+    const pathname = usePathname()
 
     let convertedPathname = pathname.slice(1).charAt(0).toUpperCase() + pathname.slice(1).slice(1);
     if (convertedPathname === '') convertedPathname = "SSC LOGBOOK"
 
     const excludedRoutes = useMemo(() => ['/login', '/signup', '/scanner', '/students/student', '/notfound'], []);
-    const condition = excludedRoutes.indexOf(pathname) === -1 && pathname.substring(0, 7) !== "/events"
+    const isDynamicRoute = /\w+\/\d+/.test(pathname)
+    const condition = excludedRoutes.indexOf(pathname) === -1 && !isDynamicRoute
 
     // click handler for menu btn
     const [isOpen, setIsOpen] = useState(false);

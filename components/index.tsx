@@ -9,6 +9,7 @@ import StudentCard from './StudentCard'
 import ToggleBox from './ToggleBox'
 import NewEventForm from './NewEventForm'
 import NewStudentForm from './NewStudentForm'
+import EventLink from './EventLink'
 
 export {
     Footer,
@@ -21,5 +22,6 @@ export {
     StudentCard,
     ToggleBox,
     NewEventForm,
-    NewStudentForm
+    NewStudentForm,
+    EventLink
 }
