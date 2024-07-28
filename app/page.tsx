@@ -59,7 +59,7 @@ const Home: React.FC = () => {
       <NewEventForm /> {/* Scroll to bottom to see component */}
 
       {/* ON GOING ATTENDANCE BLOCK */}
-      <div className="ongoing-attendance mt-6">
+      <div className="ongoing-attendance mt-8">
         {upcomingEvents.length !== 0 && (
           <div className='flex flex-row gap-2 items-center justify-center'>
             <h2 className="text-md font-bold text-gray-700">TODAY</h2>
@@ -74,7 +74,7 @@ const Home: React.FC = () => {
       </div>
 
       {/* UPCOMING EVENTS BLOCK */}
-      <div className="upcoming-events mt-12">
+      <div className="upcoming-events mt-10">
         {upcomingEvents.length !== 0 && (
           <h2 className="text-md font-bold text-gray-700 text-center">UPCOMING</h2>
         )}

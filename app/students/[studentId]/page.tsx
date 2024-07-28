@@ -1,15 +1,13 @@
 'use client'
 import { PageHeader, Button, EventLink } from '@/components'
-import { GoArrowUpRight } from "react-icons/go";
 import { RiEdit2Line } from "react-icons/ri";
 import { BiEraser } from "react-icons/bi";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StudentProps, EventProps } from '@/types';
-import Link from 'next/link';
 
 const Student = ({ params }: any) => {
 
-    // FETCH STUDENTS
+    // FETCH STUDENT
     const [student, setStudent] = useState<StudentProps>()
 
     const getStudent = async () => {
@@ -22,12 +20,12 @@ const Student = ({ params }: any) => {
             const json = await res.json() 
             if(json) {
                 setStudent(json)
+                console.log(json)
             }
           }
         } catch (error) {
           console.log(error)
         }
-
     }
     useEffect(() => {
         getStudent()

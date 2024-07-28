@@ -10,7 +10,7 @@ import { StudentProps } from "@/types";
 
 const NewStudentForm = () => {
 
-  // Frontend logic
+  // Frontend
   
   const [isOpen, setIsOpen] = useState(false)
   const toggleNewStudentForm = () => {
@@ -21,7 +21,7 @@ const NewStudentForm = () => {
     window.scrollTo(0, 0)
   }
 
-  // Backend logic
+  // Backend
 
   const [formData, setFormData] = useState<StudentProps>({
     firstName: "",
@@ -44,25 +44,30 @@ const NewStudentForm = () => {
     ])
 
     if (error) {
+      // Handle error
       console.error(error);
-      // Handle error, e.g., show an error message to the user
     } else {
+      // Handle success
       console.log(data);
-      // Handle success, e.g., show a success message to the user
-      setFormData({ 
-        firstName: '',
-        lastName: '', 
-        middleName: '',
-        suffix: '',
-        id: 0,
-        course: '',
-        year: 0,
-        section: ''
-      });
+      
+      // Reset all form data
+      // setFormData({ 
+      //   firstName: '',
+      //   lastName: '', 
+      //   middleName: '',
+      //   suffix: '',
+      //   id: 0,
+      //   course: '',
+      //   year: 0,
+      //   section: ''
+      // });
 
-      router.refresh()
+      // redirect to "Generate QR Code" page
+      router.push(`/qrcode/${formData.id}`)
     }
   }
+
+
 
   // OnChange handler for all input elements
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
