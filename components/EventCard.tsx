@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { PiTrashSimpleBold } from "react-icons/pi";
 import { Button } from '@/components';
 import { EventProps } from '@/types';
+import { log } from 'console';
 
 interface ParsedEvent extends Omit<EventProps, 'eventDate'> {
   eventDate: Date; // Converted to JavaScript Date object
@@ -22,6 +23,25 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
   useEffect(() => {
     setIsAdmin(true) // set to admin as of the moment
   }, [setIsAdmin])
+
+  function convertTimeTo12HourFormat(timeString: any) {
+    const timeParts = timeString.split(':');
+    const hours = parseInt(timeParts[0]);
+    const minutes = timeParts[1];
+    const seconds = timeParts[2];
+    
+    const timeObject = new Date(0, 0, 0, hours, minutes, seconds);
+    
+    let formattedHours = timeObject.getHours() % 12 || 12;
+    const formattedMinutes = timeObject.getMinutes().toString().padStart(2, '0');
+    const period = timeObject.getHours() >= 12 ? 'PM' : 'AM';
+    
+    return `${formattedHours}:${formattedMinutes} ${period}`;
+  }
+
+  const fine = "₱ " + eventData.fineAmount.toFixed(2)
+  const login = convertTimeTo12HourFormat(eventData.loginTime)
+  const logout = convertTimeTo12HourFormat(eventData.logoutTime)
 
   return (
     <Link href={`/events/${eventData.id}`}>
@@ -54,14 +74,14 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
           <div className='flex flex-row items-center gap-3 w-fit'>
             <FaClock size={12} className='ml-[2px] opacity-60 translate-y-[1px]' />
             <div>
-              <span className="event__info">{eventData.loginTime}</span>
+              <span className="event__info">{login}</span>
               <span className="event__info mx-1">-</span>
-              <span className="event__info">{eventData.logoutTime}</span>
+              <span className="event__info">{logout}</span>
             </div>
           </div>
           <div className=' flex flex-row items-center gap-3 mt-1 w-fit'>
             <FaMoneyBillWave size={15} className='ml-[1px] opacity-60 translate-y-[-1px]' />
-            <span className="event__info">P25.00</span>
+            <span className="event__info">{fine}</span>
           </div>
         </div>
       </div>

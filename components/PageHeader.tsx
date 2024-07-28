@@ -18,7 +18,7 @@ const PageHeader: React.FC<headerProps> = ({title, subtitle, children}) => {
 
                 {/* header title */}
                 {title ? (
-                    <div className={`left-0 w-full text-md font-semibold absolute text-center flex flex-col `}>
+                    <div className={`left-0 w-full text-md font-semibold absolute text-center flex flex-col`}> 
                         <span>{title}</span>
                         <span className='text-sm font-normal'>{subtitle}</span> 
                     </div>
