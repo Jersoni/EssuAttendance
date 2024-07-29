@@ -4,6 +4,7 @@ import { RiEdit2Line } from "react-icons/ri";
 import { BiEraser } from "react-icons/bi";
 import { useEffect, useState } from 'react';
 import { StudentProps, EventProps } from '@/types';
+import { downloadImage } from '@/utils/utils';
 
 const Student = ({ params }: any) => {
 
@@ -27,6 +28,7 @@ const Student = ({ params }: any) => {
           console.log(error)
         }
     }
+    
     useEffect(() => {
         getStudent()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -43,7 +45,6 @@ const Student = ({ params }: any) => {
     const [events, setEvents] = useState<EventProps[]>([])
 
     useEffect(() => {
-
         const getEvents = async () => {
             try {
               const res = await fetch('/api/events')
@@ -120,7 +121,9 @@ const Student = ({ params }: any) => {
                     </div>
                 </div>
                 <div className='flex flex-col items-end mt-5 gap-2'>
-                    <Button variant='secondary' >Download QR Code</Button>
+                    <Button variant='secondary' onClick={() => {
+                        downloadImage(`https://api.qrserver.com/v1/create-qr-code/?data=${studentID}`, `${studentID}_qrcode`)
+                    }} >Download QR Code</Button>
                     <Button variant='secondary' >Delete Student Data</Button>
                 </div>
             </div>

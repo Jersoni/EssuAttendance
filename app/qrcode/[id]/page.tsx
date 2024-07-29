@@ -1,9 +1,8 @@
 'use client'
 import { PageHeader, Button } from "@/components"
-import {QRCodeSVG} from 'qrcode.react';
 import { StudentProps } from "@/types";
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import { downloadImage } from "@/utils/utils";
 
 export default function NewStudentResult({ params }: { params: any }) {
 
@@ -42,21 +41,6 @@ export default function NewStudentResult({ params }: { params: any }) {
     let studentID = student?.id.toString()
     if (studentID && studentID.length > 2) 
         studentID = `${studentID?.slice(0, 2)}-${studentID?.slice(2)}`
-
-    function downloadImage(imageUrl: string, filename: string) {
-        fetch(imageUrl)
-          .then(response => response.blob())
-          .then(blob => {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');   
-      
-            a.href = url;
-            a.download = filename;
-            a.click();
-            URL.revokeObjectURL(url);   
-    
-        });
-    }
 
     return (
         <div>
