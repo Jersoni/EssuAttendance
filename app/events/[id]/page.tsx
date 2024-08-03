@@ -173,9 +173,9 @@ const EventPage: React.FC = ({ params }: any) => {
 
         {/* STUDENTS LIST */ }
         <div className={`${styles.studentsList} mt-8`}>
-          {students.length !== 0 && students.map(student => {
+          {students.length !== 0 && students.map((student: StudentProps) => {
             return (
-              <StudentCard key={student.id} eventId={event?.id} studentData={student} isChecked={student.isPresent} pageState={selectedValue} />
+              <StudentCard key={student.id} eventId={event?.id} studentData={student} isChecked={student?.isPresent} pageState={selectedValue} />
             )
           })}
           {students.length === 0 && <span>Theres nothing here yet.</span>}

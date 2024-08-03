@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import supabase from "@/lib/supabaseClient";
 import { ConfirmationModal } from "@/components";
 
-const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChecked: boolean, pageState?: string}> = ({ studentData, eventId, isChecked, pageState /* pageState = present or absent */ }) => {
+const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChecked?: boolean, pageState?: string}> = ({ studentData, eventId, isChecked, pageState /* pageState = present or absent */ }) => {
   
   // First Name & Last Name formatting
   function capitalizeFirstLetter(string: string) {
@@ -67,8 +67,9 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
       }
     }
     
-
-    updateQuery(studentData.id, eventId, isPresent)
+    if (isPresent){
+      updateQuery(studentData.id, eventId, isPresent)
+    }
   }, [studentData.id, isPresent, eventId])
   
   

@@ -7,7 +7,7 @@ export interface StudentProps {
     course: string
     year: number
     section: string
-    isPresent: boolean
+    isPresent?: boolean
 }
 
 export interface EventProps {
