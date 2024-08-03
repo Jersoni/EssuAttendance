@@ -134,6 +134,7 @@ body::after {
   font-size: 13px;
   opacity: 40%;
   font-weight: 400;
+  z-index: 10;
 }
 
 .form__label {

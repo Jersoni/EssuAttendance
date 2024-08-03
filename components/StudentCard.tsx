@@ -87,16 +87,16 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
   }
   
   return (
-    <div className={`${isHidden && 'hidden'} flex flex-row items-center gap-4 border-gray-300 border-b`}>
+    <div className={`${isHidden && 'hidden'} flex flex-row items-center gap-4 border-gray-300 border-b z-100`}>
       {pathname.slice(0, 7) === '/events' && (
         <input checked={isPresent} type="checkbox" className={`h-7 w-7`} onChange={handleModalToggle}  />
       )}
-      <Link href={`/students/${studentData.id}`} className={`flex flex-row justify-between w-full items-center py-3`}>
+      <Link href={`/students/${studentData.id}`} className={`flex flex-row justify-between w-full items-center py-3 z-100`}>
         <div>
           <h2 className='text-[14px]'>{`${lastName}, ${firstName} ${middleInitial}`} </h2>
-          <div className={`student-card__info-container`}>
+          <div className={`student-card__info-container !z-100`}>
             <span className={`student-card__info`}>{studentID}</span>
-            <div className='min-h-[2px] min-w-[2px] max-h-[2px] max-w-[2px] bg-black opacity-40 rounded-full m-2'></div>
+            <div className='min-h-[2px] min-w-[2px] max-h-[2px] max-w-[2px] bg-black opacity-40 rounded-full m-2 z-100'></div>
             <span className={`student-card__info`}>{`${course} ${studentData.year}${section}`}</span>
           </div>
         </div>
