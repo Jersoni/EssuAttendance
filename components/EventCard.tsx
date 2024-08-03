@@ -44,6 +44,7 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
   const logout = convertTimeTo12HourFormat(eventData.logoutTime)
 
   return (
+    // <Link href={`/events/${eventData.id}`}>
     <Link href={`/events/${eventData.id}`}>
       <div className="flex flex-col bg-white h-fit rounded-xl mt-4 p-5">
         <div className='flex flex-row items-center justify-between'>
