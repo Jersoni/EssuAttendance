@@ -52,6 +52,8 @@ export interface ConfirmationModalProps {
     isOpen?: boolean;
     onClose?: () => void;
     onConfirm?: () => void;
+    title?: string;
     content?: string;
     confirmBtnLabel?: string;
+    confirmBtnVariant?: "primary" | "secondary" | "clear" | "close" | "small-circle" | "small-square";
 }

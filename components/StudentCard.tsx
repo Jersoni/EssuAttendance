@@ -42,13 +42,11 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
   const pathname = usePathname()
 
   const [isPresent, setIsPresent] = useState(isChecked)
-  const [isOpen, setIsOpen] = useState(true) // Modal
 
   // Event handler
   function handleCheckboxChange() {
-    // setIsPresent(!isPresent)
-    console.log("hello")
-
+    setIsPresent(!isPresent)
+    setIsOpen(!isOpen)
   }
 
   // make query on state change
@@ -75,17 +73,22 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
   
   
   let isHidden = true;
-  
   if (((pageState === 'absent' && !isPresent) || (pageState === 'present' && isPresent))) {
     isHidden = false
   }
 
-  let modalDescription = `Confirm attendance for ${firstName} ${lastName}. Mark as Present?`
+  // MODAL
+  let modalDescription = `Please confirm the attendance update: Mark ${firstName} ${lastName} [${studentID}] as ${pageState === 'present' ? 'absent' : 'present'}.`
+  const [isOpen, setIsOpen] = useState(false)
+
+  function handleModalToggle() {
+    setIsOpen(!isOpen)
+  }
   
   return (
     <div className={`${isHidden && 'hidden'} flex flex-row items-center gap-4 border-gray-300 border-b`}>
       {pathname.slice(0, 7) === '/events' && (
-        <input checked={isPresent} type="checkbox" className={`h-7 w-7`} onChange={handleCheckboxChange}  />
+        <input checked={isPresent} type="checkbox" className={`h-7 w-7`} onChange={handleModalToggle}  />
       )}
       <Link href={`/students/${studentData.id}`} className={`flex flex-row justify-between w-full items-center py-3`}>
         <div>
@@ -99,7 +102,13 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
         <IoIosArrowForward className="opacity-40"/>
       </Link>
 
-      <ConfirmationModal isOpen={isOpen} content={modalDescription} />
+      <ConfirmationModal 
+        isOpen={isOpen} 
+        title="Confirm Update Attendance"
+        content={modalDescription} 
+        onClose={handleModalToggle}
+        onConfirm={handleCheckboxChange}  
+      />
       
     </div>
   )
