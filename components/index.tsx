@@ -7,9 +7,10 @@ import Button from './Button'
 import EventCard from './EventCard'
 import StudentCard from './StudentCard'
 import ToggleBox from './ToggleBox'
-import NewEventForm from './NewEventForm'
-import NewStudentForm from './NewStudentForm'
+import EventForm from './EventForm'
+import StudentForm from './StudentForm'
 import EventLink from './EventLink'
+import ConfirmationModal from './ConfirmationModal'
 
 export {
     Footer,
@@ -21,7 +22,8 @@ export {
     EventCard,
     StudentCard,
     ToggleBox,
-    NewEventForm,
-    NewStudentForm,
-    EventLink
+    EventForm,
+    StudentForm,
+    EventLink,
+    ConfirmationModal
 }

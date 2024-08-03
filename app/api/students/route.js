@@ -14,7 +14,6 @@ export async function GET() {
     }
 
     return NextResponse.json(data, {status: 201})
-    
 }
 
 // create or insert new student

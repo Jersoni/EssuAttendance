@@ -122,16 +122,6 @@ body::after {
   height: fit-content;
 }
 
-.student-card__student-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0px;
-  border-bottom: 1px solid #d0d0d0;
-  font-weight: 500;
-}
-
 .student-card__info-container {
   display: flex;
   flex-direction: row;

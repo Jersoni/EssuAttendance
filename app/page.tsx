@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState, useRef } from 'react';
-import { EventCard, NewEventForm } from '@/components';
+import { EventCard, EventForm } from '@/components';
 import { EventProps } from '@/types';
 
 interface ParsedEvent extends Omit<EventProps, 'eventDate'> {
@@ -56,7 +56,7 @@ const Home: React.FC = () => {
   return (
     <div className={` overflow-y-scroll p-4 pt-20 pb-40 flex flex-col h-[100vh] bg-gray-100`}>
         
-      <NewEventForm /> {/* Scroll to bottom to see component */}
+      <EventForm /> {/* Scroll to bottom to see component */}
 
       {/* ON GOING ATTENDANCE BLOCK */}
       <div className="ongoing-attendance mt-8">

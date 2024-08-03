@@ -4,7 +4,7 @@ import { Button, ToggleBox } from '@/components';
 import { FiPlus } from "react-icons/fi";
 
 // NEW EVENT FORM COMPONENT
-const NewEventForm = () => {
+const EventForm = () => {
 
     const dateInputRef = useRef(null);
     const loginTimeInputRef = useRef(null);
@@ -118,4 +118,4 @@ const NewEventForm = () => {
     )
   }
 
-export default NewEventForm
+export default EventForm

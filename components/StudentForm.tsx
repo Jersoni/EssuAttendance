@@ -5,15 +5,15 @@ import { FiPlus } from "react-icons/fi";
 import supabase from '../lib/supabaseClient';
 import { useRouter } from "next/navigation";
 import { StudentProps } from "@/types";
+import { FormOperationProps } from "@/types";
 
 // NEW STUDENT FORM COMPONENT
-
-const NewStudentForm = () => {
+const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => {
 
   // Frontend
   
   const [isOpen, setIsOpen] = useState(false)
-  const toggleNewStudentForm = () => {
+  const toggleStudentForm = () => {
       setIsOpen(!isOpen);
   };
 
@@ -39,9 +39,12 @@ const NewStudentForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const {data, error} = await supabase.from('student').insert([
-      {...formData}
-    ])
+    const {data, error} = operation !== 'update'
+    ? await supabase.from('student')
+      .insert([ {...formData} ])
+    : await supabase.from('student')
+      .update([ { ...formData } ])
+      .eq('id', formData.id)
 
     if (error) {
       // Handle error
@@ -66,8 +69,6 @@ const NewStudentForm = () => {
       router.push(`/qrcode/${formData.id}`)
     }
   }
-
-
 
   // OnChange handler for all input elements
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -109,7 +110,7 @@ const NewStudentForm = () => {
 
   return (
     <div>
-      <Button variant={'small-circle'} className='z-[30] absolute top-4 right-[70px]' onClick={toggleNewStudentForm}>
+      <Button variant={'small-circle'} className='z-[30] absolute top-4 right-[70px]' onClick={toggleStudentForm}>
         <FiPlus size={24} />
       </Button>
 
@@ -118,7 +119,7 @@ const NewStudentForm = () => {
 
         <div className='flex flex-row items-center p-1'>
         <h1 className='font-semibold text-lg p-5 absolute text-center w-full'>New Student</h1>
-        <Button variant='close' className='ml-auto z-[120]' onClick={toggleNewStudentForm}></Button>
+        <Button variant='close' className='ml-auto z-[120]' onClick={toggleStudentForm}></Button>
         </div>
 
         <form id="newStudentForm" onSubmit={handleSubmit} className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-full pb-[8rem]'>
@@ -191,19 +192,19 @@ const NewStudentForm = () => {
         {/* FORM ACTION BUTTONS */}
         <div className={`z-[120] flex gap-3 w-full p-5 pb-8 bg-white`}>
           <Button variant='secondary' onClick={() => {
-            toggleNewStudentForm()
+            toggleStudentForm()
           }}>Cancel</Button>
           <Button type="submit" form="newStudentForm" variant='primary' onClick={() => {
-            toggleNewStudentForm()
+            toggleStudentForm()
           }}>Post</Button>
         </div>
       </div>
 
 
       {/* BACKDROP */}
-      <div className={`z-[110] bottom-0 left-0 absolute h-full w-full bg-black bg-opacity-70 ${isOpen ? "block" : "hidden" }`} onClick={toggleNewStudentForm}></div>
+      <div className={`z-[110] bottom-0 left-0 absolute h-full w-full bg-black bg-opacity-70 ${isOpen ? "block" : "hidden" }`} onClick={toggleStudentForm}></div>
     </div>
   )
 }
 
-export default NewStudentForm
+export default StudentForm

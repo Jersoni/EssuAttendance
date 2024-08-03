@@ -12,7 +12,6 @@ export async function GET(req) {
       .select('studentId')
       .eq('eventId', id);
 
-
     if(attendanceError) { 
         console.log(attendanceError.message)
         return NextResponse.json({mssg: "there is an error getting the attendance."}, {status: 401})
@@ -39,7 +38,6 @@ export async function GET(req) {
     return NextResponse.json(studentsData, {status: 201})
     
 }
-
 
 // create event
 export async function POST(req) {

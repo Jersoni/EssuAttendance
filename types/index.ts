@@ -7,6 +7,7 @@ export interface StudentProps {
     course: string
     year: number
     section: string
+    isPresent: boolean
 }
 
 export interface EventProps {
@@ -34,4 +35,23 @@ export interface ButtonProps {
     className?: string; // Optional class name for custom styling
     type?: "button" | "submit" | "reset" // button type
     form?: string;
-  }
+}
+
+export interface FormOperationProps {
+    operation?: 'insert' | 'update';
+}
+
+export interface Attendance {
+    id: number;
+    eventId: number;
+    isPresent: boolean;
+    studentId: number;
+}   
+
+export interface ConfirmationModalProps {
+    isOpen?: boolean;
+    onClose?: () => void;
+    onConfirm?: () => void;
+    content?: string;
+    confirmBtnLabel?: string;
+}

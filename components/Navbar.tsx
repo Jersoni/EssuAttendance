@@ -58,7 +58,7 @@ const Navbar = () => { // given default value for navbar title
         condition ? (
             <>
                 {/* header */}
-                <div className={` absolute w-full ${pathname === '/' ? "" : ""} bg-white z-30 h-[4.5rem]`}></div>
+                <div className={` absolute w-full ${pathname === '/' ? "" : ""} bg-white z-30 h-[4.5rem] border-b border-gray-200`}></div>
 
                 {/* menu button */}
                 <div className='flex flex-row items-center absolute z-[100] p-3 pl-2'>
