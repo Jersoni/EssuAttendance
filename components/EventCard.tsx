@@ -45,7 +45,7 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
 
   return (
     // <Link href={`/events/${eventData.id}`}>
-    <Link href={`/events/${eventData.id}`}>
+    <Link href={`/events/5`}>
       <div className="flex flex-col bg-white h-fit rounded-xl mt-4 p-5">
         <div className='flex flex-row items-center justify-between'>
           <span className="event__title">{eventData.title}</span>
