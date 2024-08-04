@@ -47,11 +47,13 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
   function handleCheckboxChange() {
     setIsPresent(!isPresent)
     setIsOpen(!isOpen)
+    console.log('handle checkbox change')
   }
 
   // make query on state change
   useEffect(() => {
     // A query to update 'isPresent' in the database
+    console.log("update")
     async function updateQuery( studentId: number, eventId: any, isPresent:boolean ) {
       const { data, error } = await supabase
       .from('attendance')
@@ -67,7 +69,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
       }
     }
     
-    if (isPresent){
+    if (isPresent !== undefined){
       updateQuery(studentData.id, eventId, isPresent)
     }
   }, [studentData.id, isPresent, eventId])
