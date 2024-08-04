@@ -25,6 +25,7 @@ const Page: React.FC = () => {
         }
 
         setData(json)
+        console.log(json)
         return
 
       } catch (error) {

@@ -128,7 +128,7 @@ const EventPage: React.FC = ({ params }: any) => {
 
       {/* SCANNER BUTTON */}
       <Button variant='small-circle' className='absolute top-4 right-[70px]'>
-        <LuScanLine onClick={() => router.push('./scanner')} size={24} />
+        <LuScanLine onClick={() => router.push(`./5/scanner`)} size={24} />
       </Button>
 
       <Filter className='absolute right-5 top-4' />

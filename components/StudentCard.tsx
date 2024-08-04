@@ -71,15 +71,15 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
       updateQuery(studentData.id, eventId, isPresent)
     }
   }, [studentData.id, isPresent, eventId])
-  
-  
+
+  // Just some frontend script
   let isHidden = true;
-  if (((pageState === 'absent' && !isPresent) || (pageState === 'present' && isPresent))) {
+  if ((pageState === 'absent' && !isPresent) || (pageState === 'present' && isPresent) || (pathname.slice(0, 9) === '/students')) {
     isHidden = false
   }
 
   // MODAL
-  let modalDescription = `Please confirm the attendance update: Mark ${firstName} ${lastName} [${studentID}] as ${pageState === 'present' ? 'absent' : 'present'}.`
+  const modalDescription = `Please confirm the attendance update: Mark ${firstName} ${lastName} as ${pageState === 'present' ? 'absent' : 'present'}.`
   const [isOpen, setIsOpen] = useState(false)
 
   function handleModalToggle() {
@@ -103,13 +103,13 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
         <IoIosArrowForward className="opacity-40"/>
       </Link>
 
-      <ConfirmationModal 
-        isOpen={isOpen} 
+      {/* <ConfirmationModal 
+        isOpen={false} 
         title="Confirm Update Attendance"
         content={modalDescription} 
         onClose={handleModalToggle}
         onConfirm={handleCheckboxChange}  
-      />
+      /> */}
       
     </div>
   )
