@@ -103,13 +103,13 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
         <IoIosArrowForward className="opacity-40"/>
       </Link>
 
-      {/* <ConfirmationModal 
+      <ConfirmationModal 
         isOpen={false} 
-        title="Confirm Update Attendance"
+        title="Confirm Attendance Update"
         content={modalDescription} 
         onClose={handleModalToggle}
         onConfirm={handleCheckboxChange}  
-      /> */}
+      />
       
     </div>
   )

@@ -3,10 +3,12 @@ import { useEffect } from 'react'
 import { PageHeader } from '@/components'
 import { Html5QrcodeScanner } from 'html5-qrcode'
 import { useState } from 'react'
+import { ConfirmationModal } from '@/components'
 
 const QrScanner = () => {
 
   const [scanResult, setScanResult] = useState('');
+  const [isOpen, setIsOpen] = useState(false) // modal
 
   useEffect(() => {
     const scanner = new Html5QrcodeScanner('reader', {
@@ -20,8 +22,9 @@ const QrScanner = () => {
     scanner.render(success, error);
 
     function success(result: string): void {
-      scanner.clear();
+      // scanner.clear();
       setScanResult(result)
+      setIsOpen(!isOpen)
     }
 
     function error(err: string): void {
@@ -29,14 +32,33 @@ const QrScanner = () => {
     }
   }, []);
 
+  const studentID = scanResult
+  const firstName = `Jerson`
+  const lastName = `Caibog`
+  const description = `Please confirm the attendance update: Mark ${firstName} ${lastName} as present.`
+
+  const onClose = () => {
+    setScanResult('')
+    setIsOpen(!isOpen)
+  }
+
+  const onConfirm = () => {
+    setScanResult('')
+    setIsOpen(!isOpen)
+  }
+
   return (
     <>
       <PageHeader title='Scan QR Code' />
       <div className='p-5'>
-        {scanResult 
-        ? <div>Result: {scanResult}</div>
-        : <div className='rounded-xl' id='reader'></div>
-        }
+        <div className='rounded-xl' id='reader'></div>
+        <ConfirmationModal 
+          title='Confirm Attendance Update'
+          content={description}
+          isOpen={isOpen}
+          onClose={onClose}
+          onConfirm={onConfirm}
+        />
       </div>
     </>
   )

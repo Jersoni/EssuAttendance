@@ -6,8 +6,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({isOpen, title, con
     if(!isOpen) return null
 
     return (
-        <div className="modal-overlay fixed bg-black bg-opacity-30 top-0 left-0 right-0 bottom-0 grid place-items-center p-5 !z-[200]">
-            <div className="bg-white w-fit h-fit p-5 rounded-2xl text-center">
+        <div className="modal-overlay fixed bg-black bg-opacity-30 top-0 left-0 right-0 bottom-0 grid place-items-center p-8 !z-[200]">
+            <div className="bg-white w-full h-fit p-5 rounded-2xl text-center">
                 <div className='flex flex-col gap-3'>
                     <span className='font-semibold'>{title}</span>
                     <span className='text-sm text-gray-600'>{content}</span>
