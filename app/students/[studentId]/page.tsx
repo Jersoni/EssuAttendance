@@ -71,6 +71,7 @@ const Student = ({ params }: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    // Calculate Total fines
     let totalFines: number = 0
     events.forEach(event => {
         totalFines += event.fineAmount

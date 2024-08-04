@@ -104,7 +104,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
       </Link>
 
       <ConfirmationModal 
-        isOpen={false} 
+        isOpen={isOpen} 
         title="Confirm Attendance Update"
         content={modalDescription} 
         onClose={handleModalToggle}

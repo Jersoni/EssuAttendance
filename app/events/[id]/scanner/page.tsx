@@ -30,6 +30,7 @@ const QrScanner = () => {
     function error(err: string): void {
       console.warn(err)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const studentID = scanResult
