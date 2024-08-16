@@ -64,7 +64,7 @@ body::after {
 }
 
 .event__title {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 500;
 }
 
@@ -78,7 +78,7 @@ body::after {
   font-size: 12px;
   font-weight: 500;
   /* opacity: .9; */
-  color: rgb(54, 54, 54);
+  color: rgb(123, 123, 123);
 }
 
 .event__class {

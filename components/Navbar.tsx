@@ -27,64 +27,23 @@ const Navbar = () => { // given default value for navbar title
     const isDynamicRoute = /\w+\/\d+/.test(pathname)
     const condition = excludedRoutes.indexOf(pathname) === -1 && !isDynamicRoute
 
-    // click handler for menu btn
-    const [isOpen, setIsOpen] = useState(false);
-    const handleClick = () => {
-        setIsOpen(!isOpen);
-    };
-
-    // set previous pathname
-    const [prevPathname, setPrevPathname] = useState(pathname);
-
-    // Close navbar after navigation (using useEffect)
-    useEffect(() => {
-        setPrevPathname(pathname)
-
-        const closeNavbar = async () => {
-            if (isOpen) {
-                await new Promise((resolve) => setTimeout(resolve, 500)); 
-                setIsOpen(false);
-            }
-        };
-
-        // Close navbar on navigation (except excluded routes)
-        if (pathname !== prevPathname && excludedRoutes.indexOf(pathname) === -1) {
-            closeNavbar();
-        }
-
-        // Cleanup function to prevent memory leaks
-        return () => {};
-    }, [pathname, isOpen, excludedRoutes, prevPathname]); // Re-run effect on pathname or isOpen change
-
     return (
         condition ? (
             <>
                 {/* header */}
-                <div className={` absolute w-full ${pathname === '/' ? "" : ""} bg-white z-30 h-[4.5rem] border-b border-gray-200`}></div>
-
-                {/* menu button */}
-                <div className='flex flex-row items-center absolute z-[100] p-3 pl-2'>
-                    {/* <button className='z-[70] grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-200' type="button" aria-label="Open Menu" onClick={handleClick}>
-                        {isOpen ? (
-                            <IoCloseOutline color={'#065f46'} size={32} />
-                        ) : (
-                            <HiOutlineMenuAlt2 color={'#065f46'} size={28} />
-                        )}
-                    </button> */}
-                    
-                    {/* TITLE */}
-                    <h1 onClick={handleClick} className={`text-emerald-800 font-bold z-30 translate-y-[1px] text-2xl ${bebasNeue.className}`}>{convertedPathname}</h1>
+                <div className={` w-full ${pathname === '/' ? "" : ""} bg-white z-30 border-b border-gray-200 h-[3.5rem] flex items-center`}>
+                    <h1 className={`text-emerald-800 h-fit font-bold z-30 text-[24px] ml-4 ${bebasNeue.className}`}>{convertedPathname}</h1>
                 </div>
                 
                 {/* Navbar menu */}
-                <div className={`fixed duration-200 bg-white h-fit pb-2 z-50 bottom-0 left-0 right-0 border-gray-200 border-t`}>
-                    <ul className='flex flex-row gap-1 p-2'>
+                <div className={`fixed duration-200 bg-white h-fit pb-3 z-50 bottom-0 left-0 right-0 border-t border-gray-200`}>
+                    <ul className='flex flex-row gap-1 p-1'>
                         <li className='w-full grid place-items-center py-2 rounded-md'>
                             <Link className='flex flex-col items-center gap-1 w-full' href="/">
                                 <FiClipboard 
                                     className={pathname === '/' ? "" : "stroke-gray-400"} 
                                     size={26} />
-                                <p className={`text-xs font-medium ${pathname === '/' ? "" : "text-gray-400"}`}>Attendance</p>
+                                <p className={`text-[10px] font-medium ${pathname === '/' ? "" : "text-gray-400"}`}>Attendance</p>
                             </Link>
                         </li>
                         <li className='w-full grid place-items-center py-2 rounded-md'>
@@ -92,7 +51,7 @@ const Navbar = () => { // given default value for navbar title
                                 <TbUsers 
                                     className={pathname === '/students' ? "" : "stroke-gray-400"} 
                                     size={26} />
-                                <p className={`text-xs font-medium ${pathname === '/students' ? "" : "text-gray-400"}`}>Students</p>
+                                <p className={`text-[10px] font-medium ${pathname === '/students' ? "" : "text-gray-400"}`}>Students</p>
                             </Link>
                         </li>
                         <li className='w-full grid place-items-center py-2 rounded-md'>
@@ -100,7 +59,7 @@ const Navbar = () => { // given default value for navbar title
                                 <LuArchive 
                                     className={pathname === '/archive' ? "" : "stroke-gray-400"}  
                                     size={26} />
-                                <p className={`text-xs font-medium ${pathname === '/archive' ? "" : "text-gray-400"}`}>Archive</p>
+                                <p className={`text-[10px] font-medium ${pathname === '/archive' ? "" : "text-gray-400"}`}>Archive</p>
                             </Link>
                         </li>
                         {/* <li>

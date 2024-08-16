@@ -54,19 +54,16 @@ const Home: React.FC = () => {
   }, [])
 
   return (
-    <div className={` overflow-y-scroll p-4 pt-20 pb-40 flex flex-col h-[100vh] bg-gray-100`}>
+    <div className={` overflow-y-scroll p-4 pb-40 flex flex-col h-[90vh] bg-gray-100`}>
         
       <EventForm /> {/* Scroll to bottom to see component */}
 
       {/* ON GOING ATTENDANCE BLOCK */}
-      <div className="ongoing-attendance mt-8">
+      <div className="ongoing-attendance mt-1">
         {upcomingEvents.length !== 0 && (
-          <div className='flex flex-row gap-2 items-center justify-center'>
-            <h2 className="text-md font-bold text-gray-700">TODAY</h2>
-            <h3 className='text-md font-bold text-gray-400'>06/20/24</h3>
-          </div>
+          <h2 className="text-md font-semibold text-gray-700">Today</h2>
         )}
-        <div className='mt-8'>
+        <div className='mt-6'>
           {ongoingEvents.length !== 0 && ongoingEvents.map(event => (
             <EventCard key={event.id} eventData={event}/>
           ))}
@@ -74,11 +71,11 @@ const Home: React.FC = () => {
       </div>
 
       {/* UPCOMING EVENTS BLOCK */}
-      <div className="upcoming-events mt-10">
+      <div className="upcoming-events mt-8 pt-3 border-t border-gray-200">
         {upcomingEvents.length !== 0 && (
-          <h2 className="text-md font-bold text-gray-700 text-center">UPCOMING</h2>
+          <h2 className="text-md font-semibold text-gray-700">Upcoming</h2>
         )}
-        <div className='mt-8'>
+        <div className='mt-6'>
           {upcomingEvents.length !== 0 && upcomingEvents.map(event => (
             <EventCard key={event.id} eventData={event} />
           ))}
