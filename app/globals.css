@@ -61,14 +61,6 @@ body::after {
 .nav-item {
   display: flex;
   flex-direction: row;
-  padding: 12px;
-  border-radius: 6px;
-  width: calc(70vw - 12px - 12px);
-  max-width: calc(336px - 12px - 12px);
-  transition: all 0.5s ease-out;
-  transition-duration: 200ms;
-  font-weight: 500;
-  color: rgb(55, 55, 55);
 }
 
 .event__title {

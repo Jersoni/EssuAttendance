@@ -62,6 +62,24 @@ const EventPage: React.FC = ({ params }: any) => {
     };
     
     fetchAttendanceData();
+
+    const channel = supabase.channel('realtime_attendance').on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'attendancec'
+      }, 
+      (payload) => {
+        // setStudents([...students, payload.new as StudentProps])
+        console.log(payload)
+      },
+    )
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+
   }, [params.id]);
 
 
@@ -82,7 +100,7 @@ const EventPage: React.FC = ({ params }: any) => {
           .from('student')
           .select('*')
           .in('id', studentsIDs)
-          .order('id', { ascending: true })
+          .order('lastName', { ascending: true })
   
         if (error) {
           throw error;
@@ -106,13 +124,29 @@ const EventPage: React.FC = ({ params }: any) => {
     };
 
     fetchStudentsData()
+
+    const channel = supabase.channel('realtime_students').on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'student'
+      }, 
+      (payload) => {
+        // setStudents([...students, payload.new as StudentProps])
+        console.log(payload)
+      },
+    )
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+
   }, [attendanceData])
-
-
 
   // CLIENT SIDE SCRIPT
   const router = useRouter()
-  const [selectedValue, setSelectedValue] = useState<string>('present');
+  const [selectedValue, setSelectedValue] = useState<string>('absent');
   
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(event.target.value);
@@ -174,6 +208,7 @@ const EventPage: React.FC = ({ params }: any) => {
         {/* STUDENTS LIST */ }
         <div className={`${styles.studentsList} mt-8`}>
           {students.length !== 0 && students.map((student: StudentProps) => {
+            if ((student.isPresent && selectedValue === 'present') || (!student.isPresent && selectedValue === 'absent'))
             return (
               <StudentCard key={student.id} eventId={event?.id} studentData={student} isChecked={student?.isPresent} pageState={selectedValue} />
             )

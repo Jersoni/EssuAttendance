@@ -21,10 +21,9 @@ export async function GET(req) {
   return NextResponse.json(data, {status: 201})
 }
 
-
 // delete a student
 export async function DELETE(req) {
-
+  
   const { searchParams } = new URL(req.url)
   const id = searchParams.get('id')
 

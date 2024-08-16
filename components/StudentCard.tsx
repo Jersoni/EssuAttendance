@@ -50,11 +50,11 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
     console.log('handle checkbox change')
   }
 
-  // make query on state change
+  // UPDATE 
   useEffect(() => {
-    // A query to update 'isPresent' in the database
+    // A query to update 'isPresent' in the database, table 'attendance'
     console.log("update")
-    async function updateQuery( studentId: number, eventId: any, isPresent:boolean ) {
+    async function updateQuery( studentId: number, eventId: any, isPresent:boolean | undefined ) {
       const { data, error } = await supabase
       .from('attendance')
       .update({ isPresent })
@@ -64,14 +64,12 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
         console.error(error);
         // Handle error, e.g., show error message to user
       } else {
-        console.log('Database updated successfully:', data);
+        // console.log('Database updated successfully:', data);
         // Handle success, e.g., update UI, show success message
       }
     }
     
-    if (isPresent !== undefined){
-      updateQuery(studentData.id, eventId, isPresent)
-    }
+    updateQuery(studentData.id, eventId, isPresent)
   }, [studentData.id, isPresent, eventId])
 
   // Just some frontend script
@@ -81,7 +79,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
   }
 
   // MODAL
-  const modalDescription = `Please confirm the attendance update: Mark ${firstName} ${lastName} as ${pageState === 'present' ? 'absent' : 'present'}.`
+  const modalDescription = `Please confirm your action to mark ${firstName} ${lastName} as ${pageState === 'present' ? 'absent' : 'present'}. This confirmation will update the attendance record`
   const [isOpen, setIsOpen] = useState(false)
 
   function handleModalToggle() {
@@ -89,7 +87,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
   }
   
   return (
-    <div className={`${isHidden && 'hidden'} flex flex-row items-center gap-4 border-gray-300 border-b z-100`}>
+    <div className={`${isHidden && ''} flex flex-row items-center gap-4 border-gray-300 border-b z-100`}>
       {pathname.slice(0, 7) === '/events' && (
         <input checked={isPresent} type="checkbox" className={`h-7 w-7`} onChange={handleModalToggle}  />
       )}

@@ -6,11 +6,13 @@ import { Bebas_Neue } from "next/font/google";
 
 // Imported icons from https://react-icons.github.io/react-icons/search/#q=help (see installation documentation)
 import { RiHome2Line } from "react-icons/ri";
+import { FiClipboard } from "react-icons/fi";
+
 import { LuUser } from "react-icons/lu";
+import { TbUsers } from "react-icons/tb";
+
 import { LuArchive } from "react-icons/lu";
-import { IoMdInformationCircleOutline } from "react-icons/io";
-import { IoCloseOutline } from "react-icons/io5";
-import { HiOutlineMenuAlt2 } from "react-icons/hi";
+
 
 const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"] })
 
@@ -62,51 +64,53 @@ const Navbar = () => { // given default value for navbar title
 
                 {/* menu button */}
                 <div className='flex flex-row items-center absolute z-[100] p-3 pl-2'>
-                    <button className='z-[70] grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-200' type="button" aria-label="Open Menu" onClick={handleClick}>
+                    {/* <button className='z-[70] grid place-items-center h-12 w-12 mr-2 rounded-full active:bg-gray-200' type="button" aria-label="Open Menu" onClick={handleClick}>
                         {isOpen ? (
                             <IoCloseOutline color={'#065f46'} size={32} />
                         ) : (
                             <HiOutlineMenuAlt2 color={'#065f46'} size={28} />
                         )}
-                    </button>
+                    </button> */}
                     
                     {/* TITLE */}
                     <h1 onClick={handleClick} className={`text-emerald-800 font-bold z-30 translate-y-[1px] text-2xl ${bebasNeue.className}`}>{convertedPathname}</h1>
                 </div>
                 
                 {/* Navbar menu */}
-                <div className={`absolute transition-all duration-200 bg-white flex min-h-[100vh] p-3 w-[70vw] max-w-[336px] pt-20 z-50 top-0 left-0
-                ${isOpen ? ("") : ("translate-x-[-100%]")}`}>
-                    <ul>
-                        <li>
-                            <Link href="/" className={`nav-item ${pathname === '/' ? 'bg-[#E5E7EB] bg-opacity-60' : ''}`}>
-                                <RiHome2Line className='mr-3' size={24} />
-                                <span>Home</span>
+                <div className={`fixed duration-200 bg-white h-fit pb-2 z-50 bottom-0 left-0 right-0 border-gray-200 border-t`}>
+                    <ul className='flex flex-row gap-1 p-2'>
+                        <li className='w-full grid place-items-center py-2 rounded-md'>
+                            <Link className='flex flex-col items-center gap-1 w-full' href="/">
+                                <FiClipboard 
+                                    className={pathname === '/' ? "" : "stroke-gray-400"} 
+                                    size={26} />
+                                <p className={`text-xs font-medium ${pathname === '/' ? "" : "text-gray-400"}`}>Attendance</p>
                             </Link>
                         </li>
-                        <li>
-                            <Link href="/students" className={`nav-item ${pathname === '/students' ? 'bg-[#E5E7EB] bg-opacity-60' : ''}`}>
-                                <LuUser className='mr-3' size={24} />
-                                <span>Students</span>
+                        <li className='w-full grid place-items-center py-2 rounded-md'>
+                            <Link className='flex flex-col items-center gap-1 w-full' href="/students">
+                                <TbUsers 
+                                    className={pathname === '/students' ? "" : "stroke-gray-400"} 
+                                    size={26} />
+                                <p className={`text-xs font-medium ${pathname === '/students' ? "" : "text-gray-400"}`}>Students</p>
                             </Link>
                         </li>
-                        <li>
-                            <Link href="/archive" className={`nav-item ${pathname === '/archive' ? 'bg-[#E5E7EB] bg-opacity-60' : ''}`}>
-                                <LuArchive className='mr-3' size={24} />
-                                <span>Archive</span>
+                        <li className='w-full grid place-items-center py-2 rounded-md'>
+                            <Link className='flex flex-col items-center gap-1 w-full' href="/archive">
+                                <LuArchive 
+                                    className={pathname === '/archive' ? "" : "stroke-gray-400"}  
+                                    size={26} />
+                                <p className={`text-xs font-medium ${pathname === '/archive' ? "" : "text-gray-400"}`}>Archive</p>
                             </Link>
                         </li>
-                        <li>
-                            <Link href="/about" className={`nav-item ${pathname === '/about' ? 'bg-[#E5E7EB] bg-opacity-60' : ''}`}>
+                        {/* <li>
+                            <Link href="/about" '/about'}>
                                 <IoMdInformationCircleOutline className='mr-3' size={24} />
-                                <span>About</span>
                             </Link>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
             
-                {/* Just a backdrop */}
-                <div className={`absolute top-0 left-0 h-full w-full bg-black z-40 transition-all ${isOpen ? ("opacity-70 block") : ("opacity-0 delay-100 hidden")}`} onClick={isOpen ? handleClick : undefined}></div>
             </>
         ) : ("")
     )
