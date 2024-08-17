@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useRef } from 'react';
 import { Button, ToggleBox } from '@/components';
-import { FiPlus } from "react-icons/fi";
+import { IoAddCircleOutline } from "react-icons/io5";
 
 // NEW EVENT FORM COMPONENT
 const EventForm = () => {
@@ -38,9 +38,9 @@ const EventForm = () => {
     return (
       <div>
         {/* NEW EVENT BUTTON */}
-        <Button variant={'small-circle'} className='z-[30] absolute top-2 right-5' onClick={toggleNewEventForm}>
-            <FiPlus size={24} />
-        </Button>
+        <button onClick={toggleNewEventForm} className='z-[30] absolute top-0 right-1 grid place-items-center h-14 w-14' >
+          <IoAddCircleOutline size={30} />
+        </button>
   
         {/* NEW EVENT FORM */}
         <div className={`${isOpen ? "" : "translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] bottom-0 w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>

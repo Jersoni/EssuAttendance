@@ -3,6 +3,8 @@ import React, { useRef, useState, useEffect } from 'react'
 import { LuListFilter } from "react-icons/lu";
 import { GoChevronDown } from "react-icons/go";
 import { Button } from '@/components';
+import { FiFilter } from "react-icons/fi";
+
 
 interface filterButtonProps {
     className?: string;
@@ -39,9 +41,9 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
 
     return (
         <div>
-            <Button variant='small-circle' className={className} onClick={toggleFilter}>
-                <LuListFilter size={24} />
-            </Button>
+            <button className={className} onClick={toggleFilter}>
+                <FiFilter size={24} />
+            </button>
             
             {/* Filter */}
             <div className=''>

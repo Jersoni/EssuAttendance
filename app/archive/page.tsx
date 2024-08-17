@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const page = () => {
   return (
-    <div className={`max-h-[100vh] overflow-y-scroll pt-[4.5rem] pb-40 px-5`}>
+    <div className={`max-h-[90vh] overflow-y-scroll pb-40 px-5`}>
 
       <Link href={'/events/5'} className="w-full h-fit py-3 border-b flex items-center justify-between">
         <div className="flex flex-col">

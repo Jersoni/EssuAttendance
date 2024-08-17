@@ -59,29 +59,30 @@ const Home: React.FC = () => {
       <EventForm /> {/* Scroll to bottom to see component */}
 
       {/* ON GOING ATTENDANCE BLOCK */}
-      <div className="ongoing-attendance mt-1">
-        {upcomingEvents.length !== 0 && (
+      {ongoingEvents.length !== 0 && (
+        <div className="ongoing-attendance mt-1">
           <h2 className="text-md font-semibold text-gray-700">Today</h2>
-        )}
-        <div className='mt-6'>
-          {ongoingEvents.length !== 0 && ongoingEvents.map(event => (
-            <EventCard key={event.id} eventData={event}/>
-          ))}
+          <div className='mt-6'>
+            {ongoingEvents.map(event => (
+              <EventCard key={event.id} eventData={event}/>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* UPCOMING EVENTS BLOCK */}
-      <div className="upcoming-events mt-8 pt-3 border-t border-gray-200">
-        {upcomingEvents.length !== 0 && (
+      {/* UPCOMING EVENTS BLOCK */} 
+      {upcomingEvents.length !== 0 && (
+        <div className="upcoming-events mt-8 pt-3 border-t border-gray-200">
           <h2 className="text-md font-semibold text-gray-700">Upcoming</h2>
-        )}
-        <div className='mt-6'>
-          {upcomingEvents.length !== 0 && upcomingEvents.map(event => (
-            <EventCard key={event.id} eventData={event} />
-          ))}
-        </div>
+          <div className='mt-6'>
+            {upcomingEvents.map(event => (
+              <EventCard key={event.id} eventData={event} />
+            ))}
+          </div>
+        </div>  
+      )}
 
-      </div>
+      
     </div>
   );
 }

@@ -31,12 +31,12 @@ const Navbar = () => { // given default value for navbar title
         condition ? (
             <>
                 {/* header */}
-                <div className={` w-full ${pathname === '/' ? "" : ""} bg-white z-30 border-b border-gray-200 h-[3.5rem] flex items-center`}>
-                    <h1 className={`text-emerald-800 h-fit font-bold z-30 text-[24px] ml-4 ${bebasNeue.className}`}>{convertedPathname}</h1>
+                <div className={` w-full ${pathname === '/' ? "" : ""} bg-white z-30 h-14 flex items-center`}>
+                    <h1 className={`text-emerald-800 h-fit font-bold z-30 text-[24px] ml-5 translate-y-[2px] ${bebasNeue.className}`}>{convertedPathname}</h1>
                 </div>
                 
                 {/* Navbar menu */}
-                <div className={`fixed duration-200 bg-white h-fit pb-3 z-50 bottom-0 left-0 right-0 border-t border-gray-200`}>
+                <div className={`fixed duration-200 bg-white h-fit pb-3 z-50 bottom-0 left-0 right-0 `}>
                     <ul className='flex flex-row gap-1 p-1'>
                         <li className='w-full grid place-items-center py-2 rounded-md'>
                             <Link className='flex flex-col items-center gap-1 w-full' href="/">

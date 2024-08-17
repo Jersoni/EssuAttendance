@@ -6,6 +6,7 @@ import supabase from '../lib/supabaseClient';
 import { useRouter } from "next/navigation";
 import { StudentProps } from "@/types";
 import { FormOperationProps } from "@/types";
+import { IoAddCircleOutline } from "react-icons/io5";
 
 // NEW STUDENT FORM COMPONENT
 const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => {
@@ -110,9 +111,9 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
 
   return (
     <div>
-      <Button variant={'small-circle'} className='z-[30] absolute top-4 right-[70px]' onClick={toggleStudentForm}>
-        <FiPlus size={24} />
-      </Button>
+      <button className='z-[30] absolute top-1 right-14 grid place-items-center h-12 w-12' onClick={toggleStudentForm}>
+        <IoAddCircleOutline size={30} />
+      </button>
 
       {/* NEW   STUDENT FORM */}
       <div className={`${isOpen ? "" : "translate-y-full" } bottom-0 absolute rounded-t-2xl left-0 top-0 mt-[5vh] w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
@@ -151,8 +152,8 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="course">Course</label>
-            <select required onChange={handleChange} name="course" id="course" className='form__input'>
-              <option value="NoCoure" selected></option>
+            <select required onChange={handleChange} name="course" id="course" className='form__input' defaultValue='NoCourse'>
+              <option value="NoCourse"></option>
               <option value="BSCE">BSCE</option>
               <option value="BSINFOTECH">BS INFO TECH</option>
               <option value="BSIT">BSIT</option>
