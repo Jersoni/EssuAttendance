@@ -31,6 +31,7 @@ export default function NewStudentResult({ params }: { params: any }) {
           console.log(error)
         }
     }
+    
     useEffect(() => {
         getStudent()
         // eslint-disable-next-line react-hooks/exhaustive-deps

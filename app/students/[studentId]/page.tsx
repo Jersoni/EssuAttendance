@@ -1,19 +1,22 @@
 'use client'
-import { PageHeader, Button, EventLink } from '@/components'
+import { PageHeader, Button, EventLink, ConfirmationModal } from '@/components'
 import { RiEdit2Line } from "react-icons/ri";
 import { BiEraser } from "react-icons/bi";
 import { useEffect, useState } from 'react';
 import { StudentProps, EventProps } from '@/types';
 import { downloadImage } from '@/utils/utils';
+import { useRouter } from 'next/navigation';
 
-const Student = ({ params }: any) => {
+const Student = ({ params }: { params: any }) => {
+
+    const paramsID = params.studentId
 
     // FETCH STUDENT
     const [student, setStudent] = useState<StudentProps>()
 
     const getStudent = async () => {
         try {
-          const res = await fetch(`/api/students/student?id=${params.studentId}`, {
+          const res = await fetch(`/api/students/student?id=${paramsID}`, {
             method: "GET"
           })
     
@@ -76,6 +79,39 @@ const Student = ({ params }: any) => {
     events.forEach(event => {
         totalFines += event.fineAmount
     })
+
+    // Download QR Code Script 
+    function downloadQRCode() {
+        downloadImage(`https://api.qrserver.com/v1/create-qr-code/?data=${studentID}`, `${studentID}_qrcode`)
+    }
+ 
+    // Confirm Delete Modal Script
+    const router = useRouter()
+    const [isOpen, setIsOpen] = useState(false)
+
+    function toggleModal() {
+        setIsOpen(!isOpen)
+    }
+
+    async function onConfirm() {
+        try {
+            const res = await fetch(`/api/students/student?id=${paramsID}`, {
+                method: "DELETE"
+            })
+      
+            if (res) {
+                const json = await res.json() 
+
+                if(json) {
+                    console.log(json)
+                }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+        router.back()
+    }
     
     return (
         <div className='h-[100vh] bg-gray-100'>
@@ -84,7 +120,7 @@ const Student = ({ params }: any) => {
             <div className="max-h-[100vh] overflow-y-auto pb-40 px-5">
                 <div className='flex mt-7 items-center justify-between'>
                     <h2 className='text-sm font-semibold text-[#414855]'>PROFILE</h2>
-                    <Button variant='small-square' className='bg-white'>
+                    <Button variant='small-square'>
                         <RiEdit2Line size={20} className='fill-gray-700'/>
                     </Button>
                 </div>
@@ -104,7 +140,7 @@ const Student = ({ params }: any) => {
                 </div>
                 <div className='flex mt-7 items-center justify-between'>
                     <h2 className='text-sm font-semibold text-[#414855]'>ACCUMULATED FINES</h2>
-                    <Button variant='small-square' className='bg-white'>
+                    <Button variant='small-square'>
                         <BiEraser size={20} className='fill-gray-700'/>
                     </Button>
                 </div>
@@ -122,12 +158,20 @@ const Student = ({ params }: any) => {
                     </div>
                 </div>
                 <div className='flex flex-col items-end mt-5 gap-2'>
-                    <Button variant='secondary' onClick={() => {
-                        downloadImage(`https://api.qrserver.com/v1/create-qr-code/?data=${studentID}`, `${studentID}_qrcode`)
-                    }} >Download QR Code</Button>
-                    <Button variant='secondary' >Delete Student Data</Button>
+                    <Button variant='secondary' onClick={downloadQRCode} >Download QR Code</Button>
+                    <Button variant='secondary' onClick={toggleModal} >Delete Student</Button>
                 </div>
             </div>
+
+            <ConfirmationModal 
+                title='Delete Student'
+                content={'Are you sure you want to delete this student from the database?'}
+                isOpen={isOpen}
+                onClose={toggleModal}
+                onConfirm={onConfirm}
+                confirmBtnLabel='Delete'
+                type='delete'
+            />
         </div>
     )
 }

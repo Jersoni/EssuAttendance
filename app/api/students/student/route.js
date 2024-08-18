@@ -15,7 +15,7 @@ export async function GET(req) {
 
   if(error) { 
       console.log(error)
-      return NextResponse.json({mssg: "there is an error getting the students."}, {status: 401})
+      return NextResponse.json({mssg: "there is an error getting the students."}, {status: 400})
   }
 
   return NextResponse.json(data, {status: 201})
@@ -27,7 +27,6 @@ export async function DELETE(req) {
   const { searchParams } = new URL(req.url)
   const id = searchParams.get('id')
 
-
   const { data, error } = await supabase
     .from("student")
     .delete()
@@ -35,7 +34,7 @@ export async function DELETE(req) {
 
   if(error) { 
       console.log(error)
-      return NextResponse.json({mssg: "there is an error getting the students."}, {status: 401})
+      return NextResponse.json({mssg: "there is an error deleting the students."}, {status: 400})
   }
 
   return NextResponse.json({mssg: "student deleted sucessfully"}, {status: 201})

@@ -56,4 +56,5 @@ export interface ConfirmationModalProps {
     content?: string;
     confirmBtnLabel?: string;
     confirmBtnVariant?: "primary" | "secondary" | "clear" | "close" | "small-circle" | "small-square";
+    type?: 'default' | 'delete';
 }

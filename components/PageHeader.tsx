@@ -9,7 +9,7 @@ const PageHeader: React.FC<headerProps> = ({title, subtitle, children}) => {
     const router = useRouter()
 
     return (
-        <div className="w-full bg-white z-50 p-3 pl-1 pr-5">
+        <div className="w-full h-14 bg-white z-50 pl-1 pr-5 flex ">
             <div className="flex flex-row items-center">
                 {/* return button */}
                 <button type="button" className="z-30 grid place-items-center h-12 min-w-12 rounded-full active:bg-gray-200" onClick={() => {router.back()}}>

@@ -1,7 +1,18 @@
 import { ConfirmationModalProps } from '@/types'
 import { Button } from '@/components'
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({isOpen, title, content, onConfirm, onClose, confirmBtnLabel = 'Confirm', confirmBtnVariant = 'primary'}) => {
+const ConfirmationModal: React.FC<ConfirmationModalProps> = (
+    {
+        isOpen, 
+        title, 
+        content, 
+        onConfirm, 
+        onClose, 
+        confirmBtnLabel = 'Confirm', 
+        confirmBtnVariant = 'primary',
+        type = 'default'
+    }
+) => {
 
     if(!isOpen) return null
 
@@ -17,7 +28,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({isOpen, title, con
                             variant='secondary'
                             onClick={onClose}
                     > Cancel</Button>
-                    <Button className='w-full ' 
+                    <Button className={`w-full ${type === 'delete' && 'bg-red-400'}`}
                             variant={confirmBtnVariant}
                             onClick={onConfirm}
                     > {confirmBtnLabel}</Button>
