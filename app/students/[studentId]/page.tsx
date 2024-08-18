@@ -122,8 +122,6 @@ const Student = ({ params }: { params: any }) => {
         router.back()
     }
 
-    
-    
     return (
         <div className='h-[100vh] bg-gray-100'>
 

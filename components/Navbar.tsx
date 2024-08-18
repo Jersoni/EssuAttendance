@@ -31,7 +31,7 @@ const Navbar = () => { // given default value for navbar title
         condition ? (
             <>
                 {/* header */}
-                <div className={` w-full ${pathname === '/' ? "" : ""} bg-white z-30 h-14 flex items-center border-b border-gray-200`}>
+                <div className={` ${pathname === '/' ? "" : ""} bg-white z-30 h-14 flex items-center border-b border-gray-200 fixed left-0 right-0 top-0`}>
                     <h1 className={`text-emerald-800 h-fit font-bold z-30 text-[24px] ml-5 translate-y-[2px] ${bebasNeue.className}`}>{convertedPathname}</h1>
                 </div>
                 

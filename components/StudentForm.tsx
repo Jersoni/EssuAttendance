@@ -112,7 +112,7 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
 
   return (
     <div>
-      <button className='z-[30] absolute top-1 right-14 grid place-items-center h-12 w-12' onClick={toggleStudentForm}>
+      <button className='z-[30] fixed top-1 right-14 grid place-items-center h-12 w-12' onClick={toggleStudentForm}>
         <FiUserPlus size={24} />
       </button>
 

@@ -54,13 +54,13 @@ const Home: React.FC = () => {
   }, [])
 
   return (
-    <div className={` overflow-y-scroll p-4 pb-40 flex flex-col h-[90vh] bg-gray-100`}>
+    <div className={`p-4 pb-40 flex flex-col bg-gray-100`}>
         
-      <EventForm /> {/* Scroll to bottom to see component */}
+      {/* <EventForm />  */}
 
       {/* ON GOING ATTENDANCE BLOCK */}
       {ongoingEvents.length !== 0 && (
-        <div className="ongoing-attendance mt-1">
+        <div className="ongoing-attendance mt-16">
           <h2 className="text-md font-semibold text-gray-700">Today</h2>
           <div className='mt-6'>
             {ongoingEvents.map(event => (

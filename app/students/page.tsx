@@ -71,11 +71,11 @@ const Page: React.FC = () => {
   })
 
   return (
-    <div className={` max-h-[90vh] `}>
-      <StudentForm /> {/* Scroll down to see component */}
-      <Filter buttonClassName='absolute right-2 top-1 grid place-items-center h-12 w-12 z-[30]' />
+    <div>
+      {/* <StudentForm />  */}
+      <Filter buttonClassName='fixed right-2 top-1 grid place-items-center h-12 w-12 z-[30]' />
       <div className={` ${styles.studentsList} pb-40 px-5 overflow-y-auto min-h-[calc(100vh-4.5rem)] max-h-[calc(100vh-4.5rem)]`}> 
-        <SearchBar className='mb-6 mt-6' />
+        <SearchBar className='mb-6 mt-20' />
         {students.length !== 0 && students.map(student => (
           <StudentCard key={student.id} studentData={student} />
         ))}
