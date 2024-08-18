@@ -7,10 +7,10 @@ import { FiFilter } from "react-icons/fi";
 
 
 interface filterButtonProps {
-    className?: string;
+    buttonClassName?: string;
 }
 
-const Filter: React.FC<filterButtonProps> = ({className}) => {
+const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
 
     const [isOpen, setIsOpen] = useState(false)
     const [isBlock, setIsBlock] = useState(false)
@@ -41,7 +41,7 @@ const Filter: React.FC<filterButtonProps> = ({className}) => {
 
     return (
         <div>
-            <button className={className} onClick={toggleFilter}>
+            <button className={buttonClassName} onClick={toggleFilter}>
                 <FiFilter size={24} />
             </button>
             

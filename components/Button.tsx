@@ -10,7 +10,7 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', onClick,
     ${variant === 'clear' ? 'px-4 py-2 w-40 shadow-none' : ''}
     ${variant === 'close' ? 'w-fit p-4 !h-fit ' : ''}
     ${variant === 'small-circle' ? 'flex items-center rounded-full bg-gray-100 p-2 ml-auto' : ''}
-    ${variant === 'small-square' ? 'flex items-center border border-gray-300 rounded-md bg-gray-100 p-2' : ''}
+    ${variant === 'small-square' ? 'flex items-center p-2' : ''}
     ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
   `;
 

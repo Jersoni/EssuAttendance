@@ -161,18 +161,18 @@ const EventPage: React.FC = ({ params }: any) => {
       />
 
       {/* SCANNER BUTTON */}
-      <Button variant='small-circle' className='absolute top-4 right-[70px]'>
+      <button className='absolute top-6 right-[70px]'>
         <LuScanLine onClick={() => router.push(`./5/scanner`)} size={24} />
-      </Button>
+      </button>
 
-      <Filter className='absolute right-5 top-4' />
+      <Filter buttonClassName='absolute right-6 top-6' />
       
       <div className='max-h-[100vh] overflow-y-auto pb-40 p-5 pt-3'>
 
         <SearchBar />
 
         {/* TOGGLE OPTIONS */}
-        <div className={`mt-4 border-2 w-full ml-auto border-gray-200 rounded-full bg-gray-100 flex flex-row items-center`}>
+        <div className={`mt-6 border-2 w-full ml-auto border-gray-200 rounded-full bg-gray-100 flex flex-row items-center`}>
           <label className={`${styles.radioLabel} ${selectedValue === "present" ? "bg-[#ffffff] shadow-[1px_0_3px_rgba(0,0,0,0.1)]" : "text-gray-400"}`} htmlFor='present'>
             <input
               type="radio" 

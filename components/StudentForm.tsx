@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { StudentProps } from "@/types";
 import { FormOperationProps } from "@/types";
 import { IoAddCircleOutline } from "react-icons/io5";
+import { FiUserPlus } from "react-icons/fi";
 
 // NEW STUDENT FORM COMPONENT
 const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => {
@@ -112,7 +113,7 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
   return (
     <div>
       <button className='z-[30] absolute top-1 right-14 grid place-items-center h-12 w-12' onClick={toggleStudentForm}>
-        <IoAddCircleOutline size={30} />
+        <FiUserPlus size={24} />
       </button>
 
       {/* NEW   STUDENT FORM */}

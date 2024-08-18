@@ -2,6 +2,8 @@
 import React, { useState, useRef } from 'react';
 import { Button, ToggleBox } from '@/components';
 import { IoAddCircleOutline } from "react-icons/io5";
+import { IoIosAdd } from "react-icons/io";
+
 
 // NEW EVENT FORM COMPONENT
 const EventForm = () => {
@@ -39,7 +41,7 @@ const EventForm = () => {
       <div>
         {/* NEW EVENT BUTTON */}
         <button onClick={toggleNewEventForm} className='z-[30] absolute top-0 right-1 grid place-items-center h-14 w-14' >
-          <IoAddCircleOutline size={30} />
+            <IoIosAdd size={34} />
         </button>
   
         {/* NEW EVENT FORM */}

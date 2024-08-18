@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { SearchBar, StudentCard, StudentForm, Filter } from "@/components";
 
 import supabase from '@/lib/supabaseClient';
-import useFetchStudents from '@/hooks/useFetchStudents';
 import { StudentProps } from '@/types';
 
 const Page: React.FC = () => {
@@ -47,6 +46,16 @@ const Page: React.FC = () => {
         getStudents()
       })
       .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'student'
+      }, (payload) => {
+        console.log('new student: ')
+        console.log(payload.new)
+        setStudents([...students, (payload.new as StudentProps)])
+        getStudents()
+      })
+      .on('postgres_changes', {
         event: 'DELETE',
         schema: 'public',
         table: 'student'
@@ -64,9 +73,9 @@ const Page: React.FC = () => {
   return (
     <div className={` max-h-[90vh] `}>
       <StudentForm /> {/* Scroll down to see component */}
-      <Filter className='absolute right-2 top-1 grid place-items-center h-12 w-12 z-[30]' />
+      <Filter buttonClassName='absolute right-2 top-1 grid place-items-center h-12 w-12 z-[30]' />
       <div className={` ${styles.studentsList} pb-40 px-5 overflow-y-auto min-h-[calc(100vh-4.5rem)] max-h-[calc(100vh-4.5rem)]`}> 
-        <SearchBar className='mb-6 mt-3' />
+        <SearchBar className='mb-6 mt-6' />
         {students.length !== 0 && students.map(student => (
           <StudentCard key={student.id} studentData={student} />
         ))}
