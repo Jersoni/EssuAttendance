@@ -6,8 +6,11 @@ import { useEffect, useState } from 'react';
 import { StudentProps, EventProps } from '@/types';
 import { downloadImage } from '@/utils/utils';
 import { useRouter } from 'next/navigation';
+import { bouncy } from 'ldrs'
 
 const Student = ({ params }: { params: any }) => {
+
+    bouncy.register()
 
     const paramsID = params.studentId
 
@@ -81,8 +84,14 @@ const Student = ({ params }: { params: any }) => {
     })
 
     // Download QR Code Script 
+    const [loading, setLoading] = useState(false)
     function downloadQRCode() {
-        downloadImage(`https://api.qrserver.com/v1/create-qr-code/?data=${studentID}`, `${studentID}_qrcode`)
+        // setLoading(!loading)
+        downloadImage(
+            `https://api.qrserver.com/v1/create-qr-code/?data=${studentID}`,
+            `${studentID}_qrcode`,
+            setLoading
+        )
     }
  
     // Confirm Delete Modal Script
@@ -112,6 +121,8 @@ const Student = ({ params }: { params: any }) => {
 
         router.back()
     }
+
+    
     
     return (
         <div className='h-[100vh] bg-gray-100'>
@@ -161,6 +172,18 @@ const Student = ({ params }: { params: any }) => {
                     <Button variant='secondary' onClick={downloadQRCode} >Download QR Code</Button>
                     <Button variant='secondary' onClick={toggleModal} >Delete Student</Button>
                 </div>
+                
+                {loading && (
+                    <div className='h-full w-full bg-black bg-opacity-60 top-0 left-0 fixed grid place-items-center'>
+                        <div className='h-40 w-40 bg-white rounded-lg grid place-items-center'>
+                            <l-bouncy
+                                size="30"
+                                speed="1.75" 
+                                color="black" 
+                            ></l-bouncy>
+                        </div>
+                    </div>
+                )}
             </div>
 
             <ConfirmationModal 

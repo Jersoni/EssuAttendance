@@ -43,6 +43,17 @@ export default function NewStudentResult({ params }: { params: any }) {
     if (studentID && studentID.length > 2) 
         studentID = `${studentID?.slice(0, 2)}-${studentID?.slice(2)}`
 
+    // DOWNLOAD QR CODE
+    const [loading, setLoading] = useState(false)
+    function downloadQRCode() {
+        setLoading(!loading)
+        // downloadImage(
+        //     `https://api.qrserver.com/v1/create-qr-code/?data=${studentID}`,
+        //     `${studentID}_qrcode`,
+        //     setLoading
+        // )
+    }
+
     return (
         <div>
             <PageHeader title="Result"></PageHeader>
@@ -59,9 +70,7 @@ export default function NewStudentResult({ params }: { params: any }) {
                     </div>
                 </div>
                                 
-                <Button className="mt-8" onClick={() => {
-                    downloadImage(`https://api.qrserver.com/v1/create-qr-code/?data=${studentID}`, `${studentID}_qrcode`)
-                }}>Download QR Code</Button>
+                <Button className="mt-8" onClick={downloadQRCode}>Download QR Code</Button>
             </div>
         </div>
     )
