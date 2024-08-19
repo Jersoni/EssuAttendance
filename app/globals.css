@@ -64,8 +64,8 @@ body::after {
 }
 
 .event__title {
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .event__label {
@@ -77,6 +77,7 @@ body::after {
 .event__info {
   font-size: 12px;
   font-weight: 500;
+  line-height: 14px;
   /* opacity: .9; */
   color: rgb(123, 123, 123);
 }
@@ -130,20 +131,21 @@ body::after {
 }
 
 .form__label {
-  font-size: 14px;
+  font-size: 12px;
   padding-left: 5px;
   color: rgb(45, 45, 45);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .form__input {
   border: 1px solid rgb(209 213 219);
-  /* background-color: rgb(243 244 246); */
-  background-color: white;
-  border-radius: 12px;
+  background-color: rgb(243 244 246);
+  /* background-color: rgb(255, 255, 255); */
+  border-radius: 10px;
   height: 40px;
   padding-inline: 14px;
   outline: none;
+  font-size: 14px;
 }
 
 .form__input::placeholder {

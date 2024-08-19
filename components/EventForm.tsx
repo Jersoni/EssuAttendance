@@ -40,15 +40,15 @@ const EventForm = () => {
     return (
       <div>
         {/* NEW EVENT BUTTON */}
-        <button onClick={toggleNewEventForm} className='z-[30] absolute top-0 right-1 grid place-items-center h-14 w-14' >
+        <button onClick={toggleNewEventForm} className='z-[30] fixed top-0 right-1 grid place-items-center h-14 w-14' >
             <IoIosAdd size={34} />
         </button>
   
         {/* NEW EVENT FORM */}
-        <div className={`${isOpen ? "" : "translate-y-full" } absolute rounded-t-2xl left-0 top-0 mt-[5vh] bottom-0 w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
+        <div className={`${isOpen ? "" : "translate-y-full" } fixed rounded-t-2xl left-0 top-0 mt-[5vh] bottom-0 w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
   
           <div className='flex flex-row items-center p-1'>
-          <h1 className='font-semibold text-lg p-5 absolute text-center w-full'>New Attendance Log</h1>
+          <h1 className='font-semibold p-5 absolute text-center w-full'>New Attendance Log</h1>
           <Button variant='close' className='ml-auto z-[120]' onClick={toggleNewEventForm}></Button>
           </div>
   
@@ -68,24 +68,24 @@ const EventForm = () => {
             <div className='flex flex-col gap-1'>
                 <label className='form__label' htmlFor="date">Date</label>
                 <div className={`form__input !pl-0 w-full flex`} onClick={handleDateClick}>
-                <input type="date" name="date" ref={dateInputRef} id="date" className='outline-none pl-[14px] rounded-full bg-white p-0 w-full' />
+                <input type="date" name="date" ref={dateInputRef} id="date" className='outline-none pl-[14px] rounded-full p-0 w-full bg-gray-100' />
                 </div>
             </div>
             <div className='flex flex-row gap-4 w-full'>
                 <div className='flex flex-col gap-1 w-1/2'>
                 <label className='form__label' htmlFor="login">Login Time</label>
                 <div onClick={handleLoginTimeClick} className='form__input w-full flex items-center !pl-0'>
-                    <input ref={loginTimeInputRef} type="time" name="login" id="login" className={`w-full pl-[14px] bg-white outline-none`}/>
+                    <input ref={loginTimeInputRef} type="time" name="login" id="login" className={`w-full pl-[14px] bg-gray-100 outline-none`}/>
                 </div>
                 </div>
                 <div className='flex flex-col gap-1 w-1/2'>
                 <label className='form__label' htmlFor="logout">Logout Time</label>
                 <div onClick={handleLogoutTimeClick} className='form__input w-full flex items-center !pl-0'>
-                    <input ref={logoutTimeInputRef} type="time" name="logout" id="logout" className={`w-full pl-[14px] bg-white outline-none`}/>
+                    <input ref={logoutTimeInputRef} type="time" name="logout" id="logout" className={`w-full pl-[14px] bg-gray-100 outline-none`}/>
                 </div>
                 </div>
             </div>
-            <div className='flex flex-col gap-1'>
+            {/* <div className='flex flex-col gap-1'>
               <label className='form__label'>Attendees</label>
               <div className='flex flex-wrap mt-1 gap-2 h-fit'>
                 <ToggleBox text='All Colleges' />
@@ -106,7 +106,7 @@ const EventForm = () => {
                 <ToggleBox text='BSCRIM' />
                 <input type="text" placeholder='Other (comma separated)' className={`form__input w-full`} onBlur={scrollTop} />
               </div>
-            </div>
+            </div> */}
           </form>
           <div className={`z-[120] flex gap-3 w-ful p-5 pb-8 bg-white`}>
             <Button variant='secondary' onClick={toggleNewEventForm}>Cancel</Button>

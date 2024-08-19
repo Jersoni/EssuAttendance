@@ -13,6 +13,8 @@ import { TbUsers } from "react-icons/tb";
 
 import { LuArchive } from "react-icons/lu";
 
+import { PiGear } from "react-icons/pi";
+
 
 const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"] })
 
@@ -36,8 +38,8 @@ const Navbar = () => { // given default value for navbar title
                 </div>
                 
                 {/* Navbar menu */}
-                <div className={`fixed duration-200 bg-white h-fit pb-3 z-50 bottom-0 left-0 right-0 border-t border-gray-200 `}>
-                    <ul className='flex flex-row gap-1 p-1'>
+                <div className={`fixed duration-200 bg-white h-[80px] pb-3 px-5 z-50 bottom-0 left-0 right-0 border-t border-gray-200`}>
+                    <ul className='flex flex-row gap-1'>
                         <li className='w-full grid place-items-center py-2 rounded-md'>
                             <Link className='flex flex-col items-center gap-1 w-full' href="/">
                                 <FiClipboard 
@@ -62,6 +64,17 @@ const Navbar = () => { // given default value for navbar title
                                 <p className={`text-[10px] font-medium ${pathname === '/archive' ? "" : "text-gray-400"}`}>Archive</p>
                             </Link>
                         </li>
+                        <li className='w-full grid place-items-center py-2 rounded-md'>
+                            <Link className='flex flex-col items-center gap-1 w-full' href="">
+                                <PiGear 
+                                    // className={pathname === '/settings' ? "" : "stroke-gray-400"}
+                                    size={26}
+                                    fill={pathname === '/settings' ? "" : "gray"} />
+                                <p className={`text-[10px] font-medium ${pathname === '/settings' ? "" : "text-gray-400"}`}>Settings</p>
+                            </Link>
+                        </li>
+
+
                         {/* <li>
                             <Link href="/about" '/about'}>
                                 <IoMdInformationCircleOutline className='mr-3' size={24} />

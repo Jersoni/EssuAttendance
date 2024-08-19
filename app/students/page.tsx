@@ -72,7 +72,8 @@ const Page: React.FC = () => {
 
   return (
     <div>
-      {/* <StudentForm />  */}
+      {/* TODO: student form client side functionality */}
+      <StudentForm /> 
       <Filter buttonClassName='fixed right-2 top-1 grid place-items-center h-12 w-12 z-[30]' />
       <div className={` ${styles.studentsList} pb-40 px-5 overflow-y-auto min-h-[calc(100vh-4.5rem)] max-h-[calc(100vh-4.5rem)]`}> 
         <SearchBar className='mb-6 mt-20' />

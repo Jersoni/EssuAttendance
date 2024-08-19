@@ -117,10 +117,10 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
       </button>
 
       {/* NEW   STUDENT FORM */}
-      <div className={`${isOpen ? "" : "translate-y-full" } bottom-0 absolute rounded-t-2xl left-0 top-0 mt-[5vh] w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
+      <div className={`${isOpen ? "" : "translate-y-full" } bottom-0 fixed rounded-t-2xl left-0 top-0 mt-[5vh] w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
 
         <div className='flex flex-row items-center p-1'>
-        <h1 className='font-semibold text-lg p-5 absolute text-center w-full'>New Student</h1>
+        <h1 className='font-semibold p-5 absolute text-center w-full'>New Student</h1>
         <Button variant='close' className='ml-auto z-[120]' onClick={toggleStudentForm}></Button>
         </div>
 

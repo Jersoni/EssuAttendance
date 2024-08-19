@@ -147,6 +147,8 @@ const Student = ({ params }: { params: any }) => {
                         <span>{studentClass}</span>
                     </div>
                 </div>
+
+                {/* TODO: FINES FUNCTIONALITY */}
                 <div className='flex mt-7 items-center justify-between'>
                     <h2 className='text-sm font-semibold text-[#414855]'>ACCUMULATED FINES</h2>
                     <Button variant='small-square'>

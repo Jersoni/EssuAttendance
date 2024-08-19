@@ -46,19 +46,13 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
   return (
     // <Link href={`/events/${eventData.id}`}>
     <Link href={`/events/5`}>
-      <div className="flex flex-col bg-white h-fit rounded-xl mt-4 p-5">
-        <div className='flex flex-row items-center justify-between'>
-          <span className="event__title">{eventData.title}</span>
-          <div>
-            {isAdmin ? (
-              <EventCardActions /> // scroll to bottom to see component
-            ) : (
-              <IoIosArrowForward size={20} className='opacity-70'/>
-            )}
+      <div className='flex flex-row h-fit rounded-xl mt-4 border border-gray-200 shadow-sm bg-white overflow-hidden justify-between'>
+        <div className="flex flex-col p-5">
+          <div className='flex flex-row items-center justify-between relative '>
+            <span className="event__title text-gray-700 ">{eventData.title}</span>
           </div>
-        </div>
-        {/* <span className='text-xs font-medium mt-2 text-gray-500'>Attendees</span>
-        <div className='text-xs flex flex-wrap gap-1 mt-2'>
+          {/* <span className='text-xs font-medium mt-2 text-gray-500'>Attendees</span>
+          <div className='text-xs flex flex-wrap gap-1 mt-2'>
           <span className="event__class">BSBA</span>
           <span className="event__class">BSIT</span>
           <span className="event__class">BOT</span>
@@ -66,24 +60,32 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
           <span className="event__class">BSEd.</span>
           <span className="event__class">BSE</span>
           <span className="event__class">BSCE</span>
-        </div> */}
-        <div className="mt-3 flex flex-col">
-          <div className='flex flex-row items-center gap-2 w-fit'>
-            <TiLocation size={15} className='opacity-40'/>
-            <span className="event__info">{eventData.location}</span>
-          </div>
-          <div className='flex flex-row items-center gap-3 w-fit'>
-            <FaClock size={11} className='ml-[2px] opacity-40 translate-y-[1px]' />
-            <div>
-              <span className="event__info">{login}</span>
-              <span className="event__info mx-1">-</span>
-              <span className="event__info">{logout}</span>
+          </div> */}
+          <div className="mt-3 flex flex-col">
+            <div className='flex flex-row items-center gap-2 w-fit'>
+              {/* <TiLocation size={15} className='opacity-40'/> */}
+              <span className="event__info">{eventData.location}</span>
+            </div>
+            <div className='flex flex-row items-center gap-3 w-fit'>
+              {/* <FaClock size={11} className='ml-[2px] opacity-40 translate-y-[1px]' /> */}
+              <div>
+                <span className="event__info">{login}</span>
+                <span className="event__info mx-1">-</span>
+                <span className="event__info">{logout}</span>
+              </div>
+            </div>
+            <div className=' flex flex-row items-center gap-3 mt-1 w-fit'>
+              {/* <FaMoneyBillWave size={13} className='ml-[1px] opacity-40 translate-y-[-1px]' /> */}
+              <span className="event__info">{fine}</span>
             </div>
           </div>
-          <div className=' flex flex-row items-center gap-3 mt-1 w-fit'>
-            <FaMoneyBillWave size={13} className='ml-[1px] opacity-40 translate-y-[-1px]' />
-            <span className="event__info">{fine}</span>
-          </div>
+        </div>
+        <div className=' '>
+          {isAdmin ? (
+            <EventCardActions /> // scroll to bottom to see component
+          ) : (
+            <IoIosArrowForward size={20} className='opacity-70'/>
+          )}
         </div>
       </div>
     </Link>
@@ -92,17 +94,21 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
 
 // EDIT and DELETE Buttons Component
 const EventCardActions = () => (
-  <div className='flex gap-2'>
+  <div className='flex flex-col h-full border-l border-gray-200'>
     
-    <Button 
-      variant='small-square' onClick={(e) => {e.preventDefault()}} >
-      <RiEdit2Line size={20} className='fill-gray-700' />
-    </Button>
+    <button 
+      onClick={(e) => {e.preventDefault()}} 
+      className='h-full p-4 border-b border-gray-200'
+    >
+      <RiEdit2Line size={23} className='fill-gray-700' />
+    </button>
       
-    <Button 
-      variant='small-square' onClick={(e) => {e.preventDefault()}} >
-      <PiTrashSimpleBold size={20} className='fill-gray-700' />
-    </Button>
+    <button 
+      onClick={(e) => {e.preventDefault()}}
+      className='h-full p-4'
+    >
+      <PiTrashSimpleBold size={23} className='fill-gray-700' />
+    </button>
       
   </div>
 )

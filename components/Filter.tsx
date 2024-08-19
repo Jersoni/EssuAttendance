@@ -10,6 +10,7 @@ interface filterButtonProps {
     buttonClassName?: string;
 }
 
+// TODO: FILTER FUNCTIONALITY
 const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
 
     const [isOpen, setIsOpen] = useState(false)
