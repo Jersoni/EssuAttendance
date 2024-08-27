@@ -6,9 +6,8 @@ import { useMemo } from 'react';
 
 
 // Imported icons from https://react-icons.github.io/react-icons/search/#q=help (see installation documentation)
-import { FiClipboard } from "react-icons/fi";
+import { FiClipboard, FiMenu } from "react-icons/fi";
 import { LuArchive } from "react-icons/lu";
-import { PiGear } from "react-icons/pi";
 import { TbUsers } from "react-icons/tb";
 
 const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"] })
@@ -61,11 +60,10 @@ const Navbar = () => { // given default value for navbar title
                         </li>
                         <li className='w-full grid place-items-center py-2 rounded-md'>
                             <Link className='flex flex-col items-center gap-1 w-full' href="">
-                                <PiGear 
-                                    // className={pathname === '/settings' ? "" : "stroke-gray-400"}
-                                    size={26}
-                                    fill={pathname === '/settings' ? "" : "gray"} />
-                                <p className={`text-[10px] font-medium ${pathname === '/settings' ? "" : "text-gray-400"}`}>Settings</p>
+                                <FiMenu 
+                                    className={pathname === '/menu' ? "" : "stroke-gray-400"}  
+                                    size={26} />
+                                <p className={`text-[10px] font-medium ${pathname === '/menu' ? "" : "text-gray-400"}`}>Menu</p>
                             </Link>
                         </li>
 

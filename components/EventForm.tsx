@@ -1,7 +1,6 @@
 "use client"
-import React, { useState, useRef } from 'react';
-import { Button, ToggleBox } from '@/components';
-import { IoAddCircleOutline } from "react-icons/io5";
+import { Button } from '@/components';
+import { useRef, useState } from 'react';
 import { IoIosAdd } from "react-icons/io";
 
 
@@ -45,14 +44,14 @@ const EventForm = () => {
         </button>
   
         {/* NEW EVENT FORM */}
-        <div className={`${isOpen ? "" : "translate-y-full" } fixed rounded-t-2xl left-0 top-0 mt-[5vh] bottom-0 w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
+        <div className={`${isOpen ? "!h-full" : "" } h-0 w-full fixed left-0 bottom-0 bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
   
-          <div className='flex flex-row items-center p-1'>
-          <h1 className='font-semibold p-5 absolute text-center w-full'>New Attendance Log</h1>
-          <Button variant='close' className='ml-auto z-[120]' onClick={toggleNewEventForm}></Button>
+          <div className='flex flex-row items-center p-1 bg-gray-100 border-b border-gray-300'>
+            <h1 className='font-semibold p-3 text-center w-full'>New Attendance Log</h1>
+            {/* <Button variant='close' className='ml-auto z-[120]' onClick={toggleNewEventForm}></Button> */}
           </div>
   
-          <form action="" className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-full pb-[8rem]'>
+          <form action="" className='p-5 pb-8 pt-8 flex flex-col gap-4 overflow-y-scroll h-full'>
             <div className='flex flex-col gap-1'>
                 <label className='form__label' htmlFor="title">Title</label>
                 <input autoComplete='off' type="text" name="title" id="title" className={`form__input`} placeholder='e.g Seminar' onBlur={scrollTop} />
@@ -107,11 +106,11 @@ const EventForm = () => {
                 <input type="text" placeholder='Other (comma separated)' className={`form__input w-full`} onBlur={scrollTop} />
               </div>
             </div> */}
+            <div className={` flex gap-3 w-full mt-auto `}>
+              <Button variant='secondary'  onClick={toggleNewEventForm}>Cancel</Button>
+              <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
+            </div>
           </form>
-          <div className={`z-[120] flex gap-3 w-ful p-5 pb-8 bg-white`}>
-            <Button variant='secondary' onClick={toggleNewEventForm}>Cancel</Button>
-            <Button variant='primary' onClick={toggleNewEventForm}>Post</Button>
-          </div>
         </div>
   
         {/* BACKDROP */}
