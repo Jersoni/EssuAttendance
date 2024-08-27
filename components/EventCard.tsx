@@ -61,7 +61,7 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
           <span className="event__class">BSE</span>
           <span className="event__class">BSCE</span>
           </div> */}
-          <div className="mt-3 flex flex-col">
+          <div className="mt-2 flex flex-col">
             <div className='flex flex-row items-center gap-2 w-fit'>
               {/* <TiLocation size={15} className='opacity-40'/> */}
               <span className="event__info">{eventData.location}</span>

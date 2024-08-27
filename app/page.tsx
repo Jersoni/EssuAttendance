@@ -1,7 +1,7 @@
 "use client"
-import React, { useEffect, useState, useRef } from 'react';
 import { EventCard, EventForm } from '@/components';
 import { EventProps } from '@/types';
+import React, { useEffect, useState } from 'react';
 
 interface ParsedEvent extends Omit<EventProps, 'eventDate'> {
   eventDate: Date; // Converted to JavaScript Date object
@@ -54,9 +54,9 @@ const Home: React.FC = () => {
   }, [])
 
   return (
-    <div className={`p-4 pb-40 flex flex-col`}>
+    <div className={`p-4 pb-40 flex flex-col min-h-[100vh] bg-gray-100`}>
       
-      <EventForm /> 
+      <EventForm />
 
       {/* ON GOING ATTENDANCE BLOCK */}
       {ongoingEvents.length !== 0 && (
@@ -71,7 +71,7 @@ const Home: React.FC = () => {
         </div>
       )}
 
-      {/* UPCOMING EVENTS BLOCK */} 
+      {/* UPCOMING EVENTS BLOCK */}
       {upcomingEvents.length !== 0 && (
         <div className="upcoming-events !mt-10 pt-6 border-t border-gray-200">
           <h2 className="text-sm font-semibold text-gray-400">Upcoming</h2>
@@ -80,7 +80,7 @@ const Home: React.FC = () => {
               <EventCard key={event.id} eventData={event} />
             ))}
           </div>
-        </div>  
+        </div>
       )}
 
       

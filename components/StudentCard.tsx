@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import supabase from "@/lib/supabaseClient";
 import { ConfirmationModal } from "@/components";
 
-const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChecked?: boolean, pageState?: string}> = ({ studentData, eventId, isChecked, pageState /* pageState = present or absent */ }) => {
+const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChecked?: boolean, pageState?: string, className?: string}> = ({ studentData, eventId, isChecked, pageState, className /* pageState = present or absent */ }) => {
   
   // First Name & Last Name formatting
   function capitalizeFirstLetter(string: string) {
@@ -87,20 +87,20 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
   }
   
   return (
-    <div className={`${isHidden && ''} flex flex-row items-center gap-4 border-gray-200 border-b z-100`}>
+    <div className={`${isHidden && ''} flex flex-row items-center gap-4 border-gray-200 border-b z-100 ${className}`}>
       {pathname.slice(0, 7) === '/events' && (
         <input checked={isPresent} type="checkbox" className={`h-7 w-7`} onChange={handleModalToggle}  />
       )}
       <Link href={`/students/${studentData.id}`} className={`flex flex-row justify-between w-full items-center py-3 z-100`}>
         <div>
           <h2 className='text-sm font-[400]'>{`${lastName}, ${firstName} ${middleInitial}`} </h2>
-          <div className={`student-card__info-container !z-100 mt-[2px]`}>
-            <span className={`student-card__info`}>{studentID}</span>
-            <div className='min-h-[2px] min-w-[2px] max-h-[2px] max-w-[2px] bg-black opacity-40 rounded-full m-2 z-100'></div>
-            <span className={`student-card__info`}>{`${course} ${studentData.year}${section}`}</span>
+          <div className={`student-card__info-container !z-100 mt-[2px] gap-3`}>
+            <span className={`student-card__info !font-semibold !text-gray-700`}>{studentID}</span>
+            {/* <div className='min-h-[2px] min-w-[2px] max-h-[2px] max-w-[2px] bg-black opacity-40 rounded-full m-2 z-100'></div> */}
+            <span className={`student-card__info text-gray-700`}>{`${course} ${studentData.year}${section}`}</span>
           </div>
         </div>
-        <IoIosArrowForward className="opacity-40"/>
+        <IoIosArrowForward className="opacity-40 mr-3"/>
       </Link>
 
       <ConfirmationModal 

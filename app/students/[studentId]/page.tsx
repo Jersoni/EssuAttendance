@@ -126,14 +126,15 @@ const Student = ({ params }: { params: any }) => {
         <div className='h-[100vh] bg-gray-100'>
 
             <PageHeader title={`Student Profile`} />
-            <div className="max-h-[100vh] overflow-y-auto pb-40 px-5">
-                <div className='flex mt-7 items-center justify-between'>
-                    <h2 className='text-sm font-semibold text-[#414855]'>PROFILE</h2>
+
+            <div className="overflow-y-auto pb-40 px-5">
+                <div className='flex mt-20 items-center justify-between'>
+                    <h2 className='text-sm font-semibold text-[#414855]'>Profile</h2>
                     <Button variant='small-square'>
                         <RiEdit2Line size={20} className='fill-gray-700'/>
                     </Button>
                 </div>
-                <div className='flex flex-col gap-1 mt-3 h-fit p-5 pr-7 w-full bg-white rounded-lg text-sm'>
+                <div className='flex flex-col gap-1 mt-3 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-lg text-sm'>
                     <div className='flex flex-row gap-4'>
                         <p className='min-w-14 text-gray-500'>Name</p>
                         <span>{fullName}</span>
@@ -150,12 +151,12 @@ const Student = ({ params }: { params: any }) => {
 
                 {/* TODO: FINES FUNCTIONALITY */}
                 <div className='flex mt-7 items-center justify-between'>
-                    <h2 className='text-sm font-semibold text-[#414855]'>ACCUMULATED FINES</h2>
+                    <h2 className='text-sm font-semibold text-[#414855]'>Fines</h2>
                     <Button variant='small-square'>
                         <BiEraser size={20} className='fill-gray-700'/>
                     </Button>
                 </div>
-                <div className='mt-3 h-fit p-5 w-full bg-white rounded-lg flex flex-col text-sm'>
+                <div className='mt-3 h-fit p-5 w-full border border-gray-200 bg-white shadow-sm rounded-lg flex flex-col text-sm'>
 
                     <div className='flex flex-col gap-2'>
                         {events.length !== 0 && events.map(eventData => (
@@ -175,9 +176,9 @@ const Student = ({ params }: { params: any }) => {
                 
                 {loading && (
                     <div className='h-full w-full bg-black bg-opacity-60 top-0 left-0 fixed grid place-items-center'>
-                        <div className='h-40 w-40 bg-white rounded-lg grid place-items-center'>
+                        <div className='h-28 w-28 bg-white rounded-lg grid place-items-center'>
                             <l-bouncy
-                                size="30"
+                                size="26"
                                 speed="1.75" 
                                 color="black" 
                             ></l-bouncy>
