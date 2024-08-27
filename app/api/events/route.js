@@ -10,7 +10,7 @@ export async function GET() {
 
     if(error) { 
         console.log(error)
-        return NextResponse.json({mssg: "there is an error getting the students."}, {status: 401})
+        return NextResponse.json({mssg: "there is an error getting the events."}, {status: 401})
     }
 
     return NextResponse.json(data, {status: 201})
