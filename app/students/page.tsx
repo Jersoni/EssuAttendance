@@ -1,7 +1,7 @@
 'use client'
-import styles from './styles.module.css';
+import { Filter, SearchBar, StudentCard, StudentForm } from "@/components";
 import { useEffect, useState } from "react";
-import { SearchBar, StudentCard, StudentForm, Filter } from "@/components";
+import styles from './styles.module.css';
 
 import supabase from '@/lib/supabaseClient';
 import { StudentProps } from '@/types';
@@ -75,8 +75,8 @@ const Page: React.FC = () => {
       {/* TODO: student form client side functionality */}
       <StudentForm /> 
       <Filter buttonClassName='fixed right-2 top-1 grid place-items-center h-12 w-12 z-[30]' />
-      <div className={` ${styles.studentsList} pb-40 px-5 overflow-y-auto min-h-[calc(100vh)] max-h-[calc(100vh)] `}> 
-        <SearchBar className='mb-6 mt-20' fill='bg-gray-200' />
+      <div className={` ${styles.studentsList} pb-40 px-5 min-h-[100vh]`}> 
+        <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />
         <div className='bg-white h-fit pl-5 shadow-sm rounded-xl'>
           {students.length !== 0 && students.map((student, index) => {
              

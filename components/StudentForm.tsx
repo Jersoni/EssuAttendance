@@ -114,7 +114,7 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
       </button>
 
       {/* NEW   STUDENT FORM */}
-      <div className={`${isOpen ? "!h-full" : "" } h-0 w-full fixed left-0 bottom-0 bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
+      <div className={`${isOpen ? "!h-full" : "" } h-0 w-full fixed left-0 bottom-0 bg-white z-[120] transition-all duration-200 flex flex-col justify-between`}>
 
         <div className='flex flex-row items-center p-1 border-b border-gray-300'>
           <h1 className='font-semibold p-3 absolute text-center w-full'>Add Student</h1>
