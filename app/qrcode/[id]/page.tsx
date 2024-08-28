@@ -62,6 +62,7 @@ export default function NewStudentResult({ params }: { params: any }) {
                 <span className="mt-10 font-semibold text-center">Student Successfully Registered!</span>
                 <p className="text-center mt-4 text-sm">Please download and print the provided QR code. This code will serve as the ID of the registered student for checking in at future events.</p>
                 <div className="h-fit mt-10 border border-gray-400 bg-white w-full rounded-lg flex flex-col items-center p-8 ">
+                    {/* TODO: QR CODE DYNAMIC FUNCTIONALITY */}
                     <img src={`https://api.qrserver.com/v1/create-qr-code/?data=22-0224`} alt="qrcode" height={180} width={180} />
                     <div className="mt-5 text-center flex flex-col gap-1">
                         <p>{fullName}</p>

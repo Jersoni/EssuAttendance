@@ -1,13 +1,10 @@
 'use client'
-import { useEffect, useState } from "react";
 import { Button } from "@/components";
-import { FiPlus } from "react-icons/fi";
-import supabase from '../lib/supabaseClient';
+import { FormOperationProps, StudentProps } from "@/types";
 import { useRouter } from "next/navigation";
-import { StudentProps } from "@/types";
-import { FormOperationProps } from "@/types";
-import { IoAddCircleOutline } from "react-icons/io5";
+import { useEffect, useState } from "react";
 import { FiUserPlus } from "react-icons/fi";
+import supabase from '../lib/supabaseClient';
 
 // NEW STUDENT FORM COMPONENT
 const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => {
@@ -117,14 +114,14 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
       </button>
 
       {/* NEW   STUDENT FORM */}
-      <div className={`${isOpen ? "" : "translate-y-full" } bottom-0 fixed rounded-t-2xl left-0 top-0 mt-[5vh] w-full bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
+      <div className={`${isOpen ? "!h-full" : "" } h-0 w-full fixed left-0 bottom-0 bg-white z-[120] transition-all duration-300 flex flex-col justify-between`}>
 
-        <div className='flex flex-row items-center p-1'>
-        <h1 className='font-semibold p-5 absolute text-center w-full'>New Student</h1>
-        <Button variant='close' className='ml-auto z-[120]' onClick={toggleStudentForm}></Button>
+        <div className='flex flex-row items-center p-1 border-b border-gray-300'>
+          <h1 className='font-semibold p-3 absolute text-center w-full'>Add Student</h1>
+          <Button variant='close' className='ml-auto z-[120] !p-3' onClick={toggleStudentForm}></Button>
         </div>
 
-        <form id="newStudentForm" onSubmit={handleSubmit} className='p-5 pt-0 flex flex-col gap-4 overflow-y-scroll h-full pb-[8rem]'>
+        <form id="newStudentForm" onSubmit={handleSubmit} className='p-5 flex flex-col gap-4 overflow-y-scroll h-full pb-[8rem] bg-gray-100 pt-8'>
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="firstName">First Name</label>
@@ -192,19 +189,25 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
         </form>
 
         {/* FORM ACTION BUTTONS */}
-        <div className={`z-[120] flex gap-3 w-full p-5 pb-8 bg-white`}>
-          <Button variant='secondary' onClick={() => {
+        <div className={`z-[120] flex gap-3 w-full p-5 pb-8 bg-white border-t border-gray-300`}>
+          {/* <Button variant='secondary' onClick={() => {
             toggleStudentForm()
-          }}>Cancel</Button>
-          <Button type="submit" form="newStudentForm" variant='primary' onClick={() => {
-            toggleStudentForm()
-          }}>Post</Button>
+          }}>Cancel</Button> */}
+          <Button 
+            type="submit" 
+            form="newStudentForm" 
+            variant='primary' 
+            className="w-full rounded-xl"
+            onClick={() => {
+              toggleStudentForm()
+            }}
+          >Done</Button>
         </div>
       </div>
 
 
       {/* BACKDROP */}
-      <div className={`z-[110] bottom-0 left-0 absolute h-full w-full bg-black bg-opacity-70 ${isOpen ? "block" : "hidden" }`} onClick={toggleStudentForm}></div>
+      {/* <div className={`z-[110] bottom-0 left-0 absolute h-full w-full bg-black bg-opacity-70 ${isOpen ? "block" : "hidden" }`} onClick={toggleStudentForm}></div> */}
     </div>
   )
 }
