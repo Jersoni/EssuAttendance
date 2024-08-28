@@ -1,10 +1,14 @@
+import { Navbar } from "@/components";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Navbar } from "@/components"; 
-import "./globals.css"; 
+import { Bebas_Neue, Inter } from "next/font/google";
 import Head from 'next/head';
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+const bebasNeue = Bebas_Neue({
+  subsets: ["latin"],
+  weight: ['400'],
+})
 
 export const metadata: Metadata = {
   title: "SSC Logbook",
@@ -50,7 +54,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <body className={inter.className}>
-        <Navbar />
+        <Navbar className={bebasNeue.className} />
         <main>{children}</main>
       </body>
     </html>

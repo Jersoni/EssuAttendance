@@ -1,18 +1,14 @@
 "use client"
-import { Bebas_Neue } from "next/font/google";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
-
 
 // Imported icons from https://react-icons.github.io/react-icons/search/#q=help (see installation documentation)
 import { FiClipboard, FiMenu } from "react-icons/fi";
 import { LuArchive } from "react-icons/lu";
 import { TbUsers } from "react-icons/tb";
 
-const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"] })
-
-const Navbar = () => { // given default value for navbar title
+const Navbar = ({className}: {className: string}) => { // given default value for navbar title
 
     const pathname = usePathname()
 
@@ -28,7 +24,7 @@ const Navbar = () => { // given default value for navbar title
             <>
                 {/* header */}
                 <div className={` ${pathname === '/' ? "" : ""} bg-white z-30 h-14 flex items-center border-b border-gray-200 fixed left-0 right-0 top-0`}>
-                    <h1 className={`text-emerald-700 h-fit font-bold z-30 text-[24px] ml-5 translate-y-[2px] ${bebasNeue.className}`}>{convertedPathname}</h1>
+                    <h1 className={`text-emerald-700 h-fit font-bold z-30 text-[24px] ml-5 translate-y-[2px] ${className}`}>{convertedPathname}</h1>
                 </div>
                 
                 {/* Navbar menu */}
