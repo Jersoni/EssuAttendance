@@ -1,9 +1,10 @@
 'use client'
-import { Filter, SearchBar, StudentForm } from "@/components";
+import { Filter, SearchBar, StudentCard, StudentForm } from "@/components";
 import supabase from '@/lib/supabaseClient';
 import { StudentProps } from '@/types';
 import { lineSpinner } from 'ldrs';
 import { useEffect, useState } from "react";
+import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.css';
 
 const Page: React.FC = () => {
@@ -81,28 +82,27 @@ const Page: React.FC = () => {
       <div className={` ${styles.studentsList} pb-40 px-5 min-h-[100vh]`}> 
         <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />
         <div className='bg-white h-fit pl-5 shadow-sm rounded-xl overflow-hidden'>
-          <div className="h-10 items-center" key={0}>
-            <l-line-spinner
-              size="25"
-              stroke="3"
-              speed="1" 
-              color="black" 
-            ></l-line-spinner>
-          </div>
           {/* TODO: Implement infinite scrolling on students list */}
-          {/* <InfiniteScroll
+          <InfiniteScroll
             dataLength={students.length}
             next={() => {setPage(page + 1)}}
             hasMore={hasMore}
-            loader={<div className="" key={0}>loading...</div>}
             endMessage={<div className="absolute w-full text-center left-0 mt-5 text-sm text-gray-600" key={1}>End of list</div>}
+            loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>
+                      <l-line-spinner
+                        size="25"
+                        stroke="3"
+                        speed="1" 
+                        color="black"
+                      ></l-line-spinner>
+                    </div>}
           >
             {students.length !== 0 && students.map((student, index) => {
               return (
                 <StudentCard key={student.id} studentData={student} />
               )
             })}
-          </InfiniteScroll> */}
+          </InfiniteScroll>
         </div>
       </div>
     </div>

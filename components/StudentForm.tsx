@@ -2,7 +2,7 @@
 import { Button } from "@/components";
 import { FormOperationProps, StudentProps } from "@/types";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FiUserPlus } from "react-icons/fi";
 import supabase from '../lib/supabaseClient';
 
@@ -162,8 +162,8 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="year">Year</label>
-            <select required onChange={handleChange} name="year" id="year" className='form__input'>
-              <option value="NoYear" selected></option>
+            <select required onChange={handleChange} name="year" id="year" className='form__input' defaultValue={'NoYear'}>
+              <option value="NoYear"></option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
