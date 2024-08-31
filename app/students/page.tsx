@@ -1,35 +1,40 @@
 'use client'
-import { Filter, SearchBar, StudentCard, StudentForm } from "@/components";
+import { Filter, SearchBar, StudentForm } from "@/components";
+import supabase from '@/lib/supabaseClient';
+import { StudentProps } from '@/types';
+import { lineSpinner } from 'ldrs';
 import { useEffect, useState } from "react";
 import styles from './styles.module.css';
 
-import supabase from '@/lib/supabaseClient';
-import { StudentProps } from '@/types';
-
 const Page: React.FC = () => {
 
+  lineSpinner.register()
+
   const [students, setStudents] = useState<StudentProps[]>([])
+  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
 
   const getStudents = async () => {
-      try {
-        const res = await fetch('/api/students');
-        const json = await res.json();
+    const { data, error } = await supabase
+      .from('student')
+      .select('*')
+      .order('lastName', { ascending: true })
+      .range((page - 1) * 10, page * 10 - 1);
 
-        if (!res.ok) {
-          throw new Error('Error fetching students');
-        }
-        
-        setStudents(json)
+    if (error) {
+      console.error('Error fetching posts:', error);
+    } else {
+      setStudents([...students, ...data]);
+      setHasMore(data.length === 10);
+    }
 
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
+    setLoading(false);
   };
   
   useEffect(() => {
     getStudents()
-  }, [])
+  }, [page])
 
   useEffect(() => {
     const channel = supabase
@@ -75,24 +80,30 @@ const Page: React.FC = () => {
       <Filter buttonClassName='fixed right-2 top-1 grid place-items-center h-12 w-12 z-[30]' />
       <div className={` ${styles.studentsList} pb-40 px-5 min-h-[100vh]`}> 
         <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />
-        <div className='bg-white h-fit pl-5 shadow-sm rounded-xl'>
-          
-          {/* TODO: Implement Lazy loading on students list */}
-          {students.length !== 0 && students.map((student, index) => {
-             
-            if (index === students.length - 1) {
+        <div className='bg-white h-fit pl-5 shadow-sm rounded-xl overflow-hidden'>
+          <div className="h-10 items-center" key={0}>
+            <l-line-spinner
+              size="25"
+              stroke="3"
+              speed="1" 
+              color="black" 
+            ></l-line-spinner>
+          </div>
+          {/* TODO: Implement infinite scrolling on students list */}
+          {/* <InfiniteScroll
+            dataLength={students.length}
+            next={() => {setPage(page + 1)}}
+            hasMore={hasMore}
+            loader={<div className="" key={0}>loading...</div>}
+            endMessage={<div className="absolute w-full text-center left-0 mt-5 text-sm text-gray-600" key={1}>End of list</div>}
+          >
+            {students.length !== 0 && students.map((student, index) => {
               return (
-                <StudentCard key={student.id} studentData={student} className='!border-0' />
-              ) 
-            }
-
-            return (
-              <StudentCard key={student.id} studentData={student} />
-            )
-
-          })}
+                <StudentCard key={student.id} studentData={student} />
+              )
+            })}
+          </InfiniteScroll> */}
         </div>
-        {!students.length && <span>...</span>}
       </div>
     </div>
   )

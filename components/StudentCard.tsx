@@ -1,11 +1,11 @@
 'use client'
-import { IoIosArrowForward } from "react-icons/io";
-import Link from "next/link";
-import { StudentProps } from "@/types";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import supabase from "@/lib/supabaseClient";
 import { ConfirmationModal } from "@/components";
+import supabase from "@/lib/supabaseClient";
+import { StudentProps } from "@/types";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { IoIosArrowForward } from "react-icons/io";
 
 const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChecked?: boolean, pageState?: string, className?: string}> = ({ studentData, eventId, isChecked, pageState, className /* pageState = present or absent */ }) => {
   
