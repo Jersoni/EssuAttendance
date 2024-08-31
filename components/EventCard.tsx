@@ -93,14 +93,14 @@ const EventCardActions = () => (
     
     <button 
       onClick={(e) => {e.preventDefault()}} 
-      className='h-full p-4 border-b border-gray-200'
+      className='h-full p-4 border-b border-gray-200 active:bg-gray-200'
     >
       <RiEdit2Line size={23} className='fill-gray-700' />
     </button>
       
     <button 
       onClick={(e) => {e.preventDefault()}}
-      className='h-full p-4'
+      className='h-full p-4 active:bg-red-100'
     >
       <PiTrashSimpleBold size={23} className='fill-gray-700' />
     </button>

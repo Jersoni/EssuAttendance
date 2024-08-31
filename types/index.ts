@@ -11,14 +11,22 @@ export interface StudentProps {
 }
 
 export interface EventProps {
-    id: number
+    id: number | null
     title: string
     location: string
     loginTime: string
     logoutTime: string
     fineAmount: number
     eventDate: string
-    classes?: string
+}
+
+export interface FormEventProps {
+    title: string
+    location: string
+    loginTime: string
+    logoutTime: string
+    fineAmount: number
+    eventDate: string
 }
 
 export interface headerProps {

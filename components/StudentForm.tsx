@@ -44,7 +44,7 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
     : await supabase.from('student')
       .update([ { ...formData } ])
       .eq('id', formData.id)
-
+      
     if (error) {
       // Handle error
       console.error(error);
@@ -84,28 +84,18 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
     setFormData({ ...formData, [name]: updatedValue });
   };
 
-  // keydown event on input
+  // keydown event on section, prevent more than 1 character input
   const handleKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-
-    const { name, value } = e.target as HTMLInputElement
-
-    if (name === 'section') {
-      if((e.target as HTMLInputElement).value.length > 0) {
-        if (e.key !== 'Backspace') {
-          e.preventDefault()
-        }
+    if((e.target as HTMLInputElement).value.length > 0) {
+      if (e.key !== 'Backspace') {
+        e.preventDefault()
       }
     }
 
-    if (name === 'id')
-      if ( /^[a-zA-Z]$/.test(e.key) || value.length > 6 && e.key !== 'Backspace')
-        e.preventDefault()
-
+    // if (name === 'id')
+    //   if ( /^[a-zA-Z]$/.test(e.key) || value.length > 6 && e.key !== 'Backspace')
+    //     e.preventDefault()
   }
-
-  useEffect(() => {
-    // console.log(formData)
-  }, [formData])
 
   return (
     <div>
@@ -120,7 +110,7 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
           <h1 className='font-semibold p-3 absolute text-center w-full'>Add Student</h1>
           <Button variant='close' className='ml-auto z-[120] !p-3' onClick={toggleStudentForm}></Button>
         </div>
-
+        
         <form id="newStudentForm" onSubmit={handleSubmit} className='p-5 flex flex-col gap-4 overflow-y-scroll h-full pb-[8rem] bg-gray-100 pt-8'>
 
           <div className='flex flex-col gap-1'>
@@ -145,7 +135,7 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
 
           <div className='flex flex-col gap-1'>
             <label className='form__label' htmlFor="id">Student ID</label>
-            <input required onChange={handleChange} onKeyDown={handleKeydown} autoComplete='off' type="text" name="id" id="id" className={`form__input`} onBlur={scrollTop} />
+            <input required onChange={handleChange} autoComplete='off' type="number" name="id" id="id" className={`form__input`} onBlur={scrollTop} />
           </div>
 
           <div className='flex flex-col gap-1'>

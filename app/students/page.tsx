@@ -32,7 +32,6 @@ const Page: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    
     const channel = supabase
       .channel('realtime_students_A')
       .on('postgres_changes', {
@@ -50,7 +49,7 @@ const Page: React.FC = () => {
         schema: 'public',
         table: 'student'
       }, (payload) => {
-        console.log('new student: ')
+        console.log('updated student: ')
         console.log(payload.new)
         setStudents([...students, (payload.new as StudentProps)])
         getStudents()
@@ -72,12 +71,13 @@ const Page: React.FC = () => {
 
   return (
     <div className='bg-gray-100'>
-      {/* TODO: student form client side functionality */}
       <StudentForm /> 
       <Filter buttonClassName='fixed right-2 top-1 grid place-items-center h-12 w-12 z-[30]' />
       <div className={` ${styles.studentsList} pb-40 px-5 min-h-[100vh]`}> 
         <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />
         <div className='bg-white h-fit pl-5 shadow-sm rounded-xl'>
+          
+          {/* TODO: Implement Lazy loading on students list */}
           {students.length !== 0 && students.map((student, index) => {
              
             if (index === students.length - 1) {
