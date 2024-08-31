@@ -28,21 +28,20 @@ export async function GET(req) {
 // delete event
 export async function DELETE(req) {
 
-    const { searchParams } = new URL(req.url)
-    const id = searchParams.get('id')
-  
-  
-    const { data, error } = await supabase
-      .from("event")
-      .delete() 
-      .eq("id", id)
-  
-    if(error) { 
-        console.log(error)
-        return NextResponse.json({error: "there is an error deleting the students."}, {status: 401})
-    }
-  
-    return NextResponse.json({mssg: "student deleted sucessfully"}, {status: 201})
+  const { searchParams } = new URL(req.url)
+  const id = searchParams.get('id')
+
+  const { data, error } = await supabase
+    .from("event")
+    .delete() 
+    .eq("id", id)
+
+  if(error) { 
+      console.log(error)
+      return NextResponse.json({error: "there is an error deleting the students."}, {status: 401})
   }
-  
+
+  return NextResponse.json({mssg: "student deleted sucessfully"}, {status: 201})
+}
+
   

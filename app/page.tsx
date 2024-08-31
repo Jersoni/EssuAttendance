@@ -74,7 +74,8 @@ const Home: React.FC = () => {
         schema: 'public',
         table: 'event'
       }, (payload) => {
-        console.log('deleted attendance log id: ' + payload.old)
+        console.log('deleted attendance log id: ')
+        console.log(payload.old)
         fetchEvents()
       })
       .subscribe()

@@ -122,6 +122,7 @@ const Student = ({ params }: { params: any }) => {
         router.back()
     }
 
+    // TODO: EDIT STUDENT
     return (
         <div className='h-[100vh] bg-gray-100'>
 
