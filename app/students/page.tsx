@@ -91,7 +91,7 @@ const Page: React.FC = () => {
             loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>
                       <l-line-spinner
                         size="25"
-                        stroke="3"
+                        stroke="2"
                         speed="1" 
                         color="black"
                       ></l-line-spinner>

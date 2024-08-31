@@ -86,7 +86,7 @@ const Home: React.FC = () => {
   })
 
   return (
-    <div className={`p-4 pb-40 flex flex-col min-h-[100vh] bg-gray-100`}>
+    <div className={`p-4 pb-40 flex flex-col min-h-[100vh] bg-gray-100 `}>
       
       <EventForm />
 
