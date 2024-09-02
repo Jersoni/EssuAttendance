@@ -11,7 +11,7 @@ export interface StudentProps {
 }
 
 export interface EventProps {
-    id: number | null
+    id: number | undefined
     title: string
     location: string
     loginTime: string

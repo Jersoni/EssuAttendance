@@ -5,6 +5,7 @@ import { StudentProps } from "@/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { FaCircleCheck } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
 
 const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChecked?: boolean, pageState?: string, className?: string}> = ({ studentData, eventId, isChecked, pageState, className /* pageState = present or absent */ }) => {
@@ -88,9 +89,29 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
   
   return (
     <div className={`${isHidden && ''} flex flex-row items-center gap-4 border-gray-200 border-b z-100 ${className}`}>
+
+      {/* CHECKBOX */}
       {pathname.slice(0, 7) === '/events' && (
-        <input checked={isPresent} type="checkbox" className={`h-7 w-7`} onChange={handleModalToggle}  />
+        <>
+          {
+            isPresent 
+            ? <FaCircleCheck 
+                onClick={handleModalToggle} 
+                size={36}   
+                fill="rgb(5 150 105)" 
+                className="border-0 m-0 p-0" 
+              /> 
+            : <div 
+                onClick={handleModalToggle} 
+                className="border-2 border-gray-500 h-8 min-w-8 rounded-full"
+              >
+              </div>
+          }
+          <input checked={isPresent} type="checkbox" className={`h-7 w-7 hidden `} onChange={handleModalToggle}  />
+        </>
       )}
+
+      {/* STUDENT */}
       <Link href={`/students/${studentData.id}`} className={`flex flex-row justify-between w-full items-center py-3 z-100`}>
         <div>
           <h2 className='text-sm font-[400]'>{`${lastName}, ${firstName} ${middleInitial}`} </h2>
@@ -103,6 +124,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
         <IoIosArrowForward className="opacity-40 mr-3"/>
       </Link>
 
+      {/* MODAL */}
       <ConfirmationModal 
         isOpen={isOpen} 
         title="Confirm Attendance Update"

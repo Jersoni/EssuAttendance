@@ -1,15 +1,13 @@
 // eslint-disable @next/next/no-async-client-component 
 "use client"
-import { PageHeader, SearchBar, StudentCard, Button, Filter } from '@/components';
-import { EventProps, StudentProps, Attendance } from '@/types';
-import { useEffect, useState } from 'react';
-import styles from './styles.module.css';
-import { TbChecklist } from "react-icons/tb";
-import { FaRegCalendarXmark } from "react-icons/fa6";
-import { useRouter } from 'next/navigation';
-import { LuScanLine } from "react-icons/lu";
-import { formatDate } from '@/utils/utils';
+import { Filter, PageHeader, SearchBar, StudentCard } from '@/components';
 import supabase from '@/lib/supabaseClient';
+import { Attendance, EventProps, StudentProps } from '@/types';
+import { formatDate } from '@/utils/utils';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { LuScanLine } from "react-icons/lu";
+import styles from './styles.module.css';
 
 const EventPage: React.FC = ({ params }: any) => {
 
@@ -152,7 +150,7 @@ const EventPage: React.FC = ({ params }: any) => {
     setSelectedValue(event.target.value);
   }
 
-  // HTML
+  // TODO: Attendance overall logic and functionality
   return (
     <div className='min-h-screen max-h-screen'>
       <PageHeader 
@@ -165,14 +163,14 @@ const EventPage: React.FC = ({ params }: any) => {
         <LuScanLine onClick={() => router.push(`./5/scanner`)} size={24} />
       </button>
 
-      <Filter buttonClassName='absolute right-6 top-6' />
       
-      <div className='max-h-[100vh] overflow-y-auto pb-40 p-5 pt-3'>
+      <div className='max-h-[100vh] overflow-y-auto pb-40 p-5 pr-0 pt-20'>
 
-        <SearchBar />
+        <Filter buttonClassName='absolute top-4 right-4 !z-[600]' />
+        <SearchBar className='mr-5' />
 
         {/* TOGGLE OPTIONS */}
-        <div className={`mt-6 border-2 w-full ml-auto border-gray-200 rounded-full bg-gray-100 flex flex-row items-center`}>
+        {/* <div className={`mt-6 border-2 w-full ml-auto border-gray-200 rounded-full bg-gray-100 flex flex-row items-center`}>
           <label className={`${styles.radioLabel} ${selectedValue === "present" ? "bg-[#ffffff] shadow-[1px_0_3px_rgba(0,0,0,0.1)]" : "text-gray-400"}`} htmlFor='present'>
             <input
               type="radio" 
@@ -203,17 +201,16 @@ const EventPage: React.FC = ({ params }: any) => {
               <span className=''>Absent</span>
             </div>
           </label>
-        </div>
+        </div> */}
 
         {/* STUDENTS LIST */ }
         <div className={`${styles.studentsList} mt-8`}>
           {students.length !== 0 && students.map((student: StudentProps) => {
-            if ((student.isPresent && selectedValue === 'present') || (!student.isPresent && selectedValue === 'absent'))
             return (
               <StudentCard key={student.id} eventId={event?.id} studentData={student} isChecked={student?.isPresent} pageState={selectedValue} />
             )
           })}
-          {students.length === 0 && <span>Theres nothing here yet.</span>}
+          {students.length === 0 && <span>Loading...</span>}
         </div>
       </div>
     </div>

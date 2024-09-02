@@ -1,10 +1,8 @@
 "use client"
-import React, { useRef, useState, useEffect } from 'react'
-import { LuListFilter } from "react-icons/lu";
-import { GoChevronDown } from "react-icons/go";
 import { Button } from '@/components';
-import { FiFilter } from "react-icons/fi";
-
+import React, { useEffect, useRef, useState } from 'react';
+import { GoChevronDown } from "react-icons/go";
+import { RiFilter2Line } from "react-icons/ri";
 
 interface filterButtonProps {
     buttonClassName?: string;
@@ -43,7 +41,7 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
     return (
         <div>
             <button className={buttonClassName} onClick={toggleFilter}>
-                <FiFilter size={24} />
+                <RiFilter2Line size={24} />
             </button>
             
             {/* Filter */}
@@ -72,7 +70,7 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
                         </div>
                     </div>
                     <div className='flex flex-row gap-3 left-0 w-full items-center p-5 pb-12'>
-                        <Button variant='secondary' onClick={toggleFilter} >Clear all</Button>
+                        <Button variant='secondary' onClick={toggleFilter} >Set Default</Button>
                         <Button variant='primary' onClick={toggleFilter}>Apply</Button>
                     </div>
                 </div>
