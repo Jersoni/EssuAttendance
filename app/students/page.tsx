@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.css';
 
-const Page: React.FC = () => {
+const Page = () => {
 
   lineSpinner.register()
 
