@@ -175,11 +175,11 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
             
             {/* Filter */}
             <div className=''>
-                <div className={`bg-gray-100 absolute h-fit w-full left-0 right-0 mx-auto transition-all duration-200 bottom-0 ${isBlock ? "" : "hidden"} ${isOpen ? "" : "translate-y-full" } z-[140] rounded-t-2xl flex flex-col justify-between text-sm`}>
-                    <h2 className='p-5 text-lg font-semibold text-center'>Filter</h2>
-                        <div className='px-5 pb-0 overflow-y-scroll min-h-full'>
+                <div className={`bg-gray-100 fixed w-[0vw] h-full right-0 mx-auto transition-all duration-200 bottom-0 overflow-hidden ${isOpen ? "!w-[90vw]" : "" } z-[700] flex flex-col text-sm`}>
+                    <h2 className='p-4 text-lg font-semibold border-b border-gray-300 text-center'>Filter</h2>
+                        <div className='px-5 pb-0 mt-5'>
                             {/* X BUTTON */}
-                            <Button variant='close' onClick={toggleFilter} className='absolute right-2 top-2'></Button>
+                            <Button variant='close' onClick={toggleFilter} className='absolute right-1 top-[5px]'></Button>
 
                             {/* FILTER */}
                             <div className='flex flex-col gap-4'>
@@ -202,7 +202,7 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
                                 <RadioList options={DISPLAY_OPTIONS} onChange={handleDisplayOptionChange} filters={displayOption} />
                             </div>
                         </div>
-                    <div className='flex flex-row gap-3 left-0 w-full items-center p-5 pb-12'>
+                    <div className='flex flex-row absolute bottom-0 gap-3 left-0 w-full items-center p-5 pb-8 border-t border-gray-300'>
                         <Button variant='secondary' onClick={resetFilters} >Reset</Button>
                         <Button variant='primary' onClick={applyFilters}>Apply</Button>
                     </div>
