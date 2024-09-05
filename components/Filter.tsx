@@ -1,10 +1,10 @@
 "use client"
 import { Button } from '@/components';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
-import { GoChevronDown } from "react-icons/go";
 import { FaCheck } from "react-icons/fa";
+import { GoChevronDown } from "react-icons/go";
 import { RiFilter2Line } from "react-icons/ri";
-import { stringify } from 'querystring';
 
 interface filterButtonProps {
     buttonClassName?: string;
@@ -123,9 +123,40 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
             setSections(['AllSections'])
     }, [sections]) 
 
+    // SET DEFAULT
+    function resetFilters() {
+        setCourses(['AllCourses'])
+        setYears(['AllYears'])
+        setSections(['AllSections'])
+        setSortBy('surname')
+        setOrder('ascending')
+        setDisplayOption('showAll')
+    }
+
+    // TODO: 
     // HANDLE SUBMIT
-    const applyFilters = () => {
-        console.log('Apply filter button clicked');
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = new URLSearchParams()
+    const routeParams = useParams()
+
+    function applyFilters() {
+        courses.forEach(course => {searchParams.append('c', course)})
+        years.forEach(year => searchParams.append('y', year))
+        sections.forEach(section => searchParams.append('s', section))
+        searchParams.append('sb', sortBy)
+        searchParams.append('o', order)
+        searchParams.append('d', displayOption)
+
+        // console.log(searchParams.getAll('c'))
+        searchParams.forEach((key, value) => {
+            console.log(key)
+            console.log(value)
+        })
+
+
+        router.push(`/events/${routeParams.id}?${searchParams.toString()}`)
+        
     }
 
     // just pretty prints all filters data
@@ -144,7 +175,7 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
             
             {/* Filter */}
             <div className=''>
-                <div className={`bg-gray-100 absolute h-fit w-full left-0 right-0 mx-auto transition-all duration-200 bottom-0 ${isBlock ? "" : "hidden"} ${isOpen ? "" : "translate-y-full" } z-[140] rounded-t-3xl flex flex-col justify-between text-sm`}>
+                <div className={`bg-gray-100 absolute h-fit w-full left-0 right-0 mx-auto transition-all duration-200 bottom-0 ${isBlock ? "" : "hidden"} ${isOpen ? "" : "translate-y-full" } z-[140] rounded-t-2xl flex flex-col justify-between text-sm`}>
                     <h2 className='p-5 text-lg font-semibold text-center'>Filter</h2>
                         <div className='px-5 pb-0 overflow-y-scroll min-h-full'>
                             {/* X BUTTON */}
@@ -172,13 +203,8 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
                             </div>
                         </div>
                     <div className='flex flex-row gap-3 left-0 w-full items-center p-5 pb-12'>
-                        <Button variant='secondary' onClick={()=>{
-                            // TODO: set default functionality
-                        }} >Set Default</Button>
-                        <Button variant='primary' onClick={() => {
-                            // toggleFilter()
-                            applyFilters()
-                        }}>Apply</Button>
+                        <Button variant='secondary' onClick={resetFilters} >Reset</Button>
+                        <Button variant='primary' onClick={applyFilters}>Apply</Button>
                     </div>
                 </div>
                 <div onClick={toggleFilter} className={`bg-black bg-opacity-70 h-full w-full absolute top-0 left-0 z-[100] transition-all ${isOpen ? "block" : "hidden"}`}></div>
@@ -238,8 +264,6 @@ const SECTION: HTMLInputListProps[] = [
     {value: 'D', label: 'D', name: 'section'},
     {value: 'E', label: 'E', name: 'section'},
 ]
-
-// TODO: TRANSFER STATE LOGIC TO THE PARENT COMPONENT
 
 const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) => {
 
@@ -336,6 +360,7 @@ const RadioList: React.FC<HTMLInputList> = ({ options, filters, onChange }) => {
                         value={option.value} 
                         id={option.value} 
                         onChange={onChange} 
+                        checked={filters === option.value}
                         className='h-6 w-6 absolute hidden'
                     />
 
