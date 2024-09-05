@@ -2,8 +2,9 @@
 import { Button } from '@/components';
 import React, { useEffect, useRef, useState } from 'react';
 import { GoChevronDown } from "react-icons/go";
-import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
+import { FaCheck } from "react-icons/fa";
 import { RiFilter2Line } from "react-icons/ri";
+import { stringify } from 'querystring';
 
 interface filterButtonProps {
     buttonClassName?: string;
@@ -80,14 +81,17 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
 
     function handleSortChange(event: React.ChangeEvent<HTMLInputElement>) {
         const {value} = event.target
+        setSortBy(value)
     }
 
     function handleOrderChange(event: React.ChangeEvent<HTMLInputElement>) {
         const {value} = event.target
+        setOrder(value)
     }
 
     function handleDisplayOptionChange(event: React.ChangeEvent<HTMLInputElement>) {
         const {value} = event.target
+        setDisplayOption(value)
     }
 
     // courses
@@ -97,7 +101,7 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
             setCourses(courses.filter(course => course !== 'AllCourses'))
 
         // returns the 'all' value to the array
-        if (courses.length === 0)
+        if (courses.length === 0 )
             setCourses(['AllCourses'])
     }, [courses])
 
@@ -106,8 +110,8 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
         if (years.includes('AllYears') && years.length > 1)
             setYears(years.filter(year => year !== 'AllYears'))
 
-        if (years.length === 0)
-        setYears(['Allyears'])
+        if (years.length === 0 || years.length === 4)
+            setYears(['AllYears'])
     }, [years])
 
     // sections
@@ -115,15 +119,22 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
         if (sections.includes('AllSections') && sections.length > 1)
             setSections(sections.filter(section => section !== 'AllSections'))
 
-        if (sections.length === 0)
+        if (sections.length === 0 || sections.length === 5)
             setSections(['AllSections'])
     }, [sections]) 
-
 
     // HANDLE SUBMIT
     const applyFilters = () => {
         console.log('Apply filter button clicked');
     }
+
+    // just pretty prints all filters data
+    useEffect(() => {
+        const filters = {
+            courses, years, sections, sortBy, order, displayOption
+        }  
+        console.log(JSON.stringify(filters, null, 2))
+    }, [courses, years, sections, sortBy, order, displayOption])
 
     return (
         <div>
@@ -238,10 +249,6 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
         setIsOpen(!isOpen)
     }
 
-    useEffect(() => {
-        console.log(filters)
-    }, [filters])
-
     return (
         <>
         <div className='filter__card relative' onClick={() => {!isOpen && handleCLick()}}>
@@ -249,7 +256,9 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
             <span className='flex justify-between w-full items-center mr-auto font-medium text-gray-800'>
                 {label}
                 <div className='flex items-center gap-3'>
-                    {/* <span className='text-gray-400'>{checked[0] === firstOptionsValue ? "All" : checked.length}</span> */}
+                    <span className='text-gray-400'>
+                        {filters.includes('AllCourses') || filters.includes('AllYears') || filters.includes('AllSections') ? "All" : filters.length}
+                    </span>
                     <GoChevronDown className='opacity-90' />
                 </div>
             </span>
@@ -257,20 +266,23 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
             <div className={`${isOpen ? "" : "hidden"} p-5 mt-4 absolute bg-white z-[180] rounded-2xl w-full top-8`}>
                 <div className='flex flex-col overflow-y-scroll max-h-44'>
                     {options.map((option) => (
-                        <div className='flex py-[7px] items-center' key={option.value}>
-                            <MdCheckBoxOutlineBlank size={34} className='fill-gray-500' />
-                            <MdCheckBox size={34} className='fill-green-700' />
+                        <div className='flex py-[5px] items-center relative' key={option.value}>
+                            {filters.includes(option.value) 
+                                ? <div className='min-h-6 min-w-6 rounded-lg bg-emerald-600 grid place-items-center'>
+                                    <FaCheck className='fill-white'/>
+                                </div>
+                                // : <MdCheckBoxOutlineBlank size={34} className='fill-gray-500' /> 
+                                : <div className='bg-gray-200 min-h-6 min-w-6 rounded-lg'></div>
+                            }
                             <input
                                 type="checkbox" 
                                 id={option.value} 
                                 name={option.name}
                                 value={option.value}
-                                className={`relative min-h-5 min-w-5 bg-white border border-gray-800 `}
+                                className={` min-h-6 min-w-6 bg-gray absolute appearance-none `}
                                 // className={`relative min-h-5 min-w-5 bg-white border border-gray-800 rounded-full checked:before:content-[''] checked:before:absolute checked:before:h-[15px] checked:before:w-[15px] checked:before:bg-gray-700 checked:before:rounded-full checked:before:translate-y-[1.5px] checked:before:translate-x-[1.5px] `}
                                 defaultChecked={option.value === 'AllCourses' || option.value === 'AllYear' || option.value === 'AllSections'}
-                                onChange={e => {
-                                    onChange(e)
-                                }}
+                                onChange={onChange}
                                 checked={filters.includes(option.value)}
                             />
                             <label htmlFor={option.value} className='w-full pl-3'>{option.label}</label>
@@ -299,30 +311,23 @@ const ORDER_OPTIONS: HTMLInputListProps[] = [
 ];
 
 const DISPLAY_OPTIONS: HTMLInputListProps[] = [
-    { value: 'all', label: 'Show all', name: 'display' },
-    { value: 'absentOnly', label: 'Present students only', name: 'display' },
-    { value: 'presentOnly', label: 'Absent students only', name: 'display' },
+    { value: 'showAll', label: 'Show all', name: 'display' },
+    { value: 'presentOnly', label: 'Present students only', name: 'display' },
+    { value: 'absentOnly', label: 'Absent students only', name: 'display' },
 ];
 
-const RadioList: React.FC<HTMLInputList> = ({ options }) => {
-    
-    const [isSelected, setIsSelected] = useState<string>('')
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setIsSelected(e.target.value);
-    }
-
-    // set the default or initial option (first option)
-    useEffect(() => {
-        options.map((option, index) => {
-            index === 0 && setIsSelected(option.value)
-        })
-    }, [options])
-    
+const RadioList: React.FC<HTMLInputList> = ({ options, filters, onChange }) => {
     return (
         <div className='flex flex-col mt-4 pl-1 gap-2'>
             {options.map((option, index) => (
-                <div className='flex items-center' key={option.value}>
+                <div className='flex items-center relative' key={option.value}>
+
+                    {filters === option.value
+                        ? <div className='min-h-6 min-w-6 bg-gray-200 border-2 border-emerald-700 rounded-full grid place-items-center'>
+                            <div className='bg-emerald-700 h-4 w-4 rounded-full'></div>
+                          </div>
+                        : <div className='min-h-6 min-w-6 bg-gray-200 rounded-full'></div>
+                    }
 
                     {/* Hidden Radio Button */}
                     <input
@@ -330,17 +335,11 @@ const RadioList: React.FC<HTMLInputList> = ({ options }) => {
                         name={option.name}
                         value={option.value} 
                         id={option.value} 
-                        onChange={handleChange} 
-                        className='hidden'
-                        defaultChecked={index === 0} // Check the first option by default
+                        onChange={onChange} 
+                        className='h-6 w-6 absolute hidden'
                     />
 
                     {/* Customized Radio Button */}
-                    <div className='border border-black h-5 w-5 rounded-full flex items-center justify-center'>
-                        {isSelected === option.value
-                            && <div className='h-[15px] w-[15px] rounded-full bg-gray-700 relative'></div>
-                        }
-                    </div>
 
                     <label htmlFor={option.value} className='opacity-90 pl-2 z-[130]'>
                         {option.label}
