@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function EventLink({ eventData }: { eventData: EventProps }) {
 
-    const id: number = eventData.id
+    const id: number | undefined = eventData.id
     const title: string = eventData.title
     const fine: string = "₱ " + eventData.fineAmount.toFixed(2).toString()
 
