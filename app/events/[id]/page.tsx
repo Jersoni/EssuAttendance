@@ -4,7 +4,7 @@ import { Filter, PageHeader, SearchBar, StudentCard } from '@/components';
 import supabase from '@/lib/supabaseClient';
 import { Attendance, EventProps, StudentProps } from '@/types';
 import { formatDate } from '@/utils/utils';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { LuScanLine } from "react-icons/lu";
 import styles from './styles.module.css';
@@ -35,7 +35,6 @@ const EventPage: React.FC = ({ params }: any) => {
 
     getEvent()
   }, [params.id])
-
 
   // FETCH ATTENDANCE
   const [attendanceData, setAttendanceData] = useState<Attendance[]>([]);
@@ -149,6 +148,10 @@ const EventPage: React.FC = ({ params }: any) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(event.target.value);
   }
+
+  const searchParams = useSearchParams()
+
+  // console.log(searchParams ? searchParams.get('age') : "")
 
   // TODO: Attendance overall logic and functionality
   return (

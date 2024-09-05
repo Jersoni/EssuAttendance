@@ -66,3 +66,41 @@ export interface ConfirmationModalProps {
     confirmBtnVariant?: "primary" | "secondary" | "clear" | "close" | "small-circle" | "small-square";
     type?: 'default' | 'delete';
 }
+
+export interface FilterProps {
+    course?: {
+        allCourses: boolean;
+        bsce: boolean;
+        bsinfotech: boolean;
+        bsit: boolean;
+        bot: boolean;
+        bstm: boolean;
+        bse: boolean;
+        bsba: boolean;
+        bsais: boolean;
+        bac: boolean;
+        btvted: boolean;
+        bsed: boolean;
+        beed: boolean;
+        bsn: boolean;
+        bscrim: boolean;
+    };
+    year?: {
+        allyears: boolean;
+        year1: boolean;
+        year2: boolean;
+        year3: boolean;
+        year4: boolean;
+    };
+    section?: {
+        allSections: boolean;
+        a: boolean;
+        b: boolean;
+        c: boolean;
+        d: boolean;
+        e: boolean;
+    };
+    sortby?: 'surname' | 'studentID';
+    order?: 'ascending' | 'descending';
+    displayOption?: 'showAll' | 'presentOnly' | 'absentOnly';
+}

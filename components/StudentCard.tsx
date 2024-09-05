@@ -39,7 +39,6 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
   // Section formatting
   let section = studentData.section.toUpperCase()
 
-
   const pathname = usePathname()
 
   const [isPresent, setIsPresent] = useState(isChecked)
@@ -54,7 +53,6 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
   // UPDATE 
   useEffect(() => {
     // A query to update 'isPresent' in the database, table 'attendance'
-    console.log("update")
     async function updateQuery( studentId: number, eventId: any, isPresent:boolean | undefined ) {
       const { data, error } = await supabase
       .from('attendance')
@@ -80,7 +78,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
   }
 
   // MODAL
-  const modalDescription = `Please confirm your action to mark ${firstName} ${lastName} as ${pageState === 'present' ? 'absent' : 'present'}. This confirmation will update the attendance record`
+  const modalDescription = `Mark ${firstName} ${lastName} as ${isChecked ? 'absent' : 'present'}?`
   const [isOpen, setIsOpen] = useState(false)
 
   function handleModalToggle() {
@@ -103,11 +101,11 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
               /> 
             : <div 
                 onClick={handleModalToggle} 
-                className="border-2 border-gray-500 h-8 min-w-8 rounded-full"
+                className="border-2 border-gray-400 h-8 min-w-8 rounded-full"
               >
               </div>
           }
-          <input checked={isPresent} type="checkbox" className={`h-7 w-7 hidden `} onChange={handleModalToggle}  />
+          <input checked={isPresent} type="checkbox" className={`h-7 w-7 hidden`} onChange={handleModalToggle}  />
         </>
       )}
 
@@ -127,7 +125,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
       {/* MODAL */}
       <ConfirmationModal 
         isOpen={isOpen} 
-        title="Confirm Attendance Update"
+        title="Confirm Attendance"
         content={modalDescription} 
         onClose={handleModalToggle}
         onConfirm={handleCheckboxChange}  
