@@ -155,19 +155,19 @@ const EventPage: React.FC = ({ params }: any) => {
 
   // TODO: Attendance overall logic and functionality
   return (
-    <div className='min-h-screen max-h-screen'>
+    <div className=' overflow-hidden'>
       <PageHeader 
         title={event?.title} 
         subtitle={event?.eventDate ? formatDate(event?.eventDate) : ""}
       />
 
       {/* SCANNER BUTTON */}
-      <button className='absolute top-6 right-[70px]'>
+      <button className=' fixed z-[500] top-4 right-[60px]'>
         <LuScanLine onClick={() => router.push(`./5/scanner`)} size={24} />
       </button>
 
       
-      <div className='max-h-[100vh] overflow-y-auto pb-40 p-5 pr-0 pt-20'>
+      <div className='overflow-hidden pb-40 p-5 pr-0 pt-20'>
 
         <Filter buttonClassName='absolute top-4 right-4 !z-[600]' />
         <SearchBar className='mr-5' />

@@ -169,17 +169,17 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
 
     return (
         <div>
-            <button className={buttonClassName} onClick={toggleFilter}>
+            <button className={`!fixed ${buttonClassName}`} onClick={toggleFilter}>
                 <RiFilter2Line size={24} />
             </button>
             
             {/* Filter */}
             <div className=''>
                 <div className={`bg-gray-100 fixed w-[0vw] h-full right-0 mx-auto transition-all duration-200 bottom-0 overflow-hidden ${isOpen ? "!w-[90vw]" : "" } z-[700] flex flex-col text-sm`}>
-                    <h2 className='p-4 text-lg font-semibold border-b border-gray-300 text-center'>Filter</h2>
+                    <h2 className='p-4 text-lg font-semibold border-b border-gray-200 text-center'>Filter</h2>
                         <div className='px-5 pb-0 mt-5'>
                             {/* X BUTTON */}
-                            <Button variant='close' onClick={toggleFilter} className='absolute right-1 top-[5px]'></Button>
+                            <Button variant='close' onClick={toggleFilter} className='absolute right-1 top-0.5'></Button>
 
                             {/* FILTER */}
                             <div className='flex flex-col gap-4'>
@@ -202,12 +202,12 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
                                 <RadioList options={DISPLAY_OPTIONS} onChange={handleDisplayOptionChange} filters={displayOption} />
                             </div>
                         </div>
-                    <div className='flex flex-row absolute bottom-0 gap-3 left-0 w-full items-center p-5 pb-8 border-t border-gray-300'>
+                    <div className='flex flex-row absolute bottom-0 gap-3 left-0 w-full items-center p-5 pb-8 border-t border-gray-200'>
                         <Button variant='secondary' onClick={resetFilters} >Reset</Button>
                         <Button variant='primary' onClick={applyFilters}>Apply</Button>
                     </div>
                 </div>
-                <div onClick={toggleFilter} className={`bg-black bg-opacity-70 h-full w-full absolute top-0 left-0 z-[100] transition-all ${isOpen ? "block" : "hidden"}`}></div>
+                <div onClick={toggleFilter} className={`bg-black bg-opacity-70 h-full w-full absolute pointer-events-auto z-[500] top-0 left-0 transition-all ${isOpen ? "block" : "hidden"}`}></div>
             </div>
         </div>
     )
