@@ -9,71 +9,71 @@ import styles from './styles.module.css';
 
 const Page = () => {
 
-  lineSpinner.register()
+  // lineSpinner.register()
 
-  const [students, setStudents] = useState<StudentProps[]>([])
-  const [loading, setLoading] = useState(false)
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
+  // const [students, setStudents] = useState<StudentProps[]>([])
+  // const [loading, setLoading] = useState(false)
+  // const [hasMore, setHasMore] = useState(true);
+  // const [page, setPage] = useState(1);
 
-  const getStudents = async () => {
-    const { data, error } = await supabase
-      .from('student')
-      .select('*')
-      .order('lastName', { ascending: true })
-      .range((page - 1) * 10, page * 10 - 1);
+  // const getStudents = async () => {
+  //   const { data, error } = await supabase
+  //     .from('student')
+  //     .select('*')
+  //     .order('lastName', { ascending: true })
+  //     .range((page - 1) * 10, page * 10 - 1);
 
-    if (error) {
-      console.error('Error fetching posts:', error);
-    } else {
-      setStudents([...students, ...data]);
-      setHasMore(data.length === 10);
-    }
+  //   if (error) {
+  //     console.error('Error fetching posts:', error);
+  //   } else {
+  //     setStudents([...students, ...data]);
+  //     setHasMore(data.length === 10);
+  //   }
 
-    setLoading(false);
-  };
+  //   setLoading(false);
+  // };
   
-  useEffect(() => {
-    getStudents()
-  }, [page])
+  // useEffect(() => {
+  //   getStudents()
+  // }, [page])
 
-  useEffect(() => {
-    const channel = supabase
-      .channel('realtime_students_A')
-      .on('postgres_changes', {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'student'
-      }, (payload) => {
-        console.log('new student: ')
-        console.log(payload.new)
-        setStudents([...students, (payload.new as StudentProps)])
-        getStudents()
-      })
-      .on('postgres_changes', {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'student'
-      }, (payload) => {
-        console.log('updated student: ')
-        console.log(payload.new)
-        setStudents([...students, (payload.new as StudentProps)])
-        getStudents()
-      })
-      .on('postgres_changes', {
-        event: 'DELETE',
-        schema: 'public',
-        table: 'student'
-      }, (payload) => {
-        console.log('deleted student id: ' + payload.old)
-        getStudents()
-      })
-      .subscribe()
+  // useEffect(() => {
+  //   const channel = supabase
+  //     .channel('realtime_students_A')
+  //     .on('postgres_changes', {
+  //       event: 'INSERT',
+  //       schema: 'public',
+  //       table: 'student'
+  //     }, (payload) => {
+  //       console.log('new student: ')
+  //       console.log(payload.new)
+  //       setStudents([...students, (payload.new as StudentProps)])
+  //       getStudents()
+  //     })
+  //     .on('postgres_changes', {
+  //       event: 'UPDATE',
+  //       schema: 'public',
+  //       table: 'student'
+  //     }, (payload) => {
+  //       console.log('updated student: ')
+  //       console.log(payload.new)
+  //       setStudents([...students, (payload.new as StudentProps)])
+  //       getStudents()
+  //     })
+  //     .on('postgres_changes', {
+  //       event: 'DELETE',
+  //       schema: 'public',
+  //       table: 'student'
+  //     }, (payload) => {
+  //       console.log('deleted student id: ' + payload.old)
+  //       getStudents()
+  //     })
+  //     .subscribe()
     
-    return () => {
-      supabase.removeChannel(channel)
-    }
-  })
+  //   return () => {
+  //     supabase.removeChannel(channel)
+  //   }
+  // })
 
   return (
     <div className='bg-gray-100'>
