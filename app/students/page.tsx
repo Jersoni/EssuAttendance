@@ -77,13 +77,13 @@ const Page = () => {
 
   return (
     <div className='bg-gray-100'>
-      <StudentForm /> 
+      {/* <StudentForm />  */}
       {/* <Filter buttonClassName='fixed right-2 top-1 grid place-items-center h-12 w-12 z-[30]' /> */}
-      <div className={` ${styles.studentsList} pb-40 px-5 min-h-[100vh]`}> 
-        <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />
-        <div className='bg-white h-fit pl-5 shadow-sm rounded-xl overflow-hidden'>
+      {/* <div className={` ${styles.studentsList} pb-40 px-5 min-h-[100vh]`}>  */}
+        {/* <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />
+        <div className='bg-white h-fit pl-5 shadow-sm rounded-xl overflow-hidden'> */}
           {/* TODO: Implement infinite scrolling on students list */}
-          <InfiniteScroll
+          {/* <InfiniteScroll
             dataLength={students.length}
             next={() => {setPage(page + 1)}}
             hasMore={hasMore}
@@ -96,15 +96,15 @@ const Page = () => {
                         color="black"
                       ></l-line-spinner>
                     </div>}
-          >
-            {students.length !== 0 && students.map((student, index) => {
+          > */}
+            {/* {students.length !== 0 && students.map((student, index) => {
               return (
                 <StudentCard key={student.id} studentData={student} />
               )
-            })}
-          </InfiniteScroll>
-        </div>
-      </div>
+            })} */}
+          {/* </InfiniteScroll> */}
+        {/* </div> */}
+      {/* </div> */}
     </div>
   )
 }
