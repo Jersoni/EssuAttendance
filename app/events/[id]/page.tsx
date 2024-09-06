@@ -79,10 +79,59 @@ const EventPage: React.FC = ({ params }: any) => {
 
   }, [params.id]);
 
+  // FILTERS
+
+  const [students, setStudents] = useState<StudentProps[]>([])
+
+  const [courses, setCourses] = useState(['AllCourses'])
+  const [years, setYears] = useState(['AllYears'])
+  const [sections, setSections] = useState(['AllSections'])
+  const [sortBy, setSortBy] = useState('lastName')
+  const [order, setOrder] = useState('ascending')
+  const [displayOption, setDisplayOption] = useState('showAll')
+
+  const allCourses = ['BSCE', 'BSIT', 'BOT','BSHM', 'BSTM', 'BSE','BSBA', 'BSAIS','BAC','BTVTED','BSED','BEED', 'BSN','BSCRIM','BSINFOTECH' ]
+  const allYears = [1,2,3,4]
+  const allSections = [ 'A', 'B', 'C', 'D', 'E' ]
+  const allDisplayOptions = [ 'present', 'absent' ]
+
+  // TODO: APPLY FILTERS FUNCTIONALITY
+  async function applyFilters() {
+
+    const studentIDList: Array<number> = students.map(student => student.id)
+    const filterCourses = courses.includes('AllCourses') ? allCourses : courses
+    const filterYears = years.includes('AllYears') ? allYears : years.map(year => parseInt(year))
+    const filterSections = sections.includes('AllSections') ? allSections : sections
+    const filterOrder = order === 'ascending'
+    const filterSortBy = sortBy
+    const filterDisplayOption = displayOption === 'showAll' ? allDisplayOptions : displayOption
+
+    const { data, error } = await supabase
+      .from('student')
+      .select('*')
+      .in('id', studentIDList)
+      .in('course', filterCourses)
+      .in('year', filterYears)
+      .in('section', filterSections)
+      .order(filterSortBy, { ascending: filterOrder })
+
+    error
+    ? console.log(error)
+    : console.log(data)
+
+  }
+
+  // pretty print all filters data
+  useEffect(() => {
+    const filters = {
+        courses, years, sections, sortBy, order, displayOption
+    }  
+    console.log(JSON.stringify(filters, null, 2))
+  }, [courses, years, sections, sortBy, order, displayOption])
+
 
   // FETCH STUDENTS
-  const [students, setStudents] = useState<StudentProps[]>([])
-  
+
   useEffect(() => {
 
     let studentsIDs: number[] = []
@@ -149,16 +198,13 @@ const EventPage: React.FC = ({ params }: any) => {
     setSelectedValue(event.target.value);
   }
 
-  const searchParams = useSearchParams()
-
-  // console.log(searchParams ? searchParams.get('age') : "")
-
   // TODO: Attendance overall logic and functionality
   return (
     <div className=' overflow-hidden'>
       <PageHeader 
         title={event?.title} 
         subtitle={event?.eventDate ? formatDate(event?.eventDate) : ""}
+        returnPath='/'
       />
 
       {/* SCANNER BUTTON */}
@@ -169,7 +215,23 @@ const EventPage: React.FC = ({ params }: any) => {
       
       <div className='overflow-hidden pb-40 p-5 pr-0 pt-20'>
 
-        <Filter buttonClassName='absolute top-4 right-4 !z-[600]' />
+        <Filter 
+          data={students} 
+          buttonClassName='absolute top-4 right-4 !z-[600]' 
+          courses={courses}
+          years={years}
+          sections={sections}
+          sortBy={sortBy}
+          order={order}
+          displayOption={displayOption}
+          setCourses={setCourses}
+          setYears={setYears}
+          setSections={setSections}
+          setSortBy={setSortBy}
+          setOrder={setOrder}
+          setDisplayOption={setDisplayOption}
+          applyFilters={applyFilters}
+        /> 
         <SearchBar className='mr-5' />
 
         {/* TOGGLE OPTIONS */}
@@ -221,4 +283,3 @@ const EventPage: React.FC = ({ params }: any) => {
 }
 
 export default EventPage
-

@@ -1,21 +1,38 @@
 "use client"
 import { Button } from '@/components';
+import { supabase } from "@/lib/supabase";
+import { StudentProps } from '@/types';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { GoChevronDown } from "react-icons/go";
 import { RiFilter2Line } from "react-icons/ri";
 
-interface filterButtonProps {
-    buttonClassName?: string;
-}
-
 // TODO: FILTER FUNCTIONALITY
-const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
+const Filter = ({
+    buttonClassName, data, courses, years, sections, sortBy, order, displayOption,
+    setCourses, setYears, setSections, setSortBy, setOrder, setDisplayOption, applyFilters
+} : {
+    buttonClassName: string
+    data: Array<StudentProps>
+    courses: Array<string>
+    years: Array<string>
+    sections: Array<string>
+    sortBy: string
+    order: string
+    displayOption: string
+    setCourses: ([]) => void
+    setYears: ([]) => void
+    setSections: ([]) => void
+    setSortBy: (value: string) => void
+    setOrder: (value: string) => void
+    setDisplayOption: (value: string) => void
+    applyFilters: () => void
+    
+}) => {
 
     const [isOpen, setIsOpen] = useState(false)
     const [isBlock, setIsBlock] = useState(false)
     const timeoutIdRef = useRef<number | null>(null);
-
         
     // open & close click handler
     const toggleFilter = () => {
@@ -42,12 +59,12 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
     
     // FORM INPUT VALUES
 
-    const [courses, setCourses] = useState(['AllCourses'])
-    const [years, setYears] = useState(['AllYears'])
-    const [sections, setSections] = useState(['AllSections'])
-    const [sortBy, setSortBy] = useState('surname')
-    const [order, setOrder] = useState('ascending')
-    const [displayOption, setDisplayOption] = useState('showAll')
+    // const [courses, setCourses] = useState(['AllCourses'])
+    // const [years, setYears] = useState(['AllYears'])
+    // const [sections, setSections] = useState(['AllSections'])
+    // const [sortBy, setSortBy] = useState('surname')
+    // const [order, setOrder] = useState('ascending')
+    // const [displayOption, setDisplayOption] = useState('showAll')
 
     function handleCoursesChange(event: React.ChangeEvent<HTMLInputElement>) {
         const {value} = event.target
@@ -132,40 +149,6 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
         setDisplayOption('showAll')
     }
 
-    // TODO: 
-    // HANDLE SUBMIT
-    const router = useRouter()
-    const pathname = usePathname()
-    const searchParams = new URLSearchParams()
-    const routeParams = useParams()
-
-    function applyFilters() {
-        courses.forEach(course => {searchParams.append('c', course)})
-        years.forEach(year => searchParams.append('y', year))
-        sections.forEach(section => searchParams.append('s', section))
-        searchParams.append('sb', sortBy)
-        searchParams.append('o', order)
-        searchParams.append('d', displayOption)
-
-        // console.log(searchParams.getAll('c'))
-        searchParams.forEach((key, value) => {
-            console.log(key)
-            console.log(value)
-        })
-
-
-        router.push(`/events/${routeParams.id}?${searchParams.toString()}`)
-        
-    }
-
-    // just pretty prints all filters data
-    useEffect(() => {
-        const filters = {
-            courses, years, sections, sortBy, order, displayOption
-        }  
-        console.log(JSON.stringify(filters, null, 2))
-    }, [courses, years, sections, sortBy, order, displayOption])
-
     return (
         <div>
             <button className={`!fixed ${buttonClassName}`} onClick={toggleFilter}>
@@ -174,7 +157,7 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
             
             {/* Filter */}
             <div className=''>
-                <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto transition-all duration-200 bottom-0 overflow-hidden ${isOpen ? "!w-[90vw]" : "" } z-[700] flex flex-col text-sm`}>
+                <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto duration-700 ease-out transition-all bottom-0 overflow-hidden ${isOpen ? "!w-[90vw]" : "" } z-[700] flex flex-col text-sm`}>
                     <h2 className='p-3.5 text-lg font-semibold bg-white border-b border-gray-200 text-center'>Filter</h2>
                     {/* X BUTTON */}
                     <Button variant='close' onClick={toggleFilter} className='absolute right-1 top-0.5'></Button>
@@ -224,7 +207,6 @@ interface HTMLInputList {
     label?: string;
     onChange: (e: any) => void;
     filters: Array<string> | string;
-
 }
 
 // DATA
@@ -330,7 +312,7 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
 // COMPONENT RADIOLIST
 
 const SORTBY_OPTIONS: HTMLInputListProps[] = [
-    { value: 'surname', label: 'Surname', name: 'sortby' },
+    { value: 'lastName', label: 'Surname', name: 'sortby' },
     { value: 'id', label: 'Student ID', name: 'sortby' },
 ];
 
@@ -341,8 +323,8 @@ const ORDER_OPTIONS: HTMLInputListProps[] = [
 
 const DISPLAY_OPTIONS: HTMLInputListProps[] = [
     { value: 'showAll', label: 'Show All', name: 'display' },
-    { value: 'presentOnly', label: 'Present students only', name: 'display' },
-    { value: 'absentOnly', label: 'Absent students only', name: 'display' },
+    { value: 'present', label: 'Present students only', name: 'display' },
+    { value: 'absent', label: 'Absent students only', name: 'display' },
 ];
 
 const RadioList: React.FC<HTMLInputList> = ({ options, filters, onChange }) => {

@@ -33,6 +33,7 @@ export interface headerProps {
     title?: string; // header title
     subtitle?: string // text under title
     children?: React.ReactNode;
+    returnPath?: string
 }
 
 export interface ButtonProps {
