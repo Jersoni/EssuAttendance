@@ -2,7 +2,6 @@
 import { Button } from '@/components';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
-import { FaCheck } from "react-icons/fa";
 import { GoChevronDown } from "react-icons/go";
 import { RiFilter2Line } from "react-icons/ri";
 
@@ -175,34 +174,33 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
             
             {/* Filter */}
             <div className=''>
-                <div className={`bg-gray-100 fixed w-[0vw] h-full right-0 mx-auto transition-all duration-200 bottom-0 overflow-hidden ${isOpen ? "!w-[90vw]" : "" } z-[700] flex flex-col text-sm`}>
-                    <h2 className='p-4 text-lg font-semibold border-b border-gray-200 text-center'>Filter</h2>
-                        <div className='px-5 pb-0 mt-5'>
-                            {/* X BUTTON */}
-                            <Button variant='close' onClick={toggleFilter} className='absolute right-1 top-0.5'></Button>
-
-                            {/* FILTER */}
-                            <div className='flex flex-col gap-4'>
-                                <DropDownChecklist options={COURSE} label='COURSE' onChange={handleCoursesChange} filters={courses} />
-                                <DropDownChecklist options={YEAR} label='YEAR' onChange={handleYearsChange} filters={years}  />
-                                <DropDownChecklist options={SECTION} label='SECTION' onChange={handleSectionsChange} filters={sections} />
+                <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto transition-all duration-200 bottom-0 overflow-hidden ${isOpen ? "!w-[90vw]" : "" } z-[700] flex flex-col text-sm`}>
+                    <h2 className='p-3.5 text-lg font-semibold bg-white border-b border-gray-200 text-center'>Filter</h2>
+                    {/* X BUTTON */}
+                    <Button variant='close' onClick={toggleFilter} className='absolute right-1 top-0.5'></Button>
+                    <div className='max-h-fit p-5 overflow-y-scroll h-full'>
+                        {/* FILTER */}
+                        <div className='flex flex-col'>
+                            <DropDownChecklist options={COURSE} label='COURSE' onChange={handleCoursesChange} filters={courses} />
+                            <DropDownChecklist options={YEAR} label='YEAR' onChange={handleYearsChange} filters={years}  />
+                            <DropDownChecklist options={SECTION} label='SECTION' onChange={handleSectionsChange} filters={sections} />
+                        </div>
+                        <div className='flex flex-row border-b border-gray-200 py-3 overflow-hidden h-fit w-full'>
+                            <div className='flex-col w-1/2 items-start h-fit'>
+                                <span className='font-medium text-xs'>SORT BY</span>
+                                <RadioList options={SORTBY_OPTIONS} onChange={handleSortChange} filters={sortBy} /> 
                             </div>
-                            <div className='flex flex-row rounded-2xl mt-4 overflow-hidden bg-white h-fit w-full p-4 pb-6'>
-                                <div className='flex-col w-1/2 items-start h-fit'>
-                                    <span className='font-medium text-gray-700'>SORT BY</span>
-                                    <RadioList options={SORTBY_OPTIONS} onChange={handleSortChange} filters={sortBy} /> 
-                                </div>
-                                <div className='flex-col w-1/2 items-start h-fit'>
-                                    <span className='font-medium text-gray-700'>ORDER</span>
-                                    <RadioList options={ORDER_OPTIONS} onChange={handleOrderChange} filters={order} />
-                                </div>
-                            </div>
-                            <div className='bg-white rounded-2xl p-4 pb-6 mt-4'>
-                                <span className='font-medium text-gray-700'>DISPLAY OPTION</span>
-                                <RadioList options={DISPLAY_OPTIONS} onChange={handleDisplayOptionChange} filters={displayOption} />
+                            <div className='flex-col w-1/2 items-start h-fit'>
+                                <span className='font-medium text-xs'>ORDER</span>
+                                <RadioList options={ORDER_OPTIONS} onChange={handleOrderChange} filters={order} />
                             </div>
                         </div>
-                    <div className='flex flex-row absolute bottom-0 gap-3 left-0 w-full items-center p-5 pb-8 border-t border-gray-200'>
+                        <div className='border-b border-gray-200 py-3 '>
+                            <span className='font-medium text-xs'>DISPLAY OPTION</span>
+                            <RadioList options={DISPLAY_OPTIONS} onChange={handleDisplayOptionChange} filters={displayOption} />
+                        </div>
+                    </div>
+                    <div className='flex flex-row gap-3 left-0 items-center justify-end p-5 pb-8 border-t border-gray-200 bg-white z-[600] mt-auto'>
                         <Button variant='secondary' onClick={resetFilters} >Reset</Button>
                         <Button variant='primary' onClick={applyFilters}>Apply</Button>
                     </div>
@@ -226,13 +224,13 @@ interface HTMLInputList {
     label?: string;
     onChange: (e: any) => void;
     filters: Array<string> | string;
+
 }
 
 // DATA
 const COURSE: HTMLInputListProps[] = [
-    {value: 'AllCourses', label: 'Select All', name: 'course'},
+    {value: 'AllCourses', label: 'All', name: 'course'},
     {value: 'BSCE', label: 'BSCE', name: 'course'},
-    {value: 'BSINFOTECH', label: 'BS INFO TECH', name: 'course'},
     {value: 'BSIT', label: 'BSIT', name: 'course'},
     {value: 'BOT', label: 'BOT', name: 'course'},
     {value: 'BSHM', label: 'BSHM', name: 'course'},
@@ -246,10 +244,11 @@ const COURSE: HTMLInputListProps[] = [
     {value: 'BEED', label: 'BEED', name: 'course'},
     {value: 'BSN', label: 'BSN', name: 'course'},
     {value: 'BSCRIM', label: 'BSCRIM', name: 'course'},
+    {value: 'BSINFOTECH', label: 'BS INFO TECH', name: 'course'},
 ]
 
 const YEAR: HTMLInputListProps[] = [
-    {value: 'AllYears', label: 'Select All', name: 'year'},
+    {value: 'AllYears', label: 'All', name: 'year'},
     {value: '1', label: '1', name: 'year'},
     {value: '2', label: '2', name: 'year'},
     {value: '3', label: '3', name: 'year'},
@@ -257,7 +256,7 @@ const YEAR: HTMLInputListProps[] = [
 ]  
 
 const SECTION: HTMLInputListProps[] = [
-    {value: 'AllSections', label: 'Select All', name: 'section'},
+    {value: 'AllSections', label: 'All', name: 'section'},
     {value: 'A', label: 'A', name: 'section'},
     {value: 'B', label: 'B', name: 'section'},
     {value: 'C', label: 'C', name: 'section'},
@@ -275,11 +274,11 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
 
     return (
         <>
-        <div className='filter__card relative' onClick={() => {!isOpen && handleCLick()}}>
+        <div className='relative' onClick={() => {!isOpen && handleCLick()}}>
             {/* OPTION BOX CARD  */}
-            <span className='flex justify-between w-full items-center mr-auto font-medium text-gray-800'>
+            <span className='flex justify-between py-3 w-full items-center mr-auto text-gray-800 text-xs font-semibold' onClick={handleCLick}>
                 {label}
-                <div className='flex items-center gap-3'>
+                <div className='flex items-center gap-3 '>
                     <span className='text-gray-400'>
                         {filters.includes('AllCourses') || filters.includes('AllYears') || filters.includes('AllSections') ? "All" : filters.length}
                     </span>
@@ -287,36 +286,42 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
                 </div>
             </span>
             {/* MODAL */}
-            <div className={`${isOpen ? "" : "hidden"} p-5 mt-4 absolute bg-white z-[180] rounded-2xl w-full top-8`}>
-                <div className='flex flex-col overflow-y-scroll max-h-44'>
+            <div className={`!transition-all [180] w-full h-0 border-b border-gray-200 overflow-hidden
+                ${isOpen && label === 'COURSE' ? "h-[9rem]" : ""}
+                ${isOpen && (label === 'YEAR' || label === 'SECTION') ? "h-10" : ""}  
+            `}>        
+                <div className='flex flex-row gap-2 flex-wrap h-fit'>
                     {options.map((option) => (
-                        <div className='flex py-[5px] items-center relative' key={option.value}>
-                            {filters.includes(option.value) 
+                        <div 
+                            className={`${filters.includes(option.value)
+                                ? '!bg-emerald-700 text-white font-light'
+                                : ''
+                            } flex items-center relative bg-gray-100 rounded-sm px-3 py-1`} 
+                            key={option.value}>
+                            {/* {filters.includes(option.value) 
                                 ? <div className='min-h-6 min-w-6 rounded-lg bg-emerald-600 grid place-items-center'>
                                     <FaCheck className='fill-white'/>
                                 </div>
                                 // : <MdCheckBoxOutlineBlank size={34} className='fill-gray-500' /> 
                                 : <div className='bg-gray-200 min-h-6 min-w-6 rounded-lg'></div>
-                            }
+                            } */}
                             <input
                                 type="checkbox" 
                                 id={option.value} 
                                 name={option.name}
                                 value={option.value}
-                                className={` min-h-6 min-w-6 bg-gray absolute appearance-none `}
+                                className={` min-h-6 min-w-6 hidden `}
                                 // className={`relative min-h-5 min-w-5 bg-white border border-gray-800 rounded-full checked:before:content-[''] checked:before:absolute checked:before:h-[15px] checked:before:w-[15px] checked:before:bg-gray-700 checked:before:rounded-full checked:before:translate-y-[1.5px] checked:before:translate-x-[1.5px] `}
                                 defaultChecked={option.value === 'AllCourses' || option.value === 'AllYear' || option.value === 'AllSections'}
                                 onChange={onChange}
                                 checked={filters.includes(option.value)}
                             />
-                            <label htmlFor={option.value} className='w-full pl-3'>{option.label}</label>
+                            <label htmlFor={option.value} className='w-full text-xs'>{option.label}</label>
                         </div>
                     ))}
                 </div>
             </div>
         </div>
-        {/* Hidden backdrop */}
-        <div onClick={handleCLick} className={`${isOpen ? "block" : "hidden"} rounded-t-3xl opacity-20 z-[140] absolute h-full w-full top-0 left-0 bg-black`}></div>
         </>
     )
 }
@@ -335,22 +340,21 @@ const ORDER_OPTIONS: HTMLInputListProps[] = [
 ];
 
 const DISPLAY_OPTIONS: HTMLInputListProps[] = [
-    { value: 'showAll', label: 'Show all', name: 'display' },
+    { value: 'showAll', label: 'Show All', name: 'display' },
     { value: 'presentOnly', label: 'Present students only', name: 'display' },
     { value: 'absentOnly', label: 'Absent students only', name: 'display' },
 ];
 
 const RadioList: React.FC<HTMLInputList> = ({ options, filters, onChange }) => {
     return (
-        <div className='flex flex-col mt-4 pl-1 gap-2'>
+        <div className='flex flex-col mt-2 pl-1 gap-1'>
             {options.map((option, index) => (
                 <div className='flex items-center relative' key={option.value}>
-
                     {filters === option.value
-                        ? <div className='min-h-6 min-w-6 bg-gray-200 border-2 border-emerald-700 rounded-full grid place-items-center'>
-                            <div className='bg-emerald-700 h-4 w-4 rounded-full'></div>
+                        ? <div className='min-h-4 min-w-4 bg-gray-200 border-2 border-emerald-700 rounded-full grid place-items-center'>
+                            <div className='bg-emerald-700 h-2 w-2 rounded-full'></div>
                           </div>
-                        : <div className='min-h-6 min-w-6 bg-gray-200 rounded-full'></div>
+                        : <div className='min-h-4 min-w-4 bg-gray-200 rounded-full'></div>
                     }
 
                     {/* Hidden Radio Button */}

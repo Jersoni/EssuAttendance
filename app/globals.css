@@ -78,17 +78,6 @@ body::after {
   padding: 4px 12px;
 }
 
-.filter__card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  width: 100%;
-  background-color: white;
-  border-radius: 16px;
-}
-
 .filter__selected-total {
   position: absolute;
   right: 3.8rem;
