@@ -101,7 +101,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
               /> 
             : <div 
                 onClick={handleModalToggle} 
-                className="border-2 border-gray-400 h-8 min-w-8 rounded-full"
+                className="bg-gray-200 h-8 min-w-8 rounded-full"
               >
               </div>
           }

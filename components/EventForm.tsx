@@ -6,10 +6,17 @@ import { useEffect, useRef, useState } from 'react';
 import { IoIosAdd } from "react-icons/io";
 
 // NEW EVENT FORM COMPONENT
-const EventForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => {
+const EventForm: React.FC<{
+  operation: 'insert' | 'update';
+  isOpen: boolean;
+  toggleNewEventForm: () => void;
+}> = ({
+  operation = 'insert', 
+  isOpen, 
+  toggleNewEventForm
+}) => {
 
-    // Frontend
-
+  // Frontend
   const dateInputRef = useRef(null);
   const loginTimeInputRef = useRef(null);
   const logoutTimeInputRef = useRef(null);
@@ -30,10 +37,10 @@ const EventForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => {
   }
 
   // newEventButton Click Handler
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleNewEventForm = () => {
-      setIsOpen(!isOpen);
-  };
+  // const [isOpen, setIsOpen] = useState(false);
+  // const toggleNewEventForm = () => {
+  //     setIsOpen(!isOpen);
+  // };
 
   function scrollTop() {
     window.scrollTo(0, 0)
@@ -98,7 +105,7 @@ const EventForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => {
       </button>
 
       {/* NEW EVENT FORM */}
-      <div className={`${isOpen ? "!h-full" : "" } h-0 w-full fixed left-0 bottom-0 bg-white z-[120] transition-all duration-200 flex flex-col justify-between`}>
+      <div className={`${isOpen ? "!h-full" : "" } overflow-hidden pointer-events-auto h-0 w-full fixed left-0 bottom-0 bg-white z-[120] transition-all duration-200 flex flex-col justify-between`}>
 
         <div className='flex flex-row items-center p-1 bg-white border-b border-gray-300'>
           <h1 className='font-semibold absolute p-3 text-center w-full'>New Attendance Log</h1>
@@ -161,13 +168,13 @@ const EventForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => {
             </div>
           </div> */}
         </form>
-        <div className={` flex gap-3 w-full mt-auto bg-white p-5 pb-7 border-t border-gray-300`}>
+        <div className={` flex gap-3 w-full mt-auto bg-white p-3 pr-5 pb-7 border-t border-gray-300`}>
           {/* <Button variant='secondary'  onClick={toggleNewEventForm}>Cancel</Button> */}
           <Button 
             variant='primary' 
             type='submit' 
             form='form'
-            className='font-medium rounded-xl w-full text-[15px] py-2.5 px-12 ml-auto' 
+            className='font-medium text-[15px] py-2.5 px-12 ml-auto' 
             onClick={toggleNewEventForm}>Done</Button>
         </div>
       </div>

@@ -85,10 +85,18 @@ const Home: React.FC = () => {
     }
   })
 
+  // Event form
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleNewEventForm = () => {
+      setIsOpen(!isOpen);
+  };
+
   return (
-    <div className={`p-4 pb-40 flex flex-col min-h-[100vh] bg-gray-100 `}>
-      
-      <EventForm />
+    <div 
+      className={`p-4 pb-60 flex flex-col bg-gray-100 h-[100vh] !overflow-y-scroll ${isOpen ? "overflow-hidden" : "overflow-y-scrol"}
+    `}>
+    
+      <EventForm operation={'insert'} isOpen={isOpen} toggleNewEventForm={toggleNewEventForm} />
 
       {/* TODO: Only display events for this day and upcoming */}
 

@@ -200,7 +200,7 @@ const Filter: React.FC<filterButtonProps> = ({buttonClassName}) => {
                             <RadioList options={DISPLAY_OPTIONS} onChange={handleDisplayOptionChange} filters={displayOption} />
                         </div>
                     </div>
-                    <div className='flex flex-row gap-3 left-0 items-center justify-end p-5 pb-8 border-t border-gray-200 bg-white z-[600] mt-auto'>
+                    <div className='flex flex-row gap-3 left-0 items-center justify-end p-3 pr-5 pb-8 border-t border-gray-200 bg-white z-[600] mt-auto'>
                         <Button variant='secondary' onClick={resetFilters} >Reset</Button>
                         <Button variant='primary' onClick={applyFilters}>Apply</Button>
                     </div>
