@@ -1,16 +1,14 @@
 "use client"
 import { Button } from '@/components';
-import { supabase } from "@/lib/supabase";
 import { StudentProps } from '@/types';
-import { useParams, usePathname, useRouter } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GoChevronDown } from "react-icons/go";
 import { RiFilter2Line } from "react-icons/ri";
 
 // TODO: FILTER FUNCTIONALITY
 const Filter = ({
     buttonClassName, data, courses, years, sections, sortBy, order, displayOption,
-    setCourses, setYears, setSections, setSortBy, setOrder, setDisplayOption, applyFilters
+    setCourses, setYears, setSections, setSortBy, setOrder, setDisplayOption, applyFilters, isOpen, setIsOpen
 } : {
     buttonClassName: string
     data: Array<StudentProps>
@@ -27,37 +25,9 @@ const Filter = ({
     setOrder: (value: string) => void
     setDisplayOption: (value: string) => void
     applyFilters: () => void
-    
+    isOpen: boolean
+    setIsOpen: () => void
 }) => {
-
-    // TODO: transfer filter functionality to page.tsx
-
-    const [isOpen, setIsOpen] = useState(false)
-    const [isBlock, setIsBlock] = useState(false)
-    const timeoutIdRef = useRef<number | null>(null);
-        
-    // open & close click handler
-    const toggleFilter = () => {
-        
-        if (timeoutIdRef.current !== null)
-            clearTimeout(timeoutIdRef.current)
-        
-        isBlock ? timeoutIdRef.current = window.setTimeout(() => { setIsBlock(false) }, 200)
-        : setIsBlock(true);
-        
-        isOpen ? setIsOpen(false) 
-        : setTimeout(() => setIsOpen(true), 10);
-        
-    };
-    
-    useEffect(() => {
-        // Clean up timeout on component unmount
-        return () => {
-            if (timeoutIdRef.current !== null) {
-                clearTimeout(timeoutIdRef.current);
-            }
-        };
-    }, []);
     
     // FORM INPUT VALUES
 
@@ -153,7 +123,7 @@ const Filter = ({
 
     return (
         <div>
-            <button className={`!fixed ${buttonClassName}`} onClick={toggleFilter}>
+            <button className={`!fixed ${buttonClassName}`} onClick={setIsOpen}>
                 <RiFilter2Line size={24} />
             </button>
             
@@ -162,7 +132,7 @@ const Filter = ({
                 <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto duration-300 ease-out transition-all bottom-0 overflow-hidden ${isOpen ? "!w-[90vw]" : "" } z-[700] flex flex-col text-sm`}>
                     <h2 className='p-3.5 text-lg font-semibold bg-white border-b border-gray-200 text-center'>Filter</h2>
                     {/* X BUTTON */}
-                    <Button variant='close' onClick={toggleFilter} className='absolute right-1 top-0.5'></Button>
+                    <Button variant='close' onClick={setIsOpen} className='absolute right-1 top-0.5'></Button>
                     <div className='max-h-fit p-5 overflow-y-scroll h-full'>
                         {/* FILTER */}
                         <div className='flex flex-col'>
@@ -190,7 +160,7 @@ const Filter = ({
                         <Button variant='primary' onClick={applyFilters}>Apply</Button>
                     </div>
                 </div>
-                <div onClick={toggleFilter} className={`bg-black bg-opacity-70 h-full w-full absolute pointer-events-auto z-[500] top-0 left-0 transition-all ${isOpen ? "block" : "hidden"}`}></div>
+                <div onClick={setIsOpen} className={`bg-black bg-opacity-70 h-full w-full absolute pointer-events-auto z-[500] top-0 left-0 transition-all ${isOpen ? "block" : "hidden"}`}></div>
             </div>
         </div>
     )
@@ -254,7 +224,9 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
 
     const handleCLick = () => {
         setIsOpen(!isOpen)
+        console.log(filters)
     }
+
 
     return (
         <>
@@ -299,7 +271,6 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
                                 value={option.value}
                                 className={` min-h-6 min-w-6 hidden `}
                                 // className={`relative min-h-5 min-w-5 bg-white border border-gray-800 rounded-full checked:before:content-[''] checked:before:absolute checked:before:h-[15px] checked:before:w-[15px] checked:before:bg-gray-700 checked:before:rounded-full checked:before:translate-y-[1.5px] checked:before:translate-x-[1.5px] `}
-                                defaultChecked={option.value === 'AllCourses' || option.value === 'AllYear' || option.value === 'AllSections'}
                                 onChange={onChange}
                                 checked={filters.includes(option.value)}
                             />

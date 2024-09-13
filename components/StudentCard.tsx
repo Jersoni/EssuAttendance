@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
 
-const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChecked?: boolean, pageState?: string, className?: string}> = ({ studentData, eventId, isChecked, pageState, className /* pageState = present or absent */ }) => {
+const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChecked?: boolean, className?: string}> = ({ studentData, eventId, isChecked, className }) => {
   
   // First Name & Last Name formatting
   function capitalizeFirstLetter(string: string) {
@@ -40,14 +40,13 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
   let section = studentData.section.toUpperCase()
 
   const pathname = usePathname()
-
+  const [isOpen, setIsOpen] = useState(false)
   const [isPresent, setIsPresent] = useState(isChecked)
 
   // Event handler
   function handleCheckboxChange() {
     setIsPresent(!isPresent)
     setIsOpen(!isOpen)
-    console.log('handle checkbox change')
   }
 
   // UPDATE 
@@ -63,30 +62,26 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
         console.error(error);
         // Handle error, e.g., show error message to user
       } else {
-        // console.log('Database updated successfully:', data);
-        // Handle success, e.g., update UI, show success message
+        console.log('Database updated successfully');
       }
     }
     
     updateQuery(studentData.id, eventId, isPresent)
   }, [studentData.id, isPresent, eventId])
 
-  // Just some frontend script
-  let isHidden = true;
-  if ((pageState === 'absent' && !isPresent) || (pageState === 'present' && isPresent) || (pathname.slice(0, 9) === '/students')) {
-    isHidden = false
-  }
-
   // MODAL
-  const modalDescription = `Mark ${firstName} ${lastName} as ${isChecked ? 'absent' : 'present'}?`
-  const [isOpen, setIsOpen] = useState(false)
+  const modalDescription = `Mark ${firstName} ${lastName} as ${isPresent ? 'absent' : 'present'}?`
 
   function handleModalToggle() {
     setIsOpen(!isOpen)
   }
-  
+
+  useEffect(() => {
+    console.log(isPresent)
+  }, [isPresent])
+
   return (
-    <div className={`${isHidden && ''} flex flex-row items-center gap-4 border-gray-200 border-b z-100 ${className}`}>
+    <div className={`flex flex-row items-center gap-4 border-gray-200 border-b z-100 ${className}`}>
 
       {/* CHECKBOX */}
       {pathname.slice(0, 7) === '/events' && (
