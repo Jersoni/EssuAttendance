@@ -3,7 +3,7 @@ import { Button } from '@/components';
 import supabase from '@/lib/supabaseClient';
 import { FormEventProps, FormOperationProps } from '@/types';
 import { useEffect, useRef, useState } from 'react';
-import { IoIosAdd } from "react-icons/io";
+import { IoIosAdd } from "react-icons/io";  
 
 // NEW EVENT FORM COMPONENT
 const EventForm: React.FC<{

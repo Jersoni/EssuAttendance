@@ -49,9 +49,9 @@ const QrScanner = () => {
   }
 
   return (
-    <>
+    <div className=''>
       <PageHeader title='Scan QR Code' />
-      <div className='p-5'>
+      <div className='p-5 pt-20'>
         <div className='rounded-xl' id='reader'></div>
         <ConfirmationModal 
           title='Confirm Attendance Update'
@@ -61,7 +61,7 @@ const QrScanner = () => {
           onConfirm={onConfirm}
         />
       </div>
-    </>
+    </div>
   )
 }
 

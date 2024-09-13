@@ -30,6 +30,8 @@ const Filter = ({
     
 }) => {
 
+    // TODO: transfer filter functionality to page.tsx
+
     const [isOpen, setIsOpen] = useState(false)
     const [isBlock, setIsBlock] = useState(false)
     const timeoutIdRef = useRef<number | null>(null);
@@ -144,7 +146,7 @@ const Filter = ({
         setCourses(['AllCourses'])
         setYears(['AllYears'])
         setSections(['AllSections'])
-        setSortBy('surname')
+        setSortBy('lastName')
         setOrder('ascending')
         setDisplayOption('showAll')
     }
@@ -157,7 +159,7 @@ const Filter = ({
             
             {/* Filter */}
             <div className=''>
-                <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto duration-700 ease-out transition-all bottom-0 overflow-hidden ${isOpen ? "!w-[90vw]" : "" } z-[700] flex flex-col text-sm`}>
+                <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto duration-300 ease-out transition-all bottom-0 overflow-hidden ${isOpen ? "!w-[90vw]" : "" } z-[700] flex flex-col text-sm`}>
                     <h2 className='p-3.5 text-lg font-semibold bg-white border-b border-gray-200 text-center'>Filter</h2>
                     {/* X BUTTON */}
                     <Button variant='close' onClick={toggleFilter} className='absolute right-1 top-0.5'></Button>
@@ -258,9 +260,12 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
         <>
         <div className='relative' onClick={() => {!isOpen && handleCLick()}}>
             {/* OPTION BOX CARD  */}
-            <span className='flex justify-between py-3 w-full items-center mr-auto text-gray-800 text-xs font-semibold' onClick={handleCLick}>
-                {label}
-                <div className='flex items-center gap-3 '>
+            <span className='flex justify-between w-full items-center mr-auto text-gray-800 text-xs font-semibold'>
+                <span onClick={handleCLick}>{label}</span>
+                <div 
+                    className='flex items-center gap-3 py-3 pl-5 ' 
+                    onClick={handleCLick}
+                >
                     <span className='text-gray-400'>
                         {filters.includes('AllCourses') || filters.includes('AllYears') || filters.includes('AllSections') ? "All" : filters.length}
                     </span>

@@ -9,33 +9,33 @@ import styles from './styles.module.css';
 
 const Page = () => {
 
-  // lineSpinner.register()
+  lineSpinner.register()
 
-  // const [students, setStudents] = useState<StudentProps[]>([])
-  // const [loading, setLoading] = useState(false)
-  // const [hasMore, setHasMore] = useState(true);
-  // const [page, setPage] = useState(1);
+  const [students, setStudents] = useState<StudentProps[]>([])
+  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
 
-  // const getStudents = async () => {
-  //   const { data, error } = await supabase
-  //     .from('student')
-  //     .select('*')
-  //     .order('lastName', { ascending: true })
-  //     .range((page - 1) * 10, page * 10 - 1);
+  const getStudents = async () => {
+    const { data, error } = await supabase
+      .from('student')
+      .select('*')
+      .order('lastName', { ascending: true })
+      .range((page - 1) * 10, page * 10 - 1);
 
-  //   if (error) {
-  //     console.error('Error fetching posts:', error);
-  //   } else {
-  //     setStudents([...students, ...data]);
-  //     setHasMore(data.length === 10);
-  //   }
+    if (error) {
+      console.error('Error fetching posts:', error);
+    } else {
+      setStudents([...students, ...data]);
+      setHasMore(data.length === 10);
+    }
 
-  //   setLoading(false);
-  // };
+    setLoading(false);
+  };
   
-  // useEffect(() => {
-  //   getStudents()
-  // }, [page])
+  useEffect(() => {
+    getStudents()
+  }, [page])
 
   // useEffect(() => {
   //   const channel = supabase
@@ -76,14 +76,14 @@ const Page = () => {
   // })
 
   return (
-    <div className='bg-gray-100'>
-      {/* <StudentForm />  */}
+    <div className='bg-gray-100 h-[100vh'>
+      <StudentForm /> 
       {/* <Filter buttonClassName='fixed right-2 top-1 grid place-items-center h-12 w-12 z-[30]' /> */}
-      {/* <div className={` ${styles.studentsList} pb-40 px-5 min-h-[100vh]`}>  */}
-        {/* <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />
-        <div className='bg-white h-fit pl-5 shadow-sm rounded-xl overflow-hidden'> */}
+      <div className={` ${styles.studentsList} pb-40 px-5`}>
+        <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />
+        <div className='bg-white pl-5 shadow-sm rounded-xl h-fit'>
           {/* TODO: Implement infinite scrolling on students list */}
-          {/* <InfiniteScroll
+          <InfiniteScroll
             dataLength={students.length}
             next={() => {setPage(page + 1)}}
             hasMore={hasMore}
@@ -96,15 +96,15 @@ const Page = () => {
                         color="black"
                       ></l-line-spinner>
                     </div>}
-          > */}
-            {/* {students.length !== 0 && students.map((student, index) => {
+          >
+            {students.length !== 0 && students.map((student, index) => {
               return (
                 <StudentCard key={student.id} studentData={student} />
               )
-            })} */}
-          {/* </InfiniteScroll> */}
-        {/* </div> */}
-      {/* </div> */}
+            })}
+          </InfiniteScroll>
+        </div>
+      </div>
     </div>
   )
 }
