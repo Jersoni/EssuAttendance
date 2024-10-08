@@ -72,7 +72,7 @@ const QrScanner = () => {
   const takePhoto = () => {
     if (camera.current) {
       const photo = camera.current.takePhoto();
-      console.log(photo);
+      // console.log(photo);
       setImage(photo as string);
     }
   }
@@ -110,6 +110,15 @@ const QrScanner = () => {
 
   }, [image])
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      takePhoto()
+      console.log("photo taken")
+    }, 1000); 
+
+    return () => clearInterval(intervalId);
+  }, [image]);
+
   return (
     <div className='overflow-auto bg-black'>
       <PageHeader title='Scan ID' className='!bg-opacity-0 fixed top-0 !border-0' />
@@ -132,7 +141,7 @@ const QrScanner = () => {
             </button>
             <button 
               onClick={switchCamera}
-              className=' w-12 h-12 ml-auto mr-5 bg-gray-400 rounded-full bg-opacity-45 grid place-items-center'
+              className=' w-12 h-12 ml-auto mr-5 bg-gray-500 rounded-full bg-opacity-45 grid place-items-center'
             >
               <MdOutlineFlipCameraAndroid size={30} fill={"#ffffff"} />
             </button>
