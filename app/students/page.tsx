@@ -9,33 +9,33 @@ import styles from './styles.module.css';
 
 const Page = () => {
 
-  lineSpinner.register()
+  // lineSpinner.register()
 
-  const [students, setStudents] = useState<StudentProps[]>([])
-  const [loading, setLoading] = useState(false)
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
+  // const [students, setStudents] = useState<StudentProps[]>([])
+  // const [loading, setLoading] = useState(false)
+  // const [hasMore, setHasMore] = useState(true);
+  // const [page, setPage] = useState(1);
 
-  const getStudents = async () => {
-    const { data, error } = await supabase
-      .from('student')
-      .select('*')
-      .order('name', { ascending: true })
-      .range((page - 1) * 10, page * 10 - 1);
+  // const getStudents = async () => {
+  //   const { data, error } = await supabase
+  //     .from('student')
+  //     .select('*')
+  //     .order('name', { ascending: true })
+  //     .range((page - 1) * 10, page * 10 - 1);
 
-    if (error) {
-      console.error('Error fetching posts:', error);
-    } else {
-      setStudents([...students, ...data]);
-      setHasMore(data.length === 10);
-    }
+  //   if (error) {
+  //     console.error('Error fetching posts:', error);
+  //   } else {
+  //     setStudents([...students, ...data]);
+  //     setHasMore(data.length === 10);
+  //   }
 
-    setLoading(false);
-  };
+  //   setLoading(false);
+  // };
   
-  useEffect(() => {
-    getStudents()
-  }, [page])
+  // useEffect(() => {
+  //   getStudents()
+  // }, [page])
 
   // useEffect(() => {
   //   const channel = supabase
@@ -83,7 +83,7 @@ const Page = () => {
         {/* <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />  */}
         <div className='bg-white pl-5 shadow-sm rounded-xl h-fit'>
           {/* TODO: Implement infinite scrolling on students list */}
-          <InfiniteScroll
+          {/* <InfiniteScroll
             dataLength={students.length}
             next={() => {setPage(page + 1)}}
             hasMore={hasMore}
@@ -102,7 +102,7 @@ const Page = () => {
                 <StudentCard key={student.id} studentData={student} />
               )
             })}
-          </InfiniteScroll>
+          </InfiniteScroll> */}
         </div>
       </div>
     </div>
