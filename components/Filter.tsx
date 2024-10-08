@@ -7,11 +7,10 @@ import { RiFilter2Line } from "react-icons/ri";
 
 // TODO: FILTER FUNCTIONALITY
 const Filter = ({
-    buttonClassName, data, courses, years, sections, sortBy, order, displayOption,
+    data, courses, years, sections, sortBy, order, displayOption,
     setCourses, setYears, setSections, setSortBy, setOrder, setDisplayOption, applyFilters, isOpen, setIsOpen
 } : {
-    buttonClassName: string
-    data: Array<StudentProps>
+    data: Array<StudentProps> | null
     courses: Array<string>
     years: Array<string>
     sections: Array<string>
@@ -28,15 +27,6 @@ const Filter = ({
     isOpen: boolean
     setIsOpen: () => void
 }) => {
-    
-    // FORM INPUT VALUES
-
-    // const [courses, setCourses] = useState(['AllCourses'])
-    // const [years, setYears] = useState(['AllYears'])
-    // const [sections, setSections] = useState(['AllSections'])
-    // const [sortBy, setSortBy] = useState('surname')
-    // const [order, setOrder] = useState('ascending')
-    // const [displayOption, setDisplayOption] = useState('showAll')
 
     function handleCoursesChange(event: React.ChangeEvent<HTMLInputElement>) {
         const {value} = event.target
@@ -116,23 +106,20 @@ const Filter = ({
         setCourses(['AllCourses'])
         setYears(['AllYears'])
         setSections(['AllSections'])
-        setSortBy('lastName')
+        setSortBy('name')
         setOrder('ascending')
         setDisplayOption('showAll')
     }
 
     return (
         <div>
-            <button className={`!fixed ${buttonClassName}`} onClick={setIsOpen}>
-                <RiFilter2Line size={24} />
-            </button>
             
             {/* Filter */}
             <div className=''>
-                <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto duration-300 ease-out transition-all bottom-0 overflow-hidden ${isOpen ? "!w-[90vw]" : "" } z-[700] flex flex-col text-sm`}>
-                    <h2 className='p-3.5 text-lg font-semibold bg-white border-b border-gray-200 text-center'>Filter</h2>
-                    {/* X BUTTON */}
-                    <Button variant='close' onClick={setIsOpen} className='absolute right-1 top-0.5'></Button>
+                <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto duration-300 ease-out transition-all bottom-0 overflow-hidden ${isOpen ? "!w-[85vw] xs:!w-[75vw]" : "" } z-[700] flex flex-col text-sm`}>
+                    <div className='bg-white border-b p-3 border-gray-200 flex flex-row items-center'>
+                        <h2 className=' text-lg font-semibold w-full text-center'>Filter</h2>
+                    </div>
                     <div className='max-h-fit p-5 overflow-y-scroll h-full'>
                         {/* FILTER */}
                         <div className='flex flex-col'>
@@ -150,17 +137,17 @@ const Filter = ({
                                 <RadioList options={ORDER_OPTIONS} onChange={handleOrderChange} filters={order} />
                             </div>
                         </div>
-                        <div className='border-b border-gray-200 py-3 '>
+                        {/* <div className='border-b border-gray-200 py-3 '>
                             <span className='font-medium text-xs'>DISPLAY OPTION</span>
                             <RadioList options={DISPLAY_OPTIONS} onChange={handleDisplayOptionChange} filters={displayOption} />
-                        </div>
+                        </div> */}
                     </div>
                     <div className='flex flex-row gap-3 left-0 items-center justify-end p-3 pr-5 pb-8 border-t border-gray-200 bg-white z-[600] mt-auto'>
                         <Button variant='secondary' onClick={resetFilters} >Reset</Button>
                         <Button variant='primary' onClick={applyFilters}>Apply</Button>
                     </div>
                 </div>
-                <div onClick={setIsOpen} className={`bg-black bg-opacity-70 h-full w-full absolute pointer-events-auto z-[500] top-0 left-0 transition-all ${isOpen ? "block" : "hidden"}`}></div>
+                <div onClick={setIsOpen} className={`bg-black bg-opacity-70 h-full w-full fixed pointer-events-auto z-[500] top-0 left-0 transition-all ${isOpen ? "block" : "hidden"}`}></div>
             </div>
         </div>
     )
@@ -224,7 +211,7 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
 
     const handleCLick = () => {
         setIsOpen(!isOpen)
-        console.log(filters)
+        // console.log(filters)
     }
 
 
@@ -232,9 +219,9 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
         <>
         <div className='relative' onClick={() => {!isOpen && handleCLick()}}>
             {/* OPTION BOX CARD  */}
-            <span className='flex justify-between w-full items-center mr-auto text-gray-800 text-xs font-semibold'>
+            <span className='flex justify-between w-full py-3 items-center mr-auto text-gray-800 text-xs font-semibold'>
                 <span onClick={handleCLick}>{label}</span>
-                <div 
+                {/* <div 
                     className='flex items-center gap-3 py-3 pl-5 ' 
                     onClick={handleCLick}
                 >
@@ -242,13 +229,13 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
                         {filters.includes('AllCourses') || filters.includes('AllYears') || filters.includes('AllSections') ? "All" : filters.length}
                     </span>
                     <GoChevronDown className='opacity-90' />
-                </div>
+                </div> */}
             </span>
             {/* MODAL */}
-            <div className={`!transition-all [180] w-full h-0 border-b border-gray-200 overflow-hidden
-                ${isOpen && label === 'COURSE' ? "h-[9rem]" : ""}
-                ${isOpen && (label === 'YEAR' || label === 'SECTION') ? "h-10" : ""}  
-            `}>        
+            <div className={`!transition-all w-full h-fit pb-3 border-b border-gray-200 overflow-hidden
+                ${isOpen && label === 'COURSE' ? "" : ""}
+                ${isOpen && (label === 'YEAR' || label === 'SECTION') ? "" : ""}  
+            `}>
                 <div className='flex flex-row gap-2 flex-wrap h-fit'>
                     {options.map((option) => (
                         <div 
@@ -288,7 +275,7 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
 // COMPONENT RADIOLIST
 
 const SORTBY_OPTIONS: HTMLInputListProps[] = [
-    { value: 'lastName', label: 'Surname', name: 'sortby' },
+    { value: 'name', label: 'Surname', name: 'sortby' },
     { value: 'id', label: 'Student ID', name: 'sortby' },
 ];
 

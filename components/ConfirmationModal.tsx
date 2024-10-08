@@ -5,7 +5,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = (
     {
         isOpen, 
         title, 
-        content, 
+        content,
         onConfirm, 
         onClose, 
         confirmBtnLabel = 'Confirm', 
@@ -17,7 +17,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = (
     if(!isOpen) return null
 
     return (
-        <div className="modal-overlay fixed bg-black bg-opacity-30 top-0 left-0 right-0 bottom-0 grid place-items-center p-10 !z-[500]">
+        <div className="modal-overlay fixed bg-black bg-opacity-30 top-0 left-0 right-0 bottom-0 grid place-items-center p-10 !z-[800]">
             <div className="flex flex-col bg-white w-full h-fit rounded-lg text-center">
                 <span className='font-semibold border-b border-gray-200 py-3'>{title}</span>
                 <div className='p-4'>

@@ -80,7 +80,7 @@ const Page = () => {
       <StudentForm /> 
       {/* <Filter buttonClassName='fixed right-2 top-1 grid place-items-center h-12 w-12 z-[30]' /> */}
       <div className={` ${styles.studentsList} pb-40 px-5`}>
-        <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />
+        {/* <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />  */}
         <div className='bg-white pl-5 shadow-sm rounded-xl h-fit'>
           {/* TODO: Implement infinite scrolling on students list */}
           <InfiniteScroll
@@ -89,13 +89,13 @@ const Page = () => {
             hasMore={hasMore}
             endMessage={<div className="absolute w-full text-center left-0 mt-5 text-sm text-gray-600" key={1}>End of list</div>}
             loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>
-                      <l-line-spinner
-                        size="25"
-                        stroke="2"
-                        speed="1" 
-                        color="black"
-                      ></l-line-spinner>
-                    </div>}
+              <l-line-spinner
+                size="25"
+                stroke="2"
+                speed="1" 
+                color="black"
+              ></l-line-spinner>
+            </div>}
           >
             {students.length !== 0 && students.map((student, index) => {
               return (

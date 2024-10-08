@@ -6,8 +6,8 @@ import { RiSearchLine } from "react-icons/ri";
 interface searchBarProps {
   className?: string;
   fill?: string;
-  query: string;
-  setQuery: (e: ChangeEvent<HTMLInputElement>) => void;
+  query?: string;
+  setQuery?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 // TODO: SearchBar component functionality

@@ -1,13 +1,11 @@
 export interface StudentProps {
-    id: number
-    firstName: string
-    lastName: string
-    suffix: string
-    middleName: string
+    id: string
+    name: string
     course: string
     year: number
     section: string
-    isPresent?: boolean
+    isLoginPresent?: boolean
+    isLogoutPresent?: boolean
 }
 
 export interface EventProps {
@@ -53,8 +51,9 @@ export interface FormOperationProps {
 export interface Attendance {
     id: number;
     eventId: number;
-    isPresent: boolean;
-    studentId: number;
+    isLoginPresent: boolean;
+    isLogoutPresent: boolean;
+    studentId: string;
 }   
 
 export interface ConfirmationModalProps {
@@ -62,7 +61,7 @@ export interface ConfirmationModalProps {
     onClose?: () => void;
     onConfirm?: () => void;
     title?: string;
-    content?: string;
+    content?: React.ReactNode;
     confirmBtnLabel?: string;
     confirmBtnVariant?: "primary" | "secondary" | "clear" | "close" | "small-circle" | "small-square";
     type?: 'default' | 'delete';
@@ -101,7 +100,7 @@ export interface FilterProps {
         d: boolean;
         e: boolean;
     };
-    sortby?: 'surname' | 'studentID';
+    sortby?: 'name' | 'studentID';
     order?: 'ascending' | 'descending';
     displayOption?: 'showAll' | 'presentOnly' | 'absentOnly';
 }

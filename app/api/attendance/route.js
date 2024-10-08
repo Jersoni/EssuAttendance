@@ -29,7 +29,6 @@ export async function GET(req) {
     .select("*")
     .in("id", studentIds)
     
-    
     if (studentsError) {
       console.error('Error fetching students data:', studentsError.message);
       return NextResponse.json({error: "Error fetching students data"}, {status: 401});

@@ -7,28 +7,11 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
+import { HiLogin } from "react-icons/hi";
+import { HiLogout } from "react-icons/hi";
+import { FaCheck } from "react-icons/fa";
 
-const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChecked?: boolean, className?: string}> = ({ studentData, eventId, isChecked, className }) => {
-  
-  // First Name & Last Name formatting
-  function capitalizeFirstLetter(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-  
-  let firstName = capitalizeFirstLetter(studentData.firstName)
-  let lastName = capitalizeFirstLetter(studentData.lastName)
-  
-  // Middle Initial formatting
-  let middleInitial: string = ''
-  if (studentData.middleName !== null) {
-    middleInitial = studentData.middleName.charAt(0).toUpperCase() + '.'
-  }
-  
-  // Student ID formatting
-  let studentID: string = studentData.id.toString()
-  if (studentID.length > 2) {
-    studentID = studentID.slice(0, 2) + '-' + studentID.slice(2, studentID.length)
-  }
+const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isLoginChecked?: boolean, isLogoutChecked?: boolean, className?: string}> = ({ studentData, eventId, isLoginChecked, isLogoutChecked, className }) => {
   
   // Course formatting
   let course: string = studentData.course
@@ -40,90 +23,164 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isChe
   let section = studentData.section.toUpperCase()
 
   const pathname = usePathname()
-  const [isOpen, setIsOpen] = useState(false)
-  const [isPresent, setIsPresent] = useState(isChecked)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
+  const [isLoginPresent, setIsLoginPresent] = useState(isLoginChecked)
+  const [isLogoutPresent, setIsLogoutPresent] = useState(isLogoutChecked)
 
-  // Event handler
-  function handleCheckboxChange() {
-    setIsPresent(!isPresent)
-    setIsOpen(!isOpen)
+  function handleLoginCheckboxChange() {
+    setIsLoginPresent(!isLoginPresent)
+    setIsLoginModalOpen(!isLoginModalOpen)
   }
 
-  // UPDATE 
+  function handleLogoutCheckboxChange() {
+    setIsLogoutPresent(!isLogoutPresent)
+    setIsLogoutModalOpen(!isLogoutModalOpen)
+  }
+
+
+
+  // UPDATE DATABASE LOGIN STATUS
   useEffect(() => {
-    // A query to update 'isPresent' in the database, table 'attendance'
-    async function updateQuery( studentId: number, eventId: any, isPresent:boolean | undefined ) {
+    // if isLoginPresent changes
+    // A query to update 'isLoginPresent' in the database, table 'attendance'
+    async function updateQuery( studentId: string, eventId: any, isLoginPresent:boolean | undefined) {
       const { data, error } = await supabase
       .from('attendance')
-      .update({ isPresent })
+      .update({ isLoginPresent: isLoginPresent })
       .eq('studentId', studentId)
       .eq('eventId', eventId)
       if (error) {
         console.error(error);
         // Handle error, e.g., show error message to user
       } else {
-        console.log('Database updated successfully');
+        // console.log('Database updated successfully for login status');
       }
     }
     
-    updateQuery(studentData.id, eventId, isPresent)
-  }, [studentData.id, isPresent, eventId])
+    updateQuery(studentData.id, eventId, isLoginPresent)
+  }, [studentData.id, isLoginPresent, eventId])
 
-  // MODAL
-  const modalDescription = `Mark ${firstName} ${lastName} as ${isPresent ? 'absent' : 'present'}?`
+  // UPDATE DATABASE LOGOUT STATUS
+  useEffect(() => {
+    // if isLogoutPresent changes
+    // A query to update 'isLogoutPresent' in the database, table 'attendance'
+    async function updateQuery( studentId: string, eventId: any, isLogoutPresent:boolean | undefined) {
+      const { data, error } = await supabase
+      .from('attendance')
+      .update({ isLogoutPresent: isLogoutPresent })
+      .eq('studentId', studentId)
+      .eq('eventId', eventId)
+      if (error) {
+        console.error(error);
+        // Handle error, e.g., show error message to user
+      } else {
+        // console.log('Database updated successfully for logout status');
+      }
+    }
+    
+    updateQuery(studentData.id, eventId, isLogoutPresent)
+  }, [studentData.id, isLogoutPresent, eventId])
 
-  function handleModalToggle() {
-    setIsOpen(!isOpen)
+  // MODALS DESCRIPTION
+  function handleLoginModalToggle() {
+    if (isLogoutPresent === true) {
+      setIsLogoutModalOpen(!isLogoutModalOpen)
+    } else {
+      setIsLoginModalOpen(!isLoginModalOpen)
+    }
   }
 
-  useEffect(() => {
-    console.log(isPresent)
-  }, [isPresent])
+  function handleLogoutModalToggle() {
+    if (isLoginPresent === false) {
+      setIsLoginModalOpen(!isLoginModalOpen)
+    } else {
+      setIsLogoutModalOpen(!isLogoutModalOpen)
+    }
+  }
 
   return (
     <div className={`flex flex-row items-center gap-4 border-gray-200 border-b z-100 ${className}`}>
 
-      {/* CHECKBOX */}
-      {pathname.slice(0, 7) === '/events' && (
-        <>
-          {
-            isPresent 
-            ? <FaCircleCheck 
-                onClick={handleModalToggle} 
-                size={36}   
-                fill="rgb(5 150 105)" 
-                className="border-0 m-0 p-0" 
-              /> 
-            : <div 
-                onClick={handleModalToggle} 
-                className="bg-gray-200 h-8 min-w-8 rounded-full"
-              >
-              </div>
-          }
-          <input checked={isPresent} type="checkbox" className={`h-7 w-7 hidden`} onChange={handleModalToggle}  />
-        </>
-      )}
-
       {/* STUDENT */}
       <Link href={`/students/${studentData.id}`} className={`flex flex-row justify-between w-full items-center py-3 z-100`}>
         <div>
-          <h2 className='text-sm font-[400]'>{`${lastName}, ${firstName} ${middleInitial}`} </h2>
+          <h2 className='text-sm font-[400]'>{`${studentData.name}`} </h2>
           <div className={`student-card__info-container !z-100 mt-[2px] gap-3`}>
-            <span className={`student-card__info !font-semibold !text-gray-700`}>{studentID}</span>
+            <span className={`student-card__info !font-semibold !text-gray-700`}>{studentData.id}</span>
             {/* <div className='min-h-[2px] min-w-[2px] max-h-[2px] max-w-[2px] bg-black opacity-40 rounded-full m-2 z-100'></div> */}
             <span className={`student-card__info text-gray-700`}>{`${course} ${studentData.year}${section}`}</span>
           </div>
         </div>
-        <IoIosArrowForward className="opacity-40 mr-3"/>
+        {/* <IoIosArrowForward className="opacity-40 mr-3"/> */}
       </Link>
 
-      {/* MODAL */}
+      {/* CHECKBOX */}
+      {pathname.slice(0, 7) === '/events' && (
+        // <div>
+        //   {
+        //     isPresent 
+        //     ? <FaCircleCheck 
+        //         onClick={handleModalToggle} 
+        //         size={28}   
+        //         fill="rgb(5 150 105)" 
+        //         className="border-0 m-0 p-0" 
+        //       /> 
+        //     : <div 
+        //         onClick={handleModalToggle} 
+        //         className="bg-gray-200 h-7 min-w-7 rounded-full"
+        //       >
+        //       </div>
+        //   }
+        //   <input checked={isPresent} type="checkbox" className={`h-6 w-6 hidden`} onChange={handleModalToggle}  />
+        // </div>
+        <div className={`flex flex-row gap-2`}>
+          <div
+            onClick={handleLoginModalToggle} 
+            className={`bg-gray-200 bg-opacity-80 border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center`}>
+            {isLoginPresent && <FaCheck size={18} />}
+            <input 
+              checked={isLoginPresent} 
+              onChange={handleLoginModalToggle}  
+              type="checkbox" 
+              className={`h-6 w-6 hidden`} 
+            />
+          </div>
+          <div
+            onClick={handleLogoutModalToggle} 
+            className={`bg-gray-200 bg-opacity-80 border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center`}>
+            {isLogoutPresent && <FaCheck size={18} />}
+            <input 
+              checked={isLogoutPresent} 
+              onChange={handleLogoutModalToggle}  
+              type="checkbox" 
+              className={`h-6 w-6 hidden`} 
+            />
+          </div>
+        </div>
+      )}
+
+
+      {/* MODALS */}
+
       <ConfirmationModal 
-        isOpen={isOpen} 
+        isOpen={isLoginModalOpen} 
         title="Confirm Attendance"
-        content={modalDescription} 
-        onClose={handleModalToggle}
-        onConfirm={handleCheckboxChange}  
+        content={
+          <div>Mark {studentData.name}&apos;s <span className="font-bold">login status</span> as <span className="font-bold">{isLoginPresent ? 'absent' : 'present'}</span>?</div>
+        } 
+        onClose={handleLoginModalToggle}
+        onConfirm={handleLoginCheckboxChange}  
+      />
+
+      <ConfirmationModal
+        isOpen={isLogoutModalOpen} 
+        title="Confirm Attendance"
+        content={
+          <div>Mark {studentData.name}&apos;s <span className="font-bold">logout status</span> as <span className="font-bold">{isLogoutPresent ? 'absent' : 'present'}</span>?</div>
+        } 
+        onClose={handleLogoutModalToggle}
+        onConfirm={handleLogoutCheckboxChange}  
       />
       
     </div>

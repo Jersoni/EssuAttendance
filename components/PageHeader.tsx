@@ -9,7 +9,7 @@ const PageHeader: React.FC<headerProps> = ({title, subtitle, children, returnPat
     const router = useRouter()
 
     return (
-        <div className="w-full h-14 bg-white border-b border-gray-200 z-50 pl-1 pr-5 flex fixed ">
+        <div className="w-full h-14 bg-white border-b border-gray-200 pl-1 pr-5 flex z-[1200] ">
             <div className="flex flex-row items-center">
                 {/* return button */}
                 <button 
@@ -26,7 +26,7 @@ const PageHeader: React.FC<headerProps> = ({title, subtitle, children, returnPat
 
                 {/* header title */}
                 {title ? (
-                    <div className={`w-full text-md ml-3 font-semibold flex flex-col`}> 
+                    <div className={`w-full text-md font-semibold flex flex-col`}> 
                         <span>{title}</span>
                         <span className='text-xs font-medium text-gray-400'>{subtitle}</span> 
                     </div>

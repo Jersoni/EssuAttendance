@@ -1,5 +1,5 @@
 import React from 'react';
-import { IoCloseOutline } from "react-icons/io5";
+import { MdClose } from "react-icons/md";
 import { ButtonProps } from '@/types'
 
 const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', onClick, disabled, className, type = 'button', form }) => {
@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', onClick,
   return (
     <button type={type} form={form} className={`${buttonClasses} ${className}`} onClick={onClick} disabled={disabled}>
       {children}
-      {variant === 'close' && ( <IoCloseOutline size={24}/> )}
+      {variant === 'close' && ( <MdClose size={24}/> )}
     </button>
   );
 };

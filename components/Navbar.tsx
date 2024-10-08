@@ -13,7 +13,7 @@ const Navbar = ({className}: {className: string}) => { // given default value fo
     const pathname = usePathname()
 
     let convertedPathname = pathname.slice(1).charAt(0).toUpperCase() + pathname.slice(1).slice(1);
-    if (convertedPathname === '') convertedPathname = "SSC Logbook"
+    if (convertedPathname === '') convertedPathname = "SSC Attendance"
 
     const excludedRoutes = useMemo(() => ['/login', '/signup', '/scanner', '/students/student', '/notfound'], []);
     const isDynamicRoute = /\w+\/\d+/.test(pathname)

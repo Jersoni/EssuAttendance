@@ -2,15 +2,17 @@
 import { PageHeader, Button, EventLink, ConfirmationModal } from '@/components'
 import { RiEdit2Line } from "react-icons/ri";
 import { BiEraser } from "react-icons/bi";
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { StudentProps, EventProps } from '@/types';
 import { downloadImage } from '@/utils/utils';
 import { useRouter } from 'next/navigation';
-import { bouncy } from 'ldrs'
+import { TbDotsCircleHorizontal } from "react-icons/tb";
+import { HiDownload } from "react-icons/hi";
+import { PiTrashSimpleBold } from "react-icons/pi";
+import { lineSpinner } from "ldrs";
 
 const Student = ({ params }: { params: any }) => {
-
-    bouncy.register()
+    lineSpinner.register();
 
     const paramsID = params.studentId
 
@@ -39,13 +41,6 @@ const Student = ({ params }: { params: any }) => {
         getStudent()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    const fullName = `${student?.lastName}, ${student?.firstName} ${student?.middleName.charAt(0)}.`
-    const studentClass = `${student?.course} ${student?.year}${student?.section}`
-    let studentID = student?.id.toString()
-    if (studentID && studentID.length > 2) {
-        studentID =`${studentID?.slice(0, 2)}-${studentID?.slice(2)}`
-    }
 
     // FETCH EVENTS
     const [events, setEvents] = useState<EventProps[]>([])
@@ -88,8 +83,8 @@ const Student = ({ params }: { params: any }) => {
     function downloadQRCode() {
         // setLoading(!loading)
         downloadImage(
-            `https://api.qrserver.com/v1/create-qr-code/?data=${studentID}`,
-            `${studentID}_qrcode`,
+            `https://api.qrserver.com/v1/create-qr-code/?data=${student?.id}`,
+            `${student?.id}_qrcode`,
             setLoading
         )
     }
@@ -98,7 +93,7 @@ const Student = ({ params }: { params: any }) => {
     const router = useRouter()
     const [isOpen, setIsOpen] = useState(false)
 
-    function toggleModal() {
+    function toggleDeleteModal() {
         setIsOpen(!isOpen)
     }
 
@@ -122,40 +117,108 @@ const Student = ({ params }: { params: any }) => {
         router.back()
     }
 
+    // Course formatting
+    let course: string | undefined = student?.course
+    if (course === 'BSINFOTECH') {
+        course = 'BS INFO TECH'
+    }
+
+    // Modal
+    const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false)
+
+    const toggleSettingsModal = () => {
+        setIsSettingsModalOpen(!isSettingsModalOpen)
+    };
+
     // TODO: EDIT STUDENT
     return (
         <div className='h-[100vh] bg-gray-100'>
 
-            <PageHeader title={`Student Profile`} />
+            <div>
+                <PageHeader title={`Student Profile`} />
+                <button 
+                    onClick={toggleSettingsModal}
+                    className='absolute top-2.5 right-4 p-1.5'
+                >
+                        <TbDotsCircleHorizontal size={24} />
+                </button>
+                
+                {isSettingsModalOpen && ( // Modal
+                    <div>
+                        <div 
+                            onClick={(e) => {e.preventDefault()}}
+                            className={`rounded-md shadow-lg absolute right-3 top-16 bg-white z-[700]`}
+                        >
+                            <ul>
+                                <li className='border-b border-gray-200 pl-3 pr-4'>
+                                    <button
+                                        onClick={() => {}} 
+                                        className='flex flex-row items-center gap-3'
+                                    >
+                                        <RiEdit2Line size={20} className='fill-gray-700'/>
+                                        <span className='py-2'>Edit Profile</span>
+                                    </button>
+                                </li>
+                                <li className='border-b border-gray-200 pl-3 pr-4'>
+                                    <button
+                                        onClick={() => {}} 
+                                        className='flex flex-row items-center gap-3'
+                                    >
+                                        <BiEraser size={20} className='fill-gray-700'/>
+                                        <span className='py-2'>Erase Fines</span>
+                                    </button>
+                                </li>
+                                <li className='border-b border-gray-200 pl-3 pr-4'>
+                                    <button
+                                        onClick={() => {downloadQRCode()}} 
+                                        className='flex flex-row items-center gap-3'
+                                    >
+                                        <HiDownload size={20} className='fill-gray-700'/>
+                                        <span className='py-2'>Download QR Code</span>
+                                    </button>
+                                </li>
+                                <li className='border-b border-gray-200 pl-3 pr-4'>
+                                    <button
+                                        onClick={() => {toggleDeleteModal()}} 
+                                        className='flex flex-row items-center gap-3'
+                                    >
+                                        <PiTrashSimpleBold size={20} className='fill-gray-700'/>
+                                        <span className='py-2'>Delete Student</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div
+                            onClick={toggleSettingsModal} 
+                            className='absolute top-0 left-0 right-0 bottom-0'
+                        >
+                        </div>
+                    </div>
+                )}
+            </div>
 
             <div className="overflow-y-auto pb-40 px-5">
-                <div className='flex mt-20 items-center justify-between'>
+                <div className='flex mt-4 items-center justify-between'>
                     <h2 className='text-sm font-semibold text-[#414855]'>Profile</h2>
-                    <Button variant='small-square'>
-                        <RiEdit2Line size={20} className='fill-gray-700'/>
-                    </Button>
                 </div>
                 <div className='flex flex-col gap-1 mt-3 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-lg text-sm'>
                     <div className='flex flex-row gap-4'>
                         <p className='min-w-14 text-gray-500'>Name</p>
-                        <span>{fullName}</span>
+                        <span>{student?.name}</span>
                     </div>
                     <div className='flex flex-row gap-4'>
                         <p className='min-w-14 text-gray-500'>ID No</p>
-                        <span>{studentID}</span>
+                        <span>{student?.id}</span>
                     </div>
                     <div className='flex flex-row gap-4'>
                         <p className='min-w-14 text-gray-500'>Class</p>
-                        <span>{studentClass}</span>
+                        <span>{`${course} ${student?.year}${student?.section}`}</span>
                     </div>
                 </div>
 
                 {/* TODO: FINES FUNCTIONALITY */}
                 <div className='flex mt-7 items-center justify-between'>
                     <h2 className='text-sm font-semibold text-[#414855]'>Fines</h2>
-                    <Button variant='small-square'>
-                        <BiEraser size={20} className='fill-gray-700'/>
-                    </Button>
                 </div>
                 <div className='mt-3 h-fit p-5 w-full border border-gray-200 bg-white shadow-sm rounded-lg flex flex-col text-sm'>
 
@@ -170,21 +233,20 @@ const Student = ({ params }: { params: any }) => {
                         <p className='text-gray-500'>₱ {totalFines.toFixed(2)}</p>
                     </div>
                 </div>
-                <div className='flex flex-col items-end mt-5 gap-2'>
+                {/* <div className='flex flex-row mt-5 gap-2 float-right'>
                     <Button variant='secondary' onClick={downloadQRCode} >Download QR Code</Button>
-                    <Button variant='secondary' onClick={toggleModal} >Delete Student</Button>
-                </div>
+                    <Button variant='secondary' onClick={toggleDeleteModal} >Delete Student</Button>
+                </div> */}
                 
                 {loading && (
-                    <div className='h-full w-full bg-black bg-opacity-60 top-0 left-0 fixed grid place-items-center'>
-                        <div className='h-28 w-28 bg-white rounded-lg grid place-items-center'>
-                            <l-bouncy
-                                size="26"
-                                speed="1.75" 
-                                color="black" 
-                            ></l-bouncy>
-                        </div>
-                    </div>
+                    <div className='h-full w-full bg-black bg-opacity-10 top-0 left-0 fixed grid place-items-center z-[800]'>
+=                       <l-line-spinner
+                            size="30"
+                            stroke="2"
+                            speed="1"
+                            color="black"
+                        ></l-line-spinner>
+=                   </div>
                 )}
             </div>
 
@@ -192,7 +254,7 @@ const Student = ({ params }: { params: any }) => {
                 title='Delete Student'
                 content={'Are you sure you want to delete this student from the database?'}
                 isOpen={isOpen}
-                onClose={toggleModal}
+                onClose={toggleDeleteModal}
                 onConfirm={onConfirm}
                 confirmBtnLabel='Delete'
                 type='delete'
