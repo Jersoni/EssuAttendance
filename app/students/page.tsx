@@ -20,7 +20,7 @@ const Page = () => {
     const { data, error } = await supabase
       .from('student')
       .select('*')
-      .order('lastName', { ascending: true })
+      .order('name', { ascending: true })
       .range((page - 1) * 10, page * 10 - 1);
 
     if (error) {

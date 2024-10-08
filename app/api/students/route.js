@@ -17,32 +17,32 @@ export async function GET() {
 }
 
 // create or insert new student
-export async function POST(req) {
-    const {
-        firstName,
-        lastName,
-        college,
-        yearLevel,
-        section
-    } = await req.json()
+// export async function POST(req) {
+//     const {
+//         firstName,
+//         lastName,
+//         college,
+//         yearLevel,
+//         section
+//     } = await req.json()
 
-    if(!firstName || !lastName || !college || !yearLevel || !section) {
-        return NextResponse.json({mssg: "Please fillout all the fields."}, {status: 401})
-    }
+//     if(!firstName || !lastName || !college || !yearLevel || !section) {
+//         return NextResponse.json({mssg: "Please fillout all the fields."}, {status: 401})
+//     }
 
-    const { data, error} = await supabase
-      .from("student")
-      .insert({
-        firstName,
-        lastName,
-        college,
-        yearLevel,
-        section
-      })
+//     const { data, error} = await supabase
+//       .from("student")
+//       .insert({
+//         firstName,
+//         lastName,
+//         college,
+//         yearLevel,
+//         section
+//       })
 
-    if(error) {
-        return NextResponse.json({mssg: "there is an error inserting the student."}, {status: 401})
-    }
+//     if(error) {
+//         return NextResponse.json({mssg: "there is an error inserting the student."}, {status: 401})
+//     }
 
-    return NextResponse.json({mssg: "Student created Successfully"}, {status: 201})
-}
+//     return NextResponse.json({mssg: "Student created Successfully"}, {status: 201})
+// }

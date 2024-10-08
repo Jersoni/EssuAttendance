@@ -37,11 +37,11 @@ export default function NewStudentResult({ params }: { params: any }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const fullName = `${student?.lastName}, ${student?.firstName} ${student?.middleName.charAt(0)}.`
+    // const fullName = `${student?.lastName}, ${student?.firstName} ${student?.middleName.charAt(0)}.`
     const studentClass = `${student?.course} ${student?.year}${student?.section}`
-    let studentID = student?.id.toString()
-    if (studentID && studentID.length > 2) 
-        studentID = `${studentID?.slice(0, 2)}-${studentID?.slice(2)}`
+    // let studentID = student?.id.toString()
+    // if (studentID && studentID.length > 2) 
+    //     studentID = `${studentID?.slice(0, 2)}-${studentID?.slice(2)}`
 
     // DOWNLOAD QR CODE
     const [loading, setLoading] = useState(false)
@@ -65,8 +65,8 @@ export default function NewStudentResult({ params }: { params: any }) {
                     {/* TODO: QR CODE DYNAMIC FUNCTIONALITY */}
                     <img src={`https://api.qrserver.com/v1/create-qr-code/?data=22-0224`} alt="qrcode" height={180} width={180} />
                     <div className="mt-5 text-center flex flex-col gap-1">
-                        <p>{fullName}</p>
-                        <p className="text-sm text-gray-600">{studentID}</p>
+                        <p>{student?.name}</p>
+                        <p className="text-sm text-gray-600">{student?.id}</p>
                         <p className="text-sm text-gray-600">{studentClass}</p>
                     </div>
                 </div>

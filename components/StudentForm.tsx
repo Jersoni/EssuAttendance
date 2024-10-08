@@ -23,11 +23,8 @@ const StudentForm: React.FC<FormOperationProps> = ({ operation = 'insert' }) => 
   // Backend
 
   const [formData, setFormData] = useState<StudentProps>({
-    firstName: "",
-    lastName: "",
-    middleName: "",
-    suffix: "",
-    id: 0,
+    name: "",
+    id: "",
     course: "",
     year: 0,
     section: "",
