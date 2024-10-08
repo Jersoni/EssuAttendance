@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { ConfirmationModal } from '@/components'
 import {Camera} from "react-camera-pro";
 import { CameraType, SetNumberOfCameras } from 'react-camera-pro/dist/components/Camera/types'
+import { MdOutlineFlipCameraAndroid } from "react-icons/md";
 
 interface CameraRef {
   takePhoto: () => Promise<string>; // Assuming takePhoto returns a Promise that resolves to a string (image URL)
@@ -55,6 +56,14 @@ const QrScanner = () => {
   const [scanResult, setScanResult] = useState('');
   const [isOpen, setIsOpen] = useState(false) // modal
   const [numberOfCameras, setNumberOfCameras] = useState<number>()
+
+  const cameraErrorMessages = {
+    noCameraAccessible: 'No camera device accessible. Please connect your camera or try a different browser.',
+    permissionDenied: 'Permission denied. Please refresh and give camera permission.',
+    switchCamera:
+    'It is not possible to switch camera to different one because there is only one video device accessible.',
+    canvas: 'Canvas is not supported.'
+  }
   
   const camera = useRef<CameraType>(null);
   const [image, setImage] = useState<string>("");
@@ -66,6 +75,13 @@ const QrScanner = () => {
       console.log(photo);
       setImage(photo as string);
     }
+  }
+
+  const switchCamera = () => {
+    if (camera.current) {
+      const result = camera.current.switchCamera();
+      console.log(result);
+    } 
   }
 
   // display the image on the canvas
@@ -95,31 +111,33 @@ const QrScanner = () => {
   }, [image])
 
   return (
-    <div className='overflow-auto'>
-      <PageHeader title='Scan QR Code' />
-      <div>{numberOfCameras}</div>
-      <div className='p-5 mb-10 h-[90vh]'>
-        {/* <div className='rounded-xl' id='reader'></div> */}
-        <div className='bg-gray-200 w-full h-full rounded-lg relative'>
-          <Camera 
-            ref={camera} 
-            numberOfCamerasCallback={i => {setNumberOfCameras(i)}}
-            errorMessages={
-              {
-                noCameraAccessible: 'No camera device accessible. Please connect your camera or try a different browser.',
-                permissionDenied: 'Permission denied. Please refresh and give camera permission.',
-                switchCamera:
-                'It is not possible to switch camera to different one because there is only one video device accessible.',
-                canvas: 'Canvas is not supported.'
-              }
-            }
-          />
-          <button 
-            onClick={takePhoto}
-            className='absolute bottom-16 left-1/2 translate-x-[-50%] w-16 h-16 bg-none rounded-full border-4 border-white p-1'>
-            <div className='bg-white w-full h-full rounded-full'></div>
-          </button>
-        </div>
+    <div className='overflow-auto bg-black'>
+      <PageHeader title='Scan ID' className='!bg-opacity-0 fixed top-0 !border-0' />
+      <div className='h-[100vh] w-full'>
+        <div className='mb-10 h-[fit]'>
+          {/* <div className='rounded-xl' id='reader'></div> */}
+          <div className='bg-white w-full h-[500px] overflow-hidden relative'>
+            <Camera 
+              ref={camera} 
+              numberOfCamerasCallback={i => {setNumberOfCameras(i)}}
+              errorMessages={cameraErrorMessages}
+            />
+          </div>
+          <div className='mt-12 w-full items-center flex flex-row'>
+            <button 
+              onClick={takePhoto}
+              className='w-[4.5rem] h-[4.5rem] bg-gray-200 bg-opacity-45 rounded-full p-2 ml-auto absolute left-1/2 translate-x-[-50%]'
+            >
+              <div className='bg-white w-full h-full rounded-full active:bg-gray-200'></div>
+            </button>
+            <button 
+              onClick={switchCamera}
+              className=' w-12 h-12 ml-auto mr-5 bg-gray-400 rounded-full bg-opacity-45 grid place-items-center'
+            >
+              <MdOutlineFlipCameraAndroid size={30} fill={"#ffffff"} />
+            </button>
+          </div>
+      </div>
 
         {/* <ConfirmationModal 
           title='Confirm Attendance Update'
