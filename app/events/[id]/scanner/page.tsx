@@ -49,7 +49,6 @@ const Scanner = () => {
   const [resultID, setResultID] = useState<string>("00-0000")
   const eventId = usePathname().split('/')[2]
   const [student, setStudent] = useState<StudentProps | null>(null)
-  const [scannedText, setScannedText] = useState<string>("");
 
   // takePhoto
   const takePhoto = (scanning: boolean) => {
@@ -65,7 +64,6 @@ const Scanner = () => {
         })
         .then(({ data: { text } }) => {
           // find matching ID
-          setScannedText(text)
           const matchingID = text.match(/\b\d{2}-\d{4}\b/g);
           if (matchingID) { // if ID is found
             stopScan()
@@ -255,12 +253,9 @@ const Scanner = () => {
           </div>
         )}
       </div>
-      <div className='p-5 text-sm'>
-        {scannedText}
-      </div>
       <div className='mt-5 flex flex-col text-xs'>
         <span className='font-semibold'>Guidelines</span>
-        <ul className='list-disc ml-3 mt-1'>
+        <ul className='list-disc ml-4 mt-1'>
           <li>Ensure the text on the ID is clear and legible.</li>
           <li>You may only use either a <span className='font-semibold'>Library ID</span> or a <span className='font-semibold'>School ID</span> as valid identification.</li>
           <li>If School ID is used, Hold the ID horizontally, with the top edge rotated counterclockwise.</li>
