@@ -447,8 +447,6 @@ const EventPage: React.FC = ({ params }: any) => {
                   key={student.id}
                   eventId={event?.id}
                   studentData={student}
-                  isLoginChecked={student?.isLoginPresent}
-                  isLogoutChecked={student?.isLogoutPresent}
                 />
               );
             })

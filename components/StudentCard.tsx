@@ -11,7 +11,7 @@ import { HiLogin } from "react-icons/hi";
 import { HiLogout } from "react-icons/hi";
 import { FaCheck } from "react-icons/fa";
 
-const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isLoginChecked?: boolean, isLogoutChecked?: boolean, className?: string}> = ({ studentData, eventId, isLoginChecked, isLogoutChecked, className }) => {
+const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, className?: string}> = ({ studentData, eventId, className }) => {
   
   // Course formatting
   let course: string = studentData.course
@@ -25,8 +25,8 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, isLog
   const pathname = usePathname()
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
-  const [isLoginPresent, setIsLoginPresent] = useState(isLoginChecked)
-  const [isLogoutPresent, setIsLogoutPresent] = useState(isLogoutChecked)
+  const [isLoginPresent, setIsLoginPresent] = useState(studentData.isLoginPresent)
+  const [isLogoutPresent, setIsLogoutPresent] = useState(studentData.isLogoutPresent)
 
   function handleLoginCheckboxChange() {
     setIsLoginPresent(!isLoginPresent)
