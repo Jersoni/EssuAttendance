@@ -303,66 +303,49 @@ const EventPage: React.FC = ({ params }: any) => {
   // Search bar
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<StudentProps[] | any>([]);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   // On Search Input Change
-  // useEffect(() => {
-  //   // replace dashes from the input
-  //   const formattedSearchQuery = searchQuery.replace(/-/g, '')
+  useEffect(() => {
+    const fetchSearchQuery = async () => {
+      const column = !isNaN(Number(searchQuery.charAt(0)))
+      ? "id" // if query is an ID
+      : "name" // if query is a string
 
-  //   // if input contains spaces
-  //   if (formattedSearchQuery.includes(' ')) {
-  //     const arrayFormattedSearchQuery = formattedSearchQuery.split(' ')
-  //     console.log(arrayFormattedSearchQuery)
+      const {data, error} = await supabase
+        .from("student")
+        .select()
+        .textSearch(column, searchQuery, {
+          type: "websearch",
+          config: "english"
+        })
 
-  //     const fetchSearchQuery = async () => {
-  //       // console.log(`firstName.in.(${arrayFormattedSearchQuery})`)
-  //       const { data, error } = await supabase
-  //         .from("student")
-  //         .select()
-  //         .or(`firstName.in.(${arrayFormattedSearchQuery}), lastName.in.(${arrayFormattedSearchQuery})`)
+      if (error) {
+        console.error(error)
+      } else {
+        // if search query does not exactly match any row
+        if (data.length === 0 && searchQuery !== "") {
+          const {data: data2, error: error2} = await supabase
+            .from("student")
+            .select()
+            .ilike(column, `%${searchQuery}%`)
           
-  //       setSearchResults(data)
-  //     };
-      
-  //     console.log('1')
-  //     fetchSearchQuery();
-  //   } 
-  //   // if input is a number
-  //   else if (!isNaN(Number(formattedSearchQuery))) {
-  //     // console.log(formattedSearchQuery)
-  //     const fetchSearchQuery = async () => {
-  //       const { data, error } = await supabase
-  //         .from("student")
-  //         .select()
-  //         .eq('id', formattedSearchQuery)
-  
-  //       setSearchResults(data)
-  //     };
-  
-  //     console.log('2')
-  //     fetchSearchQuery();
-  //   }
-  //   // if input is NaN and One word only
-  //   else {
-  //     const fetchSearchQuery = async () => {
-  //       // console.log(formattedSearchQuery)
-  //       const { data, error } = await supabase
-  //         .from("student")
-  //         .select()
-  //         .or(`firstName.ilike.%${formattedSearchQuery}%, lastName.ilike.%${formattedSearchQuery}%`)
-          
-  //       setSearchResults(data)
-  //     };
-      
-  //     console.log('3')
-  //     fetchSearchQuery();
-  //   }
-
-  // }, [searchQuery]);
-
-  // useEffect(() => {
-  //   console.log(searchResults)
-  // }, [searchResults])
+          if (error2) {
+            console.error(error2)
+          } else {
+            setSearchResults(data2)
+            console.log(data2)
+          }
+        // if search query exactly matches a row
+        } else {
+          console.log(data)
+          setSearchResults(data)
+        }
+      }
+    }
+    
+    fetchSearchQuery()
+  }, [searchQuery])
 
   return (
     <div className=" overflow-hidden pt-24">
@@ -382,7 +365,7 @@ const EventPage: React.FC = ({ params }: any) => {
         {/* buttons */}
         <div className={`flex flex-row absolute top-3 right-3 gap-2 items-center `}>
           <button 
-            onClick={() => {}}
+            onClick={() => {setIsSearchOpen(true)}}
             className="grid place-items-center p-1.5 rounded-full bg-neutral-10"
           >
             <BiSearchAlt size={22} />
@@ -401,12 +384,6 @@ const EventPage: React.FC = ({ params }: any) => {
           </button>
         </div>
       </div>
-
-
-
-      {/* <button className=" fixed z-[500] top-4 right-[60px]">
-        <LuScanLine onClick={() => router.push(`./5/scanner`)} size={24} />
-      </button> */}
 
       <div className="overflow-hidden pb-40 px-5">
         <Filter
@@ -432,15 +409,20 @@ const EventPage: React.FC = ({ params }: any) => {
           setIsOpen={() => {setIsOpen(!isOpen)}}
         />
 
-        {/* <SearchBar
-          className="mr-5"
-          query={searchQuery}
-          setQuery={(e) => setSearchQuery(e.target.value)}
-        /> */}
+        {isSearchOpen && (
+          <SearchBar
+            query={searchQuery}
+            setQuery={(e) => setSearchQuery(e.target.value)}
+            closeSearch={() => {
+              setIsSearchOpen(false)
+              setSearchQuery("")
+            }}
+          />
+        )}
 
         {/* STUDENTS LIST */}
         <div className={`${styles.studentsList}`}>
-          {students?.length !== 0 &&
+          {(students?.length !== 0 && searchResults.length === 0) &&
             students?.map((student: StudentProps) => {
               return (
                 <StudentCard
@@ -454,6 +436,18 @@ const EventPage: React.FC = ({ params }: any) => {
 
           {students?.length === 0 &&
             <div className="mt-5">No Student Found.</div>
+          }
+
+          {searchResults.length !== 0 &&
+            searchResults?.map((student: StudentProps) => {
+              return (
+                <StudentCard
+                  key={student.id}
+                  eventId={event?.id}
+                  studentData={student}
+                />
+              );
+            })
           }
 
         </div>
