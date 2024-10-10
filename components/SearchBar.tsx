@@ -34,7 +34,7 @@ const SearchBar: React.FC<searchBarProps> = ({
           <RiSearchLine size={20} className="opacity-50 ml-2.5" />
           <input
             type="text"
-            className={`${fill} bg-gray-100 w-full text-sm bg-opacity-0 outline-none p-2 pl-3`}
+            className={`${fill} bg-gray-100 w-full text-[16px] bg-opacity-0 outline-none p-2 pl-3`}
             placeholder={"Search"}
             value={query}
             onChange={setQuery}
