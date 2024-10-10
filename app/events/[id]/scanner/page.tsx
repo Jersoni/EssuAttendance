@@ -66,9 +66,9 @@ const Scanner = () => {
           // find matching ID
           const matchingID = text.match(/\b\d{2}-\d{4}\b/g);
           if (matchingID) { // if ID is found
-            stopScan()
-            console.log(`match: ${matchingID}`)
+            console.log(`FOUND A MATCH: ${matchingID}`)
             setResultID(matchingID[0])
+            setScanning(false)
           } else {
             console.log(text)
           }
@@ -95,6 +95,7 @@ const Scanner = () => {
         if (error) {
           console.error(error)
         } else {
+          // then get login and logout status of student
           const {data: attendanceData, error: attendanceError} = await supabase
             .from("attendance")
             .select()
@@ -104,6 +105,7 @@ const Scanner = () => {
           if (attendanceError) {
             console.error(attendanceError)
           } else {
+            // Set student data
             const newData = {
               ...data, 
               isLoginPresent: attendanceData?.isLoginPresent,
@@ -120,33 +122,7 @@ const Scanner = () => {
     }
 
     fetchStudent()
-  }, [resultID])
-
-  // get login and logout status of student
-  const fetchStatus = async () => {
-    const {data, error} = await supabase
-      .from("attendance")
-      .select()
-      .match({ eventId: eventId, studentId: resultID })
-      .single()
-
-    if (error) {
-      console.error(error)
-    } else {
-      const newData = {
-        ...student, 
-        isLoginPresent: data?.isLoginPresent,
-        isLogoutPresent: data?.isLogoutPresent
-      } as StudentProps
-
-      setStudent(newData)
-      console.log(newData)
-    }
-  }
-
-  useEffect(() => {
-    console.log(student)
-  }, [student])
+  }, [resultID, eventId])
   
   // call the function takePhoto every 1000ms
   useEffect(() => {
@@ -165,16 +141,6 @@ const Scanner = () => {
     } 
   }
 
-  function startScan() {
-    setScanning(true)
-    console.log("start")
-  }
-
-  function stopScan() {
-    setScanning(false)
-    console.log("end")
-  }
-
   return (
     <div>
       <PageHeader title='Scan ID' className='' />
@@ -191,7 +157,7 @@ const Scanner = () => {
             ? (
               <div>
                 <button
-                  onClick={stopScan}
+                  onClick={() => setScanning(false)}
                   className='absolute bg-gray-800 text-white bg-opacity-40 p-2.5 px-4 rounded-lg bottom-3 left-3 active:bg-gray-900 active:bg-opacity-50'
                 >
                   <span>Stop</span>
@@ -200,7 +166,7 @@ const Scanner = () => {
             ) : (
               <div>
                 <button
-                  onClick={startScan}
+                  onClick={() => setScanning(true)}
                   className='absolute bg-gray-800 text-white bg-opacity-40 p-2.5 px-4 rounded-lg bottom-3 left-3 active:bg-gray-900 active:bg-opacity-50'
                 >
                   <span>Scan</span>
