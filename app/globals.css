@@ -33,10 +33,6 @@ body::before {
   z-index: 200;
 }
 
-input {
-  touch-action: manipulation;
-}
-
 /*
 
 body::after {
