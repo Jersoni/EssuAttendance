@@ -1,7 +1,7 @@
 'use client'
 import { ConfirmationModal } from "@/components";
 import supabase from "@/lib/supabaseClient";
-import { StudentProps } from "@/types";
+import { Attendance, StudentProps } from "@/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -37,8 +37,6 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
     setIsLogoutPresent(!isLogoutPresent)
     setIsLogoutModalOpen(!isLogoutModalOpen)
   }
-
-
 
   // UPDATE DATABASE LOGIN STATUS
   useEffect(() => {
@@ -101,7 +99,6 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
 
   return (
     <div className={`flex flex-row items-center gap-4 border-gray-200 border-b z-100 ${className}`}>
-
       {/* STUDENT */}
       <Link href={`/students/${studentData.id}`} className={`flex flex-row justify-between w-full items-center py-3 z-100`}>
         <div>

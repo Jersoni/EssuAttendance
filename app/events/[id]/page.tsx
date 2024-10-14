@@ -22,10 +22,13 @@ const EventPage: React.FC = ({ params }: any) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
-
-  // FETCH EVENT
+  const [attendanceData, setAttendanceData] = useState<Attendance[]>([]);
+  const [students, setStudents] = useState<StudentProps[] | null>(null);
+  const [isStudentsEmpty, setIsStudentsEmpty] = useState<boolean | null>(null)
+  const [error, setError] = useState(null);
   const [event, setEvent] = useState<EventProps>();
-
+  
+// FETCH EVENT
   useEffect(() => {
     const getEvent = async () => {
       try {
@@ -46,29 +49,37 @@ const EventPage: React.FC = ({ params }: any) => {
   }, [params.id]);
   
   // FETCH ATTENDANCE
-  const [attendanceData, setAttendanceData] = useState<Attendance[]>([]);
-  const [students, setStudents] = useState<StudentProps[] | null>(null);
-  const [isStudentsEmpty, setIsStudentsEmpty] = useState<boolean | null>(null)
-  const [error, setError] = useState(null);
-  
-  useEffect(() => {
-    // console.log(students)
-    // students.length === 0
-    // ? setIsStudentsEmpty(true)
-    // : setIsStudentsEmpty(false)
-  }, [students])
+  const fetchAttendanceData = async () => {
+    try {
+      const response = await fetch(`/api/getAttendance?id=${params.id}`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
 
-  // filter & search
+      const result = await response.json();
+      setAttendanceData(result);
+      console.log("fetched attendance data")
+    } catch (error: any) {
+      setError(error.message);
+    }
+  };
+
   useEffect(() => {
-    // if URL has search params
+    fetchAttendanceData();
+  }, [params.id, searchParams])
+
+// FETCH STUDENTS (after getting the attendance data)
+  useEffect(() => {
+    console.log("fetching student data")
+    let studentsIDs: string[] = [];
+
+    // get all student IDs
+    attendanceData.map((row: Attendance) => {
+      studentsIDs.push(row.studentId);
+    });
+
     if (searchParams.get("order")) {
-        
-      const fetchAttendanceData = async () => {
-        const { data: attendanceData, error } = await supabase
-          .from("attendance")
-          .select("*")
-          .eq("eventId", 9)
-
+      const fetchStudentsData = async () => {
         if (attendanceData) {
           const studentIDs = attendanceData.map((data) => data.studentId);
           const queryParams = {
@@ -113,79 +124,136 @@ const EventPage: React.FC = ({ params }: any) => {
             }
           }
         }
-      };
-
-      fetchAttendanceData();
+      }
+      
+      fetchStudentsData()
     } else {
-      const fetchAttendanceData = async () => {
+      const fetchStudentsData = async () => {
         try {
-          const response = await fetch(`/api/getAttendance?id=${params.id}`);
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
+          const { data, error } = await supabase
+            .from("student")
+            .select("*")
+            .in("id", studentsIDs)
+            .order("name", { ascending: true });
+  
+          if (error) {
+            throw error;
           }
-
-          const result = await response.json();
-          setAttendanceData(result);
+  
+          // add the isPresent to 'students' state variable
+          let modifiedData = data.map((student) => {
+            const attendance = attendanceData.find(
+              (row) => row.studentId === student.id
+            );
+            return {
+              ...student,
+              isLoginPresent: attendance?.isLoginPresent,
+              isLogoutPresent: attendance?.isLogoutPresent
+            };
+          });
+  
+          setStudents(modifiedData);
+          modifiedData.length === 0
+          ? setIsStudentsEmpty(true)
+          : setIsStudentsEmpty(false)
         } catch (error: any) {
           setError(error.message);
         }
       };
-
-      fetchAttendanceData();
+  
+      fetchStudentsData(); 
     }
 
+  }, [attendanceData, searchParams]);
 
-    // subscribe to supabase realtime channel to listen for realtime updates
-    const channel = supabase.channel("realtime_attendance").on(
-      "postgres_changes",
-      {
-        event: "INSERT",
-        schema: "public",
-        table: "attendance",
-      },
-      (payload) => {
-        // setStudents([...students, payload.new as StudentProps])
-        // console.log(payload);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<StudentProps[] | any>([]);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+// SEARCH FUNCTIONALITY
+  useEffect(() => {
+    const fetchSearchQuery = async () => {
+      const column = !isNaN(Number(searchQuery.charAt(0)))
+      ? "id" // if query is an ID
+      : "name" // if query is a string
+
+      const {data, error} = await supabase
+        .from("student")
+        .select()
+        .textSearch(column, searchQuery, {
+          type: "websearch",
+          config: "english"
+        })
+
+      if (error) {
+        console.error(error)
+      } else {
+        // if search query does not exactly match any row
+        if (data.length === 0 && searchQuery !== "") {
+          const {data: data2, error: error2} = await supabase
+            .from("student")
+            .select()
+            .ilike(column, `%${searchQuery}%`)
+          
+          if (error2) {
+            console.error(error2)
+          } else {
+            // add the isPresent to 'students' state variable
+            let modifiedData = data2.map((student) => {
+              const attendance = attendanceData.find(
+                (row) => row.studentId === student.id
+              );
+              return {
+                ...student,
+                isLoginPresent: attendance?.isLoginPresent,
+                isLogoutPresent: attendance?.isLogoutPresent
+              };
+            });
+
+            setSearchResults(modifiedData);
+            modifiedData.length === 0
+            ? setIsStudentsEmpty(true)
+            : setIsStudentsEmpty(false)
+            console.log(modifiedData)
+          }
+        // if search query exactly matches a row
+        } else {
+          // add the isPresent to 'students' state variable
+          let modifiedData = data.map((student) => {
+            const attendance = attendanceData.find(
+              (row) => row.studentId === student.id
+            );
+            return {
+              ...student,
+              isLoginPresent: attendance?.isLoginPresent,
+              isLogoutPresent: attendance?.isLogoutPresent
+            };
+          });
+          
+          setSearchResults(modifiedData);
+          modifiedData.length === 0
+          ? setIsStudentsEmpty(true)
+          : setIsStudentsEmpty(false)
+          console.log(modifiedData)
+        }
       }
-    );
+    }
+    
+    fetchSearchQuery()
+  }, [searchQuery])
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [params.id, searchParams]);
-
-  // Filter Component UI logic
+// FILTER COMPONENT FUNCTIONALITY
   const [isOpen, setIsOpen] = useState(false);
-
   const [courses, setCourses] = useState(["AllCourses"]);
   const [years, setYears] = useState(["AllYears"]);
   const [sections, setSections] = useState(["AllSections"]);
   const [sortBy, setSortBy] = useState("name");
   const [order, setOrder] = useState("ascending");
   const [displayOption, setDisplayOption] = useState("showAll");
-
-  const allCourses = [
-    "BSCE",
-    "BSIT",
-    "BOT",
-    "BSHM",
-    "BSTM",
-    "BSE",
-    "BSBA",
-    "BSAIS",
-    "BAC",
-    "BTVTED",
-    "BSED",
-    "BEED",
-    "BSN",
-    "BSCRIM",
-    "BSINFOTECH",
-  ];
   const allYears = [1, 2, 3, 4];
   const allSections = ["A", "B", "C", "D", "E"];
-  const allDisplayOptions = ["true", "false"];
+  const allCourses = [ "BSCE", "BSIT", "BOT", "BSHM", "BSTM", "BSE", "BSBA", "BSAIS", "BAC", "BTVTED", "BSED", "BEED", "BSN", "BSCRIM", "BSINFOTECH" ];
 
-  // TODO: APPLY FILTERS FUNCTIONALITY
   async function applyFilters() {
     setLoading(true);
 
@@ -199,12 +267,6 @@ const EventPage: React.FC = ({ params }: any) => {
       : sections;
     const filterOrder = order === "ascending";
     const filterSortBy = sortBy;
-    const filterDisplayOption =
-      displayOption === "showAll"
-        ? allDisplayOptions
-        : displayOption === "present"
-        ? ["true"]
-        : ["false"];
 
     // URL search params
     const queryParams = new URLSearchParams();
@@ -238,114 +300,57 @@ const EventPage: React.FC = ({ params }: any) => {
     // console.log(JSON.stringify(filters, null, 2));
   }, [courses, years, sections, sortBy, order, displayOption]);
 
-  // FETCH STUDENTS after getting the attendance data
+// REALTIME SUBSCRIPTION
   useEffect(() => {
-    let studentsIDs: string[] = [];
+    const channel = supabase.channel("realtime_students")
+    .on("postgres_changes", {
+      event: "UPDATE",
+      schema: "public",
+      table: "attendance",
+    },
+    (payload) => {
+      // setStudents([...students, payload.new as StudentProps])
+      console.log(payload.new);
 
-    // get all student IDs
-    attendanceData.map((row: Attendance) => {
-      studentsIDs.push(row.studentId);
-    });
+      const studentID = payload.new.studentId
+      const studentToUpdate = students?.find(student => student.id === studentID);
+      const indexOfStudentToUpdate = students?.findIndex(student => student.id === studentID)
+      const {isLoginPresent, isLogoutPresent} = payload.new
 
-    const fetchStudentsData = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("student")
-          .select("*")
-          .in("id", studentsIDs)
-          .order("name", { ascending: true });
-
-        if (error) {
-          throw error;
-        }
-
-        // add the isPresent to 'students' state variable
-        let modifiedData = data.map((student) => {
-          const attendance = attendanceData.find(
-            (row) => row.studentId === student.id
-          );
-          return {
-            ...student,
-            isLoginPresent: attendance?.isLoginPresent,
-            isLogoutPresent: attendance?.isLogoutPresent
-          };
-        });
-
-        setStudents(modifiedData);
-        modifiedData.length === 0
-        ? setIsStudentsEmpty(true)
-        : setIsStudentsEmpty(false)
-      } catch (error: any) {
-        setError(error.message);
+      const newStudentData = {
+        ...studentToUpdate,
+        isLoginPresent: isLoginPresent,
+        isLogoutPresent: isLogoutPresent
       }
-    };
 
-    fetchStudentsData();
+      console.log(students)
 
-    const channel = supabase.channel("realtime_students").on(
-      "postgres_changes",
-      {
-        event: "INSERT",
-        schema: "public",
-        table: "student",
-      },
-      (payload) => {
-        // setStudents([...students, payload.new as StudentProps])
-        // console.log(payload);
+      if (studentToUpdate && students !== null) {
+        setStudents(students.map(student => {
+          if (student.id === studentID) {
+            return {
+              ...student,
+              ...newStudentData
+            }
+          }
+          return student
+        }))
+        console.log("students updated")
+      } else {
+        console.log("update failed")
       }
-    );
+    })
+    .subscribe()
 
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [attendanceData]);
+  }, [students])
 
-  // Search bar
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [searchResults, setSearchResults] = useState<StudentProps[] | any>([]);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-  // On Search Input Change
   useEffect(() => {
-    const fetchSearchQuery = async () => {
-      const column = !isNaN(Number(searchQuery.charAt(0)))
-      ? "id" // if query is an ID
-      : "name" // if query is a string
-
-      const {data, error} = await supabase
-        .from("student")
-        .select()
-        .textSearch(column, searchQuery, {
-          type: "websearch",
-          config: "english"
-        })
-
-      if (error) {
-        console.error(error)
-      } else {
-        // if search query does not exactly match any row
-        if (data.length === 0 && searchQuery !== "") {
-          const {data: data2, error: error2} = await supabase
-            .from("student")
-            .select()
-            .ilike(column, `%${searchQuery}%`)
-          
-          if (error2) {
-            console.error(error2)
-          } else {
-            setSearchResults(data2)
-            console.log(data2)
-          }
-        // if search query exactly matches a row
-        } else {
-          console.log(data)
-          setSearchResults(data)
-        }
-      }
-    }
-    
-    fetchSearchQuery()
-  }, [searchQuery])
+    console.log("after:")
+    console.log(students)
+  }, [students])
 
   return (
     <div className=" overflow-hidden pt-24">

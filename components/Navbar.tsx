@@ -23,12 +23,12 @@ const Navbar = ({className}: {className: string}) => { // given default value fo
         condition ? (
             <>
                 {/* header */}
-                <div className={` ${pathname === '/' ? "" : ""} bg-white z-30 h-14 flex items-center border-b border-gray-200 fixed left-0 right-0 top-0`}>
+                <div className={` ${pathname === '/' ? "" : ""} bg-white z-30 h-14 flex items-center border-b border-gray-200 fixed left-0 right-0 top-0 shadow-sm`}>
                     <h1 className={`text-emerald-700 h-fit font-bold z-30 text-[24px] ml-5 translate-y-[2px] ${className}`}>{convertedPathname}</h1>
                 </div>
                 
                 {/* Navbar menu */}
-                <div className={`fixed duration-200 bg-white h-[80px] pb-3 px-5 z-50 bottom-0 left-0 right-0 border-t border-gray-200`}>
+                <div className={`fixed duration-200 bg-white h-[80px] pb-3 px-5 z-50 bottom-0 left-0 right-0 border-t border-gray-200 shadow-2xl`}>
                     <ul className='flex flex-row gap-1'>
                         <li className='w-full grid place-items-center py-2 rounded-md'>
                             <Link className='flex flex-col items-center gap-1 w-full' href="/">

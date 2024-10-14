@@ -147,7 +147,7 @@ const Filter = ({
                         <Button variant='primary' onClick={applyFilters}>Apply</Button>
                     </div>
                 </div>
-                <div onClick={setIsOpen} className={`bg-black bg-opacity-70 h-full w-full fixed pointer-events-auto z-[500] top-0 left-0 transition-all ${isOpen ? "block" : "hidden"}`}></div>
+                <div onClick={setIsOpen} className={`bg-black bg-opacity-70 fixed pointer-events-auto z-[500] top-0 left-0 right-0 bottom-0 transition-all ${isOpen ? "block" : "hidden"}`}></div>
             </div>
         </div>
     )
