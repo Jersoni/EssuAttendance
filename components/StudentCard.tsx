@@ -28,6 +28,14 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
   const [isLoginPresent, setIsLoginPresent] = useState(studentData.isLoginPresent)
   const [isLogoutPresent, setIsLogoutPresent] = useState(studentData.isLogoutPresent)
 
+  useEffect(() => {
+    setIsLoginPresent(studentData.isLoginPresent)
+  }, [studentData.isLoginPresent])
+
+  useEffect(() => {
+    setIsLogoutPresent(studentData.isLogoutPresent)
+  }, [studentData.isLogoutPresent])
+
   function handleLoginCheckboxChange() {
     setIsLoginPresent(!isLoginPresent)
     setIsLoginModalOpen(!isLoginModalOpen)

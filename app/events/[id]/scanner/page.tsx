@@ -25,16 +25,6 @@ const Scanner = () => {
       document.body.style.backgroundColor = ''; // Reset to default on unmount
     };
   }, []);
-
-  const dummy: StudentProps = {
-    id: "22-0224",
-    name: "Musk, Elon M., Jr.",
-    course: "BS INFO TECH",
-    year: 2,
-    section: "A",
-    isLoginPresent: true,
-    isLogoutPresent: false,
-  }
               
   const cameraErrorMessages = {
     noCameraAccessible: 'Unable to access the camera. Please enable camera permissions in your settings.',

@@ -1,14 +1,12 @@
 import { Navbar } from "@/components";
 import type { Metadata } from "next";
-import { Bebas_Neue, Inter } from "next/font/google";
+import localFont from 'next/font/local'
 import Head from 'next/head';
 import "./globals.css";
+import NextTopLoader from 'nextjs-toploader';
 
-const inter = Inter({ subsets: ["latin"] });
-const bebasNeue = Bebas_Neue({
-  subsets: ["latin"],
-  weight: ['400'],
-})
+// const inter = Inter({ subsets: ["latin"] });
+const bebasNeue = localFont({ src: '../public/fonts/BebasNeue-Regular.ttf' })
 
 export const metadata: Metadata = {
   title: "SSC Logbook",
@@ -54,7 +52,13 @@ export default function RootLayout({
         <link rel="icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
-      <body className={inter.className}>
+      <body 
+        // className={inter.className}
+      >
+        <NextTopLoader 
+          color="#16a34a"
+          showSpinner={false}
+        />
         <Navbar className={bebasNeue.className} />
         <main>{children}</main>
       </body>

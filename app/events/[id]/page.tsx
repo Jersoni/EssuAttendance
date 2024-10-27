@@ -300,6 +300,9 @@ const EventPage: React.FC = ({ params }: any) => {
     // console.log(JSON.stringify(filters, null, 2));
   }, [courses, years, sections, sortBy, order, displayOption]);
 
+  const [message, setMessage] = useState("nothing");
+  const [count, setCount] = useState(0)
+
 // REALTIME SUBSCRIPTION
   useEffect(() => {
     const channel = supabase.channel("realtime_students")
@@ -310,6 +313,7 @@ const EventPage: React.FC = ({ params }: any) => {
     },
     (payload) => {
       // setStudents([...students, payload.new as StudentProps])
+      setMessage("got the payload")
       console.log(payload.new);
 
       const studentID = payload.new.studentId
@@ -326,6 +330,8 @@ const EventPage: React.FC = ({ params }: any) => {
       console.log(students)
 
       if (studentToUpdate && students !== null) {
+        setMessage("set students successfully")
+        setCount(count + 1)
         setStudents(students.map(student => {
           if (student.id === studentID) {
             return {
@@ -337,6 +343,7 @@ const EventPage: React.FC = ({ params }: any) => {
         }))
         console.log("students updated")
       } else {
+        setMessage("students not updated")
         console.log("update failed")
       }
     })
@@ -360,6 +367,7 @@ const EventPage: React.FC = ({ params }: any) => {
           subtitle={event?.eventDate ? formatDate(event?.eventDate) : ""}
           returnPath="/"
         />
+
         <div className="w-full flex flex-row items-center text-xs text-gray-400 justify-between px-5 py-2 border-b border-b-gray-200 bg-white" >
           <span>Student</span>
           <div className="flex flex-row gap-2">
@@ -430,14 +438,17 @@ const EventPage: React.FC = ({ params }: any) => {
           {(students?.length !== 0 && searchResults.length === 0) &&
             students?.map((student: StudentProps) => {
               return (
-                <StudentCard
-                  key={student.id}
-                  eventId={event?.id}
-                  studentData={student}
-                />
+                <>
+                  <StudentCard
+                    key={student.id}
+                    eventId={event?.id}
+                    studentData={student}
+                  />
+                </>
               );
             })
           }
+
 
           {students?.length === 0 &&
             <div className="mt-5">No Student Found.</div>
