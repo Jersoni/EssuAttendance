@@ -1,18 +1,15 @@
 "use client";
-import { EventCard, EventForm } from "@/components";
+import { EventCard, EventForm, EditEventForm } from "@/components";
 import supabase from "@/lib/supabaseClient";
 import { EventProps } from "@/types";
-import React, { useEffect, useState } from "react";
-
-interface ParsedEvent extends Omit<EventProps, "eventDate"> {
-  eventDate: Date; // Converted to JavaScript Date object
-}
+import React, { useCallback, useEffect, useState } from "react"
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 // eslint-disable-next-line @next/next/no-async-client-component
 const Home: React.FC = () => {
   // fetch event data
-  const [ongoingEvents, setOngoingEvents] = useState<ParsedEvent[]>([]);
-  const [upcomingEvents, setUpcomingEvents] = useState<ParsedEvent[]>([]);
+  const [ongoingEvents, setOngoingEvents] = useState<EventProps[]>([]);
+  const [upcomingEvents, setUpcomingEvents] = useState<EventProps[]>([]);
 
   const fetchEvents = async () => {
     try {
@@ -107,29 +104,57 @@ const Home: React.FC = () => {
     setIsOpen(!isOpen);
   };
 
+  // Edit form
+  const [isEditFormOpen, setIsEditFormOpen] = useState(false)
+  const toggleEditForm = () => {
+    setIsEditFormOpen(!isEditFormOpen);
+  };
+
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const [editEventID, setEditEventID] = useState<number>()
+
+  useEffect(() => {
+    setEditEventID(Number(searchParams.get("editEventId")))
+  }, [searchParams])
+
+  useEffect(() => {
+    if (searchParams.get("editEventId")) {
+      setIsEditFormOpen(true)
+    }
+  }, [searchParams])
+
   return (
     <div
-      className={`p-4 pb-60 flex flex-col bg-gray-100 h-[100vh] !overflow-y-scroll ${
-        isOpen ? "overflow-hidden" : "overflow-y-scrol"
-      }
-    `}
+      className={`p-4 pb-60 flex flex-col bg-gray-100 h-[100vh] !overflow-y-scroll ${isOpen ? "overflow-hidden" : "overflow-y-scroll"}`}
     >
+      {/* New event form */}
       <EventForm
-        operation={"insert"}
         isOpen={isOpen}
-        toggleNewEventForm={toggleNewEventForm}
+        toggleEventForm={toggleNewEventForm}
+
       />
 
-      {/* TODO: Only display events for this day and upcoming */}
+      {/* Edit event form */}
+      <EditEventForm 
+        isOpen={isEditFormOpen}
+        toggleEventForm={toggleEditForm}
+        eventID={editEventID}
+      />
 
       {/* ON GOING ATTENDANCE BLOCK */}
       {ongoingEvents.length !== 0 && (
         <div className="ongoing-attendance mt-16">
-          <h2 className="text-sm text-gray-400">Today</h2>
+          <h2 className="text-sm font-bold text-gray-400">Today</h2>
 
           <div className="mt-6">
             {ongoingEvents.map((event) => (
-              <EventCard key={event.id} eventData={event} />
+              <EventCard 
+                key={event.id} 
+                eventData={event}
+                isEditFormOpen={isEditFormOpen}
+                toggleEditForm={toggleEditForm} 
+              />
             ))}
           </div>
         </div>
@@ -139,10 +164,15 @@ const Home: React.FC = () => {
       {upcomingEvents.length !== 0 && (
         <div className="upcoming-events !mt-10 pt-2
         ">
-          <h2 className="text-sm text-gray-400">Upcoming</h2>
+          <h2 className="text-sm font-bold text-gray-400">Upcoming</h2>
           <div className="mt-6">
             {upcomingEvents.map((event) => (
-              <EventCard key={event.id} eventData={event} />
+              <EventCard 
+                key={event.id} 
+                eventData={event}
+                isEditFormOpen={isEditFormOpen}
+                toggleEditForm={toggleEditForm}  
+              />
             ))}
           </div>
         </div>

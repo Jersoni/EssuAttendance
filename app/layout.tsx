@@ -58,6 +58,7 @@ export default function RootLayout({
         <NextTopLoader 
           color="#16a34a"
           showSpinner={false}
+          shadow={false}
         />
         <Navbar className={bebasNeue.className} />
         <main>{children}</main>

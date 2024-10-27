@@ -13,24 +13,21 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = (
         type = 'default'
     }
 ) => {
-
-    if(!isOpen) return null
-
     return (
-        <div className="modal-overlay fixed bg-black bg-opacity-30 top-0 left-0 right-0 bottom-0 grid place-items-center p-10 !z-[800]">
-            <div className="flex flex-col bg-white w-full h-fit rounded-lg text-center">
-                <span className='font-semibold border-b border-gray-200 py-3'>{title}</span>
-                <div className='p-4'>
-                    <span className='text-sm text-gray-600 mt-2'>{content}</span>
-                    <div className='flex flex-row mt-6 gap-3'>
-                        <Button className='w-full text-sm font-medium ' 
-                                variant='secondary'
-                                onClick={onClose}
-                        > Cancel</Button>
-                        <Button className={`w-full ${type === 'delete' && 'bg-red-400'}`}
+        <div className={`${isOpen ? "opacity-100" : "pointer-events-none"} grid opacity-0 transition-all duration-300 modal-overlay fixed bg-black bg-opacity-10 top-0 left-0 right-0 bottom-0 place-items-center p-4 !z-[800]`}>
+            <div className={`flex flex-col bg-white w-full h-fit rounded-xl transition-all duration-500 `}>
+                <div className='p-6 flex flex-col'>
+                    <span className='font-bold text-xl border-gray-200'>{title}</span>
+                    <span className='text-gray-600 mt-2'>{content}</span>
+                    <div className='flex flex-col mt-6 gap-3'>
+                        <Button className={`w-full py-3 ${type === 'delete' && 'bg-red-400'}`}
                                 variant={confirmBtnVariant}
                                 onClick={onConfirm}
                         > {confirmBtnLabel}</Button>
+                        <Button className='w-full text-sm py-3 font-medium ' 
+                                variant='secondary'
+                                onClick={onClose}
+                        > Cancel</Button>
                     </div>
                 </div>
             </div>

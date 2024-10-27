@@ -23,7 +23,7 @@ export interface FormEventProps {
     location: string
     loginTime: string
     logoutTime: string
-    fineAmount: number
+    fineAmount: number | string
     eventDate: string
 }
 

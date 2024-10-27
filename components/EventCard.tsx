@@ -2,18 +2,21 @@
 import supabase from '@/lib/supabaseClient';
 import { EventProps } from '@/types';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { IoIosArrowForward } from "react-icons/io";
 import { PiTrashSimpleBold } from "react-icons/pi";
 import { RiEdit2Line } from "react-icons/ri";
 import ConfirmationModal from './ConfirmationModal';
-
-interface ParsedEvent extends Omit<EventProps, 'eventDate'> {
-  eventDate: Date; // Converted to JavaScript Date object
-}
+import { TbDotsVertical } from "react-icons/tb";
+import EventForm from './EventForm';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 // Main
-const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
+const EventsCard: React.FC<{ 
+  eventData: EventProps 
+  isEditFormOpen: boolean
+  toggleEditForm: () => void
+}> = ({ eventData, isEditFormOpen, toggleEditForm }) => {
 
   const [isAdmin, setIsAdmin] = useState(false)
   
@@ -41,10 +44,10 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
   const logout = convertTimeTo12HourFormat(eventData.logoutTime)
 
   // Delete Modal
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   const toggleDeleteModal = () => {
-    setIsModalOpen(!isModalOpen)
+    setIsDeleteModalOpen(!isDeleteModalOpen)
   }
 
   // delete confirm logic
@@ -70,10 +73,38 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
     }
   }
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  function toggle() {
+    setIsModalOpen(!isModalOpen)
+  }
+  
+  // Event form
+  const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
+  const toggleUpdateEventForm = () => {
+    setIsUpdateFormOpen(!isUpdateFormOpen);
+  };
+
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  // Get a new searchParams string by merging the current
+  // searchParams with a provided key/value pair
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set(name, value)
+ 
+      return params.toString()
+    },
+    [searchParams]
+  )
+
   return (
     <div className='flex flex-row h-fit rounded-xl mt-4 border border-gray-200 shadow-sm bg-white overflow-hidden z-[100]'>
+
       <Link href={`/events/${eventData.id}`} className='w-full'>
-        <div className="flex flex-col p-5 min-w-full">
+        <div className="flex flex-col p-5 pt-4 min-w-full">
           <div className='flex flex-row items-center justify-between relative '>
             <span className="event__title ">{eventData.title}</span>
           </div>
@@ -102,7 +133,7 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
             </div> 
             <div className=' flex flex-row items-center gap-3 mt-1 w-fit'>
               {/* <FaMoneyBillWave size={13} className='ml-[1px] opacity-40 translate-y-[-1px]' /> */}
-              <span className="event__info">{fine}</span>
+              <span className="event__info">{fine}</span> 
             </div>
           </div>
         </div>
@@ -111,32 +142,53 @@ const EventsCard: React.FC<{ eventData: ParsedEvent }> = ({ eventData }) => {
       {/* Edit and Delete Buttons */}
       <div className=' '>
         {isAdmin ? (
-          <div className='flex flex-col h-full border-l border-gray-200'>
-            <button 
-              className='h-full p-4 border-b border-gray-200 active:bg-gray-200'
-              onClick={(e) => {
-                e.preventDefault()
-                
-              }} 
+          <div className='flex flex-col h-full p-3 border-gray-200 relative'>
+
+            {/* button toggle */}
+            <button
+              onClick={() => {toggle()}}
+              className={`p-2 rounded-full`}
             >
-              <RiEdit2Line size={23} className='fill-gray-700' />
+              <TbDotsVertical size={20} />
             </button>
-              
-            <button 
-              className='h-full p-4 active:bg-red-100'
-              onClick={(e) => {
-                e.preventDefault()
-                toggleDeleteModal()
-              }}
-            >
-              <PiTrashSimpleBold size={23} className='fill-gray-700' />
-            </button>
+
+            {/* modal */}
+            <div className={`absolute bg-white border translate-x-[-7rem] rounded-lg transition-all overflow-hidden shadow-sm
+              ${isModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"}  
+            `}>
+              {/* edit button */}
+              <button 
+                className='h-full flex flex-row p-3 w-28 items-center gap-2 active:bg-gray-200'
+                onClick={(e) => {
+                  e.preventDefault()
+                  toggleEditForm()
+                  if (eventData.id) {
+                    router.push(pathname + '?' + createQueryString('editEventId', eventData.id.toString()))
+                  }
+                }} 
+              >
+                <RiEdit2Line size={18} className='fill-gray-700' />
+                <span className='font-medium text-gray-700 text-sm' >Edit</span>
+              </button>
+              {/* delete button */}
+              <button 
+                className='h-full flex flex-row p-3 w-28 items-center gap-2 active:bg-red-100'
+                onClick={(e) => {
+                  e.preventDefault()
+                  toggleDeleteModal()
+                }}
+              >
+                <PiTrashSimpleBold size={18} className='fill-gray-700' />
+                <span className='font-medium text-gray-700 text-sm' >Delete</span>
+              </button>
+            </div>
+
         
             {/* Delete Modal */}
-            <ConfirmationModal 
-                title='Delete Attendance Record'
-                content={`Are you sure you want to delete this record? This action cannot be undone.`}
-                isOpen={isModalOpen}
+            <ConfirmationModal
+                title='Delete?'
+                content={`Are you sure you want to delete this attendance?`}
+                isOpen={isDeleteModalOpen}
                 onClose={toggleDeleteModal}
                 onConfirm={onConfirm}
                 confirmBtnLabel='Delete'

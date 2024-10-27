@@ -12,6 +12,7 @@ import StudentForm from './StudentForm'
 import EventLink from './EventLink'
 import ConfirmationModal from './ConfirmationModal'
 import ArchiveEventCard from './ArchiveEventCard'
+import EditEventForm from './EditEventForm'
 
 export {
     Footer,
@@ -27,5 +28,6 @@ export {
     StudentForm,
     EventLink,
     ConfirmationModal,
-    ArchiveEventCard
+    ArchiveEventCard,
+    EditEventForm
 }

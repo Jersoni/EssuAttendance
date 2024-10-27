@@ -32,11 +32,11 @@ const Navbar = ({ className }: { className: string }) => {
     setIsOpen(!isOpen)
   }
 
-  useEffect(() => {
-    setTimeout(() => {
-      toggle()
-    }, 500) 
-  }, [pathname])
+  function handleClick() {
+      setTimeout(() => {
+        toggle()
+      }, 500)
+  }
 
   return condition ? (
     <div className="fixed top-0 left-0 z-[1000]">
@@ -48,11 +48,11 @@ const Navbar = ({ className }: { className: string }) => {
       >
         <button 
           onClick={toggle} 
-          className={`bg-gray-100 ml-3 rounded-full p-2`}
+          className={`active:bg-gray-200 ml-3 rounded-full p-2`}
         >
           <IoMdMenu size={26} fill="blue" className="fill-green-700" />
         </button>
-        <h1 className={`text-emerald-700 h-fit z-30 text-[20px] ml-4 w-full translate-y-[2px] ${className}`}>{convertedPathname}</h1>
+        <h1 className={`text-emerald-700 h-fit z-30 text-[20px] ml-2 w-full ${className}`}>{convertedPathname}</h1>
       </div>
 
       {/* Navbar menu */}
@@ -62,7 +62,7 @@ const Navbar = ({ className }: { className: string }) => {
         `}
       >
         <ul className="flex flex-col gap-1">
-          <li className={`px-5 w-full grid place-items-center py-4 ${pathname === "/" ? "bg-emerald-100 text-green-900 fill-green-900 bg-opacity-50" : ""}`}>
+          <li onClick={handleClick} className={`px-5 w-full grid place-items-center py-4 ${pathname === "/" ? "bg-emerald-100 text-green-900 fill-green-900 bg-opacity-50" : ""}`}>
             <Link 
                 className="flex flex-row gap-4 items-center w-full" 
                 href="/"
@@ -72,15 +72,15 @@ const Navbar = ({ className }: { className: string }) => {
                 size={22}
               />
               <p
-                className={`text-sm font-medium ${
-                  pathname === "/" ? "" : "text-gray-400 font-semibold"
+                className={`text-sm font-semibold ${
+                  pathname === "/" ? "" : "text-gray-400"
                 }`}
               >
                 Attendance
               </p>
             </Link>
           </li>
-          <li className={`px-5 w-full grid place-items-center py-4 ${pathname === "/students" ? "bg-emerald-100 text-green-900 fill-green-900 bg-opacity-50" : ""}`}>
+          <li onClick={handleClick} className={`px-5 w-full grid place-items-center py-4 ${pathname === "/students" ? "bg-emerald-100 text-green-900 fill-green-900 bg-opacity-50" : ""}`}>
             <Link
               className="flex flex-row gap-4 items-center w-full"
               href="/students"
@@ -90,15 +90,15 @@ const Navbar = ({ className }: { className: string }) => {
                 size={22}
               />
               <p
-                className={`text-sm font-medium ${
-                  pathname === "/students" ? "" : "text-gray-400 font-semibold"
+                className={`text-sm font-semibold ${
+                  pathname === "/students" ? "" : "text-gray-400"
                 }`}
               >
                 Students
               </p>
             </Link>
           </li>
-          <li className={`px-5 w-full grid place-items-center py-4 ${pathname === "/archive" ? "bg-emerald-100 text-green-900 fill-green-900 bg-opacity-50" : ""}`}>
+          <li onClick={handleClick} className={`px-5 w-full grid place-items-center py-4 ${pathname === "/archive" ? "bg-emerald-100 text-green-900 fill-green-900 bg-opacity-50" : ""}`}>
             <Link
               className="flex flex-row gap-4 items-center w-full"
               href="/archive"
@@ -108,8 +108,8 @@ const Navbar = ({ className }: { className: string }) => {
                 size={22}
               />
               <p
-                className={`text-sm font-medium ${
-                  pathname === "/archive" ? "" : "text-gray-400 font-semibold"
+                className={`text-sm font-semibold ${
+                  pathname === "/archive" ? "" : "text-gray-400"
                 }`}
               >
                 Archive

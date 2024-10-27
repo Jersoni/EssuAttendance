@@ -2,18 +2,20 @@
 import { Button } from '@/components';
 import supabase from '@/lib/supabaseClient';
 import { FormEventProps, FormOperationProps } from '@/types';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { IoIosAdd } from "react-icons/io";  
 
 // NEW EVENT FORM COMPONENT
-const EventForm: React.FC<{
-  data?: FormEventProps
+const EditEventForm: React.FC<{
   isOpen: boolean;
   toggleEventForm: () => void;
+  eventID?: number
 }> = ({
   isOpen, 
   toggleEventForm,
-  data
+  eventID
 }) => {
 
   // Frontend
@@ -57,6 +59,31 @@ const EventForm: React.FC<{
     eventDate: "",
   })
 
+  // fetch event data by id
+  useEffect(() => {
+    const getEvent = async () => {
+      const {data, error} = await supabase
+        .from("event")
+        .select()
+        .eq("id", eventID)
+        .single()
+      
+      if (error) {
+        console.error(error)
+      } else {
+        console.log(data)
+        setFormData(data)
+      }
+    }
+    
+    if (eventID) getEvent()
+  
+  }, [eventID])
+
+  useEffect(() => {
+    console.log(formData)
+  }, [formData])
+
   // useEffect(() => {
   //   if (data && operation === "update") {
   //     const date = new Date(data.eventDate.toString())
@@ -69,8 +96,6 @@ const EventForm: React.FC<{
   //   }
   // }, [data])
 
-  // reference ID for updating an event (dummy data for now)
-
   // OnChange handler for all input elements
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     let {name, value} = e.target
@@ -79,6 +104,7 @@ const EventForm: React.FC<{
     setFormData({ ...formData, [name]: updatedValue });
   };
 
+  // TODO: form update submit handler
   // form submit handler
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -87,7 +113,8 @@ const EventForm: React.FC<{
     console.log(formData)
 
     const {data, error} =  await supabase.from('event')
-      .insert([ {...formData} ])
+      .update([ {...formData} ])
+      .eq("id", eventID)
 
     if (error) {
       // Handle error
@@ -97,24 +124,25 @@ const EventForm: React.FC<{
       console.log(data);
     }
   }
+
+  const router = useRouter()
   
   return (
     // TODO: Student form functionality / submit hhandler
     <div>
-      {/* NEW EVENT BUTTON */}
-      <button onClick={toggleEventForm} className='z-[1000] fixed top-2 right-3 grid place-items-center p-2 bg-gray-100 rounded-full' >
-          <IoIosAdd size={26} />
-      </button>
 
-      {/* NEW EVENT FORM */}
+      {/* EDIT EVENT FORM */}
       <div className={`${isOpen ? "!h-full" : "" } overflow-hidden pointer-events-auto h-0 w-full fixed left-0 bottom-0 bg-white z-[1100] transition-all duration-[400ms] ease-in-out flex flex-col justify-between`}>
 
         <div className='flex flex-row items-center p-2 bg-white border-b border-gray-300'>
-          <h1 className='font-bold absolute p-3 text-emerald-700 w-full'>Create Attendance</h1>
-          <Button variant='close' className='bg-gray-100 h-fit w-fit !p-2.5 !rounded-full ml-auto z-[120] text-green-900 mr-1' onClick={toggleEventForm}></Button>
+          <h1 className='font-bold absolute p-3 text-emerald-700 w-full'>Edit Attendance</h1>
+          <Button variant='close' className='bg-gray-100 h-fit w-fit !p-2.5 !rounded-full ml-auto z-[120] text-green-900 mr-1' onClick={() => {
+            router.push("/")
+            toggleEventForm()
+          }}></Button>
         </div>
 
-        <form id='form' onSubmit={handleSubmit} className='bg-gray-100 p-5 pb-8 pt-8 flex flex-col gap-6 overflow-y-scroll h-full'>
+        <form id='editForm' method='post' onSubmit={handleSubmit} className='bg-gray-100 p-5 pb-8 pt-8 flex flex-col gap-6 overflow-y-scroll h-full'>
           <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
               <label className='form__label' htmlFor="title">Title</label>
               <input onChange={handleChange} autoComplete='off' type="text" name="title" id="title" value={formData?.title} className={`form__input`} placeholder='e.g Seminar (Morning)' onBlur={scrollTop} />
@@ -175,9 +203,9 @@ const EventForm: React.FC<{
           <Button 
             variant='primary' 
             type='submit'
-            form='form'
+            form='editForm'
             className='font-bold py-3 bg-emerald-500 !rounded-full w-full text-[15px] px-12 ml-auto'
-            onClick={toggleEventForm}>Create attendance</Button>
+            onClick={toggleEventForm}>Save attendance</Button>
         </div>
       </div>
 
@@ -187,4 +215,4 @@ const EventForm: React.FC<{
   )
 }
 
-export default EventForm
+export default EditEventForm

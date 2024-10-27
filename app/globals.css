@@ -110,24 +110,25 @@ body::after {
 .form__label {
   font-size: 12px;
   padding-left: 5px;
-  color: rgb(45, 45, 45);
-  font-weight: 500;
+  color: rgb(45, 58, 48);
+  font-weight: 700;
 }
 
 .form__input {
   border: 1px solid rgb(209 213 219);
-  background-color: rgb(229 231 235);
+  background-color: rgb(243 244 246);
   /* background-color: rgb(255, 255, 255); */
   border-radius: 10px;
   height: 40px;
   padding-inline: 14px;
   outline: none;
   font-size: 14px;
+  font-weight: 500;
+  color: rgb(100, 100, 100);
 }
 
 .form__input::placeholder {
-  font-weight: 300;
-  color: rgb(148, 155, 167);
+  color: rgb(198, 207, 201);
 }
 
 .form__checkbox {
