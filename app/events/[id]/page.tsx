@@ -452,7 +452,9 @@ const EventPage: React.FC = ({ params }: any) => {
 
 
           {students?.length === 0 &&
-            <div className="mt-5">No Student Found.</div>
+            <div>
+              <p className="text-sm font-semibold text-gray-400 text-center">No students found.</p>
+            </div>
           }
 
           {searchResults.length !== 0 &&

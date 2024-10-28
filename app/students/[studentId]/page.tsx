@@ -157,6 +157,7 @@ const Student = ({ params }: { params: any }) => {
             supabase.removeChannel(channel)
         }
     }, [])
+    
 
     // TODO: EDIT STUDENT
     return (

@@ -32,6 +32,7 @@ const Page = () => {
     } else {
       setStudents([...students, ...data]);
       setHasMore(data.length === 20);
+      setIsStudentsEmpty(false)
     }
 
     setLoading(false);
@@ -83,6 +84,58 @@ const Page = () => {
   const [searchResults, setSearchResults] = useState<StudentProps[] | any>([]);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isStudentsEmpty, setIsStudentsEmpty] = useState(false);
+
+  // search
+  useEffect(() => {
+    const fetchSearchQuery = async () => {
+      const column = !isNaN(Number(searchQuery.charAt(0)))
+      ? "id" // if query is an ID
+      : "name" // if query is a string
+
+      const {data, error} = await supabase
+        .from("student")
+        .select()
+        .textSearch(column, searchQuery, {
+          type: "websearch",
+          config: "english"
+        })
+
+      if (error) {
+        console.error(error)
+      } else {
+        // if search query does not exactly match any row
+        if (data.length === 0 && searchQuery !== "") {
+          const {data: data2, error: error2} = await supabase
+            .from("student")
+            .select()
+            .ilike(column, `%${searchQuery}%`)
+          
+          if (error2) {
+            console.error(error2)
+          } else {
+    
+            setSearchResults(data2);
+            data2.length === 0
+            ? setIsStudentsEmpty(true)
+            : setIsStudentsEmpty(false)
+          }
+        // if search query exactly matches a row
+        } else {
+          setSearchResults(data);
+          data.length === 0
+          ? setIsStudentsEmpty(true)
+          : setIsStudentsEmpty(false)
+        }
+      }
+    }
+    
+    if (isSearchOpen) fetchSearchQuery()
+  }, [searchQuery])
+
+  useEffect(() => {
+    if (searchResults) setStudents([ ...searchResults ])
+  }, [searchResults])
 
   return (
     <div className='bg-white h-[100vh] pt-20'>
@@ -91,7 +144,10 @@ const Page = () => {
       {/* buttons */}
       <div className="fixed flex flex-row top-0 right-16 h-14 z-[1000] ">
         <button 
-          onClick={() => {setIsSearchOpen(true)}}
+          onClick={() => {
+            setIsSearchOpen(true)
+            setSearchQuery("")
+          }}
           className="grid place-items-center p-2 h-full bg-neutral-10 text-gray-700"
         >
           <IoSearch size={20} />
@@ -104,32 +160,49 @@ const Page = () => {
         </button>
       </div>
 
+      {isSearchOpen && (
+        <SearchBar
+          query={searchQuery}
+          setQuery={(e) => setSearchQuery(e.target.value)}
+          closeSearch={() => {
+            setIsSearchOpen(false)
+            setSearchQuery("")
+          }}
+        />
+      )}
+
       {/* <Filter buttonClassName='fixed right-2 top-1 grid place-items-center h-12 w-12 z-[30]' /> */}
       <div className={` ${styles.studentsList} pb-40 px-5`}>
         {/* <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />  */}
-        <div className='shadow-sm h-fit'>
-          {/* TODO: Implement infinite scrolling on students list */}
-          <InfiniteScroll
-            dataLength={students.length}
-            next={() => {setPage(page + 1)}}
-            hasMore={hasMore}
-            endMessage={<div className="absolute w-full text-center left-0 mt-5 text-sm text-gray-400" key={1}>End of list</div>}
-            loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>
-              <l-line-spinner
-                size="25"
-                stroke="2"
-                speed="1" 
-                color="black"
-              ></l-line-spinner>
-            </div>}
-          >
-            {students.length !== 0 && students.map((student, index) => {
-              return (
-                <StudentCard key={student.id} studentData={student} />
-              )
-            })}
-          </InfiniteScroll>
-        </div>
+        {isStudentsEmpty ? (
+          <div>
+            <p className="text-sm font-semibold text-gray-400 text-center">No students found.</p>
+          </div>
+        ) : (
+          <div className='shadow-sm h-fit'>
+            {/* TODO: Implement infinite scrolling on students list */}
+            <InfiniteScroll
+              dataLength={students.length}
+              next={() => {setPage(page + 1)}}
+              hasMore={hasMore}
+              endMessage={<div className="absolute w-full text-center left-0 mt-5 text-sm text-gray-400" key={1}>End of list</div>}
+              loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>
+                <l-line-spinner
+                  size="25"
+                  stroke="2"
+                  speed="1" 
+                  color="black"
+                ></l-line-spinner>
+              </div>}
+            >
+              {students.length !== 0 && students.map((student, index) => {
+                return (
+                  <StudentCard key={student.id} studentData={student} />
+                )
+              })}
+            </InfiniteScroll>
+          </div>
+        )}
       </div>
     </div>
   )

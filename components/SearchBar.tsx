@@ -27,7 +27,7 @@ const SearchBar: React.FC<searchBarProps> = ({
 
   return (
     <div>
-      <div className={`${className} flex flex-row items-center gap-1 fixed top-2.5 z-[700] right-3 left-5 bg-white`}>
+      <div className={`${className} flex flex-row items-center gap-1 fixed top-2.5 z-[1200] right-3 left-5 bg-white`}>
         <form
           className={`${fill} rounded-lg bg-gray-100 flex flex-row items-center w-full border border-gray-200 overflow-hidden`}
         >
