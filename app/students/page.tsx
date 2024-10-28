@@ -6,6 +6,10 @@ import { lineSpinner } from 'ldrs';
 import { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.css';
+import { BiSearchAlt } from "react-icons/bi";
+import { RiFilter2Line } from "react-icons/ri";
+import { IoSearch } from "react-icons/io5";
+import { RiFilter2Fill } from "react-icons/ri";
 
 const Page = () => {
 
@@ -21,13 +25,13 @@ const Page = () => {
       .from('student')
       .select('*')
       .order('name', { ascending: true })
-      .range((page - 1) * 10, page * 10 - 1);
+      .range((page - 1) * 20, page * 20 - 1);
 
     if (error) {
       console.error('Error fetching posts:', error);
     } else {
       setStudents([...students, ...data]);
-      setHasMore(data.length === 10);
+      setHasMore(data.length === 20);
     }
 
     setLoading(false);
@@ -47,7 +51,7 @@ const Page = () => {
       }, (payload) => {
         console.log('new student: ')
         console.log(payload.new)
-        setStudents([...students, (payload.new as StudentProps)])
+        setStudents((prevStudents) => [...prevStudents, payload.new as StudentProps])
         getStudents()
       })
       .on('postgres_changes', {
@@ -57,7 +61,7 @@ const Page = () => {
       }, (payload) => {
         console.log('updated student: ')
         console.log(payload.new)
-        setStudents([...students, (payload.new as StudentProps)])
+        setStudents((prevStudents) => [...prevStudents, payload.new as StudentProps])
         getStudents()
       })
       .on('postgres_changes', {
@@ -73,11 +77,33 @@ const Page = () => {
     return () => {
       supabase.removeChannel(channel)
     }
-  })
+  }, [])
+
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<StudentProps[] | any>([]);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   return (
     <div className='bg-white h-[100vh] pt-20'>
       <StudentForm />
+
+      {/* buttons */}
+      <div className="fixed flex flex-row top-0 right-16 h-14 z-[1000] ">
+        <button 
+          onClick={() => {setIsSearchOpen(true)}}
+          className="grid place-items-center p-2 h-full bg-neutral-10 text-gray-700"
+        >
+          <IoSearch size={20} />
+        </button>
+        <button 
+          onClick={() => {setIsFilterOpen(true)}}
+          className="grid place-items-center p-2 h-full bg-neutral-10 text-gray-700"
+        >
+          <RiFilter2Line size={20} />
+        </button>
+      </div>
+
       {/* <Filter buttonClassName='fixed right-2 top-1 grid place-items-center h-12 w-12 z-[30]' /> */}
       <div className={` ${styles.studentsList} pb-40 px-5`}>
         {/* <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />  */}

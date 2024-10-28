@@ -1,5 +1,5 @@
 'use client'
-import { PageHeader, Button, EventLink, ConfirmationModal } from '@/components'
+import { PageHeader, Button, EventLink, ConfirmationModal, EditStudentForm } from '@/components'
 import { RiEdit2Line } from "react-icons/ri";
 import { BiEraser } from "react-icons/bi";
 import { useEffect, useRef, useState } from 'react';
@@ -10,6 +10,7 @@ import { TbDotsCircleHorizontal } from "react-icons/tb";
 import { HiDownload } from "react-icons/hi";
 import { PiTrashSimpleBold } from "react-icons/pi";
 import { lineSpinner } from "ldrs";
+import supabase from '@/lib/supabaseClient';
 
 const Student = ({ params }: { params: any }) => {
     lineSpinner.register();
@@ -130,6 +131,33 @@ const Student = ({ params }: { params: any }) => {
         setIsSettingsModalOpen(!isSettingsModalOpen)
     };
 
+    // Edit form
+    const [isEditOpen, setIsEditOpen] = useState(false)
+    const toggleEditForm = () => {
+        setIsEditOpen(!isEditOpen)
+    }
+
+    // realtime
+    useEffect(() => {
+        const channel = supabase
+        .channel('realtime_student')
+        .on('postgres_changes', {
+            event: 'UPDATE',
+            schema: 'public',
+            table: 'student'
+            }, (payload) => {
+            console.log('updated student: ')
+            console.log(payload.new)
+            setStudent(payload.new as StudentProps)
+            // getStudent()
+        })
+        .subscribe()
+
+        return () => {
+            supabase.removeChannel(channel)
+        }
+    }, [])
+
     // TODO: EDIT STUDENT
     return (
         <div className='h-[100vh] bg-gray-100'>
@@ -138,7 +166,7 @@ const Student = ({ params }: { params: any }) => {
                 <PageHeader title={`Student Profile`} />
                 <button 
                     onClick={toggleSettingsModal}
-                    className='absolute top-2.5 right-4 p-1.5'
+                    className='absolute top-2.5 right-4 p-1.5 text-gray-700'
                 >
                         <TbDotsCircleHorizontal size={24} />
                 </button>
@@ -153,7 +181,9 @@ const Student = ({ params }: { params: any }) => {
                         <ul>
                             <li className=''>
                                 <button
-                                    onClick={() => {}} 
+                                    onClick={() => {
+                                        toggleEditForm();
+                                    }} 
                                     className='border-gray-200 pl-3 pr-8 w-full rounded-lg text-gray-800 font-medium flex flex-row items-center gap-3 active:bg-gray-100'
                                 >
                                     <RiEdit2Line size={20} className='fill-gray-700'/>
@@ -260,6 +290,12 @@ const Student = ({ params }: { params: any }) => {
                 onConfirm={onConfirm}
                 confirmBtnLabel='Delete'
                 type='delete'
+            />
+
+            <EditStudentForm
+                isOpen={isEditOpen}
+                paramsID={paramsID}
+                toggleForm={toggleEditForm}
             />
         </div>
     )

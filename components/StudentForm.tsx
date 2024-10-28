@@ -9,6 +9,15 @@ import supabase from '../lib/supabaseClient';
 // NEW STUDENT FORM COMPONENT
 const StudentForm: React.FC<FormOperationProps> = () => {
 
+  // function to convert string to Title Case
+  const toTitleCase = (name: string) => {
+    return name
+        .toLowerCase() // Convert the entire string to lowercase
+        .split(' ') // Split the string into an array of words
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize first letter of each word
+        .join(' '); // Join words back together with spaces
+  };
+
   // Frontend
   
   const [isOpen, setIsOpen] = useState(false)
@@ -46,7 +55,7 @@ const StudentForm: React.FC<FormOperationProps> = () => {
       course: formData.course,
       year: Number(formData.year),
       section: formData.section,
-      name: `${formData.lastName}, ${formData.firstName} ${formData.middleName}.${formData.suffix !== '' ? `, ${formData.suffix}` : ``}`
+      name: toTitleCase(`${formData.lastName}, ${formData.firstName} ${formData.middleName}.${formData.suffix !== '' ? `, ${formData.suffix}` : ``}`)
     }
 
     console.log(formattedData)
@@ -85,12 +94,7 @@ const StudentForm: React.FC<FormOperationProps> = () => {
 
     let {name, value} = e.target
 
-    
-    let uppercased: string = value.charAt(0).toUpperCase() + value.slice(1);
-
-    console.log(name + " : " + uppercased)
-
-    setFormData({ ...formData, [name]: uppercased });
+    setFormData({ ...formData, [name]: toTitleCase(value) });
     
   };
 
@@ -113,8 +117,8 @@ const StudentForm: React.FC<FormOperationProps> = () => {
 
   return (
     <div>
-      <button className='fixed top-1 right-2 grid place-items-center p-2.5 z-[1200] text-gray-600 rounded-full' onClick={toggleStudentForm}>
-        <HiMiniUserPlus size={24} className="translate-y-[2px]" />
+      <button className='fixed top-2 right-1.5 pl-4 grid place-items-center p-2.5 z-[1200] text-gray-600 h-10 border-l border-gray-300' onClick={toggleStudentForm}>
+        <HiMiniUserPlus size={22} className="translate-y-[2px]" />
       </button>
 
       {/* NEW   STUDENT FORM */}

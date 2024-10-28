@@ -375,6 +375,7 @@ const EventPage: React.FC = ({ params }: any) => {
             <span>Logout</span>
           </div>
         </div>
+        
         {/* buttons */}
         <div className={`flex flex-row absolute top-3 right-3 gap-2 items-center `}>
           <button 

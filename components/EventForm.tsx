@@ -103,7 +103,7 @@ const EventForm: React.FC<{
     // TODO: Student form functionality / submit hhandler
     <div>
       {/* NEW EVENT BUTTON */}
-      <button onClick={toggleEventForm} className='z-[1000] fixed top-2 right-3 grid place-items-center p-2 text-gray-700 rounded-full -translate-y-[2px]' >
+      <button onClick={toggleEventForm} className='z-[1000] fixed top-2 right-4 grid place-items-center border-l border-gray-300 pl-4 text-gray-700 h-10 -translate-y-[2px]' >
           <MdPostAdd size={26} />
           {/* <Image 
             height={24}
