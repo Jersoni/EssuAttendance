@@ -8,6 +8,17 @@ export interface StudentProps {
     isLogoutPresent?: boolean
 }
 
+export interface StudentFormProps {
+    firstName: string
+    lastName: string
+    middleName: string
+    suffix: string
+    id: string
+    course: string
+    year: number
+    section: string
+}
+
 export interface EventProps {
     id: number | undefined
     title: string

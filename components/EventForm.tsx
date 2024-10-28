@@ -3,7 +3,8 @@ import { Button } from '@/components';
 import supabase from '@/lib/supabaseClient';
 import { FormEventProps, FormOperationProps } from '@/types';
 import { useEffect, useRef, useState } from 'react';
-import { IoIosAdd } from "react-icons/io";  
+import { RiStickyNoteAddFill } from "react-icons/ri";
+import { MdPostAdd } from "react-icons/md";
 
 // NEW EVENT FORM COMPONENT
 const EventForm: React.FC<{
@@ -102,8 +103,14 @@ const EventForm: React.FC<{
     // TODO: Student form functionality / submit hhandler
     <div>
       {/* NEW EVENT BUTTON */}
-      <button onClick={toggleEventForm} className='z-[1000] fixed top-2 right-3 grid place-items-center p-2 bg-gray-100 rounded-full' >
-          <IoIosAdd size={26} />
+      <button onClick={toggleEventForm} className='z-[1000] fixed top-2 right-3 grid place-items-center p-2 text-gray-700 rounded-full -translate-y-[2px]' >
+          <MdPostAdd size={26} />
+          {/* <Image 
+            height={24}
+            width={24}
+            src={require('../public/icons/add-post.png')}
+            alt='add post icon'
+          /> */}
       </button>
 
       {/* NEW EVENT FORM */}

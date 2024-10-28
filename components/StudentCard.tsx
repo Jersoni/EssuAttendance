@@ -110,7 +110,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
       {/* STUDENT */}
       <Link href={`/students/${studentData.id}`} className={`flex flex-row justify-between w-full items-center py-3 z-100`}>
         <div>
-          <h2 className='text-sm font-[400]'>{`${studentData.name}`} </h2>
+          <h2 className='text-sm'>{`${studentData.name}`} </h2>
           <div className={`student-card__info-container !z-100 mt-[2px] gap-3`}>
             <span className={`student-card__info !font-semibold !text-gray-700`}>{studentData.id}</span>
             {/* <div className='min-h-[2px] min-w-[2px] max-h-[2px] max-w-[2px] bg-black opacity-40 rounded-full m-2 z-100'></div> */}
@@ -122,23 +122,6 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
 
       {/* CHECKBOX */}
       {pathname.slice(0, 7) === '/events' && (
-        // <div>
-        //   {
-        //     isPresent 
-        //     ? <FaCircleCheck 
-        //         onClick={handleModalToggle} 
-        //         size={28}   
-        //         fill="rgb(5 150 105)" 
-        //         className="border-0 m-0 p-0" 
-        //       /> 
-        //     : <div 
-        //         onClick={handleModalToggle} 
-        //         className="bg-gray-200 h-7 min-w-7 rounded-full"
-        //       >
-        //       </div>
-        //   }
-        //   <input checked={isPresent} type="checkbox" className={`h-6 w-6 hidden`} onChange={handleModalToggle}  />
-        // </div>
         <div className={`flex flex-row gap-2`}>
           <div
             onClick={handleLoginModalToggle} 
@@ -167,7 +150,6 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
 
 
       {/* MODALS */}
-
       <ConfirmationModal 
         isOpen={isLoginModalOpen} 
         title="Confirm Attendance"

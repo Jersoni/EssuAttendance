@@ -58,14 +58,14 @@ export default function NewStudentResult({ params }: { params: any }) {
         <div>
             <PageHeader title="Result"></PageHeader>
 
-            <div className="flex flex-col items-center px-10 h-[calc(100vh-72px)] bg-gray-100 pt-20 pb-40 overflow-y-scroll">
+            <div className="flex flex-col items-center px-10 h-[calc(100vh-72px)] bg-gray-100 pb-40 overflow-y-scroll">
                 <span className="mt-10 font-semibold text-center">Student Successfully Registered!</span>
                 <p className="text-center mt-4 text-sm">Please download and print the provided QR code. This code will serve as the ID of the registered student for checking in at future events.</p>
                 <div className="h-fit mt-10 border border-gray-400 bg-white w-full rounded-lg flex flex-col items-center p-8 ">
                     {/* TODO: QR CODE DYNAMIC FUNCTIONALITY */}
-                    <img src={`https://api.qrserver.com/v1/create-qr-code/?data=22-0224`} alt="qrcode" height={180} width={180} />
+                    <img src={`https://api.qrserver.com/v1/create-qr-code/?data=${id}`} alt="qrcode" height={180} width={180} />
                     <div className="mt-5 text-center flex flex-col gap-1">
-                        <p>{student?.name}</p>
+                        <p className="font-semibold text-xl">{student?.name}</p>
                         <p className="text-sm text-gray-600">{student?.id}</p>
                         <p className="text-sm text-gray-600">{studentClass}</p>
                     </div>

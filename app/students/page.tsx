@@ -9,85 +9,85 @@ import styles from './styles.module.css';
 
 const Page = () => {
 
-  // lineSpinner.register()
+  lineSpinner.register()
 
-  // const [students, setStudents] = useState<StudentProps[]>([])
-  // const [loading, setLoading] = useState(false)
-  // const [hasMore, setHasMore] = useState(true);
-  // const [page, setPage] = useState(1);
+  const [students, setStudents] = useState<StudentProps[]>([])
+  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
 
-  // const getStudents = async () => {
-  //   const { data, error } = await supabase
-  //     .from('student')
-  //     .select('*')
-  //     .order('name', { ascending: true })
-  //     .range((page - 1) * 10, page * 10 - 1);
+  const getStudents = async () => {
+    const { data, error } = await supabase
+      .from('student')
+      .select('*')
+      .order('name', { ascending: true })
+      .range((page - 1) * 10, page * 10 - 1);
 
-  //   if (error) {
-  //     console.error('Error fetching posts:', error);
-  //   } else {
-  //     setStudents([...students, ...data]);
-  //     setHasMore(data.length === 10);
-  //   }
+    if (error) {
+      console.error('Error fetching posts:', error);
+    } else {
+      setStudents([...students, ...data]);
+      setHasMore(data.length === 10);
+    }
 
-  //   setLoading(false);
-  // };
-  
-  // useEffect(() => {
-  //   getStudents()
-  // }, [page])
+    setLoading(false);
+  };
 
-  // useEffect(() => {
-  //   const channel = supabase
-  //     .channel('realtime_students_A')
-  //     .on('postgres_changes', {
-  //       event: 'INSERT',
-  //       schema: 'public',
-  //       table: 'student'
-  //     }, (payload) => {
-  //       console.log('new student: ')
-  //       console.log(payload.new)
-  //       setStudents([...students, (payload.new as StudentProps)])
-  //       getStudents()
-  //     })
-  //     .on('postgres_changes', {
-  //       event: 'UPDATE',
-  //       schema: 'public',
-  //       table: 'student'
-  //     }, (payload) => {
-  //       console.log('updated student: ')
-  //       console.log(payload.new)
-  //       setStudents([...students, (payload.new as StudentProps)])
-  //       getStudents()
-  //     })
-  //     .on('postgres_changes', {
-  //       event: 'DELETE',
-  //       schema: 'public',
-  //       table: 'student'
-  //     }, (payload) => {
-  //       console.log('deleted student id: ' + payload.old)
-  //       getStudents()
-  //     })
-  //     .subscribe()
+  useEffect(() => { 
+    getStudents()
+  }, [page])
+
+  useEffect(() => {
+    const channel = supabase
+      .channel('realtime_students_A')
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'student'
+      }, (payload) => {
+        console.log('new student: ')
+        console.log(payload.new)
+        setStudents([...students, (payload.new as StudentProps)])
+        getStudents()
+      })
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'student'
+      }, (payload) => {
+        console.log('updated student: ')
+        console.log(payload.new)
+        setStudents([...students, (payload.new as StudentProps)])
+        getStudents()
+      })
+      .on('postgres_changes', {
+        event: 'DELETE',
+        schema: 'public',
+        table: 'student'
+      }, (payload) => {
+        console.log('deleted student id: ' + payload.old)
+        getStudents()
+      })
+      .subscribe()
     
-  //   return () => {
-  //     supabase.removeChannel(channel)
-  //   }
-  // })
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  })
 
   return (
-    <div className='bg-gray-100 h-[100vh'>
-      <StudentForm /> 
+    <div className='bg-white h-[100vh] pt-20'>
+      <StudentForm />
       {/* <Filter buttonClassName='fixed right-2 top-1 grid place-items-center h-12 w-12 z-[30]' /> */}
       <div className={` ${styles.studentsList} pb-40 px-5`}>
         {/* <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />  */}
-        <div className='bg-white pl-5 shadow-sm rounded-xl h-fit'>
+        <div className='shadow-sm h-fit'>
           {/* TODO: Implement infinite scrolling on students list */}
-          {/* <InfiniteScroll
+          <InfiniteScroll
             dataLength={students.length}
             next={() => {setPage(page + 1)}}
             hasMore={hasMore}
-            endMessage={<div className="absolute w-full text-center left-0 mt-5 text-sm text-gray-600" key={1}>End of list</div>}
+            endMessage={<div className="absolute w-full text-center left-0 mt-5 text-sm text-gray-400" key={1}>End of list</div>}
             loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>
               <l-line-spinner
                 size="25"
@@ -102,7 +102,7 @@ const Page = () => {
                 <StudentCard key={student.id} studentData={student} />
               )
             })}
-          </InfiniteScroll> */}
+          </InfiniteScroll>
         </div>
       </div>
     </div>

@@ -52,7 +52,7 @@ const Navbar = ({ className }: { className: string }) => {
         >
           <IoMdMenu size={26} fill="blue" className="fill-green-700" />
         </button>
-        <h1 className={`text-emerald-700 h-fit z-30 text-[20px] ml-2 w-full ${className}`}>{convertedPathname}</h1>
+        <h1 className={`text-emerald-700 translate-y-[1px] h-fit z-30 text-[20px] ml-2 w-full ${className}`}>{convertedPathname}</h1>
       </div>
 
       {/* Navbar menu */}

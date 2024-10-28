@@ -143,75 +143,77 @@ const Student = ({ params }: { params: any }) => {
                         <TbDotsCircleHorizontal size={24} />
                 </button>
                 
-                {isSettingsModalOpen && ( // Modal
-                    <div>
-                        <div 
-                            onClick={(e) => {e.preventDefault()}}
-                            className={`rounded-md shadow-lg absolute right-3 top-16 bg-white z-[700]`}
-                        >
-                            <ul>
-                                <li className='border-b border-gray-200 pl-3 pr-4'>
-                                    <button
-                                        onClick={() => {}} 
-                                        className='flex flex-row items-center gap-3'
-                                    >
-                                        <RiEdit2Line size={20} className='fill-gray-700'/>
-                                        <span className='py-2'>Edit Profile</span>
-                                    </button>
-                                </li>
-                                <li className='border-b border-gray-200 pl-3 pr-4'>
-                                    <button
-                                        onClick={() => {}} 
-                                        className='flex flex-row items-center gap-3'
-                                    >
-                                        <BiEraser size={20} className='fill-gray-700'/>
-                                        <span className='py-2'>Erase Fines</span>
-                                    </button>
-                                </li>
-                                <li className='border-b border-gray-200 pl-3 pr-4'>
-                                    <button
-                                        onClick={() => {downloadQRCode()}} 
-                                        className='flex flex-row items-center gap-3'
-                                    >
-                                        <HiDownload size={20} className='fill-gray-700'/>
-                                        <span className='py-2'>Download QR Code</span>
-                                    </button>
-                                </li>
-                                <li className='border-b border-gray-200 pl-3 pr-4'>
-                                    <button
-                                        onClick={() => {toggleDeleteModal()}} 
-                                        className='flex flex-row items-center gap-3'
-                                    >
-                                        <PiTrashSimpleBold size={20} className='fill-gray-700'/>
-                                        <span className='py-2'>Delete Student</span>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                        <div
-                            onClick={toggleSettingsModal} 
-                            className='absolute top-0 left-0 right-0 bottom-0'
-                        >
-                        </div>
+                <div>
+                    <div 
+                        onClick={(e) => {e.preventDefault()}}
+                        className={`rounded-xl shadow-md absolute right-3 top-16 bg-white z-[700] border border-gray-300 transition-all opacity-0 duration-300 p-1
+                            ${isSettingsModalOpen ? "!opacity-100" : "pointer-events-none"}    
+                        `}
+                    >
+                        <ul>
+                            <li className=''>
+                                <button
+                                    onClick={() => {}} 
+                                    className='border-gray-200 pl-3 pr-8 w-full rounded-lg text-gray-800 font-medium flex flex-row items-center gap-3 active:bg-gray-100'
+                                >
+                                    <RiEdit2Line size={20} className='fill-gray-700'/>
+                                    <span className='py-3 text-sm'>Edit Profile</span>
+                                </button>
+                            </li>
+                            <li className=''>
+                                <button
+                                    onClick={() => {}} 
+                                    className='border-gray-200 pl-3 pr-8 w-full rounded-lg text-gray-800 font-medium flex flex-row items-center gap-3 active:bg-gray-100'
+                                >
+                                    <BiEraser size={20} className='fill-gray-700'/>
+                                    <span className='py-3 text-sm'>Erase Fines</span>
+                                </button>
+                            </li>
+                            <li className=''>
+                                <button
+                                    onClick={() => {downloadQRCode()}} 
+                                    className='border-gray-200 pl-3 pr-8 w-full rounded-lg text-gray-800 font-medium flex flex-row items-center gap-3 active:bg-gray-100'
+                                >
+                                    <HiDownload size={20} className='fill-gray-700'/>
+                                    <span className='py-3 text-sm'>Download QR Code</span>
+                                </button>
+                            </li>
+                            <li className=''>
+                                <button
+                                    onClick={() => {toggleDeleteModal()}} 
+                                    className='border-gray-200 pl-3 pr-8 w-full rounded-lg text-gray-800 font-medium flex flex-row items-center gap-3 active:bg-gray-100'
+                                >
+                                    <PiTrashSimpleBold size={20} className='fill-gray-700'/>
+                                    <span className='py-3 text-sm'>Delete Student</span>
+                                </button>
+                            </li>
+                        </ul>
                     </div>
-                )}
+                    <div
+                        onClick={toggleSettingsModal} 
+                        className={`absolute top-0 left-0 right-0 bottom-0
+                            ${isSettingsModalOpen ? "" : "hidden"}
+                        `}
+                    >
+                    </div>
+                </div>
             </div>
 
             <div className="overflow-y-auto pb-40 px-5">
                 <div className='flex mt-4 items-center justify-between'>
                     <h2 className='text-sm font-semibold text-[#414855]'>Profile</h2>
                 </div>
-                <div className='flex flex-col gap-1 mt-3 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-lg text-sm'>
+                <div className='flex flex-col gap-1 mt-3 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-xl text-sm'>
                     <div className='flex flex-row gap-4'>
-                        <p className='min-w-14 text-gray-500'>Name</p>
+                        <p className='min-w-14 text-gray-500 font-semibold'>Name</p>
                         <span>{student?.name}</span>
                     </div>
                     <div className='flex flex-row gap-4'>
-                        <p className='min-w-14 text-gray-500'>ID No</p>
+                        <p className='min-w-14 text-gray-500 font-semibold'>ID No</p>
                         <span>{student?.id}</span>
                     </div>
                     <div className='flex flex-row gap-4'>
-                        <p className='min-w-14 text-gray-500'>Class</p>
+                        <p className='min-w-14 text-gray-500 font-semibold'>Class</p>
                         <span>{`${course} ${student?.year}${student?.section}`}</span>
                     </div>
                 </div>
@@ -220,7 +222,7 @@ const Student = ({ params }: { params: any }) => {
                 <div className='flex mt-7 items-center justify-between'>
                     <h2 className='text-sm font-semibold text-[#414855]'>Fines</h2>
                 </div>
-                <div className='mt-3 h-fit p-5 w-full border border-gray-200 bg-white shadow-sm rounded-lg flex flex-col text-sm'>
+                <div className='mt-3 h-fit p-5 w-full border border-gray-200 bg-white shadow-sm rounded-xl flex flex-col text-sm'>
 
                     <div className='flex flex-col gap-2'>
                         {events.length !== 0 && events.map(eventData => (
@@ -251,8 +253,8 @@ const Student = ({ params }: { params: any }) => {
             </div>
 
             <ConfirmationModal 
-                title='Delete Student'
-                content={'Are you sure you want to delete this student from the database?'}
+                title='Delete?'
+                content={`Are you sure you want to delete this student's data? This action will also remove them from all associated attendance lists.`}
                 isOpen={isOpen}
                 onClose={toggleDeleteModal}
                 onConfirm={onConfirm}
