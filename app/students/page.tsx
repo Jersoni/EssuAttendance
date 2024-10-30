@@ -28,101 +28,101 @@ const Page = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isStudentsEmpty, setIsStudentsEmpty] = useState(false);
 
-  const fetchStudentsDataWithFilters = async (isNewPage = false) => {
-    const queryParams = {
-      courses: searchParams.get("courses")?.split(","),
-      years: searchParams.get("years")?.split(",").map((i) => parseInt(i)),
-      sections: searchParams.get("sections")?.split(","),
-      order: searchParams.get("order"),
-      sortBy: searchParams.get("sortBy")
-    };
+  // const fetchStudentsDataWithFilters = async (isNewPage = false) => {
+  //   const queryParams = {
+  //     courses: searchParams.get("courses")?.split(","),
+  //     years: searchParams.get("years")?.split(",").map((i) => parseInt(i)),
+  //     sections: searchParams.get("sections")?.split(","),
+  //     order: searchParams.get("order"),
+  //     sortBy: searchParams.get("sortBy")
+  //   };
 
-    if (
-      queryParams.courses &&
-      queryParams.years &&
-      queryParams.sections &&
-      queryParams.sortBy
-    ) {
-      const { data, error } = !isNewPage
-      ? await supabase
-        .from("student")
-        .select("*")
-        .in("course", queryParams.courses)
-        .in("year", queryParams.years)
-        .in("section", queryParams.sections)
-        .order(queryParams.sortBy, {
-          ascending: queryParams.order === "ascending",
-        })
-        .range(0, numPerPage - 1)
-      : await supabase
-        .from("student")
-        .select("*")
-        .in("course", queryParams.courses)
-        .in("year", queryParams.years)
-        .in("section", queryParams.sections)
-        .order(queryParams.sortBy, {
-          ascending: queryParams.order === "ascending",
-        })
-        .range(page * numPerPage, (page + 1) * numPerPage - 1)
+  //   if (
+  //     queryParams.courses &&
+  //     queryParams.years &&
+  //     queryParams.sections &&
+  //     queryParams.sortBy
+  //   ) {
+  //     const { data, error } = !isNewPage
+  //     ? await supabase
+  //       .from("student")
+  //       .select("*")
+  //       .in("course", queryParams.courses)
+  //       .in("year", queryParams.years)
+  //       .in("section", queryParams.sections)
+  //       .order(queryParams.sortBy, {
+  //         ascending: queryParams.order === "ascending",
+  //       })
+  //       .range(0, numPerPage - 1)
+  //     : await supabase
+  //       .from("student")
+  //       .select("*")
+  //       .in("course", queryParams.courses)
+  //       .in("year", queryParams.years)
+  //       .in("section", queryParams.sections)
+  //       .order(queryParams.sortBy, {
+  //         ascending: queryParams.order === "ascending",
+  //       })
+  //       .range(page * numPerPage, (page + 1) * numPerPage - 1)
 
-      if (!isNewPage) {
-        setPage(0)
-      }
+  //     if (!isNewPage) {
+  //       setPage(0)
+  //     }
 
-      if (error) {
-        console.error(error)
-      } else {
-        isNewPage 
-        ? setStudents((prev) => (prev[0]?.id !== data[0]?.id) ? [...prev, ...data] : prev)
-        : setStudents(data)
+  //     if (error) {
+  //       console.error(error)
+  //     } else {
+  //       isNewPage 
+  //       ? setStudents((prev) => (prev[0]?.id !== data[0]?.id) ? [...prev, ...data] : prev)
+  //       : setStudents(data)
         
-        setHasMore(data.length === numPerPage);
-        data.length === 0
-        ? setIsStudentsEmpty(true)
-        : setIsStudentsEmpty(false)
-      }
-    }
-  }
+  //       setHasMore(data.length === numPerPage);
+  //       data.length === 0
+  //       ? setIsStudentsEmpty(true)
+  //       : setIsStudentsEmpty(false)
+  //     }
+  //   }
+  // }
 
-  const fetchStudents = async (isNewPage = false) => {
-    const { data, error } = await supabase
-      .from("student")
-      .select("*")
-      .order("name", { ascending: true })
-      .range(page * numPerPage, (page + 1) * numPerPage - 1);
+  // const fetchStudents = async (isNewPage = false) => {
+  //   const { data, error } = await supabase
+  //     .from("student")
+  //     .select("*")
+  //     .order("name", { ascending: true })
+  //     .range(page * numPerPage, (page + 1) * numPerPage - 1);
 
-    if (error) {
-      console.error(error);
-    } else {
-      isNewPage 
-      ? setStudents((prev) => (prev[0]?.id !== data[0]?.id) ? [...prev, ...data] : prev)
-      : setStudents(data)
+  //   if (error) {
+  //     console.error(error);
+  //   } else {
+  //     isNewPage 
+  //     ? setStudents((prev) => (prev[0]?.id !== data[0]?.id) ? [...prev, ...data] : prev)
+  //     : setStudents(data)
 
-      setHasMore(data.length === numPerPage);
-      data.length === 0
-      ? setIsStudentsEmpty(true)
-      : setIsStudentsEmpty(false)
-    }        
-  };
+  //     setHasMore(data.length === numPerPage);
+  //     data.length === 0
+  //     ? setIsStudentsEmpty(true)
+  //     : setIsStudentsEmpty(false)
+  //   }        
+  // };
 
-  const getStudents = (isNewPage = false) => {
+  // const getStudents = (isNewPage = false) => {
 
-    if (searchParams.get("order")) {
-      fetchStudentsDataWithFilters(isNewPage)
-    } else {
-      fetchStudents(isNewPage);
-    }
+  //   if (searchParams.get("order")) {
+  //     fetchStudentsDataWithFilters(isNewPage)
+  //   } else {
+  //     fetchStudents(isNewPage);
+  //   }
   
-    setLoading(false);
-  }
+  //   setLoading(false);
+  // }
 
-  useEffect(() => {
-    getStudents(false)
-  }, [searchParams]);
+  // useEffect(() => {
+  //   getStudents(false)
+  // }, [searchParams]);
 
-  useEffect(() => {
-    getStudents(true)
-  }, [page])
+  // useEffect(() => {
+  //   getStudents(true)
+  // }, [page])
 
   useEffect(() => {
     const channel = supabase
