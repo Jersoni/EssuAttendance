@@ -124,43 +124,43 @@ const Page = () => {
   //   getStudents(true)
   // }, [page])
 
-  useEffect(() => {
-    const channel = supabase
-      .channel('realtime_students_A')
-      .on('postgres_changes', {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'student'
-      }, (payload) => {
-        // console.log('new student: ')
-        // console.log(payload.new)
-        setStudents((prevStudents) => [...prevStudents, payload.new as StudentProps])
-        // getStudents()
-      })
-      .on('postgres_changes', {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'student'
-      }, (payload) => {
-        // console.log('updated student: ')
-        // console.log(payload.new)
-        setStudents((prevStudents) => [...prevStudents, payload.new as StudentProps])
-        // getStudents()
-      })
-      .on('postgres_changes', {
-        event: 'DELETE',
-        schema: 'public',
-        table: 'student'
-      }, (payload) => {
-        // console.log('deleted student id: ' + payload.old)
-        // getStudents()
-      })
-      .subscribe()
+  // useEffect(() => {
+  //   const channel = supabase
+  //     .channel('realtime_students_A')
+  //     .on('postgres_changes', {
+  //       event: 'INSERT',
+  //       schema: 'public',
+  //       table: 'student'
+  //     }, (payload) => {
+  //       // console.log('new student: ')
+  //       // console.log(payload.new)
+  //       setStudents((prevStudents) => [...prevStudents, payload.new as StudentProps])
+  //       // getStudents()
+  //     })
+  //     .on('postgres_changes', {
+  //       event: 'UPDATE',
+  //       schema: 'public',
+  //       table: 'student'
+  //     }, (payload) => {
+  //       // console.log('updated student: ')
+  //       // console.log(payload.new)
+  //       setStudents((prevStudents) => [...prevStudents, payload.new as StudentProps])
+  //       // getStudents()
+  //     })
+  //     .on('postgres_changes', {
+  //       event: 'DELETE',
+  //       schema: 'public',
+  //       table: 'student'
+  //     }, (payload) => {
+  //       // console.log('deleted student id: ' + payload.old)
+  //       // getStudents()
+  //     })
+  //     .subscribe()
     
-    return () => {
-      supabase.removeChannel(channel)
-    }
-  }, [])
+  //   return () => {
+  //     supabase.removeChannel(channel)
+  //   }
+  // }, [])
 
   // // search
   // useEffect(() => {
