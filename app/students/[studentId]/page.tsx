@@ -200,7 +200,7 @@ const Student = ({ params }: { params: any }) => {
                                     <span className='py-3 text-sm'>Erase Fines</span>
                                 </button>
                             </li>
-                            <li className=''>
+                            {/* <li className=''>
                                 <button
                                     onClick={() => {downloadQRCode()}} 
                                     className='border-gray-200 pl-3 pr-8 w-full rounded-lg text-gray-800 font-medium flex flex-row items-center gap-3 active:bg-gray-100'
@@ -208,7 +208,7 @@ const Student = ({ params }: { params: any }) => {
                                     <HiDownload size={20} className='fill-gray-700'/>
                                     <span className='py-3 text-sm'>Download QR Code</span>
                                 </button>
-                            </li>
+                            </li> */}
                             <li className=''>
                                 <button
                                     onClick={() => {toggleDeleteModal()}} 
@@ -289,7 +289,7 @@ const Student = ({ params }: { params: any }) => {
                 isOpen={isOpen}
                 onClose={toggleDeleteModal}
                 onConfirm={onConfirm}
-                confirmBtnLabel='Delete'
+                confirmBtnLabel='Delete Student'
                 type='delete'
             />
 

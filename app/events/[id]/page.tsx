@@ -104,7 +104,7 @@ const EventPage: React.FC = ({ params }: any) => {
               .in("year", queryParams.years)
               .in("section", queryParams.sections)
               .order(queryParams.sortBy, {
-                ascending: queryParams.order === "true",
+                ascending: queryParams.order === "ascending",
               });
 
             if (data) {
@@ -243,13 +243,12 @@ const EventPage: React.FC = ({ params }: any) => {
   }, [searchQuery])
 
 // FILTER COMPONENT FUNCTIONALITY
-  const [isOpen, setIsOpen] = useState(false);
-  const [courses, setCourses] = useState(["AllCourses"]);
-  const [years, setYears] = useState(["AllYears"]);
-  const [sections, setSections] = useState(["AllSections"]);
-  const [sortBy, setSortBy] = useState("name");
-  const [order, setOrder] = useState("ascending");
-  const [displayOption, setDisplayOption] = useState("showAll");
+  const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
+  const [courses, setCourses] = useState<string[] | undefined>(["AllCourses"]);
+  const [years, setYears] = useState<string[] | undefined>(["AllYears"]);
+  const [sections, setSections] = useState<string[] | undefined>(["AllSections"]);
+  const [sortBy, setSortBy] = useState<string | undefined>("name");
+  const [order, setOrder] = useState<string | undefined>("ascending");
   const allYears = [1, 2, 3, 4];
   const allSections = ["A", "B", "C", "D", "E"];
   const allCourses = [ "BSCE", "BSIT", "BOT", "BSHM", "BSTM", "BSE", "BSBA", "BSAIS", "BAC", "BTVTED", "BSED", "BEED", "BSN", "BSCRIM", "BSINFOTECH" ];
@@ -258,25 +257,27 @@ const EventPage: React.FC = ({ params }: any) => {
     setLoading(true);
 
     const studentIDList: Array<string> | undefined = students?.map((student) => student.id);
-    const filterCourses = courses.includes("AllCourses") ? allCourses : courses;
-    const filterYears = years.includes("AllYears")
+    const filterCourses = courses?.includes("AllCourses") ? allCourses : courses;
+    const filterYears = years?.includes("AllYears")
       ? allYears
-      : years.map((year) => parseInt(year));
-    const filterSections = sections.includes("AllSections")
+      : years?.map((year) => parseInt(year));
+    const filterSections = sections?.includes("AllSections")
       ? allSections
       : sections;
-    const filterOrder = order === "ascending";
+    const filterOrder = order;
     const filterSortBy = sortBy;
+
+    console.log(filterOrder)
 
     // URL search params
     const queryParams = new URLSearchParams();
 
     // modify search params
-    queryParams.set("courses", filterCourses.toString());
-    queryParams.set("years", filterYears.toString());
-    queryParams.set("sections", filterSections.toString());
-    queryParams.set("order", filterOrder.toString());
-    queryParams.set("sortBy", filterSortBy);
+    if (filterCourses) queryParams.set("courses", filterCourses.toString());
+    if (filterYears) queryParams.set("years", filterYears.toString());
+    if (filterSections) queryParams.set("sections", filterSections.toString());
+    if (filterOrder) queryParams.set("order", filterOrder.toString());
+    if (filterSortBy) queryParams.set("sortBy", filterSortBy);
     // queryParams.set("displayOption", filterDisplayOption.toString());
 
     // push to the new URL with new params
@@ -295,69 +296,82 @@ const EventPage: React.FC = ({ params }: any) => {
       sections,
       sortBy,
       order,
-      displayOption,
     };
-    // console.log(JSON.stringify(filters, null, 2));
-  }, [courses, years, sections, sortBy, order, displayOption]);
+    console.log(JSON.stringify(filters, null, 2));
+  }, [courses, years, sections, sortBy, order]);
 
   const [message, setMessage] = useState("nothing");
   const [count, setCount] = useState(0)
 
 // REALTIME SUBSCRIPTION
   useEffect(() => {
-    const channel = supabase.channel("realtime_students")
-    .on("postgres_changes", {
-      event: "UPDATE",
-      schema: "public",
-      table: "attendance",
-    },
-    (payload) => {
-      // setStudents([...students, payload.new as StudentProps])
-      setMessage("got the payload")
-      console.log(payload.new);
+    // const channel = supabase.channel("realtime_students")
+    // .on("postgres_changes", {
+    //   event: "UPDATE",
+    //   schema: "public",
+    //   table: "attendance",
+    // },
+    // (payload) => {
+    //   // setStudents([...students, payload.new as StudentProps])
+    //   setMessage("got the payload")
+    //   console.log(payload.new);
 
-      const studentID = payload.new.studentId
-      const studentToUpdate = students?.find(student => student.id === studentID);
-      const indexOfStudentToUpdate = students?.findIndex(student => student.id === studentID)
-      const {isLoginPresent, isLogoutPresent} = payload.new
+    //   const studentID = payload.new.studentId
+    //   const studentToUpdate = students?.find(student => student.id === studentID);
+    //   const indexOfStudentToUpdate = students?.findIndex(student => student.id === studentID)
+    //   const {isLoginPresent, isLogoutPresent} = payload.new
 
-      const newStudentData = {
-        ...studentToUpdate,
-        isLoginPresent: isLoginPresent,
-        isLogoutPresent: isLogoutPresent
-      }
+    //   const newStudentData = {
+    //     ...studentToUpdate,
+    //     isLoginPresent: isLoginPresent,
+    //     isLogoutPresent: isLogoutPresent
+    //   }
 
-      console.log(students)
+    //   console.log(students)
 
-      if (studentToUpdate && students !== null) {
-        setMessage("set students successfully")
-        setCount(count + 1)
-        setStudents(students.map(student => {
-          if (student.id === studentID) {
-            return {
-              ...student,
-              ...newStudentData
-            }
-          }
-          return student
-        }))
-        console.log("students updated")
-      } else {
-        setMessage("students not updated")
-        console.log("update failed")
-      }
-    })
-    .subscribe()
+    //   if (studentToUpdate && students !== null) {
+    //     setMessage("set students successfully")
+    //     setCount(count + 1)
+    //     setStudents(students.map(student => {
+    //       if (student.id === studentID) {
+    //         return {
+    //           ...student,
+    //           ...newStudentData
+    //         }
+    //       }
+    //       return student
+    //     }))
+    //     console.log("students updated")
+    //   } else {
+    //     setMessage("students not updated")
+    //     console.log("update failed")
+    //   }
+    // })
+    // .subscribe()
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    // return () => {
+    //   supabase.removeChannel(channel);
+    // };
   }, [students])
 
   useEffect(() => {
-    console.log("after:")
-    console.log(students)
-  }, [students])
+    let paramsCourses = searchParams.get("courses")?.split(",")
+    let paramsYears = searchParams.get("years")?.split(",")
+    let paramsSections = searchParams.get("sections")?.split(",")
+    let paramsSortBy = searchParams.get("sortBy")
+    let paramsOrder = searchParams.get("order")
+
+    setCourses(paramsCourses?.length === 15 ? ["AllCourses"] : paramsCourses )
+    setYears(paramsYears?.length === 15 ? ["AllYears"] : paramsYears )
+    setSections(paramsSections?.length === 15 ? ["AllSections"] : paramsSections )
+    setSortBy(paramsSortBy || "name")
+    setOrder(paramsOrder || "ascending")
+
+  }, [searchParams])
+
+  useEffect(() => {
+    console.log(courses)
+  }, [courses])
 
   return (
     <div className=" overflow-hidden pt-24">
@@ -401,21 +415,18 @@ const EventPage: React.FC = ({ params }: any) => {
 
       <div className="overflow-hidden pb-40 px-5">
         <Filter
-          data={students}
           // filters data
           courses={courses}
           years={years}
           sections={sections}
           sortBy={sortBy}
           order={order}
-          displayOption={displayOption}
           // set functions
           setCourses={setCourses}
           setYears={setYears}
           setSections={setSections}
           setSortBy={setSortBy}
           setOrder={setOrder}
-          setDisplayOption={setDisplayOption}
           // submit
           applyFilters={applyFilters}
           // UI logic
@@ -453,7 +464,7 @@ const EventPage: React.FC = ({ params }: any) => {
 
           {students?.length === 0 &&
             <div>
-              <p className="text-sm font-semibold text-gray-400 text-center">No students found.</p>
+              <p className="text-sm font-semibold text-gray-300 text-center mt-10">No students found.</p>
             </div>
           }
 

@@ -7,24 +7,21 @@ import { RiFilter2Line } from "react-icons/ri";
 
 // TODO: FILTER FUNCTIONALITY
 const Filter = ({
-    data, courses, years, sections, sortBy, order, displayOption,
-    setCourses, setYears, setSections, setSortBy, setOrder, setDisplayOption, applyFilters, isOpen, setIsOpen
+    courses = [], years = [], sections = [], sortBy, order,
+    setCourses, setYears, setSections, setSortBy, setOrder, applyFilters, isOpen, setIsOpen
 } : {
-    data: Array<StudentProps> | null
-    courses: Array<string>
-    years: Array<string>
-    sections: Array<string>
-    sortBy: string
-    order: string
-    displayOption: string
+    courses?: Array<string>
+    years?: Array<string>
+    sections?: Array<string>
+    sortBy?: string
+    order?: string
     setCourses: ([]) => void
     setYears: ([]) => void
     setSections: ([]) => void
     setSortBy: (value: string) => void
     setOrder: (value: string) => void
-    setDisplayOption: (value: string) => void
     applyFilters: () => void
-    isOpen: boolean
+    isOpen?: boolean
     setIsOpen: () => void
 }) => {
 
@@ -33,7 +30,7 @@ const Filter = ({
         if (value === 'AllCourses') { // if target is "All", set to All only
             setCourses(['AllCourses'])
         } else { // if target is not 'all'
-            courses.includes(value) 
+            courses?.includes(value) 
             ? setCourses(courses.filter(course => course !== value)) // remove value to array if it is already included
             : setCourses([...courses, value]) // add value to array
         }
@@ -60,18 +57,13 @@ const Filter = ({
     function handleSortChange(event: React.ChangeEvent<HTMLInputElement>) {
         const {value} = event.target
         setSortBy(value)
+        console.log(value)
     }
 
     function handleOrderChange(event: React.ChangeEvent<HTMLInputElement>) {
         const {value} = event.target
         setOrder(value)
     }
-
-    function handleDisplayOptionChange(event: React.ChangeEvent<HTMLInputElement>) {
-        const {value} = event.target
-        setDisplayOption(value)
-    }
-
     // courses
     useEffect(() => {
         // removes the 'all' value from the array
@@ -108,17 +100,15 @@ const Filter = ({
         setSections(['AllSections'])
         setSortBy('name')
         setOrder('ascending')
-        setDisplayOption('showAll')
     }
 
     return (
         <div>
-            
             {/* Filter */}
             <div className=''>
-                <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto duration-300 ease-out transition-all bottom-0 overflow-hidden ${isOpen ? "!w-[85vw] xs:!w-[75vw]" : "" } z-[700] flex flex-col text-sm`}>
-                    <div className='bg-white border-b p-3 border-gray-200 flex flex-row items-center'>
-                        <h2 className=' text-lg font-semibold w-full text-center'>Filter</h2>
+                <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto duration-300 ease-out transition-all bottom-0 overflow-hidden ${isOpen ? "!w-[85vw] xs:!w-[75vw]" : "" } z-[1300] flex flex-col text-sm border-l border-gray-300`}>
+                    <div className='text-base bg-white border-b p-3 pl-5 border-gray-200 flex flex-row items-center'>
+                        <h2 className=' font-bold text-emerald-800 text-opacity-80 w-full'>Filters</h2>
                     </div>
                     <div className='max-h-fit p-5 overflow-y-scroll h-full'>
                         {/* FILTER */}
@@ -130,7 +120,7 @@ const Filter = ({
                         <div className='flex flex-row border-b border-gray-200 py-3 overflow-hidden h-fit w-full'>
                             <div className='flex-col w-1/2 items-start h-fit'>
                                 <span className='font-medium text-xs'>SORT BY</span>
-                                <RadioList options={SORTBY_OPTIONS} onChange={handleSortChange} filters={sortBy} /> 
+                                <RadioList options={SORTBY_OPTIONS} onChange={handleSortChange} filters={sortBy} />
                             </div>
                             <div className='flex-col w-1/2 items-start h-fit'>
                                 <span className='font-medium text-xs'>ORDER</span>
@@ -143,11 +133,11 @@ const Filter = ({
                         </div> */}
                     </div>
                     <div className='flex flex-row gap-3 left-0 items-center justify-end p-3 pr-5 pb-8 border-t border-gray-200 bg-white z-[600] mt-auto'>
-                        <Button variant='secondary' onClick={resetFilters} >Reset</Button>
-                        <Button variant='primary' onClick={applyFilters}>Apply</Button>
+                        <Button className='!font-semibold text-gray-600' variant='secondary' onClick={resetFilters} >Reset</Button>
+                        <Button className='!font-semibold' variant='primary' onClick={applyFilters}>Apply</Button>
                     </div>
                 </div>
-                <div onClick={setIsOpen} className={`bg-black bg-opacity-70 fixed pointer-events-auto z-[500] top-0 left-0 right-0 bottom-0 transition-all ${isOpen ? "block" : "hidden"}`}></div>
+                <div onClick={setIsOpen} className={`bg-black bg-opacity-20 fixed pointer-events-auto z-[1200] top-0 left-0 right-0 bottom-0 transition-all ${isOpen ? "block" : "hidden"}`}></div>
             </div>
         </div>
     )
@@ -165,7 +155,7 @@ interface HTMLInputList {
     options: Array<HTMLInputListProps>;
     label?: string;
     onChange: (e: any) => void;
-    filters: Array<string> | string;
+    filters?: Array<string> | string;
 }
 
 // DATA
@@ -239,27 +229,20 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
                 <div className='flex flex-row gap-2 flex-wrap h-fit'>
                     {options.map((option) => (
                         <div 
-                            className={`${filters.includes(option.value)
+                            key={option.value}
+                            className={`${filters?.includes(option.value)
                                 ? '!bg-emerald-700 text-white font-light'
                                 : ''
                             } flex items-center relative bg-gray-100 rounded-sm px-3 py-1`} 
-                            key={option.value}>
-                            {/* {filters.includes(option.value) 
-                                ? <div className='min-h-6 min-w-6 rounded-lg bg-emerald-600 grid place-items-center'>
-                                    <FaCheck className='fill-white'/>
-                                </div>
-                                // : <MdCheckBoxOutlineBlank size={34} className='fill-gray-500' /> 
-                                : <div className='bg-gray-200 min-h-6 min-w-6 rounded-lg'></div>
-                            } */}
+                        >
                             <input
                                 type="checkbox" 
                                 id={option.value} 
                                 name={option.name}
                                 value={option.value}
                                 className={` min-h-6 min-w-6 hidden `}
-                                // className={`relative min-h-5 min-w-5 bg-white border border-gray-800 rounded-full checked:before:content-[''] checked:before:absolute checked:before:h-[15px] checked:before:w-[15px] checked:before:bg-gray-700 checked:before:rounded-full checked:before:translate-y-[1.5px] checked:before:translate-x-[1.5px] `}
                                 onChange={onChange}
-                                checked={filters.includes(option.value)}
+                                checked={filters?.includes(option.value)}
                             />
                             <label htmlFor={option.value} className='w-full text-xs'>{option.label}</label>
                         </div>
@@ -282,12 +265,6 @@ const SORTBY_OPTIONS: HTMLInputListProps[] = [
 const ORDER_OPTIONS: HTMLInputListProps[] = [
     { value: 'ascending', label: 'Ascending', name: 'order' },
     { value: 'descending', label: 'Descending', name: 'order' },
-];
-
-const DISPLAY_OPTIONS: HTMLInputListProps[] = [
-    { value: 'showAll', label: 'Show All', name: 'display' },
-    { value: 'present', label: 'Present students only', name: 'display' },
-    { value: 'absent', label: 'Absent students only', name: 'display' },
 ];
 
 const RadioList: React.FC<HTMLInputList> = ({ options, filters, onChange }) => {

@@ -20,7 +20,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = (
                     <span className='font-bold text-xl border-gray-200'>{title}</span>
                     <span className='text-gray-600 mt-2'>{content}</span>
                     <div className='flex flex-col mt-6 gap-3'>
-                        <Button className={`w-full py-3 ${type === 'delete' && 'bg-red-400'}`}
+                        <Button className={`w-full font-medium py-3 ${type === 'delete' && 'bg-red-400'}`}
                                 variant={confirmBtnVariant}
                                 onClick={onConfirm}
                         > {confirmBtnLabel}</Button>

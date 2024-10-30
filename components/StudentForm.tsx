@@ -105,15 +105,7 @@ const StudentForm: React.FC<FormOperationProps> = () => {
         e.preventDefault()
       }
     }
-
-    // if (name === 'id')
-    //   if ( /^[a-zA-Z]$/.test(e.key) || value.length > 6 && e.key !== 'Backspace')
-    //     e.preventDefault()
   }
-
-  useEffect(() => {
-    console.log(formData)
-  }, [formData])
 
   return (
     <div>

@@ -20,18 +20,22 @@ const StudentForm = ({
   // separate fullname
   function parseFullName(fullName: string) {
     const nameParts = fullName.split(',');
-    let [lastname, firstMiddleSuffix] = nameParts;
-    lastname = lastname.trim();
-  
-    const [firstname, middleInitial = "", suffix = ""] = firstMiddleSuffix.trim().split(' ');
-  
+    let [lastname, firstMiddleNames, suffix = ""] = nameParts;
+
+    let indexOfMiddleInitial = (firstMiddleNames.indexOf(".")) - 1
+    let middlename = firstMiddleNames.charAt(indexOfMiddleInitial)
+    let firstname = indexOfMiddleInitial > 0 
+      ? firstMiddleNames.substring(0, indexOfMiddleInitial).trim() 
+      : firstMiddleNames.trim()
+
     return {
       lastname,
       firstname,
-      middlename: middleInitial.replace('.', ''), // Remove period if it’s there
-      suffix: suffix.trim() || '' // Set suffix to null if none
-    };
+      middlename,
+      suffix
+    }
   }
+  
   // function to convert string to Title Case
   const toTitleCase = (name: string) => {
     return name

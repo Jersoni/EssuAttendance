@@ -148,13 +148,12 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
         </div>
       )}
 
-
       {/* MODALS */}
       <ConfirmationModal 
         isOpen={isLoginModalOpen} 
         title="Confirm Attendance"
         content={
-          <div>Mark {studentData.name}&apos;s <span className="font-bold">login status</span> as <span className="font-bold">{isLoginPresent ? 'absent' : 'present'}</span>?</div>
+          <div className="text-sm">Mark {studentData.name}&apos;s login status as {isLoginPresent ? 'absent' : 'present'}?</div>
         } 
         onClose={handleLoginModalToggle}
         onConfirm={handleLoginCheckboxChange}  
@@ -164,7 +163,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
         isOpen={isLogoutModalOpen} 
         title="Confirm Attendance"
         content={
-          <div>Mark {studentData.name}&apos;s <span className="font-bold">logout status</span> as <span className="font-bold">{isLogoutPresent ? 'absent' : 'present'}</span>?</div>
+          <div className="text-sm">Mark {studentData.name}&apos;s logout status as {isLogoutPresent ? 'absent' : 'present'}?</div>
         } 
         onClose={handleLogoutModalToggle}
         onConfirm={handleLogoutCheckboxChange}  
