@@ -2,7 +2,6 @@
 import { Filter, SearchBar, StudentCard, StudentForm } from "@/components";
 import supabase from '@/lib/supabaseClient';
 import { StudentProps } from '@/types';
-import { lineSpinner } from 'ldrs';
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
@@ -11,8 +10,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.css';
 
 const Page = () => {
-
-  // lineSpinner.register()
 
   const router = useRouter()
   const [students, setStudents] = useState<StudentProps[]>([])
@@ -291,7 +288,90 @@ const Page = () => {
 
   return (
     <div className='bg-white h-[100vh] pt-20'>
+      <Filter
+        // filters data
+        courses={courses}
+        years={years}
+        sections={sections}
+        sortBy={sortBy}
+        order={order}
+        // set functions
+        setCourses={setCourses}
+        setYears={setYears}
+        setSections={setSections}
+        setSortBy={setSortBy}
+        setOrder={setOrder}
+        // submit
+        applyFilters={applyFilters}
+        // UI logic
+        isOpen={isOpen}
+        setIsOpen={() => {setIsOpen(!isOpen)}}
+      />
 
+      <StudentForm />
+
+      {/* buttons */}
+      <div className="fixed flex flex-row top-0 right-16 h-14 z-[1000] ">
+        <button 
+          onClick={() => {
+            setIsSearchOpen(true)
+            setSearchQuery("")
+          }}
+          className="grid place-items-center p-2 h-full bg-neutral-10 text-gray-700"
+        >
+          <IoSearch size={20} />
+        </button>
+        <button 
+          onClick={() => {
+            setIsOpen(true)
+          }}
+          className="grid place-items-center p-2 h-full bg-neutral-10 text-gray-700"
+        >
+          <RiFilter2Line size={20} />
+        </button>
+      </div>
+
+      {isSearchOpen && (
+        <SearchBar
+          query={searchQuery}
+          setQuery={(e) => setSearchQuery(e.target.value)}
+          closeSearch={() => {
+            setIsSearchOpen(false)
+            setSearchQuery("")
+            if (searchQuery !== "") {
+              setStudents([])
+              getStudents()
+            }
+          }}
+        />
+      )}
+
+      
+      <div className={` ${styles.studentsList} pb-40 px-5`}>
+        {/* <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />  */}
+        {isStudentsEmpty ? (
+          <div>
+            <p className="text-sm font-semibold text-gray-400 text-center">No students found.</p>
+          </div>
+        ) : (
+          <div className='shadow-sm h-fit'>
+            {/* TODO: Implement infinite scrolling on students list */}
+            <InfiniteScroll
+              dataLength={students.length}
+              next={() => {setPage(page + 1)}}
+              hasMore={hasMore}
+              endMessage={<div className="absolute w-full text-center left-0 mt-10 font-semibold text-sm text-gray-300" key={1}>Total students found: {students.length}</div>}
+              loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>...</div>}
+            >
+              {students.length !== 0 && students.map((student, index) => {
+                return (
+                  <StudentCard key={index} studentData={student} />
+                )
+              })}
+            </InfiniteScroll>
+          </div>
+        )}
+      </div>
      
     </div>
   )
