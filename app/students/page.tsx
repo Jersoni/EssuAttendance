@@ -135,7 +135,7 @@ const Page = () => {
         // console.log('new student: ')
         // console.log(payload.new)
         setStudents((prevStudents) => [...prevStudents, payload.new as StudentProps])
-        getStudents()
+        // getStudents()
       })
       .on('postgres_changes', {
         event: 'UPDATE',
@@ -145,7 +145,7 @@ const Page = () => {
         // console.log('updated student: ')
         // console.log(payload.new)
         setStudents((prevStudents) => [...prevStudents, payload.new as StudentProps])
-        getStudents()
+        // getStudents()
       })
       .on('postgres_changes', {
         event: 'DELETE',
@@ -153,7 +153,7 @@ const Page = () => {
         table: 'student'
       }, (payload) => {
         // console.log('deleted student id: ' + payload.old)
-        getStudents()
+        // getStudents()
       })
       .subscribe()
     
