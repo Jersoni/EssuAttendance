@@ -12,7 +12,7 @@ import styles from './styles.module.css';
 
 const Page = () => {
 
-  lineSpinner.register()
+  // lineSpinner.register()
 
   const router = useRouter()
   const [students, setStudents] = useState<StudentProps[]>([])
