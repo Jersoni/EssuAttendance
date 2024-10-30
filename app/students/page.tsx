@@ -8,6 +8,7 @@ import { IoSearch } from "react-icons/io5";
 import { RiFilter2Line } from "react-icons/ri";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.css';
+import { RotatingLines } from 'react-loader-spinner'
 
 const Page = () => {
 
@@ -345,7 +346,6 @@ const Page = () => {
           }}
         />
       )}
-
       
       <div className={` ${styles.studentsList} pb-40 px-5`}>
         {/* <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />  */}
@@ -361,7 +361,15 @@ const Page = () => {
               next={() => {setPage(page + 1)}}
               hasMore={hasMore}
               endMessage={<div className="absolute w-full text-center left-0 mt-10 font-semibold text-sm text-gray-300" key={1}>Total students found: {students.length}</div>}
-              loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>...</div>}
+              loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>
+                <RotatingLines
+                  visible={true}
+                  width="40"
+                  strokeWidth="3"
+                  animationDuration="0.75"
+                  ariaLabel="rotating-lines-loading"
+                />
+              </div>}
             >
               {students.length !== 0 && students.map((student, index) => {
                 return (
