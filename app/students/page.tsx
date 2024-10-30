@@ -79,7 +79,6 @@ const Page = () => {
   }
 
   const fetchStudents = async (isNewPage = false) => {
-    console.log("fetchStudents()")
     const { data, error } = await supabase
       .from("student")
       .select("*")
@@ -213,6 +212,12 @@ const Page = () => {
     if (searchResults) setStudents([ ...searchResults ])
   }, [searchResults])
 
+  useEffect(() => {
+    console.log("___________________")
+    console.log(`page: ${page + 1}`)
+    console.log(`students: ${students.length}`)
+    console.log(`filters: ${searchParams.get('order') !== null}`)
+  }, [page, students, searchParams])
 
   // filters
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
@@ -358,7 +363,7 @@ const Page = () => {
               dataLength={students.length}
               next={() => {setPage(page + 1)}}
               hasMore={hasMore}
-              endMessage={<div className="absolute w-full text-center left-0 mt-10 font-semibold text-sm text-gray-300" key={1}>End of list</div>}
+              endMessage={<div className="absolute w-full text-center left-0 mt-10 font-semibold text-sm text-gray-300" key={1}>Total students found: {students.length}</div>}
               loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>
                 <l-line-spinner
                   size="25"
