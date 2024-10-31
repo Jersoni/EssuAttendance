@@ -13,6 +13,7 @@ import { RiSearchLine } from "react-icons/ri";
 import { BiSearchAlt } from "react-icons/bi";
 import { RiFilter2Line } from "react-icons/ri";
 import { PiScanBold } from "react-icons/pi";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import styles from "./styles.module.css";2
 
@@ -27,8 +28,13 @@ const EventPage: React.FC = ({ params }: any) => {
   const [isStudentsEmpty, setIsStudentsEmpty] = useState<boolean | null>(null)
   const [error, setError] = useState(null);
   const [event, setEvent] = useState<EventProps>();
+
+  // infinite scroll
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(0);
+  const numPerPage = 20;
   
-// FETCH EVENT
+  // FETCH EVENT
   useEffect(() => {
     const getEvent = async () => {
       try {
