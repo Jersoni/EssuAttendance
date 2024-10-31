@@ -4,7 +4,6 @@ import { Filter, PageHeader, SearchBar, StudentCard } from "@/components";
 import supabase from "@/lib/supabaseClient";
 import { Attendance, EventProps, StudentProps } from "@/types";
 import { formatDate } from "@/utils/utils";
-import { lineSpinner } from "ldrs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LuScanLine } from "react-icons/lu";
@@ -14,11 +13,11 @@ import { BiSearchAlt } from "react-icons/bi";
 import { RiFilter2Line } from "react-icons/ri";
 import { PiScanBold } from "react-icons/pi";
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { RotatingLines } from 'react-loader-spinner'
 
 import styles from "./styles.module.css";2
 
 const EventPage: React.FC = ({ params }: any) => {
-  lineSpinner.register();
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -491,12 +490,13 @@ const EventPage: React.FC = ({ params }: any) => {
 
       {loading || isStudentsEmpty == null && (
         <div className="absolute top-0 left-0 w-full h-full z-[200] grid place-items-center">
-          <l-line-spinner
-            size="30"
-            stroke="2"
-            speed="1"
-            color="black"
-          ></l-line-spinner>
+          <RotatingLines
+            visible={true}
+            width="40"
+            strokeWidth="3"
+            animationDuration="0.75"
+            ariaLabel="rotating-lines-loading"
+          />
         </div>
       )}
     </div>

@@ -9,11 +9,8 @@ import { RiFilter2Line } from "react-icons/ri";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.css';
 import { RotatingLines } from 'react-loader-spinner'
-import { lineSpinner } from "ldrs";
 
 const StudentsPage = () => {
-
-  lineSpinner.register();
 
   const router = useRouter()
   const [students, setStudents] = useState<StudentProps[]>([])
