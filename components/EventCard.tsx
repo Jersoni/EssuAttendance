@@ -101,9 +101,9 @@ const EventsCard: React.FC<{
   )
 
   return (
-    <div className='flex flex-row h-fit rounded-xl mt-4 border border-gray-200 shadow-sm bg-white overflow-hidden z-[100]'>
+    <Link href={`/events/${eventData.id}`} className='flex flex-row h-fit mt-3 border border-gray-200 bg-white overflow-hidden z-[100] rounded-lg'>
 
-      <Link href={`/events/${eventData.id}`} className='w-full'>
+      <div className='w-full'>
         <div className="flex flex-col p-5 pt-4 min-w-full">
           <div className='flex flex-row items-center justify-between relative '>
             <span className="event__title ">{eventData.title}</span>
@@ -131,76 +131,83 @@ const EventsCard: React.FC<{
                 <span className="event__info">{logout}</span>
               </div>
             </div> 
-            <div className=' flex flex-row items-center gap-3 mt-1 w-fit'>
-              {/* <FaMoneyBillWave size={13} className='ml-[1px] opacity-40 translate-y-[-1px]' /> */}
+            {/* <div className=' flex flex-row items-center gap-3 mt-1 w-fit'>
+              <FaMoneyBillWave size={13} className='ml-[1px] opacity-40 translate-y-[-1px]' />
               <span className="event__info">{fine}</span> 
-            </div>
+            </div> */}
           </div>
         </div>
-      </Link>
-
-      {/* Edit and Delete Buttons */}
-      <div className=' '>
-        {isAdmin ? (
-          <div className='flex flex-col h-full p-3 border-gray-200 relative'>
-
-            {/* button toggle */}
-            <button
-              onClick={() => {toggle()}}
-              className={`p-2 rounded-full`}
-            >
-              <TbDotsVertical size={20} />
-            </button>
-
-            {/* modal */}
-            <div className={`absolute bg-white border translate-x-[-7rem] rounded-lg transition-all overflow-hidden shadow-sm
-              ${isModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"}  
-            `}>
-              {/* edit button */}
-              <button 
-                className='h-full flex flex-row p-3 w-28 items-center gap-2 active:bg-gray-200'
-                onClick={(e) => {
-                  e.preventDefault()
-                  toggleEditForm()
-                  if (eventData.id) {
-                    router.push(pathname + '?' + createQueryString('editEventId', eventData.id.toString()))
-                  }
-                }} 
-              >
-                <RiEdit2Line size={18} className='fill-gray-700' />
-                <span className='font-medium text-gray-700 text-sm' >Edit</span>
-              </button>
-              {/* delete button */}
-              <button 
-                className='h-full flex flex-row p-3 w-28 items-center gap-2 active:bg-red-100'
-                onClick={(e) => {
-                  e.preventDefault()
-                  toggleDeleteModal()
-                }}
-              >
-                <PiTrashSimpleBold size={18} className='fill-gray-700' />
-                <span className='font-medium text-gray-700 text-sm' >Delete</span>
-              </button>
-            </div>
-
-        
-            {/* Delete Modal */}
-            <ConfirmationModal
-                title='Delete?'
-                content={`Are you sure you want to delete this attendance?`}
-                isOpen={isDeleteModalOpen}
-                onClose={toggleDeleteModal}
-                onConfirm={onConfirm}
-                confirmBtnLabel='Delete'
-                type='delete'
-            />
-          </div>
-        ) : (
-          <IoIosArrowForward size={20} className='opacity-70'/>
-        )}
       </div>
-    </div>
+      <div className='p-4 pt-5'>
+        <IoIosArrowForward size={17} className='opacity-50'/>
+      </div>
+
+    </Link>
   )
 }
 
 export default EventsCard
+
+// {isAdmin ? (
+//   <div className='flex flex-col h-full p-3 border-gray-200 relative'>
+
+//     {/* button toggle */}
+//     <button
+//       onClick={() => {toggle()}}
+//       className={`p-2 rounded-full`}
+//     >
+//       <TbDotsVertical size={20} />
+//     </button>
+
+//     {/* modal */}
+//     <div className={`absolute bg-white border translate-x-[-7.5rem] rounded-lg transition-all overflow-hidden shadow-sm z-[1300] p-1
+//       ${isModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"}  
+//       `}>
+//       {/* edit button */}
+//       <button 
+//         className='h-full flex flex-row p-3 w-28 items-center gap-2 active:bg-gray-200'
+//         onClick={(e) => {
+//           e.preventDefault()
+//           toggleEditForm()
+//           toggle()
+//           if (eventData.id) {
+//             router.push(pathname + '?' + createQueryString('editEventId', eventData.id.toString()))
+//           }
+//         }} 
+//       >
+//         <RiEdit2Line size={18} className='fill-gray-700' />
+//         <span className='font-medium text-gray-700 text-sm' >Edit</span>
+//       </button>
+//       {/* delete button */}
+//       <button 
+//         className='h-full flex flex-row p-3 w-28 items-center gap-2 active:bg-red-100'
+//         onClick={(e) => {
+//           e.preventDefault()
+//           toggleDeleteModal()
+//           toggle()
+//         }}
+//       >
+//         <PiTrashSimpleBold size={18} className='fill-gray-700' />
+//         <span className='font-medium text-gray-700 text-sm' >Delete</span>
+//       </button>
+//     </div>
+//     {/* backdrop */}
+//     <div
+//       onClick={() => {toggle()}}
+//       className={`bg-black fixed top-0 left-0 right-0 bottom-0 bg-opacity-5 z-[1200] ${isModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+//     ></div>
+
+//     {/* Delete Modal */}
+//     <ConfirmationModal
+//         title='Delete?'
+//         content={`Are you sure you want to delete this attendance?`}
+//         isOpen={isDeleteModalOpen}
+//         onClose={toggleDeleteModal}
+//         onConfirm={onConfirm}
+//         confirmBtnLabel='Delete'
+//         type='delete'
+//     />
+//   </div>
+// ) : (
+//   <IoIosArrowForward size={20} className='opacity-70'/>
+// )}

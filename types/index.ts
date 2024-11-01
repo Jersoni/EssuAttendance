@@ -1,3 +1,10 @@
+export interface AuthProps {
+    name: string
+    code: string
+    role: "student" | "admin"
+    signout: () => void
+}
+
 export interface StudentProps {
     id: string
     name: string

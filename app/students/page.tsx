@@ -13,6 +13,7 @@ import { RotatingLines } from 'react-loader-spinner'
 const StudentsPage = () => {
 
   const router = useRouter()
+
   const [students, setStudents] = useState<StudentProps[]>([])
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true);

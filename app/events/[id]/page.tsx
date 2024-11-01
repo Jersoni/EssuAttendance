@@ -2,8 +2,8 @@
 "use client";
 import { Filter, PageHeader, SearchBar, StudentCard } from "@/components";
 import supabase from "@/lib/supabaseClient";
-import { Attendance, EventProps, StudentProps } from "@/types";
-import { formatDate } from "@/utils/utils";
+import { Attendance, AuthProps, EventProps, StudentProps } from "@/types";
+import { checkAuth, formatDate } from "@/utils/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LuScanLine } from "react-icons/lu";
@@ -17,13 +17,21 @@ import { RotatingLines } from 'react-loader-spinner'
 
 import styles from "./styles.module.css";2
 
+/* eslint-disable react-hooks/exhaustive-deps */
 const EventPage: React.FC = ({ params }: any) => {
 
   const router = useRouter();
+
+  // auth verification
+  const [ auth, setAuth ] = useState<AuthProps>()
+  useEffect(() => {
+    setAuth(checkAuth(router))
+  }, [router])
+
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [attendanceData, setAttendanceData] = useState<Attendance[]>([]);
-  const [students, setStudents] = useState<StudentProps[] | null>(null);
+  const [students, setStudents] = useState<StudentProps[]>([]);
   const [isStudentsEmpty, setIsStudentsEmpty] = useState<boolean | null>(null)
   const [error, setError] = useState(null);
   const [event, setEvent] = useState<EventProps>();
@@ -32,8 +40,18 @@ const EventPage: React.FC = ({ params }: any) => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
   const numPerPage = 20;
+
+  function getQueryParams() {
+    return {
+      courses: searchParams.get("courses")?.split(","),
+      years: searchParams.get("years")?.split(",").map((i) => parseInt(i)),
+      sections: searchParams.get("sections")?.split(","),
+      order: searchParams.get("order"),
+      sortBy: searchParams.get("sortBy"),
+    }
+  }
   
-  // FETCH EVENT
+// EVENT
   useEffect(() => {
     const getEvent = async () => {
       try {
@@ -53,7 +71,7 @@ const EventPage: React.FC = ({ params }: any) => {
     getEvent();
   }, [params.id]);
   
-  // FETCH ATTENDANCE
+// ATTENDANCE
   const fetchAttendanceData = async () => {
     try {
       const response = await fetch(`/api/getAttendance?id=${params.id}`);
@@ -63,7 +81,6 @@ const EventPage: React.FC = ({ params }: any) => {
 
       const result = await response.json();
       setAttendanceData(result);
-      console.log("fetched attendance data")
     } catch (error: any) {
       setError(error.message);
     }
@@ -73,103 +90,184 @@ const EventPage: React.FC = ({ params }: any) => {
     fetchAttendanceData();
   }, [params.id, searchParams])
 
-// FETCH STUDENTS (after getting the attendance data)
-  useEffect(() => {
-    console.log("fetching student data")
-    let studentsIDs: string[] = [];
-
-    // get all student IDs
-    attendanceData.map((row: Attendance) => {
-      studentsIDs.push(row.studentId);
-    });
-
-    if (searchParams.get("order")) {
-      const fetchStudentsData = async () => {
-        if (attendanceData) {
-          const studentIDs = attendanceData.map((data) => data.studentId);
-          const queryParams = {
-            courses: searchParams.get("courses")?.split(","),
-            years: searchParams.get("years")?.split(",").map((i) => parseInt(i)),
-            sections: searchParams.get("sections")?.split(","),
-            order: searchParams.get("order"),
-            sortBy: searchParams.get("sortBy"),
-          };
-
-          if (
-            queryParams.courses &&
-            queryParams.years &&
-            queryParams.sections &&
-            queryParams.sortBy
-          ) {
-            const { data, error } = await supabase
-              .from("student")
-              .select("*")
-              .in("id", studentIDs)
-              .in("course", queryParams.courses)
-              .in("year", queryParams.years)
-              .in("section", queryParams.sections)
-              .order(queryParams.sortBy, {
-                ascending: queryParams.order === "ascending",
-              });
-
-            if (data) {
-              // add the isPresent to 'students' state variable
-              let modifiedData = data.map((student) => {
-                const attendance = attendanceData.find(
-                  (row) => row.studentId === student.id
-                );
-                return {
-                  ...student,
-                  isLoginPresent: attendance?.isLoginPresent,
-                  isLogoutPresent: attendance?.isLogoutPresent
-                };
-              });
-
-              setStudents(modifiedData);
-            }
-          }
-        }
-      }
-      
-      fetchStudentsData()
-    } else {
-      const fetchStudentsData = async () => {
-        try {
-          const { data, error } = await supabase
-            .from("student")
-            .select("*")
-            .in("id", studentsIDs)
-            .order("name", { ascending: true });
-  
-          if (error) {
-            throw error;
-          }
-  
-          // add the isPresent to 'students' state variable
-          let modifiedData = data.map((student) => {
-            const attendance = attendanceData.find(
-              (row) => row.studentId === student.id
-            );
-            return {
-              ...student,
-              isLoginPresent: attendance?.isLoginPresent,
-              isLogoutPresent: attendance?.isLogoutPresent
-            };
-          });
-  
-          setStudents(modifiedData);
-          modifiedData.length === 0
-          ? setIsStudentsEmpty(true)
-          : setIsStudentsEmpty(false)
-        } catch (error: any) {
-          setError(error.message);
-        }
-      };
-  
-      fetchStudentsData(); 
+// STUDENTS
+  const getStudents = async ({
+    hasFilters = false,
+    isNewPage = false
+  }: {
+    hasFilters: boolean,
+    isNewPage: boolean
+  }) => {
+    const studentIDs = attendanceData.map((data) => data.studentId);
+    const queryParams = getQueryParams();
+    
+    async function getData(): Promise<any> {
+      return supabase
+      .from("student")
+      .select("*")
+      .in("id", studentIDs)
+      .order("name", { ascending: true })
+      .range(page * numPerPage, (page + 1) * numPerPage - 1);
     }
 
-  }, [attendanceData, searchParams]);
+    const {data, error} = await getData()
+    
+    if (error) {
+      console.log(error)
+    } else {
+      setStudents(prev => {
+        // add the isPresent to 'students' state variable
+        let modifiedData = data.map((student: StudentProps) => {
+          const attendance = attendanceData.find(
+            (row) => row.studentId === student.id
+          );
+          return {
+            ...student,
+            isLoginPresent: attendance?.isLoginPresent,
+            isLogoutPresent: attendance?.isLogoutPresent
+          };
+        });
+
+        if (prev.length > 0 && modifiedData.length > 0) {
+          if (prev[0].id !== modifiedData[0].id) {
+            return [...prev, ...modifiedData]
+          } else {
+            return [...prev]
+          }
+        } else {
+          return [...modifiedData]
+        }
+      })
+
+      setHasMore(data.length === numPerPage);
+    }
+  }
+
+  useEffect(() => {
+    if (attendanceData.length > 0) {
+      getStudents({hasFilters: false, isNewPage: false});
+    }
+  }, [attendanceData])
+
+  useEffect(() => {
+    getStudents({hasFilters: false, isNewPage: true});
+  }, [page])
+
+// // FETCH STUDENTS (after getting the attendance data)
+
+//   const fetchStudentsDataWithFilters = async () => {
+//     if (attendanceData) {
+//       const studentIDs = attendanceData.map((data) => data.studentId);
+//       const queryParams = {
+//         courses: searchParams.get("courses")?.split(","),
+//         years: searchParams.get("years")?.split(",").map((i) => parseInt(i)),
+//         sections: searchParams.get("sections")?.split(","),
+//         order: searchParams.get("order"),
+//         sortBy: searchParams.get("sortBy"),
+//       };
+
+//       if (
+//         queryParams.courses &&
+//         queryParams.years &&
+//         queryParams.sections &&
+//         queryParams.sortBy
+//       ) {
+//         const { data, error } = await supabase
+//           .from("student")
+//           .select("*")
+//           .in("id", studentIDs)
+//           .in("course", queryParams.courses)
+//           .in("year", queryParams.years)
+//           .in("section", queryParams.sections)
+//           .order(queryParams.sortBy, {
+//             ascending: queryParams.order === "ascending",
+//           });
+
+//         if (data) {
+//           // add the isPresent to 'students' state variable
+//           let modifiedData = data.map((student) => {
+//             const attendance = attendanceData.find(
+//               (row) => row.studentId === student.id
+//             );
+//             return {
+//               ...student,
+//               isLoginPresent: attendance?.isLoginPresent,
+//               isLogoutPresent: attendance?.isLogoutPresent
+//             };
+//           });
+
+//           setStudents(modifiedData);
+//         }
+//       }
+//     }
+//   }
+
+//   const fetchStudentsData = async () => {
+//     if (attendanceData) {
+//       const studentIDs = attendanceData.map((data) => data.studentId);
+
+//       try {
+//         const { data, error } = await supabase
+//           .from("student")
+//           .select("*")
+//           .in("id", studentIDs)
+//           .order("name", { ascending: true })
+//           .range(page * numPerPage, (page + 1) * numPerPage - 1);
+
+//         if (error) {
+//           throw error;
+//         }
+
+//         // add the isPresent to 'students' state variable
+//         let modifiedData = data.map((student) => {
+//           const attendance = attendanceData.find(
+//             (row) => row.studentId === student.id
+//           );
+//           return {
+//             ...student,
+//             isLoginPresent: attendance?.isLoginPresent,
+//             isLogoutPresent: attendance?.isLogoutPresent
+//           };
+//         });
+
+//         console.log(modifiedData)
+//         console.log(students)
+//         // setStudents(prev => (prev[0].id !== modifiedData[0].id) 
+//         //   ? [
+//         //       ...(prev || []),
+//         //       ...modifiedData
+//         //     ]
+//         //   : prev 
+//         // )
+
+//         setHasMore(modifiedData.length === numPerPage);
+
+//         modifiedData.length === 0
+//         ? setIsStudentsEmpty(true)
+//         : setIsStudentsEmpty(false)
+//       } catch (error: any) {
+//         setError(error.message);
+//       }
+//     }
+//   };
+
+//   useEffect(() => {
+//     console.log(students)
+//     console.log(page)
+//   }, [students, page])
+
+//   useEffect(() => { // fetch students
+//     if (searchParams.get("order")) {
+//       fetchStudentsDataWithFilters()
+//     } else {
+//       fetchStudentsData(); 
+//     }
+//   }, [attendanceData, searchParams]); 
+
+
+//   useEffect(() => { // fetch new students data if page changes
+//     fetchStudentsData(); 
+//   }, [page])
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<StudentProps[] | any>([]);
@@ -452,32 +550,51 @@ const EventPage: React.FC = ({ params }: any) => {
 
         {/* STUDENTS LIST */}
         <div className={`${styles.studentsList}`}>
-          {(students?.length !== 0 && searchResults.length === 0) &&
-            students?.map((student: StudentProps) => {
-              return (
-                <>
-                  <StudentCard
-                    key={student.id}
-                    eventId={event?.id}
-                    studentData={student}
-                  />
-                </>
-              );
-            })
+          {students &&
+            <InfiniteScroll
+              dataLength={students.length}
+              next={() => {setPage(page + 1)}}
+              hasMore={hasMore}
+              className={`${styles.studentsList}`}
+              // endMessage={<div className="absolute w-full text-center left-0 mt-10 font-semibold text-sm text-gray-300" key={1}>Total students found: {students.length}</div>}
+              loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>
+                <RotatingLines
+                  visible={true}
+                  width="40"
+                  strokeWidth="3"
+                  animationDuration="0.75"
+                  ariaLabel="rotating-lines-loading"
+                />
+              </div>}
+            >
+              {(students.length !== 0 && searchResults.length === 0) &&
+                students.map((student: StudentProps, index) => {
+                  return (
+                    <>
+                      {index}
+                      <StudentCard
+                        key={index}
+                        eventId={event?.id}
+                        studentData={student}
+                        />
+                    </>
+                  );
+                })
+              }
+            </InfiniteScroll>
           }
 
-
-          {students?.length === 0 &&
+          {/* {students?.length === 0 &&
             <div>
               <p className="text-sm font-semibold text-gray-300 text-center mt-10">No students found.</p>
             </div>
-          }
-
+          } */}
+      
           {searchResults.length !== 0 &&
-            searchResults?.map((student: StudentProps) => {
+            searchResults?.map((student: StudentProps, index: number) => {
               return (
                 <StudentCard
-                  key={student.id}
+                  key={index}
                   eventId={event?.id}
                   studentData={student}
                 />
@@ -487,18 +604,6 @@ const EventPage: React.FC = ({ params }: any) => {
 
         </div>
       </div>
-
-      {loading || isStudentsEmpty == null && (
-        <div className="absolute top-0 left-0 w-full h-full z-[200] grid place-items-center">
-          <RotatingLines
-            visible={true}
-            width="40"
-            strokeWidth="3"
-            animationDuration="0.75"
-            ariaLabel="rotating-lines-loading"
-          />
-        </div>
-      )}
     </div>
   );
 };
