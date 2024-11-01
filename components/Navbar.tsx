@@ -33,12 +33,6 @@ const Navbar = ({ className }: { className: string }) => {
     console.log(auth)
   }, [auth])
 
-  const authToken = localStorage.getItem("authToken")
-
-  useEffect(() => {
-    console.log(authToken)
-  }, [authToken])
-
   let convertedPathname =
     pathname.slice(1).charAt(0).toUpperCase() + pathname.slice(1).slice(1);
   if (convertedPathname === "") convertedPathname = "Schedule";
