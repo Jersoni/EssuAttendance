@@ -2,7 +2,7 @@
 "use client";
 import { Filter, PageHeader, SearchBar, StudentCard } from "@/components";
 import supabase from "@/lib/supabaseClient";
-import { Attendance, AuthProps, EventProps, StudentProps } from "@/types";
+import { Attendance, AuthProps, EventProps, QueryFiltersProps, StudentProps } from "@/types";
 import { checkAuth, formatDate } from "@/utils/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -27,6 +27,7 @@ const EventPage: React.FC = ({ params }: any) => {
   useEffect(() => {
     setAuth(checkAuth(router))
   }, [router])
+  
 
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -35,21 +36,44 @@ const EventPage: React.FC = ({ params }: any) => {
   const [isStudentsEmpty, setIsStudentsEmpty] = useState<boolean | null>(null)
   const [error, setError] = useState(null);
   const [event, setEvent] = useState<EventProps>();
+  const [queryParams, setQueryParams] = useState<QueryFiltersProps>()
 
   // infinite scroll
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
   const numPerPage = 20;
 
+  // FILTER VARIABLES
+  const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
+  const [courses, setCourses] = useState<string[] | undefined>(["AllCourses"]);
+  const [years, setYears] = useState<string[] | undefined>(["AllYears"]);
+  const [sections, setSections] = useState<string[] | undefined>(["AllSections"]);
+  const [sortBy, setSortBy] = useState<string | undefined>("name");
+  const [order, setOrder] = useState<string | undefined>("ascending");
+  const allYears = [1, 2, 3, 4];
+  const allSections = ["A", "B", "C", "D", "E"];
+  const allCourses = [ "BSCE", "BSIT", "BOT", "BSHM", "BSTM", "BSE", "BSBA", "BSAIS", "BAC", "BTVTED", "BSED", "BEED", "BSN", "BSCRIM", "BSINFOTECH" ];
+
   function getQueryParams() {
     return {
       courses: searchParams.get("courses")?.split(","),
-      years: searchParams.get("years")?.split(",").map((i) => parseInt(i)),
+      years: searchParams.get("years")?.split(","),
       sections: searchParams.get("sections")?.split(","),
       order: searchParams.get("order"),
       sortBy: searchParams.get("sortBy"),
-    }
+    } as QueryFiltersProps
   }
+
+  useEffect(() => {
+    let { courses, years, sections, order, sortBy } = getQueryParams()
+
+    setCourses(courses?.length === 15 ? ["AllCourses"] : courses )
+    setYears(years?.length === 15 ? ["AllYears"] : years )
+    setSections(sections?.length === 15 ? ["AllSections"] : sections )
+    setSortBy(sortBy || "name")
+    setOrder(order || "ascending")
+
+  }, [searchParams])
   
 // EVENT
   useEffect(() => {
@@ -90,24 +114,42 @@ const EventPage: React.FC = ({ params }: any) => {
     fetchAttendanceData();
   }, [params.id, searchParams])
 
-// STUDENTS
-  const getStudents = async ({
-    hasFilters = false,
-    isNewPage = false
-  }: {
-    hasFilters: boolean,
-    isNewPage: boolean
-  }) => {
+// GET STUDENTS
+  const getStudents = async (isNewPage = false) => {
     const studentIDs = attendanceData.map((data) => data.studentId);
-    const queryParams = getQueryParams();
+    // if (queryParams.courses) console.log(queryParams)
     
     async function getData(): Promise<any> {
-      return supabase
-      .from("student")
-      .select("*")
-      .in("id", studentIDs)
-      .order("name", { ascending: true })
-      .range(page * numPerPage, (page + 1) * numPerPage - 1);
+      if (queryParams === undefined) {
+        console.log("no filters")
+        return supabase
+          .from("student")
+          .select("*")
+          .in("id", studentIDs)
+          .order("name", { ascending: true })
+          .range(page * numPerPage, (page + 1) * numPerPage - 1);
+      } else {
+        console.log("with filters")
+
+        if (!isNewPage) {
+          setPage(0)
+        }
+
+        return supabase
+          .from("student")
+          .select("*")
+          .in("id", studentIDs)
+          .in("course", queryParams.courses)
+          .in("year", queryParams.years)
+          .in("section", queryParams.sections)
+          .order(queryParams.sortBy, {
+            ascending: queryParams.order === "ascending",
+          })
+          .range(
+            isNewPage ? (page * numPerPage) : 0,
+            isNewPage ? ((page + 1) * numPerPage - 1) : (numPerPage - 1)
+          );
+      }
     }
 
     const {data, error} = await getData()
@@ -115,42 +157,77 @@ const EventPage: React.FC = ({ params }: any) => {
     if (error) {
       console.log(error)
     } else {
-      setStudents(prev => {
-        // add the isPresent to 'students' state variable
-        let modifiedData = data.map((student: StudentProps) => {
-          const attendance = attendanceData.find(
-            (row) => row.studentId === student.id
-          );
-          return {
-            ...student,
-            isLoginPresent: attendance?.isLoginPresent,
-            isLogoutPresent: attendance?.isLogoutPresent
-          };
-        });
-
-        if (prev.length > 0 && modifiedData.length > 0) {
-          if (prev[0].id !== modifiedData[0].id) {
-            return [...prev, ...modifiedData]
+      console.log(data)
+      if (isNewPage) {
+        setStudents(prev => {
+          // add the isPresent to 'students' state variable
+          let modifiedData = data.map((student: StudentProps) => {
+            const attendance = attendanceData.find(
+              (row) => row.studentId === student.id
+            );
+            return {
+              ...student,
+              isLoginPresent: attendance?.isLoginPresent,
+              isLogoutPresent: attendance?.isLogoutPresent
+            };
+          });
+  
+          if (prev.length > 0 && modifiedData.length > 0) {
+            if (prev[0].id !== modifiedData[0].id) {
+              return [...prev, ...modifiedData]
+            } else {
+              return [...prev]
+            }
           } else {
-            return [...prev]
+            return [...modifiedData]
           }
-        } else {
-          return [...modifiedData]
-        }
-      })
+        })
+      } else {
+        setStudents(() => {
+          // add the isPresent to 'students' state variable
+          let modifiedData = data.map((student: StudentProps) => {
+            const attendance = attendanceData.find(
+              (row) => row.studentId === student.id
+            );
+            return {
+              ...student,
+              isLoginPresent: attendance?.isLoginPresent,
+              isLogoutPresent: attendance?.isLogoutPresent
+            };
+          });
+  
+          return modifiedData
+        })
+      }
 
       setHasMore(data.length === numPerPage);
     }
   }
 
+  
+// GET QUERY PARAMS and store more neatly as object in queryParams state
+useEffect(() => {    
+  if (searchParams.size) {
+    console.log("new query params")
+    setQueryParams(getQueryParams())
+  }
+}, [searchParams])
+
+// INVOKE STUDENTS
   useEffect(() => {
     if (attendanceData.length > 0) {
-      getStudents({hasFilters: false, isNewPage: false});
+      getStudents();
     }
   }, [attendanceData])
 
   useEffect(() => {
-    getStudents({hasFilters: false, isNewPage: true});
+    if (queryParams) {
+      getStudents(false)
+    }
+  }, [queryParams])
+
+  useEffect(() => {
+    getStudents(true);
   }, [page])
 
 // // FETCH STUDENTS (after getting the attendance data)
@@ -287,6 +364,7 @@ const EventPage: React.FC = ({ params }: any) => {
           type: "websearch",
           config: "english"
         })
+        .limit(20)
 
       if (error) {
         console.error(error)
@@ -297,6 +375,7 @@ const EventPage: React.FC = ({ params }: any) => {
             .from("student")
             .select()
             .ilike(column, `%${searchQuery}%`)
+            .limit(20)
           
           if (error2) {
             console.error(error2)
@@ -317,7 +396,7 @@ const EventPage: React.FC = ({ params }: any) => {
             modifiedData.length === 0
             ? setIsStudentsEmpty(true)
             : setIsStudentsEmpty(false)
-            console.log(modifiedData)
+            // console.log(modifiedData)
           }
         // if search query exactly matches a row
         } else {
@@ -337,7 +416,7 @@ const EventPage: React.FC = ({ params }: any) => {
           modifiedData.length === 0
           ? setIsStudentsEmpty(true)
           : setIsStudentsEmpty(false)
-          console.log(modifiedData)
+          // console.log(modifiedData)
         }
       }
     }
@@ -346,15 +425,6 @@ const EventPage: React.FC = ({ params }: any) => {
   }, [searchQuery])
 
 // FILTER COMPONENT FUNCTIONALITY
-  const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
-  const [courses, setCourses] = useState<string[] | undefined>(["AllCourses"]);
-  const [years, setYears] = useState<string[] | undefined>(["AllYears"]);
-  const [sections, setSections] = useState<string[] | undefined>(["AllSections"]);
-  const [sortBy, setSortBy] = useState<string | undefined>("name");
-  const [order, setOrder] = useState<string | undefined>("ascending");
-  const allYears = [1, 2, 3, 4];
-  const allSections = ["A", "B", "C", "D", "E"];
-  const allCourses = [ "BSCE", "BSIT", "BOT", "BSHM", "BSTM", "BSE", "BSBA", "BSAIS", "BAC", "BTVTED", "BSED", "BEED", "BSN", "BSCRIM", "BSINFOTECH" ];
 
   async function applyFilters() {
     setLoading(true);
@@ -369,8 +439,6 @@ const EventPage: React.FC = ({ params }: any) => {
       : sections;
     const filterOrder = order;
     const filterSortBy = sortBy;
-
-    console.log(filterOrder)
 
     // URL search params
     const queryParams = new URLSearchParams();
@@ -400,7 +468,7 @@ const EventPage: React.FC = ({ params }: any) => {
       sortBy,
       order,
     };
-    console.log(JSON.stringify(filters, null, 2));
+    // console.log(JSON.stringify(filters, null, 2));
   }, [courses, years, sections, sortBy, order]);
 
   const [message, setMessage] = useState("nothing");
@@ -456,26 +524,7 @@ const EventPage: React.FC = ({ params }: any) => {
     //   supabase.removeChannel(channel);
     // };
   }, [students])
-
-  useEffect(() => {
-    let paramsCourses = searchParams.get("courses")?.split(",")
-    let paramsYears = searchParams.get("years")?.split(",")
-    let paramsSections = searchParams.get("sections")?.split(",")
-    let paramsSortBy = searchParams.get("sortBy")
-    let paramsOrder = searchParams.get("order")
-
-    setCourses(paramsCourses?.length === 15 ? ["AllCourses"] : paramsCourses )
-    setYears(paramsYears?.length === 15 ? ["AllYears"] : paramsYears )
-    setSections(paramsSections?.length === 15 ? ["AllSections"] : paramsSections )
-    setSortBy(paramsSortBy || "name")
-    setOrder(paramsOrder || "ascending")
-
-  }, [searchParams])
-
-  useEffect(() => {
-    console.log(courses)
-  }, [courses])
-
+  
   return (
     <div className=" overflow-hidden pt-24">
       <div className="h-20 w-full fixed z-[300] top-0">
@@ -550,17 +599,17 @@ const EventPage: React.FC = ({ params }: any) => {
 
         {/* STUDENTS LIST */}
         <div className={`${styles.studentsList}`}>
-          {students &&
+          {(students && searchResults.length === 0) &&
             <InfiniteScroll
               dataLength={students.length}
               next={() => {setPage(page + 1)}}
               hasMore={hasMore}
               className={`${styles.studentsList}`}
-              // endMessage={<div className="absolute w-full text-center left-0 mt-10 font-semibold text-sm text-gray-300" key={1}>Total students found: {students.length}</div>}
+              endMessage={<div className="absolute w-full text-center left-0 mt-10 font-semibold text-sm text-gray-300" key={1}>Total students found: {students.length}</div>}
               loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>
                 <RotatingLines
                   visible={true}
-                  width="40"
+                  width="36"
                   strokeWidth="3"
                   animationDuration="0.75"
                   ariaLabel="rotating-lines-loading"
@@ -570,25 +619,16 @@ const EventPage: React.FC = ({ params }: any) => {
               {(students.length !== 0 && searchResults.length === 0) &&
                 students.map((student: StudentProps, index) => {
                   return (
-                    <>
-                      {index}
-                      <StudentCard
-                        key={index}
-                        eventId={event?.id}
-                        studentData={student}
-                        />
-                    </>
+                    <StudentCard
+                      key={student.id}
+                      eventId={event?.id}
+                      studentData={student}
+                    />
                   );
                 })
               }
             </InfiniteScroll>
           }
-
-          {/* {students?.length === 0 &&
-            <div>
-              <p className="text-sm font-semibold text-gray-300 text-center mt-10">No students found.</p>
-            </div>
-          } */}
       
           {searchResults.length !== 0 &&
             searchResults?.map((student: StudentProps, index: number) => {

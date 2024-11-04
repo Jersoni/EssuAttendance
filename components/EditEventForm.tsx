@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@/components';
 import supabase from '@/lib/supabaseClient';
-import { FormEventProps, FormOperationProps } from '@/types';
+import { EventProps, FormEventProps, FormOperationProps } from '@/types';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -12,10 +12,12 @@ const EditEventForm: React.FC<{
   isOpen: boolean;
   toggleEventForm: () => void;
   eventID?: number
+  editFormData: FormEventProps | undefined
 }> = ({
   isOpen, 
   toggleEventForm,
-  eventID
+  eventID,
+  editFormData
 }) => {
 
   // Frontend
@@ -59,30 +61,13 @@ const EditEventForm: React.FC<{
     eventDate: "",
   })
 
-  // fetch event data by id
   useEffect(() => {
-    const getEvent = async () => {
-      const {data, error} = await supabase
-        .from("event")
-        .select()
-        .eq("id", eventID)
-        .single()
-      
-      if (error) {
-        console.error(error)
-      } else {
-        console.log(data)
-        setFormData(data)
-      }
-    }
-    
-    if (eventID) getEvent()
-  
-  }, [eventID])
+    if(editFormData !== undefined) {
+      setFormData(editFormData)
 
-  useEffect(() => {
-    console.log(formData)
-  }, [formData])
+      console.log(editFormData)
+    }
+  }, [editFormData])
 
   // useEffect(() => {
   //   if (data && operation === "update") {

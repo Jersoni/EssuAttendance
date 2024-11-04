@@ -11,6 +11,7 @@ import { HiDownload } from "react-icons/hi";
 import { PiTrashSimpleBold } from "react-icons/pi";
 import { lineSpinner } from "ldrs";
 import supabase from '@/lib/supabaseClient';
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 const Student = ({ params }: { params: any }) => {
     lineSpinner.register();
@@ -169,7 +170,7 @@ const Student = ({ params }: { params: any }) => {
                     onClick={toggleSettingsModal}
                     className='absolute top-2.5 right-4 p-1.5 text-gray-700'
                 >
-                        <TbDotsCircleHorizontal size={24} />
+                        <HiOutlineDotsHorizontal size={20} className="ml-auto text-gray-600" />
                 </button>
                 
                 <div>

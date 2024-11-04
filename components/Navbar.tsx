@@ -15,6 +15,7 @@ import { HiMiniUserGroup } from "react-icons/hi2";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { PiSignOutBold } from "react-icons/pi";
 import { FaSignOutAlt } from "react-icons/fa";
+import { useAppContext } from "@/context";
 
 const Navbar = ({ className }: { className: string }) => {
   // given default value for navbar title
@@ -61,15 +62,22 @@ const Navbar = ({ className }: { className: string }) => {
     setIsProfileOptionsOpen(!isProfileOptionsOpen)
   }
 
+  // app context
+  const { isNavOpen, setIsNavOpen } = useAppContext()
+
+  useEffect(() => {
+    setIsNavOpen(isOpen)
+  }, [isOpen])
+  
   return condition ? (
     <div className="z-[1000]">
       {/* header */}
       <div
         className={` ${
           pathname === "/" ? "" : ""
-        } bg-white h-14 flex items-center border-b border-gray-200 w-[100vw] fixed top-0 z-[500]`}
+        } bg-white h-14 flex items-center border-b border-gray-200 w-[100vw] fixed top-0 z-[1300]`}
       >
-        <button 
+        <button
           onClick={toggle} 
           className={`active:bg-gray-200 ml-3 rounded-full p-2`}
         >
@@ -80,8 +88,8 @@ const Navbar = ({ className }: { className: string }) => {
 
       {/* Navbar menu */}
       <div
-        className={`bg-white border border-gray-200 fixed bottom-0 left-0 top-0 z-[400] pt-20 duration-300 transition-all ease-out overflow-hidden flex flex-col justify-between
-        ${isOpen ? "w-[70vw]" : "w-0"}  
+        className={`bg-white border-r border-gray-300 fixed bottom-0 left-0 top-0 z-[1200] pt-20 duration-300 transition-all ease-out overflow-hidden flex flex-col justify-between
+        ${isOpen ? "w-[60vw]" : "w-0"}
         `}
       >
         <ul className="flex flex-col gap-1">
@@ -92,7 +100,7 @@ const Navbar = ({ className }: { className: string }) => {
             >
               <FiClipboard
                 className={pathname === "/" ? "" : "stroke-gray-400"}
-                size={22}
+                size={20}
               />
               <p
                 className={`text-sm font-semibold ${
@@ -110,7 +118,7 @@ const Navbar = ({ className }: { className: string }) => {
             >
               <TbUsers
                 className={pathname === "/students" ? "" : "stroke-gray-400"}
-                size={22}
+                size={20}
               />
               <p
                 className={`text-sm font-semibold ${
@@ -128,7 +136,7 @@ const Navbar = ({ className }: { className: string }) => {
             >
               <LuArchive
                 className={pathname === "/archive" ? "" : "stroke-gray-400"}
-                size={22}
+                size={20}
               />
               <p
                 className={`text-sm font-semibold ${
@@ -195,13 +203,10 @@ const Navbar = ({ className }: { className: string }) => {
         </div>
       </div>
 
-      <div
-        onClick={toggle} 
-        className={`absolute bg-black bg-opacity-10 h-[100vh] w-[100vw]
-          ${isOpen ? "" : "hidden"}  
-        `}
-      >  
-      </div>
+      <div 
+        onClick={toggle}
+        className={`absolute bg-black bg-opacity-10 top-0 left-0 bottom-0 right-0 z-[900] ${isOpen ? "" : "hidden"}`}
+      ></div>
 
     </div>
   ) : (

@@ -123,3 +123,11 @@ export interface FilterProps {
     order?: 'ascending' | 'descending';
     displayOption?: 'showAll' | 'presentOnly' | 'absentOnly';
 }
+
+export interface QueryFiltersProps {
+    courses: string[]
+    years: string[]
+    sections: string[]
+    order: string
+    sortBy: string
+}

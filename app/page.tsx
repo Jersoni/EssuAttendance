@@ -1,9 +1,10 @@
 "use client";
 import { EventCard, EventForm, EditEventForm } from "@/components";
 import supabase from "@/lib/supabaseClient";
-import { EventProps } from "@/types";
+import { EventProps, FormEventProps } from "@/types";
 import React, { useCallback, useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useAppContext } from "@/context";
 
 // eslint-disable-next-line @next/next/no-async-client-component
 const Home: React.FC = () => {
@@ -108,6 +109,7 @@ const Home: React.FC = () => {
   };
 
   // Edit form
+  const [editFormData, setEditFormData] = useState<FormEventProps>()
   const [isEditFormOpen, setIsEditFormOpen] = useState(false)
   const toggleEditForm = () => {
     setIsEditFormOpen(!isEditFormOpen);
@@ -126,6 +128,8 @@ const Home: React.FC = () => {
     }
   }, [searchParams])
 
+  const {isNavOpen} = useAppContext()
+
   return (
     <div
       className={`px-3 pb-60 flex flex-col bg-gray-100 h-[100vh] !overflow-y-scroll ${isOpen ? "overflow-hidden" : "overflow-y-scroll"}`}
@@ -142,6 +146,7 @@ const Home: React.FC = () => {
         isOpen={isEditFormOpen}
         toggleEventForm={toggleEditForm}
         eventID={editEventID}
+        editFormData={editFormData}
       />
 
       {/* ON GOING ATTENDANCE BLOCK */}
@@ -150,10 +155,12 @@ const Home: React.FC = () => {
           <div className="mt-1">
             {ongoingEvents.map((event) => (
               <EventCard 
+                isNavOpen={isNavOpen}
                 key={event.id} 
                 eventData={event}
                 isEditFormOpen={isEditFormOpen}
-                toggleEditForm={toggleEditForm} 
+                toggleEditForm={toggleEditForm}
+                setEditFormData={setEditFormData} 
               />
             ))}
           </div>
@@ -167,10 +174,12 @@ const Home: React.FC = () => {
           <div className="">
             {upcomingEvents.map((event) => (
               <EventCard 
+                isNavOpen={isNavOpen}
                 key={event.id} 
                 eventData={event}
                 isEditFormOpen={isEditFormOpen}
                 toggleEditForm={toggleEditForm}  
+                setEditFormData={setEditFormData} 
               />
             ))}
           </div>

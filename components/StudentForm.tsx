@@ -94,7 +94,9 @@ const StudentForm: React.FC<FormOperationProps> = () => {
 
     let {name, value} = e.target
 
-    setFormData({ ...formData, [name]: toTitleCase(value) });
+    name !== "course"
+      ? setFormData({ ...formData, [name]: toTitleCase(value) })
+      : setFormData({ ...formData, [name]: value })
     
   };
 
@@ -106,6 +108,10 @@ const StudentForm: React.FC<FormOperationProps> = () => {
       }
     }
   }
+
+  useEffect(() => {
+    console.log(JSON.stringify(formData))
+  }, [formData])
 
   return (
     <div>

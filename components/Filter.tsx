@@ -6,6 +6,7 @@ import { GoChevronDown } from "react-icons/go";
 import { RiFilter2Line } from "react-icons/ri";
 
 // TODO: FILTER FUNCTIONALITY
+/* eslint-disable react-hooks/exhaustive-deps */
 const Filter = ({
     courses = [], years = [], sections = [], sortBy, order,
     setCourses, setYears, setSections, setSortBy, setOrder, applyFilters, isOpen, setIsOpen
@@ -206,7 +207,6 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
 
 
     return (
-        <>
         <div className='relative' onClick={() => {!isOpen && handleCLick()}}>
             {/* OPTION BOX CARD  */}
             <span className='flex justify-between w-full py-3 items-center mr-auto text-gray-800 text-xs font-semibold'>
@@ -250,7 +250,6 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
                 </div>
             </div>
         </div>
-        </>
     )
 }
 

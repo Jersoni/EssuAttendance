@@ -4,6 +4,7 @@ import localFont from 'next/font/local'
 import Head from 'next/head';
 import "./globals.css";
 import NextTopLoader from 'nextjs-toploader';
+import { AppWrapper } from "@/context";
 
 // const inter = Inter({ subsets: ["latin"] });
 const bebasNeue = localFont({ src: '../public/fonts/BebasNeue-Regular.ttf' })
@@ -60,8 +61,10 @@ export default function RootLayout({
           showSpinner={false}
           shadow={false}
         />
-        <Navbar className={bebasNeue.className} />
-        <main>{children}</main>
+        <AppWrapper>
+          <Navbar className={bebasNeue.className} />
+          <main>{children}</main>
+        </AppWrapper>
       </body>
     </html>
   );

@@ -42,8 +42,7 @@ const StudentsPage = () => {
       queryParams.sections &&
       queryParams.sortBy
     ) {
-      const { data, error } = !isNewPage
-      ? await supabase
+      const { data, error } = await supabase
         .from("student")
         .select("*")
         .in("course", queryParams.courses)
@@ -52,17 +51,10 @@ const StudentsPage = () => {
         .order(queryParams.sortBy, {
           ascending: queryParams.order === "ascending",
         })
-        .range(0, numPerPage - 1)
-      : await supabase
-        .from("student")
-        .select("*")
-        .in("course", queryParams.courses)
-        .in("year", queryParams.years)
-        .in("section", queryParams.sections)
-        .order(queryParams.sortBy, {
-          ascending: queryParams.order === "ascending",
-        })
-        .range(page * numPerPage, (page + 1) * numPerPage - 1)
+        .range(
+            !isNewPage ? 0 : (page * numPerPage), 
+            !isNewPage ? numPerPage - 1 : ((page + 1) * numPerPage - 1)
+        ) 
 
       if (!isNewPage) {
         setPage(0)
@@ -71,7 +63,7 @@ const StudentsPage = () => {
       if (error) {
         console.error(error)
       } else {
-        isNewPage 
+        isNewPage
         ? setStudents((prev) => (prev[0]?.id !== data[0]?.id) ? [...prev, ...data] : prev)
         : setStudents(data)
         
@@ -167,7 +159,7 @@ const StudentsPage = () => {
       const column = !isNaN(Number(searchQuery.charAt(0)))
       ? "id" // if query is an ID
       : "name" // if query is a string
-
+      
       const {data, error} = await supabase
         .from("student")
         .select()
@@ -175,21 +167,25 @@ const StudentsPage = () => {
           type: "websearch",
           config: "english"
         })
+        .limit(20)
 
       if (error) {
         console.error(error)
       } else {
+        console.log(data)
         // if search query does not exactly match any row
         if (data.length === 0 && searchQuery !== "") {
+
           const {data: data2, error: error2} = await supabase
             .from("student")
             .select()
             .ilike(column, `%${searchQuery}%`)
+            .limit(20)
           
           if (error2) {
             console.error(error2)
           } else {
-    
+            console.log(data2)
             setSearchResults(data2);
             data2.length === 0
             ? setIsStudentsEmpty(true)
