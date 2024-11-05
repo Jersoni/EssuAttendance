@@ -224,32 +224,32 @@ const StudentForm = ({
         
         <form id="EditStudentForm" onSubmit={handleSubmit} className='p-5 flex flex-col gap-4 overflow-y-scroll h-full pb-[8rem] bg-gray-100 pt-8'>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="lastName">Last Name</label>
             <input required onChange={handleChange} value={formData.lastName} autoComplete='off' type="text" name="lastName" id="lastName" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="firstName">First Name</label>
             <input required onChange={handleChange} value={formData.firstName} autoComplete='off' type="text" name="firstName" id="firstName" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="middleName">Middle Initial</label>
             <input required onChange={handleChange} value={formData.middleName} autoComplete='off' type="text" name="middleName" id="middleName" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="suffix">Suffix</label>
             <input onChange={handleChange} value={formData.suffix} autoComplete='off' type="text" name="suffix" id="suffix" className={`form__input`} onBlur={scrollTop} />
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="id">Student ID</label>
             <input required onChange={handleChange} value={formData.id} autoComplete='off' type="text" name="id" id="id" className={`form__input`} onBlur={scrollTop} />
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="course">Course</label>
             <select required onChange={handleChange} value={formData.course} name="course" id="course" className='form__input' defaultValue='NoCourse'>
               <option value="NoCourse"></option>
@@ -271,7 +271,7 @@ const StudentForm = ({
             </select>
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="year">Year</label>
             <select required onChange={handleChange} value={formData.year} name="year" id="year" className='form__input' defaultValue={'NoYear'}>
               <option value="NoYear"></option>
@@ -282,7 +282,7 @@ const StudentForm = ({
             </select>
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="section">Section</label>
             <input required onChange={handleChange} value={formData.section} onKeyDown={handleKeydown} autoComplete='off' type="text" name="section" id="section" className={`form__input`} onBlur={scrollTop}  />
           </div>
