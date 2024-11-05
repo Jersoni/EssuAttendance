@@ -16,6 +16,8 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { PiSignOutBold } from "react-icons/pi";
 import { FaSignOutAlt } from "react-icons/fa";
 import { useAppContext } from "@/context";
+import { FaCalendarWeek } from "react-icons/fa";
+import { HiArchiveBox } from "react-icons/hi2";
 
 const Navbar = ({ className }: { className: string }) => {
   // given default value for navbar title
@@ -93,14 +95,16 @@ const Navbar = ({ className }: { className: string }) => {
         `}
       >
         <ul className="flex flex-col gap-1">
-          <li onClick={handleClick} className={`px-5 w-full grid place-items-center py-4 ${pathname === "/" ? "bg-emerald-100 text-green-900 fill-green-900 bg-opacity-50" : ""}`}>
+          <li onClick={handleClick} className={`px-5 w-full grid place-items-center py-4 ${pathname === "/" ? "bg-emerald-100 text-green-900 bg-opacity-50" : ""}`}>
             <Link 
                 className="flex flex-row gap-4 items-center w-full" 
                 href="/"
             >
-              <FiClipboard
-                className={pathname === "/" ? "" : "stroke-gray-400"}
-                size={20}
+              <FaCalendarWeek
+                className={pathname === "/" 
+                  ? "text-green-900 text-opacity-90" 
+                    : "text-gray-400"}
+                size={18}
               />
               <p
                 className={`text-sm font-semibold ${
@@ -116,13 +120,15 @@ const Navbar = ({ className }: { className: string }) => {
               className="flex flex-row gap-4 items-center w-full"
               href="/students"
             >
-              <TbUsers
-                className={pathname === "/students" ? "" : "stroke-gray-400"}
+              <HiMiniUserGroup
+                className={pathname === "/students" 
+                  ? "text-green-900 text-opacity-90" 
+                  : "text-gray-400"}
                 size={20}
               />
               <p
                 className={`text-sm font-semibold ${
-                  pathname === "/students" ? "" : "text-gray-400"
+                  pathname === "/students" ? "text-green-900 text-opacity-90" : "text-gray-400"
                 }`}
               >
                 Students
@@ -134,8 +140,10 @@ const Navbar = ({ className }: { className: string }) => {
               className="flex flex-row gap-4 items-center w-full"
               href="/archive"
             >
-              <LuArchive
-                className={pathname === "/archive" ? "" : "stroke-gray-400"}
+              <HiArchiveBox
+                className={pathname === "/archive" 
+                  ? "" 
+                  : "text-gray-400"}
                 size={20}
               />
               <p
