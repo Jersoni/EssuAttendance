@@ -5,6 +5,7 @@ import { FormEventProps, FormOperationProps } from '@/types';
 import { useEffect, useRef, useState } from 'react';
 import { RiStickyNoteAddFill } from "react-icons/ri";
 import { MdPostAdd } from "react-icons/md";
+import { IoAdd } from "react-icons/io5";
 
 // NEW EVENT FORM COMPONENT
 const EventForm: React.FC<{
@@ -103,44 +104,38 @@ const EventForm: React.FC<{
     // TODO: Student form functionality / submit hhandler
     <div>
       {/* NEW EVENT BUTTON */}
-      <button onClick={toggleEventForm} className='z-[1300] fixed top-2 right-4 grid place-items-center border-l border-gray-300 pl-4 text-gray-700 h-10 -translate-y-[2px]' >
-          <MdPostAdd size={26} />
-          {/* <Image 
-            height={24}
-            width={24}
-            src={require('../public/icons/add-post.png')}
-            alt='add post icon'
-          /> */}
+      <button onClick={toggleEventForm} className='z-[500] fixed bottom-4 right-4 grid place-items-center bg-white border border-gray-100 w-16 h-16 shadow-md rounded-full' >
+          <IoAdd size={26} className='text-green-700' />
       </button>
 
       {/* NEW EVENT FORM */}
-      <div className={`${isOpen ? "!h-full" : "" } overflow-hidden pointer-events-auto h-0 w-full fixed left-0 bottom-0 bg-white z-[1100] transition-all duration-[400ms] ease-in-out flex flex-col justify-between`}>
+      <div className={`${isOpen ? "!h-full" : "" } overflow-hidden pointer-events-auto h-0 w-full fixed left-0 bottom-0 bg-white z-[1500] transition-all duration-[400ms] ease-in-out flex flex-col justify-between`}>
 
         <div className='flex flex-row items-center p-2 bg-white border-b border-gray-300'>
           <h1 className='font-bold absolute p-3 text-emerald-700 w-full'>Create Attendance</h1>
           <Button variant='close' className='bg-gray-100 h-fit w-fit !p-2.5 !rounded-full ml-auto z-[120] text-green-900 mr-1' onClick={toggleEventForm}></Button>
         </div>
 
-        <form id='form' onSubmit={handleSubmit} className='bg-gray-100 p-5 pb-8 pt-8 flex flex-col gap-6 overflow-y-scroll h-full'>
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+        <form id='form' onSubmit={handleSubmit} className='bg-gray-100 p-4 pb-8 pt-8 flex flex-col gap-3 overflow-y-scroll h-full'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
               <label className='form__label' htmlFor="title">Title</label>
               <input onChange={handleChange} autoComplete='off' type="text" name="title" id="title" value={formData?.title} className={`form__input`} placeholder='e.g Seminar (Morning)' onBlur={scrollTop} />
           </div>
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
               <label className='form__label' htmlFor="location">Venue</label>
               <input onChange={handleChange} value={formData?.location} autoComplete='off' type="text" name="location" id="location" className={`form__input`} placeholder='e.g Covered Court' onBlur={scrollTop} />
           </div>
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
               <label className='form__label' htmlFor="fineAmount">Fine</label>
               <input onChange={handleChange} value={formData?.fineAmount} autoComplete='off' type="number" name="fineAmount" id="fineAmount" className={`form__input`} placeholder='e.g 25.00' onBlur={scrollTop} />
           </div>
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
               <label className='form__label' htmlFor="eventDate">Date</label>
               <div className={`form__input !pl-0 w-full flex`} onClick={handleDateClick}>
               <input onChange={handleChange} value={formData?.eventDate} type="date" name="eventDate" ref={dateInputRef} id="eventDate" className='outline-none pl-[14px] rounded-full p-0 w-full bg-gray-100' />
               </div>
           </div>
-          <div className='flex flex-row gap-4 w-full bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-row gap-4 w-full bg-white border border-gray-300 rounded-lg p-3'>
               <div className='flex flex-col gap-1 w-1/2'>
               <label className='form__label' htmlFor="loginTime">Login Time</label>
               <div onClick={handleLoginTimeClick} className='form__input w-full flex items-center !pl-0'>
@@ -183,7 +178,7 @@ const EventForm: React.FC<{
             variant='primary' 
             type='submit'
             form='form'
-            className='font-bold py-3 bg-emerald-500 !rounded-full w-full text-[15px] px-12 ml-auto'
+            className='font-bold py-2.5 bg-emerald-500 !rounded-full w-full text-sm px-12 ml-auto'
             onClick={toggleEventForm}>Create attendance</Button>
         </div>
       </div>

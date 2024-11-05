@@ -135,7 +135,7 @@ const Home: React.FC = () => {
 
   return (
     <div
-      className={`px-3 pt-20 pb-60 flex flex-col bg-gray-100 h-[100vh] !overflow-y-scroll ${isOpen ? "overflow-hidden" : "overflow-y-scroll"}`}
+      className={`px-3 pt-20 pb-60 flex flex-col bg-gray-100 ${isOpen ? "overflow-hidden overflow-y-hidden" : "overflow-y-scroll"}`}
     >
       {/* New event form */}
       <EventForm

@@ -115,12 +115,12 @@ const StudentForm: React.FC<FormOperationProps> = () => {
 
   return (
     <div>
-      <button className='fixed top-2 right-1.5 pl-4 grid place-items-center p-2.5 z-[1200] text-gray-600 h-10 border-l border-gray-300' onClick={toggleStudentForm}>
-        <HiMiniUserPlus size={22} className="translate-y-[2px]" />
+      <button className='fixed bottom-4 right-4 pl-4 grid place-items-center p-2.5 z-[500] bg-white border border-gray-100 w-16 h-16 shadow-md rounded-full' onClick={toggleStudentForm}>
+        <HiMiniUserPlus size={22} className="text-green-700" />
       </button>
 
       {/* NEW   STUDENT FORM */}
-      <div className={`${isOpen ? "!h-full" : "" } h-0 w-full fixed left-0 bottom-0 bg-white z-[1200] transition-all duration-200 flex flex-col justify-between`}>
+      <div className={`${isOpen ? "!h-full" : "" } h-0 w-full fixed left-0 bottom-0 bg-white z-[1500] transition-all duration-200 flex flex-col justify-between`}>
 
         <div className='flex flex-row items-center p-2 bg-white border-b border-gray-300'>
           <h1 className='font-bold absolute p-3 text-emerald-700 w-full'>Register Student</h1>
@@ -129,32 +129,32 @@ const StudentForm: React.FC<FormOperationProps> = () => {
         
         <form id="newStudentForm" onSubmit={handleSubmit} className='p-5 flex flex-col gap-4 overflow-y-scroll h-full pb-[8rem] bg-gray-100 pt-8'>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="lastName">Last Name</label>
             <input required onChange={handleChange} autoComplete='off' type="text" name="lastName" id="lastName" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="firstName">First Name</label>
             <input required onChange={handleChange} autoComplete='off' type="text" name="firstName" id="firstName" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="middleName">Middle Initial</label>
             <input required onChange={handleChange} autoComplete='off' type="text" name="middleName" id="middleName" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="suffix">Suffix</label>
             <input onChange={handleChange} autoComplete='off' type="text" name="suffix" id="suffix" className={`form__input`} onBlur={scrollTop} />
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="id">Student ID</label>
             <input required onChange={handleChange} autoComplete='off' type="text" name="id" id="id" className={`form__input`} onBlur={scrollTop} />
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="course">Course</label>
             <select required onChange={handleChange} name="course" id="course" className='form__input' defaultValue='NoCourse'>
               <option value="NoCourse"></option>
@@ -176,7 +176,7 @@ const StudentForm: React.FC<FormOperationProps> = () => {
             </select>
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="year">Year</label>
             <select required onChange={handleChange} name="year" id="year" className='form__input' defaultValue={'NoYear'}>
               <option value="NoYear"></option>
@@ -187,7 +187,7 @@ const StudentForm: React.FC<FormOperationProps> = () => {
             </select>
           </div>
 
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="section">Section</label>
             <input required onChange={handleChange} onKeyDown={handleKeydown} autoComplete='off' type="text" name="section" id="section" className={`form__input`} onBlur={scrollTop}  />
           </div>

@@ -127,26 +127,26 @@ const EditEventForm: React.FC<{
           }}></Button>
         </div>
 
-        <form id='editForm' method='post' onSubmit={handleSubmit} className='bg-gray-100 p-5 pb-8 pt-8 flex flex-col gap-6 overflow-y-scroll h-full'>
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+        <form id='editForm' method='post' onSubmit={handleSubmit} className='bg-gray-100 p-5 pb-8 pt-8 flex flex-col gap-4 overflow-y-scroll h-full'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
               <label className='form__label' htmlFor="title">Title</label>
               <input onChange={handleChange} autoComplete='off' type="text" name="title" id="title" value={formData?.title} className={`form__input`} placeholder='e.g Seminar (Morning)' onBlur={scrollTop} />
           </div>
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
               <label className='form__label' htmlFor="location">Venue</label>
               <input onChange={handleChange} value={formData?.location} autoComplete='off' type="text" name="location" id="location" className={`form__input`} placeholder='e.g Covered Court' onBlur={scrollTop} />
           </div>
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
               <label className='form__label' htmlFor="fineAmount">Fine</label>
               <input onChange={handleChange} value={formData?.fineAmount} autoComplete='off' type="number" name="fineAmount" id="fineAmount" className={`form__input`} placeholder='e.g 25.00' onBlur={scrollTop} />
           </div>
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
               <label className='form__label' htmlFor="eventDate">Date</label>
               <div className={`form__input !pl-0 w-full flex`} onClick={handleDateClick}>
               <input onChange={handleChange} value={formData?.eventDate} type="date" name="eventDate" ref={dateInputRef} id="eventDate" className='outline-none pl-[14px] rounded-full p-0 w-full bg-gray-100' />
               </div>
           </div>
-          <div className='flex flex-row gap-4 w-full bg-white border border-gray-300 rounded-2xl p-3'>
+          <div className='flex flex-row gap-4 w-full bg-white border border-gray-300 rounded-lg p-3'>
               <div className='flex flex-col gap-1 w-1/2'>
               <label className='form__label' htmlFor="loginTime">Login Time</label>
               <div onClick={handleLoginTimeClick} className='form__input w-full flex items-center !pl-0'>

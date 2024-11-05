@@ -118,7 +118,7 @@ body::after {
   border: 1px solid rgb(209 213 219);
   background-color: rgb(243 244 246);
   /* background-color: rgb(255, 255, 255); */
-  border-radius: 10px;
+  border-radius: 5px;
   height: 40px;
   padding-inline: 14px;
   outline: none;

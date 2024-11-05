@@ -213,7 +213,7 @@ const Navbar = ({ className }: { className: string }) => {
 
       <div 
         onClick={toggle}
-        className={`absolute bg-black bg-opacity-10 top-0 left-0 bottom-0 right-0 z-[900] ${isOpen ? "" : "hidden"}`}
+        className={`fixed bg-black bg-opacity-10 top-0 left-0 bottom-0 right-0 z-[900] ${isOpen ? "" : "hidden"}`}
       ></div>
 
     </div>
