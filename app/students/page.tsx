@@ -285,7 +285,7 @@ const StudentsPage = () => {
   }, [searchParams])
 
   return (
-    <div className='bg-white h-[100vh] pt-20'>
+    <div className='bg-white min-h-[100vh] pt-20'>
       <Filter
         // filters data
         courses={courses}

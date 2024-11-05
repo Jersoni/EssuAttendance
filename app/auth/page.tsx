@@ -7,6 +7,8 @@ import React, { useEffect, useState } from 'react'
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { useJwt } from "react-jwt";
 import crypto from 'crypto';
+import { Spinner } from '@/components';
+import { PiBookOpenTextFill } from "react-icons/pi";
 
 const Auth = () => {
 
@@ -34,6 +36,8 @@ const Auth = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showCode, setShowCode] = useState(false)
   const [error, setError] = useState("")
+  const [isStudentLoginLoading, setIsStudentLoginLoading] = useState(false)
+  const [isAdminLoginLoading, setIsAdminLoginLoading] = useState(false)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target
@@ -51,7 +55,7 @@ const Auth = () => {
   }
 
   const getData = async (name: string, isAdmin: boolean, isAdminSignin = false) => {
-    console.log("2")
+
     const {data, error} = await supabase
       .from("organizations")
       .select()
@@ -62,9 +66,9 @@ const Auth = () => {
       console.error(error)
       setOrg(null)
       setError("name")
+      setIsStudentLoginLoading(false)
     } else {
-      console.log("3")
-      console.log(data)
+
       const authData = data as AuthProps
 
       if (isAdminSignin && data.code) {
@@ -81,6 +85,7 @@ const Auth = () => {
       } else {
         if (isAdmin) {
           setOrg(data)
+          setIsStudentLoginLoading(false)
           setIsModalOpen(!isModalOpen)
         } else {
           localStorage.setItem('authToken', JSON.stringify({
@@ -98,7 +103,11 @@ const Auth = () => {
 
   const handleStudentSignin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (name) getData(name, false)
+    
+    if (name) {
+      setIsStudentLoginLoading(true)
+      getData(name, false)
+    }
   }
 
   const handleAdminSignin = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -126,11 +135,16 @@ const Auth = () => {
   }, [showCode])
 
   return (
-    <div className='grid place-items-center h-[90vh] w-full'>
+    <div className='grid place-items-center h-[100vh] w-full'>
+      <div className='absolute top-8 left-10 flex flex-row items-center gap-2'>
+        <PiBookOpenTextFill className='text-emerald-700' size={26} />
+        <span className='font-bold text-lg text-gray-700'>attendessu</span>
+      </div>
+
       <div className='flex flex-col w-full p-10'>
         <div className='flex flex-col'>
-          <h1 className='text-2xl font-bold text-emerald-700'>Welcome back</h1>
-          <p className='text-gray-600 font-semibold text-sm'>Sign in to your organization</p>
+          <h1 className='text-2xl font-bold text-gray-900'>Welcome back</h1>
+          <p className='text-gray-800 font-semibold text-sm'>Sign in to your school organization</p>
         </div>
         <form 
           id='form-name'
@@ -139,8 +153,8 @@ const Auth = () => {
         >
           <label 
             htmlFor="name" 
-            className='font-semibold text-sm text-gray-600'
-          >Organization name</label>
+            className='font-semibold text-sm text-gray-800'
+          >School organization name</label>
           <input 
             id='name' 
             name='name' 
@@ -158,13 +172,25 @@ const Auth = () => {
             <button 
               form='form-name'
               type='submit'
-              className='border-green-900 border-opacity-70 text-gray-700 w-full h-fit font-semibold rounded-lg p-2.5 border text-sm active:bg-emerald-50'
-            >Sign in as student</button>
+              className='border-green-900 border-opacity-50 text-gray-800 w-full max-h-10 flex  flex-row items-center justify-center h-fit font-semibold rounded-lg p-2.5 border text-sm active:bg-emerald-50'
+            >
+              {isStudentLoginLoading
+              ? (
+                <span className='flex flex-row items-center gap-2'>
+                  <Spinner size='loading-xs' className='translate-y-[3px]' />
+                  Signing in
+                </span>
+              ) : (
+                <span>Sign in as student</span>
+              )}
+            </button>
             <button 
               type='button' 
               onClick={toggleModal}
-              className='bg-emerald-600 w-full h-fit font-semibold text-white rounded-lg p-2.5 border border-emerald-500 text-sm active:bg-emerald-500'
-            >Sign in as admin</button>
+              className=' bg-emerald-600 w-full h-fit font-semibold text-white rounded-lg p-2.5 text-sm active:bg-emerald-500 grid place-items-center'
+            >
+              Sign in as admin
+            </button>
           </div>
         </form>
         <div className='flex flex-row gap-3 h-fit mt-10'>
@@ -174,7 +200,7 @@ const Auth = () => {
         </div>
         <button 
           type='button' 
-          className='w-full active:bg-emerald-50 h-fit font-semibold text-gray-700 rounded-lg p-3 border text-sm border-green-900 border-opacity-70 mt-10'
+          className=' w-full active:bg-emerald-50 h-fit font-semibold text-gray-800 rounded-lg p-3 border text-sm border-green-900 border-opacity-50 mt-10'
         >Register a new organization</button>
       </div>
 
@@ -219,7 +245,9 @@ const Auth = () => {
               type='submit'
               form='form-code'
               className='bg-emerald-600 w-full h-fit font-semibold text-white rounded-lg p-2.5 border active:bg-emerald-500 mt-8 text-sm'
-            >Sign in as admin</button>
+            >
+              Sign in as admin
+            </button>
           </form>
         </div>
       )}

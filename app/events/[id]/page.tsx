@@ -526,7 +526,7 @@ useEffect(() => {
   }, [students])
   
   return (
-    <div className=" overflow-hidden pt-24">
+    <div className=" overflow-hidden min-h-[100vh] pt-24">
       <div className="h-20 w-full fixed z-[300] top-0">
         <PageHeader
           title={event?.title}

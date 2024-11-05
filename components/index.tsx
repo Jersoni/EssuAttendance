@@ -14,6 +14,7 @@ import ConfirmationModal from './ConfirmationModal'
 import ArchiveEventCard from './ArchiveEventCard'
 import EditEventForm from './EditEventForm'
 import EditStudentForm from './EditStudentForm'
+import Spinner from './Spinner'
 
 export {
     Footer,
@@ -32,4 +33,5 @@ export {
     ArchiveEventCard,
     EditEventForm,
     EditStudentForm,
+    Spinner,
 }
