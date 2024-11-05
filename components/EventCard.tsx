@@ -205,8 +205,8 @@ const EventsCard: React.FC<{
                       toggle()
                     }}
                     >
-                    <PiTrashSimpleBold size={18} className='fill-gray-700' />
-                    <span className='font-medium text-gray-700 text-sm' >Delete</span>
+                    <PiTrashSimpleBold size={18} className='fill-red-400' />
+                    <span className='font-medium text-red-400 text-sm' >Delete</span>
                   </button>
                 </div>
                 {/* backdrop */}

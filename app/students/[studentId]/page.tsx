@@ -176,7 +176,7 @@ const Student = ({ params }: { params: any }) => {
                 <div>
                     <div 
                         onClick={(e) => {e.preventDefault()}}
-                        className={`rounded-xl shadow-md absolute right-3 top-16 bg-white z-[700] border border-gray-300 transition-all opacity-0 duration-300 p-1
+                        className={`rounded-lg shadow-md absolute right-3 top-16 bg-white z-[700] border border-gray-300 transition-all opacity-0 duration-300 p-1
                             ${isSettingsModalOpen ? "!opacity-100" : "pointer-events-none"}    
                         `}
                     >
@@ -215,8 +215,8 @@ const Student = ({ params }: { params: any }) => {
                                     onClick={() => {toggleDeleteModal()}} 
                                     className='border-gray-200 pl-3 pr-8 w-full rounded-lg text-gray-800 font-medium flex flex-row items-center gap-3 active:bg-gray-100'
                                 >
-                                    <PiTrashSimpleBold size={20} className='fill-gray-700'/>
-                                    <span className='py-3 text-sm'>Delete Student</span>
+                                    <PiTrashSimpleBold size={20} className='text-red-400'/>
+                                    <span className='py-3 text-sm text-red-400'>Delete Student</span>
                                 </button>
                             </li>
                         </ul>
@@ -235,7 +235,7 @@ const Student = ({ params }: { params: any }) => {
                 <div className='flex mt-4 items-center justify-between'>
                     <h2 className='text-sm font-semibold text-[#414855]'>Profile</h2>
                 </div>
-                <div className='flex flex-col gap-1 mt-3 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-xl text-sm'>
+                <div className='flex flex-col gap-1 mt-3 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-lg text-sm'>
                     <div className='flex flex-row gap-4'>
                         <p className='min-w-14 text-gray-500 font-semibold'>Name</p>
                         <span>{student?.name}</span>
@@ -254,7 +254,7 @@ const Student = ({ params }: { params: any }) => {
                 <div className='flex mt-7 items-center justify-between'>
                     <h2 className='text-sm font-semibold text-[#414855]'>Fines</h2>
                 </div>
-                <div className='mt-3 h-fit p-5 w-full border border-gray-200 bg-white shadow-sm rounded-xl flex flex-col text-sm'>
+                <div className='mt-3 h-fit p-5 w-full border border-gray-200 bg-white shadow-sm rounded-lg flex flex-col text-sm'>
 
                     <div className='flex flex-col gap-2'>
                         {events.length !== 0 && events.map(eventData => (
