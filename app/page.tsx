@@ -159,7 +159,8 @@ const Home: React.FC = () => {
           <span className="font-semibold text-gray-400 text-xs ">Happening now</span>
           <div className="ongoing-attendance flex flex-col gap-3 mt-5">
             {ongoingEvents.map((event) => (
-              <EventCard 
+              <EventCard
+                isHappeningNow={true}
                 isNavOpen={isNavOpen}
                 key={event.id} 
                 eventData={event}

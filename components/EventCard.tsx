@@ -16,12 +16,13 @@ import { useAppContext } from '@/context';
 
 // Main
 const EventsCard: React.FC<{ 
+  isHappeningNow?: boolean
   isNavOpen: boolean
   eventData: EventProps 
   isEditFormOpen: boolean
   toggleEditForm: () => void
   setEditFormData: React.Dispatch<React.SetStateAction<FormEventProps | undefined>>
-}> = ({ isNavOpen, eventData, isEditFormOpen, toggleEditForm, setEditFormData }) => {
+}> = ({ isHappeningNow = false, isNavOpen, eventData, isEditFormOpen, toggleEditForm, setEditFormData }) => {
 
   const [isAdmin, setIsAdmin] = useState(false)
   
@@ -138,10 +139,12 @@ const EventsCard: React.FC<{
                 {/* <TiLocation size={15} className='opacity-40'/> */}
                 <span className="event__info">{eventData.location}</span>
               </div>
-              <div className='flex flex-row items-center gap-2 w-fit'>
-                {/* <TiLocation size={15} className='opacity-40'/> */}
-                <span className="event__info">{formatDate(eventData.eventDate)}</span>
-              </div>
+              {!isHappeningNow && (
+                <div className='flex flex-row items-center gap-2 w-fit'>
+                  {/* <TiLocation size={15} className='opacity-40'/> */}
+                  <span className="event__info">{formatDate(eventData.eventDate)}</span>
+                </div>
+              )}
               {/* <div className='flex flex-row items-center gap-2 w-fit'>
                 <TiLocation size={15} className='opacity-40'/>
                 <span className="event__info">{formatDate(eventData.eventDate)}</span>
