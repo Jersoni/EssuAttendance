@@ -12,6 +12,7 @@ const Home: React.FC = () => {
   const router = useRouter()
 
   // fetch event data
+  const [events, setEvents] = useState<EventProps[]>([])
   const [ongoingEvents, setOngoingEvents] = useState<EventProps[]>([]);
   const [upcomingEvents, setUpcomingEvents] = useState<EventProps[]>([]);
 
@@ -41,8 +42,10 @@ const Home: React.FC = () => {
       );
 
       // setEvents(parsedEvents);
+      setEvents(events)
       setOngoingEvents(ongoing);
       setUpcomingEvents(upcoming);
+      console.log(events)
     } catch (error) {
       console.error(error);
     }
@@ -132,7 +135,7 @@ const Home: React.FC = () => {
 
   return (
     <div
-      className={`px-3 pb-60 flex flex-col bg-gray-100 h-[100vh] !overflow-y-scroll ${isOpen ? "overflow-hidden" : "overflow-y-scroll"}`}
+      className={`px-3 pt-20 pb-60 flex flex-col bg-gray-100 h-[100vh] !overflow-y-scroll ${isOpen ? "overflow-hidden" : "overflow-y-scroll"}`}
     >
       {/* New event form */}
       <EventForm
@@ -149,10 +152,12 @@ const Home: React.FC = () => {
         editFormData={editFormData}
       />
 
+
       {/* ON GOING ATTENDANCE BLOCK */}
       {ongoingEvents.length !== 0 && (
-        <div className="ongoing-attendance mt-16">
-          <div className="mt-1">
+        <>
+          <span className="font-semibold text-gray-400 text-xs ">Happening now</span>
+          <div className="ongoing-attendance flex flex-col gap-3 mt-5">
             {ongoingEvents.map((event) => (
               <EventCard 
                 isNavOpen={isNavOpen}
@@ -164,14 +169,14 @@ const Home: React.FC = () => {
               />
             ))}
           </div>
-        </div>
+        </>
       )}
 
       {/* UPCOMING EVENTS BLOCK */}
       {upcomingEvents.length !== 0 && (
-        <div className="upcoming-events !mt-10 pt-2
-        ">
-          <div className="">
+        <div className="!mt-10">
+          <span className="font-semibold text-gray-400 text-xs ">Upcoming events</span>
+          <div className="upcoming-attendance flex flex-col gap-3 mt-5">
             {upcomingEvents.map((event) => (
               <EventCard 
                 isNavOpen={isNavOpen}

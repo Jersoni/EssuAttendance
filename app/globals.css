@@ -64,10 +64,10 @@ body::after {
 }
 
 .event__info {
-  font-size: 11px;
-  line-height: 12px;
+  font-size: 12px;
+  line-height: 10px;
   /* opacity: .9; */
-  color: rgb(123, 123, 123);
+  color: rgb(147, 156, 165);
 }
 
 .event__class {
