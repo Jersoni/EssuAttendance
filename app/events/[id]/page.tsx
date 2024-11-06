@@ -559,12 +559,14 @@ useEffect(() => {
           >
             <RiFilter2Line size={20} />
           </button>
-          <button 
-            onClick={() => {router.push(`./${params.id}/scanner`)}}
-            className="grid place-items-center p-1.5 rounded-full bg-neutral-10"
-          >
-            <PiScanBold size={22} />
-          </button>
+          {auth?.role === "admin" && (
+            <button 
+              onClick={() => {router.push(`./${params.id}/scanner`)}}
+              className="grid place-items-center p-1.5 rounded-full bg-neutral-10"
+            >
+              <PiScanBold size={22} />
+            </button>
+          )}
         </div>
       </div>
 

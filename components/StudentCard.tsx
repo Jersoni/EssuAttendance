@@ -1,7 +1,7 @@
 'use client'
 import { ConfirmationModal } from "@/components";
 import supabase from "@/lib/supabaseClient";
-import { Attendance, StudentProps } from "@/types";
+import { Attendance, AuthProps, StudentProps } from "@/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -10,9 +10,19 @@ import { IoIosArrowForward } from "react-icons/io";
 import { HiLogin } from "react-icons/hi";
 import { HiLogout } from "react-icons/hi";
 import { FaCheck } from "react-icons/fa";
+import { checkAuth } from "@/utils/utils";
+import { useRouter } from "next/navigation";
 
 const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, className?: string}> = ({ studentData, eventId, className }) => {
   
+  const router = useRouter()
+
+  // auth verification
+  const [ auth, setAuth ] = useState<AuthProps>()
+  useEffect(() => {
+    setAuth(checkAuth(router))
+  }, [router])
+
   // Course formatting
   let course: string = studentData.course
   if (course === 'BSINFOTECH') {
@@ -90,18 +100,22 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
 
   // MODALS DESCRIPTION
   function handleLoginModalToggle() {
-    if (isLogoutPresent === true) {
-      setIsLogoutModalOpen(!isLogoutModalOpen)
-    } else {
-      setIsLoginModalOpen(!isLoginModalOpen)
+    if (auth?.role === "admin") {
+      if (isLogoutPresent === true) {
+        setIsLogoutModalOpen(!isLogoutModalOpen)
+      } else {
+        setIsLoginModalOpen(!isLoginModalOpen)
+      }
     }
   }
 
   function handleLogoutModalToggle() {
-    if (isLoginPresent === false) {
-      setIsLoginModalOpen(!isLoginModalOpen)
-    } else {
-      setIsLogoutModalOpen(!isLogoutModalOpen)
+    if (auth?.role === "admin") {
+      if (isLoginPresent === false) {
+        setIsLoginModalOpen(!isLoginModalOpen)
+      } else {
+        setIsLogoutModalOpen(!isLogoutModalOpen)
+      }
     }
   }
 
@@ -121,14 +135,15 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
       </Link>
 
       {/* CHECKBOX */}
-      {pathname.slice(0, 7) === '/events' && (
-        <div className={`flex flex-row gap-2`}>
+      {(pathname.slice(0, 7) === '/events' ) && (
+        <div className={`flex flex-row gap-2 `}>
           <div
             onClick={handleLoginModalToggle} 
-            className={`bg-gray-200 bg-opacity-80 border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center`}>
-            {isLoginPresent && <FaCheck size={18} />}
+            className={`bg-gray-100 bg-opacity-80 border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center ${auth?.role === "student" ? "!bg-white " : ""}`}>
+            {isLoginPresent && <FaCheck className={auth?.role === "student" ? "text-gray-600" : ""} size={18} />}
             <input 
-              checked={isLoginPresent} 
+              checked={isLoginPresent}
+              disabled={auth?.role === "student"}
               onChange={handleLoginModalToggle}  
               type="checkbox" 
               className={`h-6 w-6 hidden`} 
@@ -136,10 +151,11 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
           </div>
           <div
             onClick={handleLogoutModalToggle} 
-            className={`bg-gray-200 bg-opacity-80 border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center`}>
-            {isLogoutPresent && <FaCheck size={18} />}
+            className={`bg-gray-100 bg-opacity-80 border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center ${auth?.role === "student" ? "!bg-white " : ""}`}>
+            {isLogoutPresent && <FaCheck className={auth?.role === "student" ? "text-gray-600" : ""} size={18} />}
             <input 
               checked={isLogoutPresent} 
+              disabled={auth?.role === "student"}
               onChange={handleLogoutModalToggle}  
               type="checkbox" 
               className={`h-6 w-6 hidden`} 
