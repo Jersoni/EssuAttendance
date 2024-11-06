@@ -156,7 +156,7 @@ const Home: React.FC = () => {
       {/* ON GOING ATTENDANCE BLOCK */}
       {ongoingEvents.length !== 0 && (
         <>
-          <span className="font-semibold text-gray-400 text-sm ">Happening now</span>
+          <span className="font-semibold text-gray-400 text-xs ">Happening now</span>
           <div className="ongoing-attendance flex flex-col gap-3 mt-5">
             {ongoingEvents.map((event) => (
               <EventCard
@@ -176,7 +176,7 @@ const Home: React.FC = () => {
       {/* UPCOMING EVENTS BLOCK */}
       {upcomingEvents.length !== 0 && (
         <div className="!mt-10">
-          <span className="font-semibold text-gray-400 text-sm ">Upcoming events</span>
+          <span className="font-semibold text-gray-400 text-xs ">Upcoming events</span>
           <div className="upcoming-attendance flex flex-col gap-3 mt-5">
             {upcomingEvents.map((event) => (
               <EventCard 

@@ -163,7 +163,7 @@ const Navbar = ({ className }: { className: string }) => {
         </li> */}
         </ul>
 
-        <div 
+        <div
           onClick={toggleProfileOptions}
           className="flex flex-row w-full gap-3.5 h-fit items-center p-3 border-t bg-gradient-to-b from-gray-50 to-white "
         >

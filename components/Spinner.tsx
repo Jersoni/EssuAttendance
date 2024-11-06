@@ -1,4 +1,6 @@
-import React from 'react'
+// Spinner component leveraging daisyUI for loading spinner styles
+// daisyUI tailwind library is used for consistent loading spinner styling
+// Documentation: https://daisyui.com/components/loading/
 
 interface SpinnerProps {
     className?: string
@@ -13,7 +15,18 @@ const Spinner = ({
 }: SpinnerProps) => {
   return (
     <div role="status" className={className}>
-      <span className={`!w-[${size}rem] bg-[${color}] loading loading-spinner `}></span>
+      {/**
+       * The span element displays the loading spinner.
+       * Accessibility: 'role="status"' communicates loading state to screen readers.
+       */}
+      <span 
+        className={`loading loading-spinner `}
+        style={{
+          width: `${size}rem`,
+          height: `${size}rem`,
+          backgroundColor: color,
+        }}
+      ></span>
     </div>
   )
 }
