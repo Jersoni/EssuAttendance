@@ -33,7 +33,7 @@ const EventPage: React.FC = ({ params }: any) => {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [attendanceData, setAttendanceData] = useState<Attendance[]>([]);
-  const [students, setStudents] = useState<StudentProps[]>([]);
+  const [students, setStudents] = useState<StudentProps[] | undefined>(undefined);
   const [isStudentsEmpty, setIsStudentsEmpty] = useState<boolean | null>(null)
   const [error, setError] = useState(null);
   const [event, setEvent] = useState<EventProps>();
@@ -162,25 +162,27 @@ const EventPage: React.FC = ({ params }: any) => {
       if (isNewPage) {
         setStudents(prev => {
           // add the isPresent to 'students' state variable
-          let modifiedData = data.map((student: StudentProps) => {
-            const attendance = attendanceData.find(
-              (row) => row.studentId === student.id
-            );
-            return {
-              ...student,
-              isLoginPresent: attendance?.isLoginPresent,
-              isLogoutPresent: attendance?.isLogoutPresent
-            };
-          });
-  
-          if (prev.length > 0 && modifiedData.length > 0) {
-            if (prev[0].id !== modifiedData[0].id) {
-              return [...prev, ...modifiedData]
+          if (prev !== undefined) {
+            let modifiedData = data.map((student: StudentProps) => {
+              const attendance = attendanceData.find(
+                (row) => row.studentId === student.id
+              );
+              return {
+                ...student,
+                isLoginPresent: attendance?.isLoginPresent,
+                isLogoutPresent: attendance?.isLogoutPresent
+              };
+            });
+    
+            if (prev.length > 0 && modifiedData.length > 0) {
+              if (prev[0].id !== modifiedData[0].id) {
+                return [...prev, ...modifiedData]
+              } else {
+                return [...prev]
+              }
             } else {
-              return [...prev]
+              return [...modifiedData]
             }
-          } else {
-            return [...modifiedData]
           }
         })
       } else {
@@ -596,6 +598,20 @@ useEffect(() => {
               setSearchQuery("")
             }}
           />
+        )}
+
+        {students === undefined && (
+          <div className="flex flex-col h-fit p-5">
+            {[...Array(10)].map((_, i) => (
+                <div key={i} className="flex flex-col w-full gap-2 bg-white py-3 border-gray-200 border-b">
+                  <div className='animate-pulse bg-gray-200  rounded-md h-4 w-48 border '></div>
+                  <div className="flex flex-row gap-2">
+                    <div className='animate-pulse bg-gray-100  rounded-md h-4 w-14 border '></div>
+                    <div className='animate-pulse bg-gray-100  rounded-md h-4 w-20 border '></div>
+                  </div>
+                </div>
+            ))}
+          </div>
         )}
 
         {/* STUDENTS LIST */}

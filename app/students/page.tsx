@@ -22,7 +22,7 @@ const StudentsPage = () => {
     setAuth(checkAuth(router))
   }, [router])
 
-  const [students, setStudents] = useState<StudentProps[]>([])
+  const [students, setStudents] = useState<StudentProps[] | undefined>(undefined)
   const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
@@ -72,7 +72,10 @@ const StudentsPage = () => {
         console.error(error)
       } else {
         isNewPage
-        ? setStudents((prev) => (prev[0]?.id !== data[0]?.id) ? [...prev, ...data] : prev)
+        ? setStudents((prev) => { 
+          if (prev) {
+            return (prev[0]?.id !== data[0]?.id) ? [...prev, ...data] : prev}
+          })
         : setStudents(data)
         
         setHasMore(data.length === numPerPage);
@@ -94,7 +97,10 @@ const StudentsPage = () => {
       console.error(error);
     } else {
       isNewPage 
-      ? setStudents((prev) => (prev[0]?.id !== data[0]?.id) ? [...prev, ...data] : prev)
+      ? setStudents((prev) => { 
+        if (prev) {
+          return (prev[0]?.id !== data[0]?.id) ? [...prev, ...data] : prev}
+        })
       : setStudents(data)
 
       setHasMore(data.length === numPerPage);
@@ -133,8 +139,12 @@ const StudentsPage = () => {
       }, (payload) => {
         // console.log('new student: ')
         // console.log(payload.new)
-        setStudents((prevStudents) => [...prevStudents, payload.new as StudentProps])
-        // getStudents()
+        setStudents((prevStudents) => { 
+          if (prevStudents) {
+            return [...prevStudents, payload.new as StudentProps]
+          }
+        })
+            // getStudents()
       })
       .on('postgres_changes', {
         event: 'UPDATE',
@@ -143,8 +153,12 @@ const StudentsPage = () => {
       }, (payload) => {
         // console.log('updated student: ')
         // console.log(payload.new)
-        setStudents((prevStudents) => [...prevStudents, payload.new as StudentProps])
-        // getStudents()
+        setStudents((prevStudents) => { 
+          if (prevStudents) {
+            return [...prevStudents, payload.new as StudentProps]
+          }
+        })
+            // getStudents()
       })
       .on('postgres_changes', {
         event: 'DELETE',
@@ -219,7 +233,7 @@ const StudentsPage = () => {
   useEffect(() => {
     console.log("___________________")
     console.log(`page: ${page + 1}`)
-    console.log(`students: ${students.length}`)
+    console.log(`students: ${students?.length}`)
     console.log(`filters: ${searchParams.get('order') !== null}`)
   }, [page, students, searchParams])
 
@@ -353,6 +367,20 @@ const StudentsPage = () => {
           }}
         />
       )}
+
+      {students === undefined && (
+        <div className="flex flex-col h-fit p-5">
+          {[...Array(10)].map((_, i) => (
+              <div key={i} className="flex flex-col w-full gap-2 bg-white py-3 border-gray-200 border-b">
+                <div className='animate-pulse bg-gray-200  rounded-md h-4 w-48 border '></div>
+                <div className="flex flex-row gap-2">
+                  <div className='animate-pulse bg-gray-100  rounded-md h-4 w-14 border '></div>
+                  <div className='animate-pulse bg-gray-100  rounded-md h-4 w-20 border '></div>
+                </div>
+              </div>
+          ))}
+        </div>
+      )}
       
       <div className={` ${styles.studentsList} pb-40 px-5`}>
         {/* <SearchBar className='mb-6 pt-20' fill='bg-gray-200' />  */}
@@ -363,23 +391,25 @@ const StudentsPage = () => {
         ) : (
           <div className='shadow-sm h-fit'>
             {/* TODO: Implement infinite scrolling on students list */}
-            <InfiniteScroll
-              dataLength={students.length}
-              next={() => {setPage(page + 1)}}
-              hasMore={hasMore}
-              endMessage={<div className="absolute w-full text-center left-0 mt-10 font-semibold text-sm text-gray-300" key={1}>Total students found: {students.length}</div>}
-              loader={(
-                <div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center">
-                  <Spinner />
-                </div>
-              )}
-            >
-              {students.length !== 0 && students.map((student, index) => {
-                return (
-                  <StudentCard key={index} studentData={student} />
-                )
-              })}
-            </InfiniteScroll>
+            {students !== undefined && (
+              <InfiniteScroll
+                dataLength={students.length}
+                next={() => {setPage(page + 1)}}
+                hasMore={hasMore}
+                endMessage={<div className="absolute w-full text-center left-0 mt-10 font-semibold text-sm text-gray-300" key={1}>Total students found: {students.length}</div>}
+                loader={(
+                  <div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center">
+                    <Spinner />
+                  </div>
+                )}
+              >
+                {students !== undefined && students?.map((student, index) => {
+                  return (
+                    <StudentCard key={index} studentData={student} />
+                  )
+                })}
+              </InfiniteScroll>
+            )}
           </div>
         )}
       </div>
