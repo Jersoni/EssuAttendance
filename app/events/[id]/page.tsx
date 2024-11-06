@@ -568,6 +568,21 @@ useEffect(() => {
         </div>
       </div>
 
+      {/* loading ui */}
+      {students === undefined && (
+          <div className="flex flex-col h-fit p-5">
+            {[...Array(10)].map((_, i) => (
+              <div key={i} className="flex flex-col w-full gap-2 bg-white py-3 border-gray-200 border-b">
+                <div className='animate-pulse bg-gray-200  rounded-md h-4 w-48'></div>
+                <div className="flex flex-row gap-2">
+                  <div className='animate-pulse bg-gray-100  rounded-md h-4 w-14'></div>
+                  <div className='animate-pulse bg-gray-100  rounded-md h-4 w-20'></div>
+                </div>
+              </div>
+            ))}
+        </div>
+      )}
+
       <div className="overflow-hidden pb-40 px-5">
         <Filter
           // filters data
@@ -598,20 +613,6 @@ useEffect(() => {
               setSearchQuery("")
             }}
           />
-        )}
-
-        {students === undefined && (
-          <div className="flex flex-col h-fit p-5">
-            {[...Array(10)].map((_, i) => (
-                <div key={i} className="flex flex-col w-full gap-2 bg-white py-3 border-gray-200 border-b">
-                  <div className='animate-pulse bg-gray-200  rounded-md h-4 w-48 border '></div>
-                  <div className="flex flex-row gap-2">
-                    <div className='animate-pulse bg-gray-100  rounded-md h-4 w-14 border '></div>
-                    <div className='animate-pulse bg-gray-100  rounded-md h-4 w-20 border '></div>
-                  </div>
-                </div>
-            ))}
-          </div>
         )}
 
         {/* STUDENTS LIST */}
@@ -657,6 +658,7 @@ useEffect(() => {
 
         </div>
       </div>
+
     </div>
   );
 };
