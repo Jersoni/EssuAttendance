@@ -13,6 +13,11 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { formatDate } from '@/utils/utils';
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { useAppContext } from '@/context';
+import { PiClockCountdown } from "react-icons/pi";
+import { PiMapPinArea } from "react-icons/pi";
+import { HiOutlineCalendar } from "react-icons/hi2";
+
+
 
 // Main
 const EventsCard: React.FC<{ 
@@ -118,30 +123,20 @@ const EventsCard: React.FC<{
             <div className='flex flex-row items-center justify-between relative '>
               <span className="event__title ">{eventData.title}</span>
             </div>
-            {/* <span className='text-xs font-medium mt-2 text-gray-500'>Attendees</span>
-            <div className='text-xs flex flex-wrap gap-1 mt-2'>
-            <span className="event__class">BSBA</span>
-            <span className="event__class">BSIT</span>
-            <span className="event__class">BOT</span>
-            <span className="event__class">BS Info Tech</span>
-            <span className="event__class">BSEd.</span>
-            <span className="event__class">BSE</span>
-            <span className="event__class">BSCE</span>
-            </div> */}
             <div className="mt-3 flex flex-col gap-2.5">
               <div className='flex flex-row items-center gap-1 w-fit'>
-                {/* <FaClock size={11} className='ml-[2px] opacity-40 translate-y-[1px]' /> */}
-                <span className="event__info">{login}</span>
+                <PiClockCountdown className='text-gray-400' />
+                <span className="event__info ml-1">{login}</span>
                 <span className="event__info">-</span>
                 <span className="event__info">{logout}</span>
               </div> 
               <div className='flex flex-row items-center gap-2 w-fit'>
-                {/* <TiLocation size={15} className='opacity-40'/> */}
+                <PiMapPinArea className='text-gray-400' />
                 <span className="event__info">{eventData.location}</span>
               </div>
               {!isHappeningNow && (
                 <div className='flex flex-row items-center gap-2 w-fit'>
-                  {/* <TiLocation size={15} className='opacity-40'/> */}
+                  <HiOutlineCalendar className='text-gray-400' />
                   <span className="event__info">{formatDate(eventData.eventDate)}</span>
                 </div>
               )}

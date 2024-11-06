@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiMiniUserPlus } from "react-icons/hi2";
 import supabase from '../lib/supabaseClient';
+import { MdPersonAdd } from "react-icons/md";
+
 
 // NEW STUDENT FORM COMPONENT
 const StudentForm: React.FC<FormOperationProps> = () => {
@@ -116,7 +118,7 @@ const StudentForm: React.FC<FormOperationProps> = () => {
   return (
     <div>
       <button className='fixed bottom-4 right-4 pl-4 grid place-items-center p-2.5 z-[500] bg-white border border-gray-100 w-16 h-16 shadow-md rounded-full' onClick={toggleStudentForm}>
-        <HiMiniUserPlus size={22} className="text-green-700" />
+        <MdPersonAdd size={22} className="text-green-700 -translate-x-1" />
       </button>
 
       {/* NEW   STUDENT FORM */}
