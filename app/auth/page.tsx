@@ -12,6 +12,13 @@ import { PiBookOpenTextFill } from "react-icons/pi";
 
 const Auth = () => {
 
+  useEffect(() => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth' 
+    });
+  }, [])
+
   const router = useRouter()
 
   // auth verification
@@ -36,8 +43,8 @@ const Auth = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showCode, setShowCode] = useState(false)
   const [error, setError] = useState("")
-  const [isStudentLoginLoading, setIsStudentLoginLoading] = useState(false)
-  const [isAdminLoginLoading, setIsAdminLoginLoading] = useState(false)
+  const [isStudentLoading, setIsStudentLoading] = useState(false)
+  const [isAdminLoading, setIsAdminLoading] = useState(false)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target
@@ -66,7 +73,8 @@ const Auth = () => {
       console.error(error)
       setOrg(null)
       setError("name")
-      setIsStudentLoginLoading(false)
+      setIsStudentLoading(false)
+      setIsAdminLoading(false)
     } else {
 
       const authData = data as AuthProps
@@ -85,7 +93,8 @@ const Auth = () => {
       } else {
         if (isAdmin) {
           setOrg(data)
-          setIsStudentLoginLoading(false)
+          setIsStudentLoading(false)
+          setIsAdminLoading(false)
           setIsModalOpen(!isModalOpen)
         } else {
           localStorage.setItem('authToken', JSON.stringify({
@@ -105,7 +114,7 @@ const Auth = () => {
     event.preventDefault()
     
     if (name) {
-      setIsStudentLoginLoading(true)
+      setIsStudentLoading(true)
       getData(name, false)
     }
   }
@@ -113,7 +122,10 @@ const Auth = () => {
   const handleAdminSignin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     console.log("1")
-    if (name) getData(name, true, true)
+    if (name) {
+      setIsAdminLoading(true)
+      getData(name, true, true)
+    }
   }
 
   const toggleModal = () => {
@@ -135,10 +147,12 @@ const Auth = () => {
   }, [showCode])
 
   return (
-    <div className='grid place-items-center h-[100vh] w-full'>
-      <div className='absolute top-8 left-10 flex flex-row items-center gap-2'>
-        <PiBookOpenTextFill className='text-emerald-700' size={26} />
-        <span className='font-bold text-lg text-gray-700'>attendessu</span>
+    <div className='grid place-items-center h-[100vh] w-full overflow-y-auto'>
+      <div className={`fixed top-0 left-0 right-0 h-20 items-center flex flex-row bg-white pl-8`}>
+        <div className='flex flex-row items-center gap-2 w-full'>
+          <PiBookOpenTextFill className='text-emerald-700' size={26} />
+          <span className='font-bold text-lg text-gray-700'>ESSUattend</span>
+        </div>
       </div>
 
       <div className='flex flex-col w-full p-10'>
@@ -164,7 +178,7 @@ const Auth = () => {
             autoComplete='off' 
             className={`
               ${error === "name" ? "!border-red-400" : ""}
-              bg-gray-100 border border-green-900 border-opacity-40 tracking-wide rounded-lg p-3 outline-none mt-3 font-semibold text-gray-900 text-sm
+              bg-gray-100 border border-green-900 border-opacity-40 tracking-wide rounded-lg p-3 outline-none focus:border-opacity-80 mt-3 font-semibold text-gray-900 text-sm
             `} 
           />
           {error === "name" && <span className='text-red-400 text-sm mt-1 font-semibold'>Organization not found, please try again.</span>}
@@ -174,10 +188,10 @@ const Auth = () => {
               type='submit'
               className='border-green-900 border-opacity-50 text-gray-800 w-full max-h-10 flex  flex-row items-center justify-center h-fit font-semibold rounded-lg p-2.5 border text-sm active:bg-emerald-50'
             >
-              {isStudentLoginLoading
+              {isStudentLoading
               ? (
                 <span className='flex flex-row items-center gap-2'>
-                  <Spinner size='loading-xs' className='translate-y-[3px]' />
+                  <Spinner size='1' className='translate-y-[3px]' />
                   Signing in
                 </span>
               ) : (
@@ -187,9 +201,17 @@ const Auth = () => {
             <button 
               type='button' 
               onClick={toggleModal}
-              className=' bg-emerald-600 w-full h-fit font-semibold text-white rounded-lg p-2.5 text-sm active:bg-emerald-500 grid place-items-center'
+              className=' border-green-900 border-opacity-50 text-white w-full max-h-10 flex  flex-row items-center justify-center bg-emerald-600 h-fit font-semibold rounded-lg p-2.5 border text-sm active:bg-emerald-500'
             >
-              Sign in as admin
+              {isAdminLoading
+              ? (
+                <span className='flex flex-row items-center gap-2'>
+                  <Spinner size='1' color='white' className='translate-y-[3px]' />
+                  Signing in
+                </span>
+              ) : (
+                <span>Sign in as admin</span>
+              )}
             </button>
           </div>
         </form>
@@ -200,7 +222,7 @@ const Auth = () => {
         </div>
         <button 
           type='button' 
-          className=' w-full active:bg-emerald-50 h-fit font-semibold text-gray-800 rounded-lg p-3 border text-sm border-green-900 border-opacity-50 mt-10'
+          className=' w-full active:bg-emerald-50 grid place-items-center font-semibold text-gray-800 rounded-lg max-h-10 h-10 border text-sm border-green-900 border-opacity-50 mt-10'
         >Register a new organization</button>
       </div>
 
@@ -219,7 +241,7 @@ const Auth = () => {
               htmlFor="code" 
               className='font-semibold text-sm text-gray-600'
             >Organization passcode</label>
-            <div className={`flex flex-row items-center bg-gray-100 border border-green-900 border-opacity-40 tracking-wide rounded-lg mt-3 font-semibold text-gray-900 overflow-hidden ${error === "code" ? "!border-red-400" : ""}`}>
+            <div id='password-container' className={`flex flex-row items-center bg-gray-100 border border-green-900 border-opacity-40 tracking-wide rounded-lg mt-3 font-semibold text-gray-900 overflow-hidden ${error === "code" ? "!border-red-400" : ""}`}>
               <input
                 id='code' 
                 name='code'
@@ -227,7 +249,7 @@ const Auth = () => {
                 onChange={handleChange} 
                 type={showCode ? "text" : "password"} 
                 autoComplete='off' 
-                className='bg-gray-100 text-sm p-3 w-full outline-none' 
+                className='bg-gray-100  text-sm p-3 w-full outline-none' 
               />
               <button
                 className='p-3 opacity-70'
@@ -244,9 +266,17 @@ const Auth = () => {
             <button 
               type='submit'
               form='form-code'
-              className='bg-emerald-600 w-full h-fit font-semibold text-white rounded-lg p-2.5 border active:bg-emerald-500 mt-8 text-sm'
+              className='border-green-900 border-opacity-50 text-white w-full max-h-10 flex  flex-row items-center justify-center bg-emerald-600 h-fit font-semibold rounded-lg p-2.5 border text-sm active:bg-emerald-50 mt-8'
             >
-              Sign in as admin
+              {isAdminLoading
+              ? (
+                <span className='flex flex-row items-center gap-2'>
+                  <Spinner size='1' color='white' className='translate-y-[3px]' />
+                  Signing in
+                </span>
+              ) : (
+                <span>Sign in as admin</span>
+              )}
             </button>
           </form>
         </div>
