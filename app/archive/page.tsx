@@ -26,7 +26,7 @@ const Page = () => {
   }, [])
   
   return (
-    <div className={`mt-20 overflow-y-scroll pb-40 px-5`}>
+    <div className={`pt-20 overflow-y-scroll min-h-[100vh] pb-40 px-5`}>
 
       {events.map(event => {
         if (new Date(event.eventDate) < new Date()) {

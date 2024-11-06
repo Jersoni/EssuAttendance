@@ -109,7 +109,7 @@ const EventForm: React.FC<{
       </button>
 
       {/* NEW EVENT FORM */}
-      <div className={`${isOpen ? "!h-full" : "" } overflow-hidden pointer-events-auto h-0 w-full fixed left-0 bottom-0 bg-white z-[1500] transition-all duration-[400ms] ease-in-out flex flex-col justify-between`}>
+      <div className={`${isOpen ? "!h-full" : "" } overflow-hidden pointer-events-auto h-0 w-full fixed left-0 bottom-0 bg-white z-[1600] transition-all duration-[400ms] ease-in-out flex flex-col justify-between`}>
 
         <div className='flex flex-row items-center p-2 bg-white border-b border-gray-300'>
           <h1 className='font-bold absolute p-3 text-emerald-700 w-full'>Create Attendance</h1>

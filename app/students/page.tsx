@@ -1,7 +1,7 @@
 'use client'
 import { Filter, SearchBar, StudentCard, StudentForm } from "@/components";
 import supabase from '@/lib/supabaseClient';
-import { StudentProps } from '@/types';
+import { AuthProps, StudentProps } from '@/types';
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
@@ -10,10 +10,17 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.css';
 import { RotatingLines } from 'react-loader-spinner'
 import { Spinner } from "@/components";
+import { checkAuth } from "@/utils/utils";
 
 const StudentsPage = () => {
 
   const router = useRouter()
+
+  // get user role
+  const [ auth, setAuth ] = useState<AuthProps>()
+  useEffect(() => {
+    setAuth(checkAuth(router))
+  }, [router])
 
   const [students, setStudents] = useState<StudentProps[]>([])
   const [loading, setLoading] = useState(false)
@@ -307,7 +314,9 @@ const StudentsPage = () => {
         setIsOpen={() => {setIsOpen(!isOpen)}}
       />
 
-      <StudentForm />
+      {auth?.role === "admin" && (
+        <StudentForm />
+      )}
 
       {/* buttons */}
       <div className="fixed flex flex-row top-0 right-4 h-14 z-[1300] ">

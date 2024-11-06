@@ -5,10 +5,9 @@ import { checkAuth } from '@/utils/utils';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { useJwt } from "react-jwt";
-import crypto from 'crypto';
 import { Spinner } from '@/components';
 import { PiBookOpenTextFill } from "react-icons/pi";
+import { hashString } from '@/utils/utils';
 
 const Auth = () => {
 
@@ -26,10 +25,6 @@ const Auth = () => {
   useEffect(() => {
     setAuth(checkAuth(router, true))
   }, [router])
-
-  async function hashString(input: string) {
-    return crypto.createHash('sha256').update(input).digest('hex');
-  }
 
   interface OrgProps {
     id: number

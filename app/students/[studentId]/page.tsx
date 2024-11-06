@@ -2,24 +2,28 @@
 import { PageHeader, Button, EventLink, ConfirmationModal, EditStudentForm } from '@/components'
 import { RiEdit2Line } from "react-icons/ri";
 import { BiEraser } from "react-icons/bi";
-import { useEffect, useRef, useState } from 'react';
-import { StudentProps, EventProps } from '@/types';
+import { useEffect, useState } from 'react';
+import { StudentProps, EventProps, AuthProps } from '@/types';
 import { downloadImage } from '@/utils/utils';
 import { useRouter } from 'next/navigation';
-import { TbDotsCircleHorizontal } from "react-icons/tb";
-import { HiDownload } from "react-icons/hi";
 import { PiTrashSimpleBold } from "react-icons/pi";
-import { lineSpinner } from "ldrs";
 import supabase from '@/lib/supabaseClient';
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import { checkAuth } from '@/utils/utils';
 
 const Student = ({ params }: { params: any }) => {
-    lineSpinner.register();
 
+    const router = useRouter()
     const paramsID = params.studentId
 
+    // get user role
+    const [ auth, setAuth ] = useState<AuthProps>()
+    useEffect(() => {
+        setAuth(checkAuth(router))
+    }, [router])
+
     // FETCH STUDENT
-    const [student, setStudent] = useState<StudentProps>()
+    const [student, setStudent] = useState<StudentProps | undefined>(undefined)
 
     const getStudent = async () => {
         try {
@@ -92,7 +96,6 @@ const Student = ({ params }: { params: any }) => {
     }
  
     // Confirm Delete Modal Script
-    const router = useRouter()
     const [isOpen, setIsOpen] = useState(false)
 
     function toggleDeleteModal() {
@@ -166,12 +169,15 @@ const Student = ({ params }: { params: any }) => {
 
             <div>
                 <PageHeader title={`Student Profile`} />
-                <button 
-                    onClick={toggleSettingsModal}
-                    className='absolute top-2.5 right-4 p-1.5 text-gray-700'
-                >
-                        <HiOutlineDotsHorizontal size={20} className="ml-auto text-gray-600" />
-                </button>
+
+                {auth?.role === "admin" && (
+                    <button 
+                        onClick={toggleSettingsModal}
+                        className='absolute top-2.5 right-4 p-1.5 text-gray-700'
+                    >
+                            <HiOutlineDotsHorizontal size={20} className="ml-auto text-gray-600" />
+                    </button>
+                )}
                 
                 <div>
                     <div 
@@ -235,42 +241,78 @@ const Student = ({ params }: { params: any }) => {
                 <div className='flex mt-4 items-center justify-between'>
                     <h2 className='text-sm font-semibold text-[#414855]'>Profile</h2>
                 </div>
-                <div className='flex flex-col gap-1 mt-3 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-lg text-sm'>
-                    <div className='flex flex-row gap-4'>
-                        <p className='min-w-14 text-gray-500 font-semibold'>Name</p>
-                        <span>{student?.name}</span>
+
+                {student === undefined ? (
+                    <div className='flex flex-col gap-1 mt-3 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-lg text-sm'>
+                        <div className='flex flex-row gap-4'>
+                            <span className='bg-gray-200 animate-pulse rounded-md h-4 w-12 '></span>
+                            <span className='bg-gray-200 animate-pulse rounded-md h-4 w-36 '></span>
+                        </div>
+                        <div className='flex flex-row gap-4'>
+                            <span className='bg-gray-200 animate-pulse rounded-md h-4 w-12 '></span>
+                            <span className='bg-gray-200 animate-pulse rounded-md h-4 w-20 '></span>
+                        </div>
+                        <div className='flex flex-row gap-4'>
+                            <span className='bg-gray-200 animate-pulse rounded-md h-4 w-12 '></span>
+                            <span className='bg-gray-200 animate-pulse rounded-md h-4 w-28 '></span>
+                        </div>
                     </div>
-                    <div className='flex flex-row gap-4'>
-                        <p className='min-w-14 text-gray-500 font-semibold'>ID No</p>
-                        <span>{student?.id}</span>
+                ) : (
+                    <div className='flex flex-col gap-1 mt-3 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-lg text-sm'>
+                        <div className='flex flex-row gap-4'>
+                            <p className='min-w-14 text-gray-500 font-semibold'>Name</p>
+                            <span>{student?.name}</span>
+                        </div>
+                        <div className='flex flex-row gap-4'>
+                            <p className='min-w-14 text-gray-500 font-semibold'>ID No</p>
+                            <span>{student?.id}</span>
+                        </div>
+                        <div className='flex flex-row gap-4'>
+                            <p className='min-w-14 text-gray-500 font-semibold'>Class</p>
+                            <span>{`${course} ${student?.year}${student?.section}`}</span>
+                        </div>
                     </div>
-                    <div className='flex flex-row gap-4'>
-                        <p className='min-w-14 text-gray-500 font-semibold'>Class</p>
-                        <span>{`${course} ${student?.year}${student?.section}`}</span>
-                    </div>
-                </div>
+                )}
+                
 
                 {/* TODO: FINES FUNCTIONALITY */}
                 <div className='flex mt-7 items-center justify-between'>
                     <h2 className='text-sm font-semibold text-[#414855]'>Fines</h2>
                 </div>
-                <div className='mt-3 h-fit p-5 w-full border border-gray-200 bg-white shadow-sm rounded-lg flex flex-col text-sm'>
 
-                    <div className='flex flex-col gap-2'>
-                        {events.length !== 0 && events.map(eventData => (
-                            <EventLink key={eventData.id} eventData={eventData} />
-                        ))}
-                    </div>
 
-                    <div className='flex pt-5 mt-10 border-t border-gray-300 justify-between'>
-                        <p className='text-sm text-gray-500'>TOTAL</p>
-                        <p className='text-gray-500'>₱ {totalFines.toFixed(2)}</p>
+                {student === undefined ? (
+                    <div className='mt-3 h-fit p-5 w-full border border-gray-200 bg-white shadow-sm rounded-lg flex flex-col text-sm'>
+                        <div className='flex flex-col gap-2'>
+                            <div className='flex flex-row justify-between'>
+                                <span className='bg-gray-200 animate-pulse rounded-md h-4 w-32 '></span>
+                                <span className='bg-gray-200 animate-pulse rounded-md h-4 w-14 '></span>
+                            </div>
+                            <div className='flex flex-row justify-between'>
+                                <span className='bg-gray-200 animate-pulse rounded-md h-4 w-24 '></span>
+                                <span className='bg-gray-200 animate-pulse rounded-md h-4 w-14 '></span>
+                            </div>
+                            <div className='flex flex-row justify-between'>
+                                <span className='bg-gray-200 animate-pulse rounded-md h-4 w-28 '></span>
+                                <span className='bg-gray-200 animate-pulse rounded-md h-4 w-14 '></span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                {/* <div className='flex flex-row mt-5 gap-2 float-right'>
-                    <Button variant='secondary' onClick={downloadQRCode} >Download QR Code</Button>
-                    <Button variant='secondary' onClick={toggleDeleteModal} >Delete Student</Button>
-                </div> */}
+                ) : (
+                    <div className='mt-3 h-fit p-5 w-full border border-gray-200 bg-white shadow-sm rounded-lg flex flex-col text-sm'>
+                        <div className='flex flex-col gap-2'>
+                            {events.length !== 0 && events.map(eventData => (
+                                <EventLink key={eventData.id} eventData={eventData} />
+                            ))}
+                        </div>
+
+                        <div className='flex pt-5 mt-10 border-t border-gray-300 justify-between'>
+                            <p className='text-sm text-gray-500'>TOTAL</p>
+                            <p className='text-gray-500'>₱ {totalFines.toFixed(2)}</p>
+                        </div>
+                    </div>
+                )}
+
                 
                 {loading && (
                     <div className='h-full w-full bg-black bg-opacity-10 top-0 left-0 fixed grid place-items-center z-[800]'>

@@ -1,6 +1,6 @@
 'use client'
 import supabase from '@/lib/supabaseClient';
-import { EventProps, FormEventProps } from '@/types';
+import { AuthProps, EventProps, FormEventProps } from '@/types';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { IoIosArrowForward } from "react-icons/io";
@@ -16,24 +16,19 @@ import { useAppContext } from '@/context';
 import { PiClockCountdown } from "react-icons/pi";
 import { PiMapPinArea } from "react-icons/pi";
 import { HiOutlineCalendar } from "react-icons/hi2";
-
+import { PiGavelLight } from "react-icons/pi";
 
 
 // Main
 const EventsCard: React.FC<{ 
+  auth?: AuthProps
   isHappeningNow?: boolean
   isNavOpen: boolean
   eventData: EventProps 
   isEditFormOpen: boolean
   toggleEditForm: () => void
   setEditFormData: React.Dispatch<React.SetStateAction<FormEventProps | undefined>>
-}> = ({ isHappeningNow = false, isNavOpen, eventData, isEditFormOpen, toggleEditForm, setEditFormData }) => {
-
-  const [isAdmin, setIsAdmin] = useState(false)
-  
-  useEffect(() => {
-    setIsAdmin(true) // set to admin as of the moment
-  }, [setIsAdmin])
+}> = ({ auth, isHappeningNow = false, isNavOpen, eventData, isEditFormOpen, toggleEditForm, setEditFormData }) => {
 
   function convertTimeTo12HourFormat(timeString: any) {
     const timeParts = timeString.split(':');
@@ -140,19 +135,21 @@ const EventsCard: React.FC<{
                   <span className="event__info">{formatDate(eventData.eventDate)}</span>
                 </div>
               )}
+              {isHappeningNow && (
+                <div className='flex flex-row items-center gap-2 w-fit'>
+                  <PiGavelLight className='text-gray-400' />
+                  <span className="event__info">₱ {eventData.fineAmount.toFixed(2)}</span>
+                </div>
+              )}
               {/* <div className='flex flex-row items-center gap-2 w-fit'>
                 <TiLocation size={15} className='opacity-40'/>
                 <span className="event__info">{formatDate(eventData.eventDate)}</span>
-                </div> */}
-              {/* <div className=' flex flex-row items-center gap-3 mt-1 w-fit'>
-                <FaMoneyBillWave size={13} className='ml-[1px] opacity-40 translate-y-[-1px]' />
-                <span className="event__info">{fine}</span> 
                 </div> */}
             </div>
           </div>
         </Link>
         <div>
-            {isAdmin ? (
+            {auth?.role === "admin" ? (
               <div className='flex flex-col h-full border-gray-200 relative'>
                 {/* button toggle */}
                 <button
@@ -165,7 +162,7 @@ const EventsCard: React.FC<{
                 </button>
 
                 {/* modal */}
-                <div className={`absolute bg-white translate-y-10 translate-x-[-5rem] rounded-lg transition-all overflow-hidden border border-gray-300 z-[1300] p-1
+                <div className={`absolute bg-white translate-y-10 translate-x-[-5rem] rounded-lg transition-all overflow-hidden border border-gray-300 z-[400] p-1
                   ${isModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"}  
                   `}>
                   {/* edit button */}
@@ -207,7 +204,7 @@ const EventsCard: React.FC<{
                 {/* backdrop */}
                 <div
                   onClick={() => {toggle()}}
-                  className={`bg-black fixed top-0 left-0 right-0 bottom-0 bg-opacity-0 z-[1200] ${isModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+                  className={`bg-black fixed top-0 left-0 right-0 bottom-0 bg-opacity-0 z-[300] ${isModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
                   ></div>
 
                 {/* Delete Modal */}
@@ -222,7 +219,7 @@ const EventsCard: React.FC<{
                     />
               </div>
             ) : (
-              <IoIosArrowForward size={17} className='opacity-50'/>
+              <IoIosArrowForward size={18} className='opacity-30 absolute translate-y-5 right-7'/>
             )}
         </div>
 

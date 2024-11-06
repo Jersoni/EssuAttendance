@@ -1,4 +1,5 @@
 import { AuthProps } from "@/types";
+import crypto from 'crypto';
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 export function downloadImage(
@@ -35,6 +36,12 @@ export function formatDate(dateString: string): string {
   return date.toLocaleDateString('en-US', options);
 }
 
+
+/*
+* redirects user to homepage if logged in
+* if user is logged in, returns name, code, role, and signout function
+* else redirects user to login page
+*/
 export function checkAuth(router: AppRouterInstance, onLogin = false) {
   let now = new Date()
   let authToken = localStorage.getItem("authToken")
@@ -74,4 +81,8 @@ export function checkAuth(router: AppRouterInstance, onLogin = false) {
   } else {
     router.push("/auth")
   }
+}
+
+export async function hashString(input: string) {
+  return crypto.createHash('sha256').update(input).digest('hex');
 }
