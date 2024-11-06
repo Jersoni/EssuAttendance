@@ -130,6 +130,7 @@ const Auth = () => {
 
   const toggleModal = () => {
     if (name) {
+      setIsAdminLoading(true)
       getData(name, true)
     } else {
       setError("name")
@@ -147,7 +148,7 @@ const Auth = () => {
   }, [showCode])
 
   return (
-    <div className='grid place-items-center h-[100vh] w-full overflow-y-auto'>
+    <div className='fixed bottom-0 bg-white grid place-items-center h-[100vh] w-full overflow-y-hidden'>
       <div className={`fixed top-0 left-0 right-0 h-20 items-center flex flex-row bg-white pl-8`}>
         <div className='flex flex-row items-center gap-2 w-full'>
           <PiBookOpenTextFill className='text-emerald-700' size={26} />
@@ -200,7 +201,9 @@ const Auth = () => {
             </button>
             <button 
               type='button' 
-              onClick={toggleModal}
+              onClick={() => {
+                toggleModal()
+              }}
               className=' border-green-900 border-opacity-50 text-white w-full max-h-10 flex  flex-row items-center justify-center bg-emerald-600 h-fit font-semibold rounded-lg p-2.5 border text-sm active:bg-emerald-500'
             >
               {isAdminLoading

@@ -14,6 +14,7 @@ import { RiFilter2Line } from "react-icons/ri";
 import { PiScanBold } from "react-icons/pi";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { RotatingLines } from 'react-loader-spinner'
+import { Spinner } from "@/components";
 
 import styles from "./styles.module.css";2
 
@@ -606,15 +607,11 @@ useEffect(() => {
               hasMore={hasMore}
               className={`${styles.studentsList}`}
               endMessage={<div className="absolute w-full text-center left-0 mt-10 font-semibold text-sm text-gray-300" key={1}>Total students found: {students.length}</div>}
-              loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>
-                <RotatingLines
-                  visible={true}
-                  width="36"
-                  strokeWidth="3"
-                  animationDuration="0.75"
-                  ariaLabel="rotating-lines-loading"
-                />
-              </div>}
+              loader={(
+                <div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center">
+                  <Spinner />
+                </div>
+              )}
             >
               {(students.length !== 0 && searchResults.length === 0) &&
                 students.map((student: StudentProps, index) => {

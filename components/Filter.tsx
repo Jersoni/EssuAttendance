@@ -107,7 +107,7 @@ const Filter = ({
         <div>
             {/* Filter */}
             <div className=''>
-                <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto duration-300 ease-out transition-all bottom-0 overflow-hidden ${isOpen ? "!w-[85vw] xs:!w-[75vw]" : "" } z-[1300] flex flex-col text-sm border-l border-gray-300`}>
+                <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto duration-300 ease-out transition-all bottom-0 overflow-hidden ${isOpen ? "!w-[85vw] xs:!w-[75vw]" : "" } z-[1500] flex flex-col text-sm border-l border-gray-300`}>
                     <div className='text-base bg-white border-b p-3 pl-5 border-gray-200 flex flex-row items-center'>
                         <h2 className=' font-bold text-emerald-800 text-opacity-80 w-full'>Filters</h2>
                     </div>
@@ -138,7 +138,7 @@ const Filter = ({
                         <Button className='!font-semibold' variant='primary' onClick={applyFilters}>Apply</Button>
                     </div>
                 </div>
-                <div onClick={setIsOpen} className={`bg-black bg-opacity-20 fixed pointer-events-auto z-[1200] top-0 left-0 right-0 bottom-0 transition-all ${isOpen ? "block" : "hidden"}`}></div>
+                <div onClick={setIsOpen} className={`bg-black bg-opacity-20 fixed pointer-events-auto z-[1400] top-0 left-0 right-0 bottom-0 transition-all ${isOpen ? "block" : "hidden"}`}></div>
             </div>
         </div>
     )

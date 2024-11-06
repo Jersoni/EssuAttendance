@@ -9,6 +9,7 @@ import { RiFilter2Line } from "react-icons/ri";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.css';
 import { RotatingLines } from 'react-loader-spinner'
+import { Spinner } from "@/components";
 
 const StudentsPage = () => {
 
@@ -309,7 +310,7 @@ const StudentsPage = () => {
       <StudentForm />
 
       {/* buttons */}
-      <div className="fixed flex flex-row top-0 right-16 h-14 z-[1000] ">
+      <div className="fixed flex flex-row top-0 right-4 h-14 z-[1300] ">
         <button 
           onClick={() => {
             setIsSearchOpen(true)
@@ -338,7 +339,7 @@ const StudentsPage = () => {
             setSearchQuery("")
             if (searchQuery !== "") {
               setStudents([])
-              getStudents()
+              getStudents(false)
             }
           }}
         />
@@ -358,15 +359,11 @@ const StudentsPage = () => {
               next={() => {setPage(page + 1)}}
               hasMore={hasMore}
               endMessage={<div className="absolute w-full text-center left-0 mt-10 font-semibold text-sm text-gray-300" key={1}>Total students found: {students.length}</div>}
-              loader={<div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center" key={0}>
-                <RotatingLines
-                  visible={true}
-                  width="40"
-                  strokeWidth="3"
-                  animationDuration="0.75"
-                  ariaLabel="rotating-lines-loading"
-                />
-              </div>}
+              loader={(
+                <div className="h-14 absolute left-0 w-full mt-5 items-center flex justify-center">
+                  <Spinner />
+                </div>
+              )}
             >
               {students.length !== 0 && students.map((student, index) => {
                 return (
