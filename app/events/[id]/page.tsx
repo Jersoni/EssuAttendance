@@ -474,11 +474,13 @@ useEffect(() => {
     // console.log(JSON.stringify(filters, null, 2));
   }, [courses, years, sections, sortBy, order]);
 
-  const [message, setMessage] = useState("nothing");
+  const [updatedStudent, setUpdatedStudent] = useState<StudentProps | undefined>(undefined)
+  const [updatedStudentPayload, setUpdatedStudentPayload] = useState<Attendance | undefined>(undefined)
 
 // REALTIME SUBSCRIPTION
   useEffect(() => {
-    const channel = supabase.channel("realtime_attendance")
+    const channel = supabase
+    .channel("realtime_attendance")
     .on("postgres_changes", {
       event: "UPDATE",
       schema: "public",
@@ -486,10 +488,25 @@ useEffect(() => {
     },
     (payload) => {
       // setStudents([...students, payload.new as StudentProps])
-      // setMessage("got the payload")
-      console.log(payload.new);
+      // console.log(payload.new)
+      setUpdatedStudentPayload(payload.new as Attendance);
 
-      // const studentID = payload.new.studentId
+      const studentID = payload.new.studentId;
+
+      (async () => {
+        const { data, error } = await supabase
+          .from('student')
+          .select("*")
+          .eq('id', studentID)
+          .single()
+
+        if (error) {
+          console.error(error)
+        } else {
+          setUpdatedStudent(data as StudentProps)
+        }
+      })()
+
       // const studentToUpdate = students?.find(student => student.id === studentID);
       // const indexOfStudentToUpdate = students?.findIndex(student => student.id === studentID)
       // const {isLoginPresent, isLogoutPresent} = payload.new
@@ -500,7 +517,10 @@ useEffect(() => {
       //   isLogoutPresent: isLogoutPresent
       // }
 
+      // console.log(studentID)
+      // console.log(studentToUpdate)
       // console.log(students)
+      // console.log(newStudentData)
 
       // if (studentToUpdate && students !== null) {
       //   setMessage("set students successfully")
@@ -526,6 +546,70 @@ useEffect(() => {
       supabase.removeChannel(channel);
     };
   }, [])
+
+  useEffect(() => {
+    console.log(students)
+    console.log(updatedStudent)
+    console.log(updatedStudentPayload)
+
+    if (updatedStudentPayload !== undefined 
+      && updatedStudent !== undefined
+      && updatedStudent.id === updatedStudentPayload.studentId
+    ) {
+
+      console.log(updatedStudent.id)
+
+      const newStudentData = {
+        ...updatedStudent,
+        isLoginPresent: updatedStudentPayload.isLoginPresent,
+        isLogoutPresent: updatedStudentPayload.isLogoutPresent
+      }
+
+      const updatedStudents = students?.map(student =>
+        student.id === updatedStudent?.id ? newStudentData : student
+      )
+
+      setStudents(updatedStudents)
+      setUpdatedStudent(undefined)
+      setUpdatedStudentPayload(undefined)
+
+    }
+    // if (updatedStudentPayload !== undefined && updatedStudent !== undefined) {
+    //   const studentToUpdate = students?.find(student => student.id === updatedStudent?.id);
+    //   // const indexOfStudentToUpdate = students?.findIndex(student => student.id === updatedStudent?.id)
+    //   const {isLoginPresent, isLogoutPresent} = updatedStudentPayload
+
+    //   const newStudentData = {
+    //     ...studentToUpdate,
+    //     isLoginPresent: isLoginPresent,
+    //     isLogoutPresent: isLogoutPresent
+    //   }
+
+    //   console.log(updatedStudent?.id)
+    //   console.log(studentToUpdate)
+    //   console.log(students)
+    //   console.log(newStudentData)
+
+    //   if (studentToUpdate && students !== null) {
+
+    //     setStudents(students?.map(student => {
+    //       if (student.id === updatedStudent?.id) {
+    //         return {
+    //           ...student,
+    //           ...newStudentData
+    //         }
+    //       }
+    //       return student
+    //     }))
+    //     console.log("students updated")
+
+    //     // setUpdatedStudentPayload(undefined)
+    //     // setUpdatedStudent(undefined)
+    //   } else {
+    //     console.log("update failed")
+    //   }
+    // }
+  }, [updatedStudent])
   
   return (
     <div className=" overflow-hidden min-h-[100vh] pt-24">
