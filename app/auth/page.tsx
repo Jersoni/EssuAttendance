@@ -76,21 +76,30 @@ const Auth = () => {
 
       if (isAdminSignin && data.code) {
         console.log("admin signin")
-        const hashedCode = await hashString(data.code)
 
-        localStorage.setItem('authToken', JSON.stringify({
-          name: data.name,
-          value: hashedCode,
-          expiry: new Date().getTime() + 3600000
-        }))
+        if (data.code === code) {
+          const hashedCode = await hashString(data.code)
+  
+          localStorage.setItem('authToken', JSON.stringify({
+            name: data.name,
+            value: hashedCode,
+            expiry: new Date().getTime() + 3600000
+          }))
+        } else {
+          console.log("wrong password")
+          setIsAdminLoading(false)
+          setError("code")
+          return
+        }
 
         router.push("/")
       } else {
         if (isAdmin) {
+          console.log("admin ")
           setOrg(data)
           setIsStudentLoading(false)
           setIsAdminLoading(false)
-          setIsModalOpen(!isModalOpen)
+          setIsModalOpen(true)
         } else {
           localStorage.setItem('authToken', JSON.stringify({
             name: authData.name,
@@ -143,7 +152,7 @@ const Auth = () => {
   }, [showCode])
 
   return (
-    <div className='fixed bottom-0 bg-white grid place-items-center h-[100vh] w-full overflow-y-hidden'>
+    <div className='fixed bottom-0 bg-white grid place-items-center h-[100vh] w-full scroll'>
       <div className={`fixed top-0 left-0 right-0 h-20 items-center flex flex-row bg-white pl-8`}>
         <div className='flex flex-row items-center gap-2 w-full'>
           <PiBookOpenTextFill className='text-emerald-700' size={26} />

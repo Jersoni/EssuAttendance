@@ -140,7 +140,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
           <div
             onClick={handleLoginModalToggle} 
             className={`bg-gray-100 bg-opacity-80 border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center ${auth?.role === "student" ? "!bg-white " : ""}`}>
-            {isLoginPresent && <FaCheck className={auth?.role === "student" ? "text-gray-600" : ""} size={18} />}
+            {isLoginPresent && <FaCheck className={"text-gray-600"} size={18} />}
             <input 
               checked={isLoginPresent}
               disabled={auth?.role === "student"}
@@ -152,7 +152,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
           <div
             onClick={handleLogoutModalToggle} 
             className={`bg-gray-100 bg-opacity-80 border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center ${auth?.role === "student" ? "!bg-white " : ""}`}>
-            {isLogoutPresent && <FaCheck className={auth?.role === "student" ? "text-gray-600" : ""} size={18} />}
+            {isLogoutPresent && <FaCheck className={"text-gray-600"} size={18} />}
             <input 
               checked={isLogoutPresent} 
               disabled={auth?.role === "student"}

@@ -475,58 +475,57 @@ useEffect(() => {
   }, [courses, years, sections, sortBy, order]);
 
   const [message, setMessage] = useState("nothing");
-  const [count, setCount] = useState(0)
 
 // REALTIME SUBSCRIPTION
   useEffect(() => {
-    // const channel = supabase.channel("realtime_students")
-    // .on("postgres_changes", {
-    //   event: "UPDATE",
-    //   schema: "public",
-    //   table: "attendance",
-    // },
-    // (payload) => {
-    //   // setStudents([...students, payload.new as StudentProps])
-    //   setMessage("got the payload")
-    //   console.log(payload.new);
+    const channel = supabase.channel("realtime_attendance")
+    .on("postgres_changes", {
+      event: "UPDATE",
+      schema: "public",
+      table: "attendance",
+    },
+    (payload) => {
+      // setStudents([...students, payload.new as StudentProps])
+      // setMessage("got the payload")
+      console.log(payload.new);
 
-    //   const studentID = payload.new.studentId
-    //   const studentToUpdate = students?.find(student => student.id === studentID);
-    //   const indexOfStudentToUpdate = students?.findIndex(student => student.id === studentID)
-    //   const {isLoginPresent, isLogoutPresent} = payload.new
+      // const studentID = payload.new.studentId
+      // const studentToUpdate = students?.find(student => student.id === studentID);
+      // const indexOfStudentToUpdate = students?.findIndex(student => student.id === studentID)
+      // const {isLoginPresent, isLogoutPresent} = payload.new
 
-    //   const newStudentData = {
-    //     ...studentToUpdate,
-    //     isLoginPresent: isLoginPresent,
-    //     isLogoutPresent: isLogoutPresent
-    //   }
+      // const newStudentData = {
+      //   ...studentToUpdate,
+      //   isLoginPresent: isLoginPresent,
+      //   isLogoutPresent: isLogoutPresent
+      // }
 
-    //   console.log(students)
+      // console.log(students)
 
-    //   if (studentToUpdate && students !== null) {
-    //     setMessage("set students successfully")
-    //     setCount(count + 1)
-    //     setStudents(students.map(student => {
-    //       if (student.id === studentID) {
-    //         return {
-    //           ...student,
-    //           ...newStudentData
-    //         }
-    //       }
-    //       return student
-    //     }))
-    //     console.log("students updated")
-    //   } else {
-    //     setMessage("students not updated")
-    //     console.log("update failed")
-    //   }
-    // })
-    // .subscribe()
+      // if (studentToUpdate && students !== null) {
+      //   setMessage("set students successfully")
 
-    // return () => {
-    //   supabase.removeChannel(channel);
-    // };
-  }, [students])
+      //   setStudents(students?.map(student => {
+      //     if (student.id === studentID) {
+      //       return {
+      //         ...student,
+      //         ...newStudentData
+      //       }
+      //     }
+      //     return student
+      //   }))
+      //   console.log("students updated")
+      // } else {
+      //   setMessage("students not updated")
+      //   console.log("update failed")
+      // }
+    })
+    .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [])
   
   return (
     <div className=" overflow-hidden min-h-[100vh] pt-24">

@@ -112,7 +112,7 @@ const Home: React.FC = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  });
+  }, []);
 
   // Event form
   const [isOpen, setIsOpen] = useState(false);
