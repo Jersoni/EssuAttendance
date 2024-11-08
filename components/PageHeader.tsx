@@ -9,7 +9,7 @@ const PageHeader: React.FC<headerProps> = ({title, subtitle, children, returnPat
     const router = useRouter()
 
     return (
-        <div className={`w-full h-14 bg-white border-b border-gray-200 pl-1 pr-5 flex z-[1200] ${className} `}>
+        <div className={`w-full h-14 bg-white border-b border-gray-200 pl-1 pr-5 flex !z-[1200] ${className} `}>
             <div className="flex flex-row items-center">
                 {/* return button */}
                 <button 

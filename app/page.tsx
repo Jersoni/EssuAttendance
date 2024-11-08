@@ -21,48 +21,60 @@ const Home: React.FC = () => {
   }, [router])
 
   // fetch event data
-  const [events, setEvents] = useState<EventProps[]>([])
-  const [ongoingEvents, setOngoingEvents] = useState<EventProps[]>();
-  const [upcomingEvents, setUpcomingEvents] = useState<EventProps[]>();
+  const [ events, setEvents ] = useState<EventProps[]>([])
+  const [ ongoingEvents, setOngoingEvents ] = useState<EventProps[]>();
+  const [ upcomingEvents, setUpcomingEvents ] = useState<EventProps[]>();
+  const { orgId, setOrgId } = useAppContext()
 
   const fetchEvents = async () => {
-    try {
-      const res = await fetch("/api/events");
 
-      if (!res.ok) {
-        console.log("There is an error fetching the events");
+    // fetch org id
+    if (auth?.name !== undefined) {
+      
+      const { data: org, error: idErr } = await supabase
+        .from("organizations")
+        .select("id")
+        .eq("name", auth.name)
+        .single()
+  
+      if (idErr) {
+        console.error(idErr)
+      } else {
+        
+        console.log(org.id)
+        setOrgId(org.id)
+
+        // fetch events
+        const { data: events, error } = await supabase
+          .from("event")
+          .select("*")
+          .eq("org_id", org.id)
+      
+        if (error) {
+          console.error(error)
+        } else {
+
+          const currentDate = new Date();
+
+          const ongoing = events.filter(
+            (event: { eventDate: string | Date }) => new Date(event.eventDate) <= currentDate
+          );
+          const upcoming = events.filter(
+            (event: { eventDate: string | Date }) =>new Date(event.eventDate) > currentDate
+          );
+
+          setEvents(events)
+          setOngoingEvents(ongoing);
+          setUpcomingEvents(upcoming);
+
+        }
       }
-
-      const events = await res.json();
-      const currentDate = new Date();
-
-      const parsedEvents = events.map(
-        (event: { eventDate: string | Date }) => ({
-          ...event,
-          eventDate: new Date(event.eventDate),
-        })
-      );
-
-      const ongoing = parsedEvents.filter(
-        (event: { eventDate: string | Date }) => event.eventDate <= currentDate
-      );
-      const upcoming = parsedEvents.filter(
-        (event: { eventDate: string | Date }) => event.eventDate > currentDate
-      );
-
-      // setEvents(parsedEvents);
-      setEvents(events)
-      setOngoingEvents(ongoing);
-      setUpcomingEvents(upcoming);
-      console.log(events)
-    } catch (error) {
-      console.error(error);
     }
   };
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [auth]);
 
   useEffect(() => {
     const channel = supabase
@@ -80,7 +92,6 @@ const Home: React.FC = () => {
           fetchEvents();
         }
       )
-      // TODO: REALTIME CHANGES FOR UPDATES
       .on(
         "postgres_changes",
         {
@@ -112,7 +123,7 @@ const Home: React.FC = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [auth]);
 
   // Event form
   const [isOpen, setIsOpen] = useState(false);
@@ -132,12 +143,6 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     setEditEventID(Number(searchParams.get("editEventId")))
-  }, [searchParams])
-
-  useEffect(() => {
-    if (searchParams.get("editEventId")) {
-      setIsEditFormOpen(true)
-    }
   }, [searchParams])
 
   const {isNavOpen} = useAppContext()
@@ -175,6 +180,7 @@ const Home: React.FC = () => {
       {/* New event form */}
       {auth?.role === "admin" && (
         <EventForm
+          orgId={orgId}
           isOpen={isOpen}
           toggleEventForm={toggleNewEventForm}
         />
@@ -190,7 +196,7 @@ const Home: React.FC = () => {
 
 
       {/* ON GOING ATTENDANCE BLOCK */}
-      {ongoingEvents && (
+      {(ongoingEvents?.length !== 0 && ongoingEvents) && (
         <div className="mb-10">
           <span className="font-semibold text-gray-400 text-xs ">Happening now</span>
           <div className="ongoing-attendance flex flex-col gap-3 mt-5">
@@ -211,7 +217,7 @@ const Home: React.FC = () => {
       )}
 
       {/* UPCOMING EVENTS BLOCK */}
-      {upcomingEvents && (
+      {(upcomingEvents?.length !== 0 && upcomingEvents) && (
         <div>
           <span className="font-semibold text-gray-400 text-xs ">Upcoming events</span>
           <div className="upcoming-attendance flex flex-col gap-3 mt-5">

@@ -390,7 +390,6 @@ const StudentsPage = () => {
           </div>
         ) : (
           <div className='shadow-sm h-fit'>
-            {/* TODO: Implement infinite scrolling on students list */}
             {students !== undefined && (
               <InfiniteScroll
                 dataLength={students.length}

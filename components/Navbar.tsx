@@ -28,13 +28,8 @@ const Navbar = ({ className }: { className: string }) => {
   // auth verification
   const [ auth, setAuth ] = useState<AuthProps>()
   useEffect(() => {
-    console.log("check auth")
     setAuth(checkAuth(router))
   }, [router, pathname])
-
-  useEffect(() => {
-    console.log(auth)
-  }, [auth])
 
   let convertedPathname =
     pathname.slice(1).charAt(0).toUpperCase() + pathname.slice(1).slice(1);

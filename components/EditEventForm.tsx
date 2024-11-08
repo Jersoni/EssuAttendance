@@ -14,10 +14,10 @@ const EditEventForm: React.FC<{
   eventID?: number
   editFormData: FormEventProps | undefined
 }> = ({
-  isOpen, 
+  isOpen = false, 
   toggleEventForm,
   eventID,
-  editFormData
+  editFormData,
 }) => {
 
   // Frontend
@@ -89,7 +89,6 @@ const EditEventForm: React.FC<{
     setFormData({ ...formData, [name]: updatedValue });
   };
 
-  // TODO: form update submit handler
   // form submit handler
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -113,9 +112,7 @@ const EditEventForm: React.FC<{
   const router = useRouter()
   
   return (
-    // TODO: Student form functionality / submit hhandler
     <div>
-
       {/* EDIT EVENT FORM */}
       <div className={`${isOpen ? "!h-full" : "" } overflow-hidden pointer-events-auto h-0 w-full fixed left-0 bottom-0 bg-white z-[1400] transition-all duration-[400ms] ease-in-out flex flex-col justify-between`}>
 

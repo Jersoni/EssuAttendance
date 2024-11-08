@@ -83,12 +83,6 @@ const EventsCard: React.FC<{
   function toggle() {
     setIsModalOpen(!isModalOpen)
   }
-  
-  // Event form
-  const [isUpdateFormOpen, setIsUpdateFormOpen] = useState(false);
-  const toggleUpdateEventForm = () => {
-    setIsUpdateFormOpen(!isUpdateFormOpen);
-  };
 
   const router = useRouter()
   const pathname = usePathname()
@@ -105,10 +99,6 @@ const EventsCard: React.FC<{
     },
     [searchParams]
   )
-
-  useEffect(() => {
-    console.log(isNavOpen)
-  }, [isNavOpen])
 
   return (
     <div>
@@ -175,7 +165,7 @@ const EventsCard: React.FC<{
                         location: eventData.location,
                         loginTime: eventData.loginTime,
                         logoutTime: eventData.logoutTime,
-                        fineAmount: eventData.fineAmount,
+                        fineAmount: eventData.fineAmount.toFixed(2),
                         eventDate: eventData.eventDate,
                       })
                       toggleEditForm()
@@ -209,8 +199,8 @@ const EventsCard: React.FC<{
 
                 {/* Delete Modal */}
                 <ConfirmationModal
-                    title='Delete?'
-                    content={`Are you sure you want to delete this attendance list? This action cannot be undone.`}
+                    title='Confirm deletion'
+                    content={`Are you sure you want to delete the selected attendance list? This action cannot be undone.`}
                     isOpen={isDeleteModalOpen}
                     onClose={toggleDeleteModal}
                     onConfirm={onConfirm}

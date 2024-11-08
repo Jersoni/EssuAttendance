@@ -158,7 +158,7 @@ const StudentForm: React.FC<FormOperationProps> = () => {
 
           <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="course">Course</label>
-            <select required onChange={handleChange} name="course" id="course" className='form__input' defaultValue='NoCourse'>
+            <select required onChange={handleChange} name="course" id="course" className='form__input'>
               <option value="NoCourse"></option>
               <option value="BSCE">BSCE</option>
               <option value="BSINFOTECH">BS INFO TECH</option>
@@ -180,7 +180,7 @@ const StudentForm: React.FC<FormOperationProps> = () => {
 
           <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
             <label className='form__label' htmlFor="year">Year</label>
-            <select required onChange={handleChange} name="year" id="year" className='form__input' defaultValue={'NoYear'}>
+            <select required onChange={handleChange} name="year" id="year" className='form__input'>
               <option value="NoYear"></option>
               <option value="1">1</option>
               <option value="2">2</option>

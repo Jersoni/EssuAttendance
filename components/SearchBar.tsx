@@ -12,7 +12,6 @@ interface searchBarProps {
   closeSearch: () => void
 }
 
-// TODO: SearchBar component functionality
 const SearchBar: React.FC<searchBarProps> = ({
   className,
   fill,

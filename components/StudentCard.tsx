@@ -119,6 +119,15 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
     }
   }
 
+  function getFirstName() {
+    if (studentData.name.indexOf(".") === -1) {
+      return studentData.name.split(",")[1].trim()
+    } else {
+      return studentData.name.split(",")[1].slice(0, (studentData.name.split(",")[1].indexOf(".")-2)).trim()
+    }
+  }
+
+  
   return (
     <div className={`flex flex-row items-center gap-4 border-gray-200 border-b z-100 ${className}`}>
       {/* STUDENT */}
@@ -169,7 +178,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
         isOpen={isLoginModalOpen} 
         title="Confirm Attendance"
         content={
-          <div className="text-sm">Mark {studentData.name}&apos;s login status as {isLoginPresent ? 'absent' : 'present'}?</div>
+          <div className="text-sm">Mark {getFirstName()}&apos;s login status as {isLoginPresent ? 'absent' : 'present'}?</div>
         } 
         onClose={handleLoginModalToggle}
         onConfirm={handleLoginCheckboxChange}  

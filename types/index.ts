@@ -1,4 +1,5 @@
 export interface AuthProps {
+    org_id: number
     name: string
     code: string
     role: "student" | "admin"
@@ -34,6 +35,7 @@ export interface EventProps {
     logoutTime: string
     fineAmount: number
     eventDate: string
+    org_id?: number
 }
 
 export interface FormEventProps {
@@ -73,6 +75,7 @@ export interface Attendance {
     isLoginPresent: boolean;
     isLogoutPresent: boolean;
     studentId: string;
+    isPaid?: boolean
 }   
 
 export interface ConfirmationModalProps {

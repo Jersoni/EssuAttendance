@@ -25,6 +25,7 @@ const EventPage: React.FC = ({ params }: any) => {
 
   // auth verification
   const [ auth, setAuth ] = useState<AuthProps>()
+  
   useEffect(() => {
     setAuth(checkAuth(router))
   }, [router])
@@ -122,7 +123,6 @@ const EventPage: React.FC = ({ params }: any) => {
     
     async function getData(): Promise<any> {
       if (queryParams === undefined) {
-        console.log("no filters")
         return supabase
           .from("student")
           .select("*")
@@ -130,7 +130,6 @@ const EventPage: React.FC = ({ params }: any) => {
           .order("name", { ascending: true })
           .range(page * numPerPage, (page + 1) * numPerPage - 1);
       } else {
-        console.log("with filters")
 
         if (!isNewPage) {
           setPage(0)
@@ -158,7 +157,6 @@ const EventPage: React.FC = ({ params }: any) => {
     if (error) {
       console.log(error)
     } else {
-      console.log(data)
       if (isNewPage) {
         setStudents(prev => {
           // add the isPresent to 'students' state variable
@@ -232,122 +230,6 @@ useEffect(() => {
   useEffect(() => {
     getStudents(true);
   }, [page])
-
-// // FETCH STUDENTS (after getting the attendance data)
-
-//   const fetchStudentsDataWithFilters = async () => {
-//     if (attendanceData) {
-//       const studentIDs = attendanceData.map((data) => data.studentId);
-//       const queryParams = {
-//         courses: searchParams.get("courses")?.split(","),
-//         years: searchParams.get("years")?.split(",").map((i) => parseInt(i)),
-//         sections: searchParams.get("sections")?.split(","),
-//         order: searchParams.get("order"),
-//         sortBy: searchParams.get("sortBy"),
-//       };
-
-//       if (
-//         queryParams.courses &&
-//         queryParams.years &&
-//         queryParams.sections &&
-//         queryParams.sortBy
-//       ) {
-//         const { data, error } = await supabase
-//           .from("student")
-//           .select("*")
-//           .in("id", studentIDs)
-//           .in("course", queryParams.courses)
-//           .in("year", queryParams.years)
-//           .in("section", queryParams.sections)
-//           .order(queryParams.sortBy, {
-//             ascending: queryParams.order === "ascending",
-//           });
-
-//         if (data) {
-//           // add the isPresent to 'students' state variable
-//           let modifiedData = data.map((student) => {
-//             const attendance = attendanceData.find(
-//               (row) => row.studentId === student.id
-//             );
-//             return {
-//               ...student,
-//               isLoginPresent: attendance?.isLoginPresent,
-//               isLogoutPresent: attendance?.isLogoutPresent
-//             };
-//           });
-
-//           setStudents(modifiedData);
-//         }
-//       }
-//     }
-//   }
-
-//   const fetchStudentsData = async () => {
-//     if (attendanceData) {
-//       const studentIDs = attendanceData.map((data) => data.studentId);
-
-//       try {
-//         const { data, error } = await supabase
-//           .from("student")
-//           .select("*")
-//           .in("id", studentIDs)
-//           .order("name", { ascending: true })
-//           .range(page * numPerPage, (page + 1) * numPerPage - 1);
-
-//         if (error) {
-//           throw error;
-//         }
-
-//         // add the isPresent to 'students' state variable
-//         let modifiedData = data.map((student) => {
-//           const attendance = attendanceData.find(
-//             (row) => row.studentId === student.id
-//           );
-//           return {
-//             ...student,
-//             isLoginPresent: attendance?.isLoginPresent,
-//             isLogoutPresent: attendance?.isLogoutPresent
-//           };
-//         });
-
-//         console.log(modifiedData)
-//         console.log(students)
-//         // setStudents(prev => (prev[0].id !== modifiedData[0].id) 
-//         //   ? [
-//         //       ...(prev || []),
-//         //       ...modifiedData
-//         //     ]
-//         //   : prev 
-//         // )
-
-//         setHasMore(modifiedData.length === numPerPage);
-
-//         modifiedData.length === 0
-//         ? setIsStudentsEmpty(true)
-//         : setIsStudentsEmpty(false)
-//       } catch (error: any) {
-//         setError(error.message);
-//       }
-//     }
-//   };
-
-//   useEffect(() => {
-//     console.log(students)
-//     console.log(page)
-//   }, [students, page])
-
-//   useEffect(() => { // fetch students
-//     if (searchParams.get("order")) {
-//       fetchStudentsDataWithFilters()
-//     } else {
-//       fetchStudentsData(); 
-//     }
-//   }, [attendanceData, searchParams]); 
-
-
-//   useEffect(() => { // fetch new students data if page changes
-//     fetchStudentsData(); 
-//   }, [page])
 
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<StudentProps[] | any>([]);
@@ -506,39 +388,6 @@ useEffect(() => {
           setUpdatedStudent(data as StudentProps)
         }
       })()
-
-      // const studentToUpdate = students?.find(student => student.id === studentID);
-      // const indexOfStudentToUpdate = students?.findIndex(student => student.id === studentID)
-      // const {isLoginPresent, isLogoutPresent} = payload.new
-
-      // const newStudentData = {
-      //   ...studentToUpdate,
-      //   isLoginPresent: isLoginPresent,
-      //   isLogoutPresent: isLogoutPresent
-      // }
-
-      // console.log(studentID)
-      // console.log(studentToUpdate)
-      // console.log(students)
-      // console.log(newStudentData)
-
-      // if (studentToUpdate && students !== null) {
-      //   setMessage("set students successfully")
-
-      //   setStudents(students?.map(student => {
-      //     if (student.id === studentID) {
-      //       return {
-      //         ...student,
-      //         ...newStudentData
-      //       }
-      //     }
-      //     return student
-      //   }))
-      //   console.log("students updated")
-      // } else {
-      //   setMessage("students not updated")
-      //   console.log("update failed")
-      // }
     })
     .subscribe()
 
@@ -548,16 +397,11 @@ useEffect(() => {
   }, [])
 
   useEffect(() => {
-    console.log(students)
-    console.log(updatedStudent)
-    console.log(updatedStudentPayload)
 
     if (updatedStudentPayload !== undefined 
       && updatedStudent !== undefined
       && updatedStudent.id === updatedStudentPayload.studentId
     ) {
-
-      console.log(updatedStudent.id)
 
       const newStudentData = {
         ...updatedStudent,
@@ -574,41 +418,8 @@ useEffect(() => {
       setUpdatedStudentPayload(undefined)
 
     }
-    // if (updatedStudentPayload !== undefined && updatedStudent !== undefined) {
-    //   const studentToUpdate = students?.find(student => student.id === updatedStudent?.id);
-    //   // const indexOfStudentToUpdate = students?.findIndex(student => student.id === updatedStudent?.id)
-    //   const {isLoginPresent, isLogoutPresent} = updatedStudentPayload
 
-    //   const newStudentData = {
-    //     ...studentToUpdate,
-    //     isLoginPresent: isLoginPresent,
-    //     isLogoutPresent: isLogoutPresent
-    //   }
-
-    //   console.log(updatedStudent?.id)
-    //   console.log(studentToUpdate)
-    //   console.log(students)
-    //   console.log(newStudentData)
-
-    //   if (studentToUpdate && students !== null) {
-
-    //     setStudents(students?.map(student => {
-    //       if (student.id === updatedStudent?.id) {
-    //         return {
-    //           ...student,
-    //           ...newStudentData
-    //         }
-    //       }
-    //       return student
-    //     }))
-    //     console.log("students updated")
-
-    //     // setUpdatedStudentPayload(undefined)
-    //     // setUpdatedStudent(undefined)
-    //   } else {
-    //     console.log("update failed")
-    //   }
-    // }
+    
   }, [updatedStudent])
   
   return (
@@ -620,7 +431,14 @@ useEffect(() => {
           returnPath="/"
         />
 
-        <div className="w-full flex flex-row items-center text-xs text-gray-400 justify-between px-5 py-2 border-b border-b-gray-200 bg-white" >
+        {/* TODO: 
+        *  implement new features:
+        *  - [ ] close login (prevent further logins)
+        *  - [ ]
+        *  close logout (prevent further logouts)
+        */}
+
+        <div className="w-full flex flex-row items-center text-xs text-gray-400 justify-between px-5 py-2 border-b border-b-gray-200 bg-white !z-[1400]" >
           <span>Student</span>
           <div className="flex flex-row gap-2">
             <span>Login</span>

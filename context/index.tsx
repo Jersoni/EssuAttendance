@@ -9,11 +9,12 @@ export const AppWrapper = ({
   children: React.ReactNode 
 }) => {
   const [isNavOpen, setIsNavOpen] = useState(false)
+  const [orgId, setOrgId] = useState(0)
 
   return (
     <AppContext.Provider value={{
-      isNavOpen, 
-      setIsNavOpen
+      isNavOpen, setIsNavOpen,
+      orgId, setOrgId,
     }}>
       {children}
     </AppContext.Provider>

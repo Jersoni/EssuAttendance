@@ -55,7 +55,7 @@ export function checkAuth(router: AppRouterInstance, onLogin = false) {
       router.push("/")
     }
 
-    const { name, value, expiry } : { name: string, value: string, expiry: number } = authToken 
+    const { org_id, name, value, expiry } : { org_id: number, name: string, value: string, expiry: number } = authToken 
       ? JSON.parse(authToken)
       : {value: "", expiry: 0}
   
@@ -66,12 +66,14 @@ export function checkAuth(router: AppRouterInstance, onLogin = false) {
 
     return JSON.parse(authToken).value === ""
       ? {
+        org_id: org_id,
         name: name,
         code: value, 
         role: "student",
         signout: signout,
       } as AuthProps
       : { 
+        org_id: org_id,
         name: name, 
         code: value, 
         role: "admin", 

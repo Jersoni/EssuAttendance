@@ -9,13 +9,13 @@ import { IoAdd } from "react-icons/io5";
 
 // NEW EVENT FORM COMPONENT
 const EventForm: React.FC<{
-  data?: FormEventProps
   isOpen: boolean;
   toggleEventForm: () => void;
+  orgId: number
 }> = ({
   isOpen, 
   toggleEventForm,
-  data
+  orgId,
 }) => {
 
   // Frontend
@@ -59,20 +59,6 @@ const EventForm: React.FC<{
     eventDate: "",
   })
 
-  // useEffect(() => {
-  //   if (data && operation === "update") {
-  //     const date = new Date(data.eventDate.toString())
-  //     const formattedDate = date.toISOString().slice(0, 10);
-      
-  //     setFormData({
-  //       ...data,
-  //       eventDate: formattedDate,
-  //     })
-  //   }
-  // }, [data])
-
-  // reference ID for updating an event (dummy data for now)
-
   // OnChange handler for all input elements
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     let {name, value} = e.target
@@ -88,20 +74,24 @@ const EventForm: React.FC<{
     console.log("handling submit")
     console.log(formData)
 
-    const {data, error} =  await supabase.from('event')
-      .insert([ {...formData} ])
+    if (orgId !== 0) {
 
-    if (error) {
-      // Handle error
-      console.error(error);
-    } else {
-      // Handle success
-      console.log(data);
-    }
+      console.log(orgId)
+
+      const {data, error} =  await supabase
+        .from('event')
+        .insert([ {...formData, org_id: orgId} ])
+  
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(data);
+      }
+    } 
+
   }
   
   return (
-    // TODO: Student form functionality / submit hhandler
     <div>
       {/* NEW EVENT BUTTON */}
       <button onClick={toggleEventForm} className='z-[500] fixed bottom-4 right-4 grid place-items-center bg-white border border-gray-100 w-16 h-16 shadow-md rounded-full' >

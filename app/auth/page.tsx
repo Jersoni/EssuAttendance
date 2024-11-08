@@ -9,6 +9,7 @@ import { Spinner } from '@/components';
 import { PiBookOpenTextFill } from "react-icons/pi";
 import { hashString } from '@/utils/utils';
 import { HiMiniUserGroup } from "react-icons/hi2";
+import { useAppContext } from '@/context';
 
 const Auth = () => {
 
@@ -38,6 +39,7 @@ const Auth = () => {
 
   // auth verification
   const [ auth, setAuth ] = useState<AuthProps>()
+
   useEffect(() => {
     setAuth(checkAuth(router, true))
   }, [router])
@@ -68,7 +70,7 @@ const Auth = () => {
 
   const handleNameInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = event.target
-    const newValue = value.toUpperCase()
+    const newValue = value.toUpperCase().trim()
 
     setIsOptionsOpen(true)
     setError("")
@@ -110,16 +112,18 @@ const Auth = () => {
       setIsAdminLoading(false)
     } else {
 
-      const authData = data as AuthProps
+      const orgData = data as OrgProps
+      console.log(orgData)
 
-      if (isAdminSignin && data.code) {
+      if (isAdminSignin && orgData.code) {
         console.log("admin signin")
 
-        if (data.code === code) {
-          const hashedCode = await hashString(data.code)
+        if (orgData.code === code) {
+          const hashedCode = await hashString(orgData.code)
   
           localStorage.setItem('authToken', JSON.stringify({
-            name: data.name,
+            org_id: orgData.id,
+            name: orgData.name,
             value: hashedCode,
             expiry: new Date().getTime() + 3600000
           }))
@@ -131,22 +135,26 @@ const Auth = () => {
         }
 
         router.push("/")
+
       } else {
+
         if (isAdmin) {
           console.log("admin ")
-          setOrg(data)
+          setOrg(orgData)
           setIsStudentLoading(false)
           setIsAdminLoading(false)
           setIsModalOpen(true)
         } else {
           localStorage.setItem('authToken', JSON.stringify({
-            name: authData.name,
+            org_id: orgData.id,
+            name: orgData.name,
             value: "",
             expiry: new Date().getTime() + 3600000
           }))
   
           router.push("/")
         }
+
       }
       
     }

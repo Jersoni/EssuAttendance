@@ -82,7 +82,7 @@ const StudentForm = ({
     if (error) {
       console.error(error)
     } else {
-      console.log(data)
+      // console.log(data)
       setStudent(data)
     }
   }
@@ -107,10 +107,6 @@ const StudentForm = ({
       })
     }
   }, [student])
-
-  useEffect(() => {
-    console.log(formData)
-  }, [formData])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { GoChevronDown } from "react-icons/go";
 import { RiFilter2Line } from "react-icons/ri";
 
-// TODO: FILTER FUNCTIONALITY
 /* eslint-disable react-hooks/exhaustive-deps */
 const Filter = ({
     courses = [], years = [], sections = [], sortBy, order,

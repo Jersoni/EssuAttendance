@@ -5,8 +5,12 @@ import Head from 'next/head';
 import "./globals.css";
 import NextTopLoader from 'nextjs-toploader';
 import { AppWrapper } from "@/context";
+import { Inter } from 'next/font/google'
 
-// const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"], 
+  weight: ["100" , "200" , "300" , "400" , "500" , "600" , "700" , "800" , "900"]
+});
 const bebasNeue = localFont({ src: '../public/fonts/BebasNeue-Regular.ttf' })
 
 export const metadata: Metadata = {
@@ -54,7 +58,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <body 
-        // className={inter.className}
+        className={inter.className}
       >
         <NextTopLoader 
           color="#16a34a"
