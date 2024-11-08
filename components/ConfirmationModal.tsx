@@ -10,11 +10,12 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = (
         onClose, 
         confirmBtnLabel = 'Confirm', 
         confirmBtnVariant = 'primary',
-        type = 'default'
+        type = 'default',
+        className
     }
 ) => {
     return (
-        <div className={`${isOpen ? "opacity-100" : "pointer-events-none"} grid opacity-0 transition-all duration-300 modal-overlay fixed bg-black bg-opacity-40 top-0 left-0 right-0 bottom-0 place-items-center !z-[1500]`}>
+        <div className={`${isOpen ? "opacity-100" : "pointer-events-none"} grid opacity-0 transition-all duration-300 fixed bg-black bg-opacity-40 top-0 left-0 right-0 bottom-0 place-items-center !z-[1500] border ${className}`}>
             <div className={`flex flex-col bg-white w-[80vw] h-fit rounded-xl transition-all duration-500 `}>
                 <div className='p-5 flex flex-col'>
                     <span className='font-bold text-lg border-gray-200'>{title}</span>

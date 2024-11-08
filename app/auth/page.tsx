@@ -13,14 +13,6 @@ import { useAppContext } from '@/context';
 
 const Auth = () => {
 
-  const [count, setCount] = useState<number>(0)
-
-  useEffect(() => { 
-    setTimeout(() => {
-      setCount(count + 1)
-    }, 1000)
-  }, [count])
-
   function scrollTop() {
     window.scrollTo({
       top: 0,
@@ -217,8 +209,6 @@ const Auth = () => {
           <span className='font-bold text-lg text-gray-700'>ESSUattend</span>
         </div>
       </div>
-
-      <span className='fixed top-8 right-8'>{count}</span>
 
       <div className='flex flex-col w-full p-10'>
         <div className='flex flex-col'>

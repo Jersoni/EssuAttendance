@@ -181,7 +181,8 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
           <div className="text-sm">Mark {getFirstName()}&apos;s login status as {isLoginPresent ? 'absent' : 'present'}?</div>
         } 
         onClose={handleLoginModalToggle}
-        onConfirm={handleLoginCheckboxChange}  
+        onConfirm={handleLoginCheckboxChange} 
+        className={"!bg-opacity-20"}
       />
 
       <ConfirmationModal

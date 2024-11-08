@@ -87,6 +87,7 @@ export interface ConfirmationModalProps {
     confirmBtnLabel?: string;
     confirmBtnVariant?: "primary" | "secondary" | "clear" | "close" | "small-circle" | "small-square";
     type?: 'default' | 'delete';
+    className?: string
 }
 
 export interface FilterProps {

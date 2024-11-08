@@ -423,7 +423,7 @@ useEffect(() => {
   }, [updatedStudent])
   
   return (
-    <div className=" overflow-hidden min-h-[100vh] pt-24">
+    <div className="relative overflow-hidden min-h-[100vh] pt-24">
       <div className="h-20 w-full fixed z-[300] top-0">
         <PageHeader
           title={event?.title}
@@ -438,7 +438,7 @@ useEffect(() => {
         *  close logout (prevent further logouts)
         */}
 
-        <div className="w-full flex flex-row items-center text-xs text-gray-400 justify-between px-5 py-2 border-b border-b-gray-200 bg-white !z-[1400]" >
+        <div className="w-full flex flex-row items-center text-xs text-gray-400 justify-between px-5 py-2 border-b border-b-gray-200 bg-white" >
           <span>Student</span>
           <div className="flex flex-row gap-2">
             <span>Login</span>
