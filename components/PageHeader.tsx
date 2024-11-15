@@ -4,7 +4,7 @@ import { IoChevronBack } from "react-icons/io5";
 import { headerProps } from '@/types';
 
 // PageHeader Component
-const PageHeader: React.FC<headerProps> = ({title, subtitle, children, returnPath, className}) => {
+const PageHeader: React.FC<headerProps> = ({title, subtitle, children, returnPath = null, className}) => {
 
     const router = useRouter()
 

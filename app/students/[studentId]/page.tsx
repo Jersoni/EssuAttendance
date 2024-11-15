@@ -361,12 +361,9 @@ const Student = ({ params }: { params: any }) => {
             </div>
 
             <div className="overflow-y-auto pb-40 px-5">
-                <div className='flex mt-4 items-center justify-between'>
-                    <h2 className='text-sm font-semibold text-[#414855]'>Profile</h2>
-                </div>
 
                 {student === undefined ? (
-                    <div className='flex flex-col gap-1 mt-3 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-lg text-sm'>
+                    <div className='flex flex-col gap-1 mt-4 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-lg text-sm'>
                         <div className='flex flex-row gap-4'>
                             <span className='bg-gray-200 animate-pulse rounded-md h-4 w-12 '></span>
                             <span className='bg-gray-200 animate-pulse rounded-md h-4 w-36 '></span>
@@ -381,29 +378,16 @@ const Student = ({ params }: { params: any }) => {
                         </div>
                     </div>
                 ) : (
-                    <div className='flex flex-col gap-1 mt-3 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-lg text-sm'>
-                        <div className='flex flex-row gap-4'>
-                            <p className='min-w-14 text-gray-700'>Name</p>
-                            <span className='text-gray-600'>{student?.name}</span>
-                        </div>
-                        <div className='flex flex-row gap-4'>
-                            <p className='min-w-14 text-gray-700'>ID No</p>
-                            <span className='text-gray-600'>{student?.id}</span>
-                        </div>
-                        <div className='flex flex-row gap-4'>
-                            <p className='min-w-14 text-gray-700'>Class</p>
-                            <span className='text-gray-600'>{`${course} ${student?.year}${student?.section}`}</span>
-                        </div>
+                    <div className='flex flex-col gap-1 mt-4 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-lg text-sm'>
+                            <span className='text-gray-900 font-semibold text-base'>{student?.name}</span>
+                            <span className='text-gray-800 text-xs'>{student?.id}</span>
+                            <span className='text-gray-800 text-xs'>{`${course} ${student?.year}${student?.section}`}</span>
                     </div>
                 )}
                 
-                <div className='flex mt-7 items-center justify-between'>
-                    <h2 className='text-sm font-semibold text-[#414855]'>Fines</h2>
-                </div>
-
-
                 {student === undefined ? (
                     <div className='mt-3 h-fit p-5 w-full border border-gray-200 bg-white shadow-sm rounded-lg flex flex-col text-sm'>
+                        
                         <div className='flex flex-col gap-2'>
                             <div className='flex flex-row justify-between'>
                                 <span className='bg-gray-200 animate-pulse rounded-md h-4 w-32 '></span>
@@ -421,21 +405,26 @@ const Student = ({ params }: { params: any }) => {
                     </div>
                 ) : (
                     <div className='mt-3 h-fit p-5 w-full border border-gray-200 bg-white shadow-sm rounded-lg flex flex-col text-sm'>
-                        <div className='flex flex-col gap-4'>
-                            {eventsAbsent?.length !== 0 && eventsAbsent?.map((eventData) => (
+                        <h2 className='text-base font-semibold text-gray-800 '>Fines</h2>
+                        <div className='flex flex-col gap-4 mt-6'>
+                            {eventsAbsent?.length !== 0 ? eventsAbsent?.map((eventData) => (
                                 <EventLink 
                                     key={eventData.id} 
                                     eventData={eventData} 
                                     studentId={student.id}
                                     attendanceData={attendancesAbsent}
                                 />
-                            ))}
+                            )) : (
+                                <span className='text-gray-400'>No outstanding fines for this student.</span>
+                            )}
                         </div>
 
-                        <div className='flex pt-5 mt-6 border-t border-gray-300 justify-between'>
-                            <p className='text-sm text-gray-500'>TOTAL</p>
-                            <p className='text-gray-500'>₱ {totalFines.toFixed(2)}</p>
-                        </div>
+                        {eventsAbsent?.length !== 0 && (
+                            <div className='flex pt-5 mt-6 border-t border-gray-300 justify-between'>
+                                <p className='text-sm text-gray-500'>TOTAL</p>
+                                <p className='text-gray-500'>₱ {totalFines.toFixed(2)}</p>
+                            </div>
+                        )}
                     </div>
                 )}
 

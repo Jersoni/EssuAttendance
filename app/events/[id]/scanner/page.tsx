@@ -54,7 +54,8 @@ const Scanner = () => {
         })
         .then(({ data: { text } }) => {
           // find matching ID
-          const matchingID = text.match(/\b\d{2}-\d{4}\b/g);
+          const matchingID = text.match(/\b(\d{2}-\d{4}|\d{6})\b/g);
+
           if (matchingID) { // if ID is found
             console.log(`FOUND A MATCH: ${matchingID}`)
             setResultID(matchingID[0])
@@ -75,11 +76,17 @@ const Scanner = () => {
   // get student info when resultID changes
   useEffect(() => {
     const fetchStudent = async () => {
-      if (resultID && eventId) {
+
+      const newID = !resultID.includes("-") ? `${resultID.slice(0,2)}-${resultID.slice(2)}` : resultID
+
+      console.log(resultID)
+      console.log(newID)
+
+      if (resultID && eventId && newID) {
         const {data, error} = await supabase
           .from("student")
           .select()
-          .eq("id", resultID)
+          .eq("id", newID)
           .single()
 
         if (error) {
