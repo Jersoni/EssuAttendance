@@ -11,6 +11,7 @@ import styles from './styles.module.css';
 import { RotatingLines } from 'react-loader-spinner'
 import { Spinner } from "@/components";
 import { checkAuth } from "@/utils/utils";
+import { useAppContext } from "@/context";
 
 const StudentsPage = () => {
 
@@ -18,9 +19,35 @@ const StudentsPage = () => {
 
   // get user role
   const [ auth, setAuth ] = useState<AuthProps>()
+
   useEffect(() => {
     setAuth(checkAuth(router))
   }, [router])
+
+  const [program, setProgram] = useState<string>() // eg. BSINFOTECH
+
+  // fetch program
+  useEffect(() => {
+    if (auth) {
+      (async () => {
+        try {
+          const { data, error } = await supabase
+            .from("organizations")
+            .select("program")
+            .eq("id", auth.org_id)
+            .single()
+            
+          if (error) {
+            console.error(error)
+          } else {
+            setProgram(data.program)
+          }
+        } catch(e) {
+          console.error(e)
+        }
+      })()
+    }
+  }, [auth])
 
   const [students, setStudents] = useState<StudentProps[] | undefined>(undefined)
   const [loading, setLoading] = useState(false)
@@ -35,7 +62,10 @@ const StudentsPage = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isStudentsEmpty, setIsStudentsEmpty] = useState(false);
 
-  const fetchStudentsDataWithFilters = async (isNewPage = false) => {
+  const fetchStudentsDataWithFilters = async (
+      isNewPage = false, 
+      program = ""
+  ) => {
     const queryParams = {
       courses: searchParams.get("courses")?.split(","),
       years: searchParams.get("years")?.split(",").map((i) => parseInt(i)),
@@ -53,6 +83,7 @@ const StudentsPage = () => {
       const { data, error } = await supabase
         .from("student")
         .select("*")
+        .eq("course", program)
         .in("course", queryParams.courses)
         .in("year", queryParams.years)
         .in("section", queryParams.sections)
@@ -62,7 +93,7 @@ const StudentsPage = () => {
         .range(
             !isNewPage ? 0 : (page * numPerPage), 
             !isNewPage ? numPerPage - 1 : ((page + 1) * numPerPage - 1)
-        ) 
+        )
 
       if (!isNewPage) {
         setPage(0)
@@ -86,10 +117,14 @@ const StudentsPage = () => {
     }
   }
 
-  const fetchStudents = async (isNewPage = false) => {
+  const fetchStudents = async (
+      isNewPage = false, 
+      program = ""
+  ) => {
     const { data, error } = await supabase
       .from("student")
       .select("*")
+      .eq("course", program)
       .order("name", { ascending: true })
       .range(page * numPerPage, (page + 1) * numPerPage - 1);
 
@@ -110,24 +145,25 @@ const StudentsPage = () => {
     }        
   };
 
-  const getStudents = (isNewPage = false) => {
+  const getStudents = (isNewPage = false, program = "") => {
+    if (program !== "") {
+        if (searchParams.get("order")) {
+          fetchStudentsDataWithFilters(isNewPage, program)
+        } else {
+          fetchStudents(isNewPage, program);
+        }
 
-    if (searchParams.get("order")) {
-      fetchStudentsDataWithFilters(isNewPage)
-    } else {
-      fetchStudents(isNewPage);
+        setLoading(false);
     }
-  
-    setLoading(false);
   }
 
   useEffect(() => {
-    getStudents(false)
-  }, [searchParams]);
+    getStudents(false, program)
+  }, [searchParams, program]);
 
   useEffect(() => {
-    getStudents(true)
-  }, [page])
+    getStudents(true, program)
+  }, [page, program])
 
   useEffect(() => {
     const channel = supabase
@@ -326,6 +362,8 @@ const StudentsPage = () => {
         // UI logic
         isOpen={isOpen}
         setIsOpen={() => {setIsOpen(!isOpen)}}
+        // program/course
+        program={program}
       />
 
       {auth?.role === "admin" && (
@@ -362,7 +400,7 @@ const StudentsPage = () => {
             setSearchQuery("")
             if (searchQuery !== "") {
               setStudents([])
-              getStudents(false)
+              getStudents(false, program)
             }
           }}
         />

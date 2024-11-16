@@ -4,6 +4,7 @@ export interface AuthProps {
     code: string
     role: "student" | "admin"
     signout: () => void
+    program?: string
 }
 
 export interface StudentProps {

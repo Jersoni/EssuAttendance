@@ -16,9 +16,48 @@ const Home: React.FC = () => {
 
   // get user role
   const [ auth, setAuth ] = useState<AuthProps>()
+
   useEffect(() => {
     setAuth(checkAuth(router))
   }, [router])
+
+  useEffect(() => {
+    let isMounted = true; // Track if the effect is still active
+
+    if (auth?.program === undefined && auth) {
+      const fetchProgram = async () => {
+        try {
+          const { data, error } = await supabase
+            .from("organizations")
+            .select("program")
+            .eq("id", auth.org_id)
+            .single()
+
+          if (isMounted) {
+            if (error) {
+              console.error("Error fetching organization data:", error);
+            } else if (data) {
+              setAuth((prev) => ({
+                ...prev,
+                program: data.program,
+              }) as AuthProps);
+            }
+          }
+        } catch (e) {
+          if (isMounted) {
+            console.error("Unexpected error:", e);
+          }
+        }
+      };
+
+      fetchProgram();
+    }
+
+    // Cleanup function
+    return () => {
+      isMounted = false; // Mark effect as inactive
+    };
+  }, [auth])
 
   // fetch event data
   const [ events, setEvents ] = useState<EventProps[]>([])

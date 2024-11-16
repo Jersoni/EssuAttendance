@@ -365,15 +365,12 @@ const Student = ({ params }: { params: any }) => {
                 {student === undefined ? (
                     <div className='flex flex-col gap-1 mt-4 h-fit p-5 pr-7 w-full border border-gray-200 bg-white shadow-sm rounded-lg text-sm'>
                         <div className='flex flex-row gap-4'>
-                            <span className='bg-gray-200 animate-pulse rounded-md h-4 w-12 '></span>
-                            <span className='bg-gray-200 animate-pulse rounded-md h-4 w-36 '></span>
+                            <span className='bg-gray-300 animate-pulse rounded-md h-4 w-36 '></span>
                         </div>
                         <div className='flex flex-row gap-4'>
-                            <span className='bg-gray-200 animate-pulse rounded-md h-4 w-12 '></span>
                             <span className='bg-gray-200 animate-pulse rounded-md h-4 w-20 '></span>
                         </div>
                         <div className='flex flex-row gap-4'>
-                            <span className='bg-gray-200 animate-pulse rounded-md h-4 w-12 '></span>
                             <span className='bg-gray-200 animate-pulse rounded-md h-4 w-28 '></span>
                         </div>
                     </div>

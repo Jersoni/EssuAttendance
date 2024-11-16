@@ -1,4 +1,5 @@
 'use client'
+import { AuthProps } from '@/types';
 import React, { createContext, useContext, useState, useEffect, SetStateAction } from 'react';
 
 const AppContext = createContext<any>(undefined)

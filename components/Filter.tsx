@@ -8,7 +8,8 @@ import { RiFilter2Line } from "react-icons/ri";
 /* eslint-disable react-hooks/exhaustive-deps */
 const Filter = ({
     courses = [], years = [], sections = [], sortBy, order,
-    setCourses, setYears, setSections, setSortBy, setOrder, applyFilters, isOpen, setIsOpen
+    setCourses, setYears, setSections, setSortBy, setOrder, applyFilters, isOpen, setIsOpen,
+    program
 } : {
     courses?: Array<string>
     years?: Array<string>
@@ -23,6 +24,7 @@ const Filter = ({
     applyFilters: () => void
     isOpen?: boolean
     setIsOpen: () => void
+    program?: string
 }) => {
 
     function handleCoursesChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -113,7 +115,9 @@ const Filter = ({
                     <div className='max-h-fit p-5 overflow-y-scroll h-full'>
                         {/* FILTER */}
                         <div className='flex flex-col'>
-                            <DropDownChecklist options={COURSE} label='COURSE' onChange={handleCoursesChange} filters={courses} />
+                            {(program === "ALL") && (
+                                <DropDownChecklist options={COURSE} label='COURSE' onChange={handleCoursesChange} filters={courses} />
+                            )}
                             <DropDownChecklist options={YEAR} label='YEAR' onChange={handleYearsChange} filters={years}  />
                             <DropDownChecklist options={SECTION} label='SECTION' onChange={handleSectionsChange} filters={sections} />
                         </div>

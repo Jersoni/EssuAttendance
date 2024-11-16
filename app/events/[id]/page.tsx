@@ -29,7 +29,31 @@ const EventPage: React.FC = ({ params }: any) => {
   useEffect(() => {
     setAuth(checkAuth(router))
   }, [router])
-  
+
+  const [program, setProgram] = useState<string>() // eg. BSINFOTECH
+
+  // fetch program
+  useEffect(() => {
+    if (auth) {
+      (async () => {
+        try {
+          const { data, error } = await supabase
+            .from("organizations")
+            .select("program")
+            .eq("id", auth.org_id)
+            .single()
+            
+          if (error) {
+            console.error(error)
+          } else {
+            setProgram(data.program)
+          }
+        } catch(e) {
+          console.error(e)
+        }
+      })()
+    }
+  }, [auth])
 
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -505,6 +529,8 @@ useEffect(() => {
           // UI logic
           isOpen={isOpen}
           setIsOpen={() => {setIsOpen(!isOpen)}}
+          // program/course
+          program={program}
         />
 
         {isSearchOpen && (
