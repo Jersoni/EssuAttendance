@@ -1,12 +1,13 @@
 'use client'
-import { Attendance, EventProps } from "@/types"
+import { Attendance, AuthProps, EventProps } from "@/types"
 import { GoArrowUpRight } from "react-icons/go";
 import Link from "next/link";
-import { formatDate } from "@/utils/utils";
+import { checkAuth, formatDate } from "@/utils/utils";
 import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa"
 import ConfirmationModal from "./ConfirmationModal";
 import supabase from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation";
 
 export default function EventLink({ 
     eventData,
@@ -17,6 +18,14 @@ export default function EventLink({
     attendanceData: Attendance[] | undefined, 
     studentId: string 
 }) {
+
+    // get user role
+    const router = useRouter()
+    const [ auth, setAuth ] = useState<AuthProps>()
+
+    useEffect(() => {
+        setAuth(checkAuth(router))
+    }, [router])
 
     const fine: string = "₱ " + eventData.fineAmount.toFixed(2).toString()
 
@@ -73,23 +82,25 @@ export default function EventLink({
     return (
         <div className='flex flex-row'>
             <div className="flex flex-row items-center gap-3">
-                <div 
-                    onClick={toggleDeleteModal}
-                    className={` bg-gray-100 bg-opacity-80 border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center`} 
-                >
-                    {isChecked === true && <FaCheck className={"text-gray-600"} size={18} />}
-                    {isChecked !== undefined && (
-                        <input  
-                            type="checkbox"
-                            checked={isChecked} 
-                            className={`hidden`}
-                            readOnly
-                        />
-                    )}
-                </div>
-                <Link href={`/events/${eventData.id}`} className={`${isChecked ? "opacity-40" : ""} border-gray-300 flex flex-col gap-1 max-w-[70%]`}>
+                {auth?.role === "admin" && (
+                    <div 
+                        onClick={toggleDeleteModal}
+                        className={` bg-gray-100 bg-opacity-80 border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center`} 
+                    >
+                        {isChecked === true && <FaCheck className={"text-gray-600"} size={18} />}
+                        {isChecked !== undefined && (
+                            <input  
+                                type="checkbox"
+                                checked={isChecked} 
+                                className={`hidden`}
+                                readOnly
+                            />
+                        )}
+                    </div>                   
+                )}
+                <Link href={`/events/${eventData.id}`} className={`${isChecked ? "opacity-40" : ""} border-gray-300 flex flex-col  w-full`}>
                     <span className={`${isChecked ? "line-through" : ""} w-fit whitespace-nowrap overflow-hidden text-ellipsis`}>{eventData.title}</span>
-                    <span className=" text-xs text-gray-400  ">{formatDate(eventData.eventDate)}</span>
+                    <span className=" text-xs text-gray-400 font-light w-full ">{formatDate(eventData.eventDate)}</span>
                     {/* <GoArrowUpRight className='min-w-fit' size={16}/>  */}
                 </Link>
             </div>

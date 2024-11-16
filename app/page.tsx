@@ -1,7 +1,7 @@
 "use client";
 import { EventCard, EventForm, EditEventForm } from "@/components";
 import supabase from "@/lib/supabaseClient";
-import { AuthProps, EventProps, FormEventProps } from "@/types";
+import { Attendance, AuthProps, EventProps, FormEventProps, StudentProps } from "@/types";
 import React, { useCallback, useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useAppContext } from "@/context";
@@ -21,6 +21,7 @@ const Home: React.FC = () => {
     setAuth(checkAuth(router))
   }, [router])
 
+  // fetch program/course handled by the organization
   useEffect(() => {
     let isMounted = true; // Track if the effect is still active
 
@@ -60,16 +61,15 @@ const Home: React.FC = () => {
   }, [auth])
 
   // fetch event data
-  const [ events, setEvents ] = useState<EventProps[]>([])
   const [ ongoingEvents, setOngoingEvents ] = useState<EventProps[]>();
   const [ upcomingEvents, setUpcomingEvents ] = useState<EventProps[]>();
   const { orgId, setOrgId } = useAppContext()
+  const [ isUpdated, setIsUpdated ] = useState(false)
+  const [ newEventId, setNewEventId ] = useState(0)
 
-  const fetchEvents = async () => {
-
+  const fetchEvents = async (newEventId?: number) => {
     // fetch org id
     if (auth?.name !== undefined) {
-      
       const { data: org, error: idErr } = await supabase
         .from("organizations")
         .select("id")
@@ -79,8 +79,6 @@ const Home: React.FC = () => {
       if (idErr) {
         console.error(idErr)
       } else {
-        
-        console.log(org.id)
         setOrgId(org.id)
 
         // fetch events
@@ -88,6 +86,7 @@ const Home: React.FC = () => {
           .from("event")
           .select("*")
           .eq("org_id", org.id)
+          .order("eventDate", { ascending: true })
       
         if (error) {
           console.error(error)
@@ -99,21 +98,68 @@ const Home: React.FC = () => {
             (event: { eventDate: string | Date }) => new Date(event.eventDate) <= currentDate
           );
           const upcoming = events.filter(
-            (event: { eventDate: string | Date }) =>new Date(event.eventDate) > currentDate
+            (event: { eventDate: string | Date }) => new Date(event.eventDate) > currentDate
           );
 
-          setEvents(events)
           setOngoingEvents(ongoing);
           setUpcomingEvents(upcoming);
-
         }
+
+        // insert students to attendance table
+        if (newEventId && newEventId > 0) {
+          (async () => {
+            try {
+              const { data: fetchedStudents, error: studentsError } = await supabase
+                .from("student")
+                .select()
+                .eq("course", auth.program)
+
+              if (studentsError) {
+                console.error(studentsError)
+              } else {
+
+                const studentsData = fetchedStudents as StudentProps[]
+
+                const students = studentsData.map(student => {
+                  return {
+                    studentId: student.id,
+                    eventId: newEventId,
+                  } as Attendance
+                })
+                
+                const { data, error } = await supabase
+                  .from("attendance")
+                  .insert(students)
+                
+                if (error) {
+                  console.error(error)
+                } else {
+                  console.log(data)
+                }
+
+              }
+              
+            } catch (e) {
+              console.error(e)
+            }
+          })()
+        }
+
       }
     }
   };
 
   useEffect(() => {
     fetchEvents();
-  }, [auth]);
+  }, [auth])
+
+  useEffect(() => {
+    if (isUpdated || newEventId && auth !== undefined) {
+      fetchEvents(newEventId);
+      setIsUpdated(false)
+      setNewEventId(0)
+    }
+  }, [auth, isUpdated, newEventId]);
 
   useEffect(() => {
     const channel = supabase
@@ -126,9 +172,10 @@ const Home: React.FC = () => {
           table: "event",
         },
         (payload) => {
-          console.log("new attendance log");
-          console.log(payload.new);
-          fetchEvents();
+          console.log("new attendance");
+          console.log(payload.new.id);
+          setIsUpdated(true);
+          setNewEventId(payload.new.id)
         }
       )
       .on(
@@ -141,7 +188,7 @@ const Home: React.FC = () => {
         (payload) => {
           console.log("updated attendance log: ");
           console.log(payload);
-          fetchEvents();
+          setIsUpdated(true)
         }
       )
       .on(
@@ -154,7 +201,7 @@ const Home: React.FC = () => {
         (payload) => {
           console.log("deleted attendance log id: ");
           console.log(payload.old);
-          fetchEvents();
+          setIsUpdated(true)
         }
       )
       .subscribe();
@@ -162,7 +209,7 @@ const Home: React.FC = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [auth]);
+  }, []);
 
   // Event form
   const [isOpen, setIsOpen] = useState(false);
@@ -199,7 +246,7 @@ const Home: React.FC = () => {
             <div>
               <h1 className="font-semibold text-center text-md text-gray-800">No events</h1>
               <p className="text-center text-sm text-gray-400">Get started by adding a new event.</p>
-              <button className="flex flex-row items-center bg-emerald-600 text-white font-semibold p-1.5 px-5 rounded-lg text-sm gap-1 mx-auto mt-3" >
+              <button onClick={toggleNewEventForm} className="flex flex-row items-center bg-emerald-600 text-white font-semibold p-1.5 px-5 rounded-lg text-sm gap-1 mx-auto mt-3" >
                 <IoAdd className="opacity-70" />
                 <span>New event</span> 
               </button>

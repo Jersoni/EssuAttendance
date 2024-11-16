@@ -63,33 +63,44 @@ const EventForm: React.FC<{
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     let {name, value} = e.target
     let updatedValue: string | number = value.charAt(0).toUpperCase() + value.slice(1);
-
+    
     setFormData({ ...formData, [name]: updatedValue });
   };
+
+  const [error, setError] = useState<string>()
 
   // form submit handler
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    console.log("handling submit")
-    console.log(formData)
-
-    if (orgId !== 0) {
-
-      console.log(orgId)
-
-      const {data, error} =  await supabase
-        .from('event')
-        .insert([ {...formData, org_id: orgId} ])
+    try {
+      console.log("handling submit")
+      console.log(formData)
   
-      if (error) {
-        console.error(error);
-      } else {
-        console.log(data);
-      }
-    } 
-
+      if (orgId !== 0) {
+  
+        console.log(orgId)
+  
+        const {data, error} =  await supabase
+          .from('event')
+          .insert([ {...formData, org_id: orgId} ])
+    
+        if (error) {
+          console.error(error);
+          setError(error.message)
+          
+        } else {
+          console.log(data);
+            
+          toggleEventForm()
+        }
+      } 
+    } catch(e) {
+      console.error(e)
+    }
   }
+
+
   
   return (
     <div>
@@ -107,35 +118,42 @@ const EventForm: React.FC<{
         </div>
 
         <form id='form' onSubmit={handleSubmit} className='bg-gray-100 p-4 pb-8 pt-8 flex flex-col gap-3 overflow-y-scroll h-full'>
+
+          {error && (
+            <div className='bg-red-200 border-red-300 border p-2 rounded-lg text-red-900'>
+              Something went wrong. Please reload the page and try again.
+            </div>
+          )}
+
           <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
               <label className='form__label' htmlFor="title">Title</label>
-              <input onChange={handleChange} autoComplete='off' type="text" name="title" id="title" value={formData?.title} className={`form__input`} placeholder='e.g Seminar (Morning)' onBlur={scrollTop} />
+              <input onChange={handleChange} autoComplete='off' type="text" name="title" id="title" value={formData?.title} className={`form__input`} required placeholder='e.g Seminar (Morning)' onBlur={scrollTop} />
           </div>
           <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
               <label className='form__label' htmlFor="location">Venue</label>
-              <input onChange={handleChange} value={formData?.location} autoComplete='off' type="text" name="location" id="location" className={`form__input`} placeholder='e.g Covered Court' onBlur={scrollTop} />
+              <input onChange={handleChange} value={formData?.location} autoComplete='off' type="text" name="location" id="location" required className={`form__input`} placeholder='e.g Covered Court' onBlur={scrollTop} />
           </div>
           <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
               <label className='form__label' htmlFor="fineAmount">Fine</label>
-              <input onChange={handleChange} value={formData?.fineAmount} autoComplete='off' type="number" name="fineAmount" id="fineAmount" className={`form__input`} placeholder='e.g 25.00' onBlur={scrollTop} />
+              <input onChange={handleChange} value={formData?.fineAmount} autoComplete='off' type="number" name="fineAmount" id="fineAmount" className={`form__input`} placeholder='e.g 25.00' onBlur={scrollTop} required />
           </div>
           <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
               <label className='form__label' htmlFor="eventDate">Date</label>
               <div className={`form__input !pl-0 w-full flex`} onClick={handleDateClick}>
-              <input onChange={handleChange} value={formData?.eventDate} type="date" name="eventDate" ref={dateInputRef} id="eventDate" className='outline-none pl-[14px] rounded-full p-0 w-full bg-gray-100' />
+              <input onChange={handleChange} value={formData?.eventDate} type="date" name="eventDate" ref={dateInputRef} id="eventDate" className='outline-none pl-[14px] rounded-full p-0 w-full bg-gray-100' required />
               </div>
           </div>
           <div className='flex flex-row gap-4 w-full bg-white border border-gray-300 rounded-lg p-3'>
               <div className='flex flex-col gap-1 w-1/2'>
               <label className='form__label' htmlFor="loginTime">Login Time</label>
               <div onClick={handleLoginTimeClick} className='form__input w-full flex items-center !pl-0'>
-                  <input onChange={handleChange} value={formData.loginTime} ref={loginTimeInputRef} type="time" name="loginTime" id="loginTime" className={`w-full pl-[14px] bg-gray-100 outline-none`}/>
+                  <input onChange={handleChange} value={formData.loginTime} ref={loginTimeInputRef} type="time" name="loginTime" id="loginTime" className={`w-full pl-[14px] bg-gray-100 outline-none`} required />
               </div>
               </div>
               <div className='flex flex-col gap-1 w-1/2'>
               <label className='form__label' htmlFor="logoutTime">Logout Time</label> 
               <div onClick={handleLogoutTimeClick} className='form__input w-full flex items-center !pl-0'>
-                  <input onChange={handleChange} value={formData.logoutTime} ref={logoutTimeInputRef} type="time" name="logoutTime" id="logoutTime" className={`w-full pl-[14px] bg-gray-100 outline-none`}/>
+                  <input onChange={handleChange} value={formData.logoutTime} ref={logoutTimeInputRef} type="time" name="logoutTime" id="logoutTime" className={`w-full pl-[14px] bg-gray-100 outline-none`} required />
               </div>
               </div>
           </div>
@@ -169,7 +187,7 @@ const EventForm: React.FC<{
             type='submit'
             form='form'
             className='font-bold py-2.5 bg-emerald-500 !rounded-full w-full text-sm px-12 ml-auto'
-            onClick={toggleEventForm}>Create attendance</Button>
+            >Create attendance</Button>
         </div>
       </div>
 

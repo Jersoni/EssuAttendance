@@ -117,7 +117,7 @@ const Auth = () => {
             org_id: orgData.id,
             name: orgData.name,
             value: hashedCode,
-            expiry: new Date().getTime() + 3600000
+            expiry: new Date().getTime() + (3600000 * 24) // TODO: Remove *24
           }))
         } else {
           console.log("wrong password")

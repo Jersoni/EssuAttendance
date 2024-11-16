@@ -191,12 +191,17 @@ const Student = ({ params }: { params: any }) => {
     }, [student])
 
     const fetchEventsAbsent = async (orgId: number, eventIds: number[]) => {
+
+        const today = new Date().toISOString().split('T')[0];
+
         try {
             const { data, error } = await supabase
                 .from("event")
                 .select()
                 .eq("org_id", orgId)
+                .gt("fineAmount", 0)
                 .in("id", eventIds)
+                .lte('eventDate', today);
     
             if (error) {
                 console.error("Error fetching fines:", error);

@@ -121,12 +121,19 @@ const StudentsPage = () => {
       isNewPage = false, 
       program = ""
   ) => {
-    const { data, error } = await supabase
-      .from("student")
-      .select("*")
-      .eq("course", program)
-      .order("name", { ascending: true })
-      .range(page * numPerPage, (page + 1) * numPerPage - 1);
+
+    const { data, error } = program === "ALL" 
+      ? await supabase
+        .from("student")
+        .select("*")
+        .order("name", { ascending: true })
+        .range(page * numPerPage, (page + 1) * numPerPage - 1)
+      : await supabase
+        .from("student")
+        .select("*")
+        .eq("course", program)
+        .order("name", { ascending: true })
+        .range(page * numPerPage, (page + 1) * numPerPage - 1)
 
     if (error) {
       console.error(error);
