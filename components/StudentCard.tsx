@@ -85,8 +85,10 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
       const { data, error } = await supabase
       .from('attendance')
       .update({ isLogoutPresent: isLogoutPresent })
-      .eq('studentId', studentId)
-      .eq('eventId', eventId)
+      .match({
+        studentId: studentId,
+        eventId: eventId
+      })
       if (error) {
         console.error(error);
         // Handle error, e.g., show error message to user

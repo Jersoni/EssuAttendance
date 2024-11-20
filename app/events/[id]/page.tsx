@@ -445,6 +445,10 @@ useEffect(() => {
 
     
   }, [updatedStudent])
+
+  useEffect(() => {
+    console.log(event)
+  }, [event])
   
   return (
     <div className="relative overflow-hidden min-h-[100vh] pt-24">

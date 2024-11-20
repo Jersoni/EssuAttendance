@@ -42,8 +42,12 @@ export interface EventProps {
 export interface FormEventProps {
     title: string
     location: string
-    loginTime: string
-    logoutTime: string
+    loginTime?: string;
+    logoutTime?: string;
+    loginTimeAM?: string
+    logoutTimeAM?: string
+    loginTimePM?: string
+    logoutTimePM?: string
     fineAmount: number | string
     eventDate: string
 }

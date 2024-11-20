@@ -25,7 +25,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = (
                                 variant='secondary'
                                 onClick={onClose}
                         > Cancel</Button>
-                        <Button className={`w-full px-0 font-semibold py-2.5 border ${type === 'delete' ? 'bg-red-400 border-red-500' : 'border-green-700'}`}
+                        <Button className={`w-full px-0 font-semibold py-2.5 border ${type === 'delete' ? 'bg-red-400 border-red-500 active:border-red-400 active:bg-red-300' : 'border-green-700'}`}
                                 variant={confirmBtnVariant}
                                 onClick={onConfirm}
                         > {confirmBtnLabel}</Button>

@@ -36,6 +36,26 @@ export function formatDate(dateString: string): string {
   return date.toLocaleDateString('en-US', options);
 }
 
+export function getTimeOfDay(timeString: string) {
+  // Validate the format using a regex
+  const timeFormat = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+  if (!timeFormat.test(timeString)) {
+      return "Invalid time format";
+  }
+
+  // Extract hours from the string
+  const [hours] = timeString.split(":").map(Number);
+
+  // Determine the time of day
+  if (hours >= 0 && hours < 12) {
+      return "Morning";
+  } else if (hours >= 12 && hours < 18) {
+      return "Afternoon";
+  } else {
+      return "Nighttime";
+  }
+}
+
 
 /*
 * redirects user to homepage if logged in

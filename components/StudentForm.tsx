@@ -1,5 +1,5 @@
 'use client'
-import { Button } from "@/components";
+import { Button, Spinner } from "@/components";
 import { FormOperationProps, StudentFormProps, StudentProps } from "@/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -33,6 +33,7 @@ const StudentForm: React.FC<FormOperationProps> = () => {
 
   // Backend
 
+  const [loading, setLoading] = useState<boolean>(false)
   const [formData, setFormData] = useState<StudentFormProps>({
     firstName: '',
     lastName: '',
@@ -44,13 +45,12 @@ const StudentForm: React.FC<FormOperationProps> = () => {
     section: ''
   })
 
-  const router = useRouter()
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     console.log("handling submit")
     console.log(formData)
+    setLoading(true)
 
     const formattedData: StudentProps = {
       id: formData.id,
@@ -70,9 +70,10 @@ const StudentForm: React.FC<FormOperationProps> = () => {
       
     if (error) {
       console.error(error);
+      setLoading(false)
     } else {
       console.log(data);
-      
+      setLoading(false)
       // Reset all form data
       setFormData({
         firstName: '',
@@ -194,23 +195,30 @@ const StudentForm: React.FC<FormOperationProps> = () => {
             <input required onChange={handleChange} onKeyDown={handleKeydown} autoComplete='off' type="text" name="section" id="section" className={`form__input`} onBlur={scrollTop}  />
           </div>
 
+          {/* FORM ACTION BUTTONS */}
+          <div className={`flex gap-3 w-full mt-4 border-gray-300`}>
+            {/* <Button variant='secondary' onClick={() => {
+              toggleStudentForm()
+            }}>Cancel</Button> */}
+            <Button 
+              type="submit" 
+              form="newStudentForm" 
+              variant='primary' 
+              className="bg-emerald-500 min-w-48 grid place-items-center text-sm py-2.5 font-semibold !rounded-lg ml-auto"
+              onClick={() => {
+                toggleStudentForm()
+              }}
+              disabled={loading}
+            >
+              {loading ? (
+                <Spinner size='1' color='white' className='translate-y-[3px]' />
+              ) : (
+                "Create attendance"
+              )}
+            </Button>
+          </div>
         </form>
 
-        {/* FORM ACTION BUTTONS */}
-        <div className={`z-[120] flex gap-3 w-full p-5 pb-8 bg-white border-t border-gray-300`}>
-          {/* <Button variant='secondary' onClick={() => {
-            toggleStudentForm()
-          }}>Cancel</Button> */}
-          <Button 
-            type="submit" 
-            form="newStudentForm" 
-            variant='primary' 
-            className="font-bold py-3 bg-emerald-500 !rounded-full w-full text-[15px] px-12 ml-auto"
-            onClick={() => {
-              toggleStudentForm()
-            }}
-          >Register Student</Button>
-        </div>
       </div>
 
 

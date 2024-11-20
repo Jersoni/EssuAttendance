@@ -17,6 +17,7 @@ import { PiClockCountdown } from "react-icons/pi";
 import { PiMapPinArea } from "react-icons/pi";
 import { HiOutlineCalendar } from "react-icons/hi2";
 import { PiGavelLight } from "react-icons/pi";
+import { getTimeOfDay } from '@/utils/utils';
 
 
 // Main
@@ -108,13 +109,29 @@ const EventsCard: React.FC<{
             <div className='flex flex-row items-center justify-between relative '>
               <span className="event__title ">{eventData.title}</span>
             </div>
-            <div className="mt-3 flex flex-col gap-2.5">
+            {/* <span className='text-xs font-medium text-gray-400 mt-0.5 '>
+              {getTimeOfDay(eventData.loginTime)} session
+            </span> */}
+            <div className="mt-3 flex flex-col gap-2">
+              {/* {isHappeningNow ? (
+                <div className='flex flex-row items-center gap-1 w-fit'>
+                  <PiClockCountdown className='text-gray-400' />
+                  <span className="event__info ml-1">{login}</span>
+                  <span className="event__info">-</span>
+                  <span className="event__info">{logout}</span>
+                </div> 
+              ) : (
+                <div className='flex flex-row items-center gap-1 w-fit'>
+                  <PiClockCountdown className='text-gray-400' />
+                  <span className="event__info ml-1">{login}</span>
+                </div> 
+              )} */}
               <div className='flex flex-row items-center gap-1 w-fit'>
-                <PiClockCountdown className='text-gray-400' />
-                <span className="event__info ml-1">{login}</span>
-                <span className="event__info">-</span>
-                <span className="event__info">{logout}</span>
-              </div> 
+                  <PiClockCountdown className='text-gray-400' />
+                  <span className="event__info ml-1">{login}</span>
+                  <span className="event__info">-</span>
+                  <span className="event__info">{logout}</span>
+                </div> 
               <div className='flex flex-row items-center gap-2 w-fit'>
                 <PiMapPinArea className='text-gray-400' />
                 <span className="event__info">{eventData.location}</span>

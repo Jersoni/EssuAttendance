@@ -54,8 +54,6 @@ export default function EventLink({
     
     // mark as paid in the database
     useEffect(() => {
-        console.log(isChecked)
-
         const updateIsPaid = async () => {
             try {
                 const { data, error } = await supabase

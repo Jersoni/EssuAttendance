@@ -87,6 +87,8 @@ const Home: React.FC = () => {
           .select("*")
           .eq("org_id", org.id)
           .order("eventDate", { ascending: true })
+          .order("title", { ascending: true })
+          .order("loginTime", { ascending: true })
       
         if (error) {
           console.error(error)
@@ -94,13 +96,17 @@ const Home: React.FC = () => {
 
           const currentDate = new Date();
 
+          console.log(currentDate)
+
           const ongoing = events.filter(
             (event: { eventDate: string | Date }) => new Date(event.eventDate) <= currentDate
           );
-          const upcoming = events.filter(
+          let upcoming = events.filter(
             (event: { eventDate: string | Date }) => new Date(event.eventDate) > currentDate
           );
 
+          console.log(upcoming)
+          
           setOngoingEvents(ongoing);
           setUpcomingEvents(upcoming);
         }
@@ -235,7 +241,7 @@ const Home: React.FC = () => {
 
   return (
     <div
-      className={`px-3 pt-20 pb-60 flex flex-col bg-gray-100 min-h-[100vh] ${isOpen ? "overflow-hidden overflow-y-hidden" : "overflow-y-scroll"}`}
+      className={`px-3 pt-20 pb-40 flex flex-col bg-gray-100 min-h-[100vh] ${isOpen ? "overflow-hidden overflow-y-hidden" : "overflow-y-scroll"}`}
     >
 
       {/* No events notice */}
@@ -286,18 +292,20 @@ const Home: React.FC = () => {
         <div className="mb-10">
           <span className="font-semibold text-gray-400 text-xs ">Happening now</span>
           <div className="ongoing-attendance flex flex-col gap-3 mt-5">
-            {ongoingEvents?.map((event) => (
-              <EventCard
-                auth={auth}
-                isHappeningNow={true}
-                isNavOpen={isNavOpen}
-                key={event.id} 
-                eventData={event}
-                isEditFormOpen={isEditFormOpen}
-                toggleEditForm={toggleEditForm}
-                setEditFormData={setEditFormData} 
-              />
-            ))}
+            {ongoingEvents?.map((event) => {
+              return (
+                <EventCard
+                  auth={auth}
+                  isHappeningNow={true}
+                  isNavOpen={isNavOpen}
+                  key={event.id} 
+                  eventData={event}
+                  isEditFormOpen={isEditFormOpen}
+                  toggleEditForm={toggleEditForm}
+                  setEditFormData={setEditFormData} 
+                />
+              )
+            })}
           </div>
         </div>
       )}
@@ -307,17 +315,21 @@ const Home: React.FC = () => {
         <div>
           <span className="font-semibold text-gray-400 text-xs ">Upcoming events</span>
           <div className="upcoming-attendance flex flex-col gap-3 mt-5">
-            {upcomingEvents?.map((event) => (
-              <EventCard 
-                auth={auth}
-                isNavOpen={isNavOpen}
-                key={event.id} 
-                eventData={event}
-                isEditFormOpen={isEditFormOpen}
-                toggleEditForm={toggleEditForm}  
-                setEditFormData={setEditFormData} 
-              />
-            ))}
+            {upcomingEvents?.map((event) => {
+              if (event) {
+                return (
+                  <EventCard 
+                    auth={auth}
+                    isNavOpen={isNavOpen}
+                    key={event.id} 
+                    eventData={event}
+                    isEditFormOpen={isEditFormOpen}
+                    toggleEditForm={toggleEditForm}  
+                    setEditFormData={setEditFormData} 
+                  />
+                )
+              }
+            })}
           </div>
         </div>
       )}
