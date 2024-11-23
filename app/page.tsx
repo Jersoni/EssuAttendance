@@ -238,10 +238,16 @@ const Home: React.FC = () => {
   }, [searchParams])
 
   const {isNavOpen} = useAppContext()
+  const date = new Date()
+  const formattedDate = date.toLocaleDateString('en-US', {
+    weekday: 'short', // Short weekday, e.g., Mon
+    month: 'short',   // Short month name, e.g., Jan
+    day: 'numeric',   // Day of the month, e.g., 1
+  });  
 
   return (
     <div
-      className={`px-3 pt-20 pb-40 flex flex-col bg-gray-100 min-h-[100vh] ${isOpen ? "overflow-hidden overflow-y-hidden" : "overflow-y-scroll"}`}
+      className={`px-5 pt-20 pb-40 flex flex-col bg-emerald-700/5 bg- min-h-[100vh] ${isOpen ? "overflow-hidden overflow-y-hidden" : "overflow-y-scroll"}`}
     >
 
       {/* No events notice */}
@@ -290,7 +296,10 @@ const Home: React.FC = () => {
       {/* ON GOING ATTENDANCE BLOCK */}
       {(ongoingEvents?.length !== 0 && ongoingEvents) && (
         <div className="mb-10">
-          <span className="font-semibold text-gray-400 text-xs ">Happening now</span>
+          <div className="px-3 items-center flex flex-row justify-between">
+            <span className="font-bold text-lg ">Happening now</span>
+            <span className="text-sm text-gray-700">{formattedDate}</span>
+          </div>
           <div className="ongoing-attendance flex flex-col gap-3 mt-5">
             {ongoingEvents?.map((event) => {
               return (
@@ -313,7 +322,7 @@ const Home: React.FC = () => {
       {/* UPCOMING EVENTS BLOCK */}
       {(upcomingEvents?.length !== 0 && upcomingEvents) && (
         <div>
-          <span className="font-semibold text-gray-400 text-xs ">Upcoming events</span>
+          <span className="font-bold text-lg ml-3 ">Upcoming events</span>
           <div className="upcoming-attendance flex flex-col gap-3 mt-5">
             {upcomingEvents?.map((event) => {
               if (event) {

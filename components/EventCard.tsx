@@ -101,18 +101,27 @@ const EventsCard: React.FC<{
     [searchParams]
   )
 
+  const [dayTime, setDayTime] = useState<string>()
+  useEffect(() => {
+    const time = new Date(`1970-01-01T${eventData.loginTime}`);
+    console.log(time)
+    const dayTime = time.getHours() < 12 ? "Morning" : "Afternoon"
+    setDayTime(dayTime)
+  }, [eventData.loginTime])
+
   return (
     <div>
-      <div className='flex flex-row h-fit border border-gray-200 pointer-events-auto bg-white z-[100] rounded-lg'>
+      <div className='flex flex-row h-fit border border-gray-200 pointer-events-auto bg-white z-[100] rounded-2xl'>
         <Link href={`/events/${eventData.id}`} className='w-full'>
-          <div className="flex flex-col p-5 pt-4 min-w-full">
-            <div className='flex flex-row items-center justify-between relative '>
-              <span className="event__title ">{eventData.title}</span>
+          <div className="flex flex-col p-5 py-8 min-w-full">
+            <div className='flex flex-col gap-2'>
+              <span className=" text-sm font-medium ">{eventData.title}</span>
+              <span className={`w-fit rounded-full -translate-x-1 text-xs text-gray-600 px-2 border ${dayTime === 'Morning' ? 'border-yellow-100 bg-yellow-100/80' : 'border-orange-100 bg-orange-100/80'}`}>{dayTime}</span>
             </div>
             {/* <span className='text-xs font-medium text-gray-400 mt-0.5 '>
               {getTimeOfDay(eventData.loginTime)} session
             </span> */}
-            <div className="mt-3 flex flex-col gap-2">
+            <div className="mt-5 flex flex-col gap-2">
               {/* {isHappeningNow ? (
                 <div className='flex flex-row items-center gap-1 w-fit'>
                   <PiClockCountdown className='text-gray-400' />
@@ -126,24 +135,24 @@ const EventsCard: React.FC<{
                   <span className="event__info ml-1">{login}</span>
                 </div> 
               )} */}
-              <div className='flex flex-row items-center gap-1 w-fit'>
+              <div className='flex flex-row items-center gap-2 w-fit'>
                   <PiClockCountdown className='text-gray-400' />
                   <span className="event__info ml-1">{login}</span>
                   <span className="event__info">-</span>
                   <span className="event__info">{logout}</span>
                 </div> 
-              <div className='flex flex-row items-center gap-2 w-fit'>
+              <div className='flex flex-row items-center gap-3 w-fit'>
                 <PiMapPinArea className='text-gray-400' />
                 <span className="event__info">{eventData.location}</span>
               </div>
               {!isHappeningNow && (
-                <div className='flex flex-row items-center gap-2 w-fit'>
+                <div className='flex flex-row items-center gap-3 w-fit'>
                   <HiOutlineCalendar className='text-gray-400' />
                   <span className="event__info">{formatDate(eventData.eventDate)}</span>
                 </div>
               )}
               {isHappeningNow && (
-                <div className='flex flex-row items-center gap-2 w-fit'>
+                <div className='flex flex-row items-center gap-3 w-fit'>
                   <PiGavelLight className='text-gray-400' />
                   <span className="event__info">₱ {eventData.fineAmount.toFixed(2)}</span>
                 </div>

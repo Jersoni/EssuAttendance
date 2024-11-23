@@ -54,11 +54,6 @@ body::after {
   flex-direction: row;
 }
 
-.event__title {
-  font-size: 14px;
-  font-weight: 600;  
-}
-
 .event__label {
   display: inline-block;
   width: 110px;

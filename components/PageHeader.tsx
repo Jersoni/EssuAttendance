@@ -21,12 +21,12 @@ const PageHeader: React.FC<headerProps> = ({title, subtitle, children, returnPat
                         : router.back()
                     }}
                 >
-                    <IoChevronBack size={24} className='text-emerald-800 ' />
+                    <IoChevronBack size={24} className='text-emerald-600 ' />
                 </button>
 
                 {/* header title */}
                 {title ? (
-                    <div className={`w-full text-md font-bold flex flex-col text-emerald-700`}> 
+                    <div className={`w-full text-md font-bold flex flex-col text-emerald-600`}> 
                         <span>{title}</span>
                         <span className='text-xs font-medium text-gray-400'>{subtitle}</span> 
                     </div>

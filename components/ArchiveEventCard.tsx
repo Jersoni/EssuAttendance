@@ -66,7 +66,7 @@ const ArchiveEventCard = ({
       {role === "admin" && (
         <button
           onClick={toggleDeleteModal}
-          className='p-2 grid place-items-center'
+          className='p-2 grid place-items-center z-[1000]'
         >
           <HiOutlineDotsHorizontal 
             size={20} 
@@ -85,7 +85,7 @@ const ArchiveEventCard = ({
       
       {/* delete modal */}
       {isDeleteModalOpen && (
-        <div className='bg-white border rounded-lg p-1 border-gray-300 absolute right-0 translate-y-[3rem] shadow-sm'>
+        <div className='bg-white border rounded-lg p-1 border-gray-300 absolute right-0 translate-y-[3rem] shadow-sm z-[1500] overflow-hidden'>
           <button 
             className='flex flex-row items-center justify-center gap-2 text-red-400 p-2 active:bg-gray-100 rounded-md w-full pr-6 pl-4'
             onClick={() => {

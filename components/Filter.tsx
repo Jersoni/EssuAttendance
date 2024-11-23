@@ -137,8 +137,8 @@ const Filter = ({
                         </div> */}
                     </div>
                     <div className='flex flex-row gap-3 left-0 items-center justify-end p-3 pr-5 pb-8 border-t border-gray-200 bg-white z-[600] mt-auto'>
-                        <Button className='!font-semibold text-gray-600' variant='secondary' onClick={resetFilters} >Reset</Button>
-                        <Button className='!font-semibold' variant='primary' onClick={applyFilters}>Apply</Button>
+                        <Button className=' min-w-20 !font-semibold text-gray-600' variant='secondary' onClick={resetFilters} >Reset</Button>
+                        <Button className=' min-w-20 !font-semibold' variant='primary' onClick={applyFilters}>Apply</Button>
                     </div>
                 </div>
                 <div onClick={setIsOpen} className={`bg-black bg-opacity-20 fixed pointer-events-auto z-[1400] top-0 left-0 right-0 bottom-0 transition-all ${isOpen ? "block" : "hidden"}`}></div>

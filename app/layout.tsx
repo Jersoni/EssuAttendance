@@ -6,6 +6,7 @@ import "./globals.css";
 import NextTopLoader from 'nextjs-toploader';
 import { AppWrapper } from "@/context";
 import { Inter } from 'next/font/google'
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
 const inter = Inter({ 
   subsets: ["latin"], 
@@ -60,15 +61,19 @@ export default function RootLayout({
       <body 
         className={inter.className}
       >
-        <NextTopLoader 
-          color="#16a34a"
-          showSpinner={false}
-          shadow={false}
-        />
-        <AppWrapper>
-          <Navbar className={bebasNeue.className} />
-          <main>{children}</main>
-        </AppWrapper>
+        <AppRouterCacheProvider>
+          <NextTopLoader 
+            color="#16a34a"
+            showSpinner={false}
+            shadow={false}
+          />
+          <AppWrapper>
+            <Navbar 
+              // className={bebasNeue.className} 
+            />
+            <main>{children}</main>
+          </AppWrapper>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

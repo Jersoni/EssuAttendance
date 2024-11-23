@@ -3,13 +3,15 @@ import supabase from '@/lib/supabaseClient'
 import { AuthProps } from '@/types';
 import { checkAuth } from '@/utils/utils';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useRef, useState } from 'react'
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Spinner } from '@/components';
 import { PiBookOpenTextFill } from "react-icons/pi";
 import { hashString } from '@/utils/utils';
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { useAppContext } from '@/context';
+import Image from 'next/image';
+import logo from "/public/icons/p.svg"
 
 const Auth = () => {
 
@@ -200,53 +202,83 @@ const Auth = () => {
   //   return () => clearTimeout(id)
   // }, [])
 
-  return (
-    <div className='fixed bottom-0 bg-white grid place-items-center h-[100vh] w-full scroll'>
+  const optionsRef = useRef<HTMLDivElement>(null)
+  const nameInputRef = useRef<HTMLInputElement>(null)
 
-      <div className={`fixed top-0 left-0 right-0 h-20 items-center flex flex-row bg-white pl-8`}>
-        <div className='flex flex-row items-center gap-2 w-full'>
-          <PiBookOpenTextFill className='text-emerald-700' size={26} />
-          <span className='font-bold text-lg text-gray-700'>ESSUattend</span>
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (optionsRef.current && !optionsRef.current.contains(e.target as Node)) {
+        setIsOptionsOpen(false)
+      } else {
+        setIsOptionsOpen(true)
+      }
+    }
+    document.addEventListener("click", handleClick)
+
+    return () => {
+      document.removeEventListener("click", handleClick)
+    }
+  }, [])
+
+  return (
+    <div className='fixed bottom-0 bg-gradient-to-l to-indigo-50 from-emerald-50 grid place-items-center h-[100vh] w-full scroll px-5'>
+
+      <div className={`fixed top-0 left-0 right-0 h-16 items-center flex flex-row bg-white pl-8`}>
+        <div className='flex flex-row items-center w-full'>
+          {/* <PiBookOpenTextFill className='text-emerald-700' size={26} /> */}
+          <Image 
+            src={logo}
+            width={26}
+            height={26}
+            alt='app logo'
+          />
+          <span className='font-medium text-base text-gray-700'>ProAttend</span>
         </div>
       </div>
 
-      <div className='flex flex-col w-full p-10'>
+      <div className='flex flex-col w-full p-8 pb-5 bg-white rounded-2xl border border-gray-200 shadow-sm'>
         <div className='flex flex-col'>
-          <h1 className='text-2xl font-extrabold text-gray-900'>Welcome back</h1>
-          <p className='text-gray-500 font-semibold text-sm'>Sign in to your school student organization</p>
+          <h1 className='text-2xl font-extrabold bg-gradient-to-r from-teal-500 via-emerald-500 to-green-500 bg-clip-text text-transparent '>Welcome back</h1>
+          <p className='text-gray-500 text-sm'>Sign in to your school student organization</p>
         </div>
         <form  
           id='form-name'
           onSubmit={handleStudentSignin} 
           className='flex flex-col w-full mt-12 relative'
         >
-          <label 
+          {/* <label 
             htmlFor="name" 
-            className='font-semibold text-sm text-gray-900'
-          >Organization name</label>
+            className='font-medium text-sm'
+          >Organization name</label> */}
           <input 
             id='name' 
             name='name' 
             value={name} 
+            ref={nameInputRef}
             onChange={handleNameInputChange}
             onFocus={() => setTimeout(() => { scrollTop() }, 500) }
             type="text" 
-            autoComplete='off' 
+            autoComplete='off'
+            placeholder='Organization name' 
             className={`
               ${error === "name" ? "!border-red-400" : ""}
-              bg-gray-100 border border-green-900 border-opacity-40 tracking-wide rounded-lg p-3 outline-none focus:border-opacity-80 mt-2 font-semibold text-gray-900 text-sm
+              bg-gray-100 border border-gray-200  tracking-wide rounded-full p-2.5 pl-5 outline-none focus:border-opacity-80 mt-2 text-sm
             `}
           />
 
           {/* Name Options */}
-          <div className='w-full h-0 relative'>
+          <div 
+            className='w-full h-0 relative' 
+            ref={optionsRef}
+            id='options'
+          >
             {(nameOptions.length > 0 && isOptionsOpen) && (
-              <div className='bg-white border-gray-300 border w-full h-fit text-sm font-semibold text-gray-700 absolute shadow-xl rounded-lg p-1 max-h-[9rem] overflow-y-scroll'>
+              <div className='bg-white border-gray-200 border w-full h-fit text-sm absolute shadow-xl rounded-2xl p-1 max-h-[9rem] overflow-y-scroll'>
 
                 {nameOptions.map((option, index) => {
                   return (
-                    <label key={index} className='p-3 rounded-md inline-block w-full active:bg-gray-100'>
-                      <input 
+                    <label key={index} className='p-3 rounded-xl inline-block w-full active:bg-gray-100'>
+                      <input
                         type="radio" 
                         className='hidden'
                         onChange={handleOptionChange}
@@ -262,39 +294,39 @@ const Auth = () => {
 
           {/* Buttons */}
           {error === "name" && <span className='text-red-400 text-sm mt-1 font-semibold'>Organization not found, please try again.</span>}
-          <div className='flex flex-col gap-3 mt-12'>
 
+          <div className='flex flex-col gap-3 mt-6'>
             <button 
-              type='button' 
-              onClick={() => {
-                toggleModal()
-              }}
-              className=' border-green-900 border-opacity-50 text-white w-full max-h-10 flex  flex-row items-center justify-center bg-emerald-600 h-fit font-semibold rounded-lg p-2.5 border text-sm active:bg-emerald-500'
+              form='form-name'
+              type='submit'
+              className='b text-white w-full max-h-10 flex  flex-row items-center justify-center bg-emerald-500 h-fit font-semibold rounded-full p-2.5 text-sm active:bg-emerald-400'
             >
-              {isAdminLoading
+              {isStudentLoading
               ? (
                 <span className='flex flex-row items-center gap-2'>
                   <Spinner size='1' color='white' className='translate-y-[3px]' />
                   Signing in
                 </span>
               ) : (
-                <span>Sign in as admin</span>
+                <span>Sign in as student</span>
               )}
             </button>
 
             <button 
-              form='form-name'
-              type='submit'
-              className='border-green-900 border-opacity-50 text-gray-800 w-full max-h-10 flex  flex-row items-center justify-center h-fit font-semibold rounded-lg p-2.5 border text-sm active:bg-emerald-50'
+              type='button' 
+              onClick={() => {
+                toggleModal()
+              }}
+              className=' text-emerald-600 w-full max-h-10 flex flex-row items-center justify-center bg-none h-fit font-semibold rounded-full p-2.5 text-sm'
             >
-              {isStudentLoading
+              {isAdminLoading
               ? (
                 <span className='flex flex-row items-center gap-2'>
                   <Spinner size='1' className='translate-y-[3px]' />
                   Signing in
                 </span>
               ) : (
-                <span>Sign in as student</span>
+                <span>Sign in as admin</span>
               )}
             </button>
 
@@ -318,20 +350,20 @@ const Auth = () => {
               setIsModalOpen(false)
               setCode("")
             }} 
-            className='bg-black bg-opacity-40 h-full w-full absolute z-[100]'
+            className='bg-black backdrop-blur-sm bg-opacity-40 h-full w-full absolute z-[100]'
           ></div>
-          <form id='form-code' onSubmit={handleAdminSignin} className='flex flex-col h-fit w-full bg-white z-[200] rounded-lg p-5'>
+          <form id='form-code' onSubmit={handleAdminSignin} className='flex flex-col h-fit w-full bg-white z-[200] rounded-2xl p-8'>
             <div className='flex flex-row items-center gap-3'>
-              <div className='bg-gray-200 rounded-full p-1.5 border border-gray-300'>
+              <div className='bg-gray-100 rounded-full p-1.5 border border-gray-200'>
                 <HiMiniUserGroup size={20} className='text-gray-600' />
               </div>
-              <h1 className='font-extrabold text-xl text-gray-800'>{org?.name}</h1>
+              <h1 className='font-bold text-xl text-gray-800'>{org?.name}</h1>
             </div>
-            <label
+            {/* <label
               htmlFor="code"
               className='font-semibold text-sm mt-6 text-gray-900'
-            >Passcode</label>
-            <div id='password-container' className={`flex flex-row items-center bg-gray-100 border border-green-900 border-opacity-40 tracking-wide rounded-lg mt-2 font-semibold text-gray-900 overflow-hidden ${error === "code" ? "!border-red-400" : ""}`}>
+            >Passcode</label> */}
+            <div id='password-container' className={`flex flex-row items-center bg-gray-100 border border-gray-300 tracking-wide rounded-full mt-8 pl-2 overflow-hidden ${error === "code" ? "!border-red-400" : ""}`}>
               <input
                 id='code' 
                 name='code'
@@ -339,8 +371,9 @@ const Auth = () => {
                 onFocus={() => setTimeout(() => { scrollTop() }, 500) }
                 onChange={handleNameInputChange} 
                 type={showCode ? "text" : "password"} 
-                autoComplete='off' 
-                className='bg-gray-100 text-sm p-3 w-full outline-none' 
+                autoComplete='off'
+                placeholder='Passcode' 
+                className='bg-gray-100 text-sm p-2.5 w-full outline-none' 
               />
               <button
                 className='p-3 opacity-70'
@@ -360,7 +393,7 @@ const Auth = () => {
             <button 
               type='submit'
               form='form-code'
-              className='border-green-900 border-opacity-50 text-white w-full max-h-10 flex  flex-row items-center justify-center bg-emerald-600 h-fit font-semibold rounded-lg p-2.5 border text-sm active:bg-emerald-50 mt-8'
+              className=' text-white w-full max-h-10 flex  flex-row items-center justify-center bg-emerald-500 h-fit font-semibold rounded-full p-2.5 text-sm active:bg-emerald-50 mt-4'
             >
               {isAdminLoading
               ? (

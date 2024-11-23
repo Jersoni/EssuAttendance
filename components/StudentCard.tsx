@@ -12,6 +12,7 @@ import { HiLogout } from "react-icons/hi";
 import { FaCheck } from "react-icons/fa";
 import { checkAuth } from "@/utils/utils";
 import { useRouter } from "next/navigation";
+import { FaCircleUser } from "react-icons/fa6";
 
 const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, className?: string}> = ({ studentData, eventId, className }) => {
   
@@ -131,13 +132,14 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
 
   
   return (
-    <div className={`flex flex-row items-center gap-4 border-gray-200 border-b z-100 ${className}`}>
+    <div className={`flex flex-row items-center gap-4 border-gray-200 border- z-100 ${className}`}>
       {/* STUDENT */}
-      <Link href={`/students/${studentData.id}`} className={`flex flex-row justify-between w-full items-center py-3 z-100`}>
-        <div>
+      <Link href={`/students/${studentData.id}`} className={`flex flex-row w-full items-center py-3 z-100`}>
+        <FaCircleUser size={45} className="mr-3 text-gray-500" />
+        <div className="">
           <h2 className='text-sm'>{`${studentData.name}`} </h2>
           <div className={`student-card__info-container !z-100 mt-[2px] gap-3`}>
-            <span className={`student-card__info !font-semibold !text-gray-700`}>{studentData.id}</span>
+            <span className={`student-card__info !text-gray-700`}>{studentData.id}</span>
             {/* <div className='min-h-[2px] min-w-[2px] max-h-[2px] max-w-[2px] bg-black opacity-40 rounded-full m-2 z-100'></div> */}
             <span className={`student-card__info text-gray-700`}>{`${course} ${studentData.year}${section}`}</span>
           </div>
@@ -150,7 +152,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
         <div className={`flex flex-row gap-2 `}>
           <div
             onClick={handleLoginModalToggle} 
-            className={`bg-gray-100 bg-opacity-80 border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center ${auth?.role === "student" ? "!bg-white " : ""}`}>
+            className={`bg-none border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center ${auth?.role === "student" ? "!bg-white " : ""}`}>
             {isLoginPresent && <FaCheck className={"text-gray-600"} size={18} />}
             <input 
               checked={isLoginPresent}
@@ -162,7 +164,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
           </div>
           <div
             onClick={handleLogoutModalToggle} 
-            className={`bg-gray-100 bg-opacity-80 border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center ${auth?.role === "student" ? "!bg-white " : ""}`}>
+            className={`bg-none border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center ${auth?.role === "student" ? "!bg-white " : ""}`}>
             {isLogoutPresent && <FaCheck className={"text-gray-600"} size={18} />}
             <input 
               checked={isLogoutPresent} 

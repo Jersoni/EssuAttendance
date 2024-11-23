@@ -237,7 +237,7 @@ const EventForm: React.FC<{
         onClick={toggleEventForm}
         className="z-[500] fixed bottom-4 right-4 grid place-items-center bg-white border border-gray-100 w-16 h-16 shadow-md rounded-full"
       >
-        <IoAdd size={26} className="text-green-700" />
+        <IoAdd size={26} className="text-emerald-500" />
       </button>
 
       {/* NEW EVENT FORM */}

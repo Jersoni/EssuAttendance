@@ -15,8 +15,10 @@ import { PiScanBold } from "react-icons/pi";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { RotatingLines } from 'react-loader-spinner'
 import { Spinner } from "@/components";
+import NextTopLoader from "nextjs-toploader";
 
-import styles from "./styles.module.css";2
+import styles from "./styles.module.css";import Link from "next/link";
+2
 
 /* eslint-disable react-hooks/exhaustive-deps */
 const EventPage: React.FC = ({ params }: any) => {
@@ -452,6 +454,12 @@ useEffect(() => {
   
   return (
     <div className="relative overflow-hidden min-h-[100vh] pt-24">
+      {/* <NextTopLoader 
+        color="#16a34a"
+        showSpinner={false}
+        shadow={false}
+      /> */}
+
       <div className="h-20 w-full fixed z-[300] top-0">
         <PageHeader
           title={event?.title}
@@ -462,8 +470,7 @@ useEffect(() => {
         {/* TODO: 
         *  implement new features:
         *  - [ ] close login (prevent further logins)
-        *  - [ ]
-        *  close logout (prevent further logouts)
+        *  - [ ] close logout (prevent further logouts)
         */}
 
         <div className="w-full flex flex-row items-center text-xs text-gray-400 justify-between px-5 py-2 border-b border-b-gray-200 bg-white" >
@@ -489,12 +496,12 @@ useEffect(() => {
             <RiFilter2Line size={20} />
           </button>
           {auth?.role === "admin" && (
-            <button 
-              onClick={() => {router.push(`./${params.id}/scanner`)}}
+            <Link 
+              href={`./${params.id}/scanner`}
               className="grid place-items-center p-1.5 rounded-full bg-neutral-10"
             >
               <PiScanBold size={22} />
-            </button>
+            </Link>
           )}
         </div>
       </div>
@@ -503,7 +510,7 @@ useEffect(() => {
       {students === undefined && (
           <div className="flex flex-col h-fit p-5">
             {[...Array(10)].map((_, i) => (
-              <div key={i} className="flex flex-col w-full gap-2 bg-white py-3 border-gray-200 border-b">
+              <div key={i} className="flex flex-col w-full gap-2 bg-none py-3 border-gray-200 border-">
                 <div className='animate-pulse bg-gray-200  rounded-md h-4 w-48'></div>
                 <div className="flex flex-row gap-2">
                   <div className='animate-pulse bg-gray-100  rounded-md h-4 w-14'></div>

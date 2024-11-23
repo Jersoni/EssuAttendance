@@ -434,7 +434,7 @@ const StudentsPage = () => {
             <p className="text-sm font-semibold text-gray-400 text-center">No students found.</p>
           </div>
         ) : (
-          <div className='shadow-sm h-fit'>
+          <div className='h-fit'>
             {students !== undefined && (
               <InfiniteScroll
                 dataLength={students.length}

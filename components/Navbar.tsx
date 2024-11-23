@@ -18,8 +18,10 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { useAppContext } from "@/context";
 import { FaCalendarWeek } from "react-icons/fa";
 import { HiArchiveBox } from "react-icons/hi2";
+import { TbMenu } from "react-icons/tb";
 
-const Navbar = ({ className }: { className: string }) => {
+
+const Navbar = ({ className }: { className?: string }) => {
   // given default value for navbar title
 
   const pathname = usePathname();
@@ -65,22 +67,33 @@ const Navbar = ({ className }: { className: string }) => {
   useEffect(() => {
     setIsNavOpen(isOpen)
   }, [isOpen])
+
+  // scroll
+  const [scrollY, setSrollY] = useState(0)
+
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      setSrollY(window.scrollY)
+    });    
+  }, [])
   
   return condition ? (
     <div className="z-[1000]">
       {/* header */}
       <div
-        className={` ${
-          pathname === "/" ? "" : ""
-        } bg-white h-14 flex items-center border-b border-gray-200 w-[100vw] fixed top-0 z-[1300]`}
+        className={` 
+          ${ pathname === "/" ? "" : "" } 
+          ${scrollY > 40 ? "border-b" : "bg-opacity-0"}
+          h-14 flex items-center bg-white transition-all duration-200 border-gray-200 w-[100vw] fixed top-0 z-[1300]
+        `}
       >
         <button
           onClick={toggle} 
-          className={`active:bg-gray-200 ml-3 rounded-full p-2`}
+          className={` ml-3 rounded-full p-2`}
         >
-          <IoMdMenu size={26} fill="blue" className="fill-green-700" />
+          <TbMenu size={22} fill="blue" className="text-emerald-600" />
         </button>
-        <h1 className={`text-emerald-700 translate-y-[1px] h-fit z-30 text-[20px] ml-2 w-full ${className}`}>{convertedPathname}</h1>
+        <h1 className={`text-emerald-600 h-fit z-30 text-[20px] ml-1 w-full text-base font-semibold ${className}`}>{convertedPathname}</h1>
       </div>
 
       {/* Navbar menu */}
