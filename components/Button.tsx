@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', onClick,
   return (
     <button type={type} form={form} className={`${buttonClasses} ${className}`} onClick={onClick} disabled={disabled}>
       {children}
-      {variant === 'close' && ( <MdClose size={22}/> )}
+      {variant === 'close' && ( <MdClose size={20}/> )}
     </button>
   );
 };

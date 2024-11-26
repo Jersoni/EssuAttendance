@@ -16,6 +16,9 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { RotatingLines } from 'react-loader-spinner'
 import { Spinner } from "@/components";
 import NextTopLoader from "nextjs-toploader";
+import { HiOutlineSearch } from "react-icons/hi";
+import { IoScan } from "react-icons/io5";
+import { LuListFilter } from "react-icons/lu";
 
 import styles from "./styles.module.css";import Link from "next/link";
 2
@@ -487,22 +490,14 @@ useEffect(() => {
             onClick={() => {setIsSearchOpen(true)}}
             className="grid place-items-center p-1.5 rounded-full bg-neutral-10"
           >
-            <BiSearchAlt size={22} />
+            <HiOutlineSearch size={20} />
           </button>
           <button 
             onClick={() => {setIsOpen(true)}}
-            className="grid place-items-center p-1.5 rounded-full bg-neutral-10"
+            className="grid place-items-center -translate-y-[1px] p-1.5 rounded-full bg-neutral-10"
           >
-            <RiFilter2Line size={20} />
+            <LuListFilter size={22} />
           </button>
-          {auth?.role === "admin" && (
-            <Link 
-              href={`./${params.id}/scanner`}
-              className="grid place-items-center p-1.5 rounded-full bg-neutral-10"
-            >
-              <PiScanBold size={22} />
-            </Link>
-          )}
         </div>
       </div>
 
@@ -596,6 +591,15 @@ useEffect(() => {
             })
           }
 
+
+          {auth?.role === "admin" && (
+            <Link 
+              href={`./${params.id}/scanner`}
+              className="fixed bottom-4 right-4 grid place-items-center bg-white border border-gray-100 w-16 h-16 shadow-md rounded-full"
+            >
+              <IoScan size={26} className="text-emerald-500" />
+            </Link>
+          )}
         </div>
       </div>
 

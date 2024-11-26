@@ -6,6 +6,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { IoIosAdd } from "react-icons/io";  
+import { Spinner } from '@/components';
 
 // NEW EVENT FORM COMPONENT
 const EditEventForm: React.FC<{
@@ -52,8 +53,12 @@ const EditEventForm: React.FC<{
 
   // Backend logic___________________________________________________________________________
 
+
+  const [loading, setLoading] = useState<boolean>(false)
   const [formData, setFormData] = useState<FormEventProps>({
     title: "",
+
+
     location: "",
     loginTime: "",
     logoutTime: "",
@@ -92,6 +97,7 @@ const EditEventForm: React.FC<{
   // form submit handler
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
 
     console.log("handling submit")
     console.log(formData)
@@ -103,57 +109,87 @@ const EditEventForm: React.FC<{
     if (error) {
       // Handle error
       console.error(error);
+      setLoading(false)
     } else {
       // Handle success
       console.log(data);
+      setLoading(false)
     }
   }
 
   const router = useRouter()
+
+  // open and close transition
+  const bodyRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const main = bodyRef.current
+    if (main) {
+      if (isOpen) {
+        document.body.style.overflow = "hidden"
+        main.style.display = "grid"
+        setTimeout(() => {
+          main.style.opacity = "1"
+        }, 0)
+      } else {
+        main.style.opacity = "0"
+        setTimeout(() => {
+          main.style.display = "none"
+          document.body.style.overflow = "auto"
+        }, 300)
+      }
+    }
+  }, [isOpen])
   
   return (
-    <div>
+    <div 
+      ref={bodyRef}
+      className={` fixed top-0 transition-all duration-300 left-0 bg-black/50 backdrop-blur-sm h-[100vh] w-[100vw] z-[3000] grid place-items-center`}
+    >
       {/* EDIT EVENT FORM */}
-      <div className={`${isOpen ? "!h-full" : "" } overflow-hidden pointer-events-auto h-0 w-full fixed left-0 bottom-0 bg-white z-[1400] transition-all duration-[400ms] ease-in-out flex flex-col justify-between`}>
+      <div className={` overflow-hidden pointer-events-auto h-fit w-[90vw] bg-white z-[1400] transition-all duration-[400ms] ease-in-out flex flex-col justify-between rounded-2xl`}>
 
-        <div className='flex flex-row items-center p-2 bg-white border-b border-gray-300'>
-          <h1 className='font-bold absolute p-3 text-emerald-700 w-full'>Edit Attendance</h1>
-          <Button variant='close' className='bg-gray-100 h-fit w-fit !p-2.5 !rounded-full ml-auto z-[120] text-green-900 mr-1' onClick={() => {
-            router.push("/")
+        <div className='flex flex-row items-center p-2 bg-white border- border-gray-300'>
+          <h1 className='font-semibold absolute p-3 text-emerald-600 w-full'>Edit attendance</h1>
+          <Button variant='close' className='bg-gray-10 h-fit w-fit !p-2.5 !rounded-full ml-auto z-[120] text-green-700' onClick={() => {
             toggleEventForm()
           }}></Button>
         </div>
 
-        <form id='editForm' method='post' onSubmit={handleSubmit} className='bg-gray-100 p-5 pb-8 pt-8 flex flex-col gap-4 overflow-y-scroll h-full'>
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
+        <form id='editForm' 
+          method='post' 
+          onSubmit={handleSubmit} 
+          className={` transition-all duration-300 bg-gray-10 bg-white p-5 flex flex-col gap-5 overflow-y-scroll h-full`}
+        >
+          <div className='flex flex-col gap-1 bg-whit borde border-gray-300 rounded-2xl'>
               <label className='form__label' htmlFor="title">Title</label>
-              <input onChange={handleChange} autoComplete='off' type="text" name="title" id="title" value={formData?.title} className={`form__input`} placeholder='e.g Seminar (Morning)' onBlur={scrollTop} />
+              <input required onChange={handleChange} autoComplete='off' type="text" name="title" id="title" value={formData?.title} className={`form__input`} onBlur={scrollTop} />
           </div>
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
+          <div className='flex flex-col gap-1 bg-whit borde border-gray-300 rounded-2xl'>
               <label className='form__label' htmlFor="location">Venue</label>
-              <input onChange={handleChange} value={formData?.location} autoComplete='off' type="text" name="location" id="location" className={`form__input`} placeholder='e.g Covered Court' onBlur={scrollTop} />
+              <input required onChange={handleChange} value={formData?.location} autoComplete='off' type="text" name="location" id="location" className={`form__input`} onBlur={scrollTop} />
           </div>
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
+          <div className='flex flex-col gap-1 bg-whit borde border-gray-300 rounded-2xl'>
               <label className='form__label' htmlFor="fineAmount">Fine</label>
-              <input onChange={handleChange} value={formData?.fineAmount} autoComplete='off' type="number" name="fineAmount" id="fineAmount" className={`form__input`} placeholder='e.g 25.00' onBlur={scrollTop} />
+              <input required onChange={handleChange} value={formData?.fineAmount} autoComplete='off' type="number" name="fineAmount" id="fineAmount" className={`form__input`} onBlur={scrollTop} />
           </div>
-          <div className='flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3'>
+          <div className='flex flex-col gap-1 bg-whit borde border-gray-300 rounded-2xl'>
               <label className='form__label' htmlFor="eventDate">Date</label>
               <div className={`form__input !pl-0 w-full flex`} onClick={handleDateClick}>
-              <input onChange={handleChange} value={formData?.eventDate} type="date" name="eventDate" ref={dateInputRef} id="eventDate" className='outline-none pl-[14px] rounded-full p-0 w-full bg-gray-100' />
+              <input required onChange={handleChange} value={formData?.eventDate} type="date" name="eventDate" ref={dateInputRef} id="eventDate" className='outline-none pl-[14px] rounded-full p-0 w-full bg-gray-100' />
               </div>
           </div>
-          <div className='flex flex-row gap-4 w-full bg-white border border-gray-300 rounded-lg p-3'>
+          <div className='flex flex-row gap-4 w-full bg-whit borde border-gray-300 rounded-2xl'>
               <div className='flex flex-col gap-1 w-1/2'>
               <label className='form__label' htmlFor="loginTime">Login Time</label>
               <div onClick={handleLoginTimeClick} className='form__input w-full flex items-center !pl-0'>
-                  <input onChange={handleChange} value={formData.loginTime} ref={loginTimeInputRef} type="time" name="loginTime" id="loginTime" className={`w-full pl-[14px] bg-gray-100 outline-none`}/>
+                  <input required onChange={handleChange} value={formData.loginTime} ref={loginTimeInputRef} type="time" name="loginTime" id="loginTime" className={`w-full pl-[14px] bg-gray-100 outline-none`}/>
               </div>
               </div>
               <div className='flex flex-col gap-1 w-1/2'>
               <label className='form__label' htmlFor="logoutTime">Logout Time</label> 
               <div onClick={handleLogoutTimeClick} className='form__input w-full flex items-center !pl-0'>
-                  <input onChange={handleChange} value={formData.logoutTime} ref={logoutTimeInputRef} type="time" name="logoutTime" id="logoutTime" className={`w-full pl-[14px] bg-gray-100 outline-none`}/>
+                  <input required onChange={handleChange} value={formData.logoutTime} ref={logoutTimeInputRef} type="time" name="logoutTime" id="logoutTime" className={`w-full pl-[14px] bg-gray-100 outline-none`}/>
               </div>
               </div>
           </div>
@@ -179,16 +215,22 @@ const EditEventForm: React.FC<{
               <input type="text" placeholder='Other (comma separated)' className={`form__input w-full`} onBlur={scrollTop} />
             </div>
           </div> */}
+          <div className={` lex gap-3 w-full mt-4 border-gray-300`}>
+            {/* <Button variant='secondary'  onClick={toggleEventForm}>Cancel</Button> */}
+            <Button 
+              variant='primary' 
+              type='submit'
+              form='editForm'
+              className='bg-emerald-500 min-w-40 grid place-items-center text-sm py-2.5 font-semibold !rounded-full ml-auto'
+              onClick={toggleEventForm}>
+                {loading ? (
+                  <Spinner size='1' color='white' className='translate-y-[3px]' />
+                ) : (
+                  "Save"
+                )}
+              </Button>
+          </div>
         </form>
-        <div className={` flex gap-3 w-full mt-auto p-3 pr-5 pb-7 border-gray-300 bg-white border-t`}>
-          {/* <Button variant='secondary'  onClick={toggleEventForm}>Cancel</Button> */}
-          <Button 
-            variant='primary' 
-            type='submit'
-            form='editForm'
-            className='font-bold py-3 bg-emerald-500 !rounded-full w-full text-[15px] px-12 ml-auto'
-            onClick={toggleEventForm}>Save attendance</Button>
-        </div>
       </div>
 
       {/* BACKDROP */}

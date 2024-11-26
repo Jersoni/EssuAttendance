@@ -110,18 +110,18 @@ const Filter = ({
             <div className=''>
                 <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto duration-300 ease-out transition-all bottom-0 overflow-hidden ${isOpen ? "!w-[85vw] xs:!w-[75vw]" : "" } z-[1500] flex flex-col text-sm border-l border-gray-300`}>
                     <div className='text-base bg-white border-b p-3 pl-5 border-gray-200 flex flex-row items-center'>
-                        <h2 className=' font-bold text-emerald-800 text-opacity-80 w-full'>Filters</h2>
+                        <h2 className=' font-bold text-emerald-700 text-opacity-80 w-full'>Filters</h2>
                     </div>
                     <div className='max-h-fit p-5 overflow-y-scroll h-full'>
                         {/* FILTER */}
-                        <div className='flex flex-col'>
+                        <div className='flex flex-col gap-4'>
                             {(program === "ALL") && (
                                 <DropDownChecklist options={COURSE} label='COURSE' onChange={handleCoursesChange} filters={courses} />
                             )}
                             <DropDownChecklist options={YEAR} label='YEAR' onChange={handleYearsChange} filters={years}  />
                             <DropDownChecklist options={SECTION} label='SECTION' onChange={handleSectionsChange} filters={sections} />
                         </div>
-                        <div className='flex flex-row border-b border-gray-200 py-3 overflow-hidden h-fit w-full'>
+                        <div className='flex mt-4 flex-row border- border-gray-200 py-3 overflow-hidden h-fit w-full'>
                             <div className='flex-col w-1/2 items-start h-fit'>
                                 <span className='font-medium text-xs'>SORT BY</span>
                                 <RadioList options={SORTBY_OPTIONS} onChange={handleSortChange} filters={sortBy} />
@@ -196,7 +196,7 @@ const SECTION: HTMLInputListProps[] = [
     {value: 'B', label: 'B', name: 'section'},
     {value: 'C', label: 'C', name: 'section'},
     {value: 'D', label: 'D', name: 'section'},
-    {value: 'E', label: 'E', name: 'section'},
+    // {value: 'E', label: 'E', name: 'section'},
 ]
 
 const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) => {
@@ -225,7 +225,7 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
                 </div> */}
             </span>
             {/* MODAL */}
-            <div className={`!transition-all w-full h-fit pb-3 border-b border-gray-200 overflow-hidden
+            <div className={`!transition-all w-full h-fit pb-3 border- border-gray-200 overflow-hidden
                 ${isOpen && label === 'COURSE' ? "" : ""}
                 ${isOpen && (label === 'YEAR' || label === 'SECTION') ? "" : ""}  
             `}>
@@ -234,9 +234,9 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
                         <div 
                             key={option.value}
                             className={`${filters?.includes(option.value)
-                                ? '!bg-emerald-700 text-white font-light'
+                                ? '!bg-emerald-600 text-white font-light'
                                 : ''
-                            } flex items-center relative bg-gray-100 rounded-sm px-3 py-1`} 
+                            } flex items-center relative bg-gray-100 rounded-full px-7 py-2`} 
                         >
                             <input
                                 type="checkbox" 
@@ -273,12 +273,12 @@ const RadioList: React.FC<HTMLInputList> = ({ options, filters, onChange }) => {
     return (
         <div className='flex flex-col mt-2 pl-1 gap-1'>
             {options.map((option, index) => (
-                <div className='flex items-center relative' key={option.value}>
+                <div className='flex items-center relative py-1' key={option.value}>
                     {filters === option.value
-                        ? <div className='min-h-4 min-w-4 bg-gray-200 border-2 border-emerald-700 rounded-full grid place-items-center'>
-                            <div className='bg-emerald-700 h-2 w-2 rounded-full'></div>
+                        ? <div className='min-h-5 min-w-5 bg-gray-20 border border-emerald-600 rounded-full grid place-items-center'>
+                            <div className='bg-emerald-600 h-3.5 w-3.5 rounded-full'></div>
                           </div>
-                        : <div className='min-h-4 min-w-4 bg-gray-200 rounded-full'></div>
+                        : <div className='min-h-5 min-w-5 border border-gray-300 bg-gray-20 rounded-full'></div>
                     }
 
                     {/* Hidden Radio Button */}
@@ -294,7 +294,7 @@ const RadioList: React.FC<HTMLInputList> = ({ options, filters, onChange }) => {
 
                     {/* Customized Radio Button */}
 
-                    <label htmlFor={option.value} className='opacity-90 pl-2 z-[130]'>
+                    <label htmlFor={option.value} className='opacity-90 pl-2 text-sm z-[130]'>
                         {option.label}
                     </label>
                 </div>

@@ -275,6 +275,15 @@ const Home: React.FC = () => {
         </div>
       )}
 
+
+      {/* NEW EVENT BUTTON */}
+      <button
+        onClick={toggleNewEventForm}
+        className="z-[500] fixed bottom-4 right-4 grid place-items-center bg-white border border-gray-100 w-16 h-16 shadow-md rounded-full"
+      >
+        <IoAdd size={26} className="text-emerald-500" />
+      </button>
+
       {/* New event form */}
       {auth?.role === "admin" && (
         <EventForm

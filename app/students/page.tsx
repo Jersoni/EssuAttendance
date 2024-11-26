@@ -11,7 +11,7 @@ import styles from './styles.module.css';
 import { RotatingLines } from 'react-loader-spinner'
 import { Spinner } from "@/components";
 import { checkAuth } from "@/utils/utils";
-import { useAppContext } from "@/context";
+import { MdPersonAdd } from "react-icons/md";
 
 const StudentsPage = () => {
 
@@ -349,6 +349,12 @@ const StudentsPage = () => {
 
   }, [searchParams])
 
+
+  const [isFormOpen, setIsFormOpen] = useState(false)
+  const toggleStudentForm = () => {
+      setIsFormOpen(!isFormOpen);
+  };
+
   return (
     <div className='bg-white min-h-[100vh] pt-20'>
       <Filter
@@ -374,7 +380,18 @@ const StudentsPage = () => {
       />
 
       {auth?.role === "admin" && (
-        <StudentForm />
+        <>
+          <button 
+            className='fixed bottom-4 right-4 pl-4 grid place-items-center p-2.5 z-[500] bg-white border border-gray-100 w-16 h-16 shadow-md rounded-full' 
+            onClick={toggleStudentForm}
+          >
+            <MdPersonAdd size={22} className="text-green-700 -translate-x-1" />
+          </button>
+            <StudentForm 
+              isOpen={isFormOpen}
+              toggleStudentForm={toggleStudentForm}
+            />
+          </>
       )}
 
       {/* buttons */}

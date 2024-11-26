@@ -230,39 +230,54 @@ const EventForm: React.FC<{
     }
   }, [isAfternoonChecked]);
 
+  // open and close transition
+  const bodyRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const main = bodyRef.current
+    if (main) {
+      if (isOpen) {
+        document.body.style.overflow = "hidden"
+        main.style.display = "grid"
+        setTimeout(() => {
+          main.style.opacity = "1"
+        }, 0)
+      } else {
+        main.style.opacity = "0"
+        setTimeout(() => {
+          main.style.display = "none"
+          document.body.style.overflow = "auto"
+        }, 300)
+      }
+    }
+  }, [isOpen])
+
   return (
-    <div className="overflow-hidden">
-      {/* NEW EVENT BUTTON */}
-      <button
-        onClick={toggleEventForm}
-        className="z-[500] fixed bottom-4 right-4 grid place-items-center bg-white border border-gray-100 w-16 h-16 shadow-md rounded-full"
-      >
-        <IoAdd size={26} className="text-emerald-500" />
-      </button>
+    <div
+      ref={bodyRef} 
+      className="fixed top-0 transition-all duration-300 left-0 bg-black/50 backdrop-blur-sm h-[100vh] w-[100vw] z-[3000] grid place-items-center"
+    >
 
       {/* NEW EVENT FORM */}
       <div
-        className={`${
-          isOpen ? "!h-full" : ""
-        } h-0 w-full fixed left-0 bottom-0 bg-white z-[1500] transition-all duration-200 flex flex-col justify-between`}
+        className={`overflow-hidden pointer-events-auto h-fit max-h-[45rem] w-[90vw] bg-white z-[1400] transition-all duration-[400ms] ease-in-out flex flex-col justify-between rounded-2xl`}
       >
+        <div className="flex flex-row items-center p-2 bg-white border- border-gray-300">
+          <h1 className="font-semibold absolute p-3 text-emerald-600 w-full">
+            Create attendance
+          </h1>
+          <Button
+            variant="close"
+            className="bg-gray-10 h-fit w-fit !p-2.5 !rounded-full ml-auto z-[120] text-green-700"
+            onClick={toggleEventForm}
+          ></Button>
+        </div>
+
         <form
           id="form"
           onSubmit={handleSubmit}
-          className="p-5 flex flex-col gap-4 overflow-y-scroll h-full pb-[8rem] bg-gray-100 pt-20"
+          className="transition-all duration-300 bg-gray-10 bg-white p-5 flex flex-col gap-5 overflow-y-scroll h-full"
         >
-          <div className="absolute flex flex-row items-center p-2 top-0 left-0 w-full bg-white border-b border-gray-300">
-            <h1 className="font-bold absolute p-3 text-emerald-700 w-full">
-              Create Attendance
-            </h1>
-            <Button
-              variant="close"
-              className="h-fit w-fit !p-2.5 !rounded-full ml-auto z-[120] text-green-900 mr-1"
-              onClick={() => {
-                toggleEventForm();
-              }}
-            ></Button>
-          </div>
 
           {error && (
             <div className="bg-red-200 border-red-300 border p-2 rounded-lg text-red-900">
@@ -270,7 +285,7 @@ const EventForm: React.FC<{
             </div>
           )}
 
-          <div className="flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3">
+          <div className="flex flex-col gap-1 bg-whit borde border-gray-300 rounded-2xl">
             <label className="form__label" htmlFor="title">
               Title
             </label>
@@ -286,7 +301,7 @@ const EventForm: React.FC<{
               onBlur={scrollTop}
             />
           </div>
-          <div className="flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3">
+          <div className="flex flex-col gap-1 bg-whit borde border-gray-300 rounded-2xl">
             <label className="form__label" htmlFor="location">
               Venue
             </label>
@@ -302,7 +317,7 @@ const EventForm: React.FC<{
               onBlur={scrollTop}
             />
           </div>
-          <div className="flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3">
+          <div className="flex flex-col gap-1 bg-whit borde border-gray-300 rounded-2xl">
             <label className="form__label" htmlFor="fineAmount">
               Fine
             </label>
@@ -318,7 +333,7 @@ const EventForm: React.FC<{
               required
             />
           </div>
-          <div className="flex flex-col gap-1 bg-white border border-gray-300 rounded-lg p-3">
+          <div className="flex flex-col gap-1 bg-whit borde border-gray-300 rounded-2xl">
             <label className="form__label" htmlFor="eventDate">
               Date
             </label>
@@ -340,7 +355,7 @@ const EventForm: React.FC<{
             </div>
           </div>
 
-          <div className="w-full bg-white border border-gray-300 rounded-lg p-3 pb-0 transition-all">
+          <div className="w-full bg-white border border-gray-300 rounded-lg p-3 mt-4 pb-0 transition-all">
             <div
               className={`border-b border-gray-300 pb-3 ${
                 !isMorningChecked ? "!border-b-0" : ""
@@ -488,7 +503,7 @@ const EventForm: React.FC<{
               variant="primary"
               type="submit"
               form="form"
-              className=" bg-emerald-500 min-w-48 grid place-items-center text-sm py-2.5 font-semibold !rounded-lg ml-auto"
+              className=" bg-emerald-500 min-w-48 grid place-items-center text-sm py-2.5 font-semibold !rounded-full ml-auto"
               disabled={loading}
             >
               {loading ? (

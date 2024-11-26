@@ -294,7 +294,7 @@ const StudentForm = ({
             type="submit" 
             form="EditStudentForm" 
             variant='primary' 
-            className="font-bold py-3 bg-emerald-500 !rounded-full w-full text-[15px] px-12 ml-auto"
+            className=" bg-emerald-500 min-w-48 grid place-items-center text-sm py-2.5 font-semibold !rounded-full ml-auto"
             onClick={() => {
               toggleForm()
             }}
