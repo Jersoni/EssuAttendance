@@ -4,11 +4,7 @@ import { AuthProps, EventProps, FormEventProps } from '@/types';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { IoIosArrowForward } from "react-icons/io";
-import { PiTrashSimpleBold } from "react-icons/pi";
-import { RiEdit2Line } from "react-icons/ri";
 import ConfirmationModal from './ConfirmationModal';
-import { TbDotsVertical } from "react-icons/tb";
-import EventForm from './EventForm';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { formatDate } from '@/utils/utils';
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
@@ -17,8 +13,8 @@ import { PiClockCountdown } from "react-icons/pi";
 import { PiMapPinArea } from "react-icons/pi";
 import { HiOutlineCalendar } from "react-icons/hi2";
 import { PiGavelLight } from "react-icons/pi";
-import { getTimeOfDay } from '@/utils/utils';
-
+import { HiPencil } from "react-icons/hi";
+import { TbTrashFilled } from "react-icons/tb";
 
 // Main
 const EventsCard: React.FC<{ 
@@ -183,7 +179,7 @@ const EventsCard: React.FC<{
                   `}>
                   {/* edit button */}
                   <button 
-                    className='h-full flex flex-row p-2 rounded-md w-28 items-center gap-2 active:bg-gray-200'
+                    className='h-full flex flex-row p-2 rounded-md w-28 items-center gap-2 active:bg-gray-100'
                     onClick={(e) => {
                       e.preventDefault()
                       setEditFormData({
@@ -201,7 +197,7 @@ const EventsCard: React.FC<{
                       }
                     }} 
                     >
-                    <RiEdit2Line size={18} className='fill-gray-700' />
+                    <HiPencil size={18} className='fill-gray-700' />
                     <span className='font-medium text-gray-700 text-sm' >Edit</span>
                   </button>
                   {/* delete button */}
@@ -213,7 +209,7 @@ const EventsCard: React.FC<{
                       toggle()
                     }}
                     >
-                    <PiTrashSimpleBold size={18} className='fill-red-400' />
+                    <TbTrashFilled size={18} className='fill-red-400' />
                     <span className='font-medium text-red-400 text-sm' >Delete</span>
                   </button>
                 </div>

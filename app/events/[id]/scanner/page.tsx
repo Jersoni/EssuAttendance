@@ -194,6 +194,7 @@ const Scanner = () => {
   const handleRfidChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
       setRfid(e.target.value)
+      setScanning(true)
     }
   }
 
@@ -361,7 +362,7 @@ const Scanner = () => {
                 </div>
               </div>
               
-              {/* INFO */}
+              {/* RESULTS */}
               <div className="mt-5 bg-white w-full h-fit rounded-xl px-5 py-2 overflow-hidden borde border-gray-200">
                 {student !== null && scanning === false && (
                   <div>
@@ -416,7 +417,7 @@ const Scanner = () => {
               </ul>
             </div>
           </TabPanel>
-          <TabPanel value="2" className="!p-0">
+          <TabPanel value="2" className="px-5">
             <form 
               onSubmit={handleRfidSubmit}
               className="opacity-0 absolute bottom-0 pointer-events-none"
@@ -435,6 +436,45 @@ const Scanner = () => {
                 className="bg-gray-100 border-gray-200 outline-none border rounded-full p-2 text-sm w-full text-center pointer-events-none caret-transparent"   
               />
             </form>
+
+            {/* RESULTS */}
+            <div className="mt-5 bg-white w-full h-fit rounded-xl px-5 py-2 overflow-hidden borde border-gray-200">
+              {student !== null && scanning === false && (
+                <div>
+                  <div className="w-full flex flex-row items-center text-xs text-gray-400 justify-between py-2 border- border-b-gray-200 bg-white">
+                    <span>Result</span>
+                    <div className="flex flex-row gap-2">
+                      <span>Login</span>
+                      <span>Logout</span>
+                    </div>
+                  </div>
+                  <StudentCard
+                    eventId={Number(eventId)}
+                    studentData={student}
+                    className="!border-0"
+                  />
+                </div>
+              )}
+
+              {student === null && scanning === false && (
+                <div className="py-5 flex flex-row items-center gap-1.5">
+                  <IoIosCloseCircleOutline size={18} className="fill-gray-500" />
+                  <span className="text-gray-500 text-sm">No ID detected</span>
+                </div>
+              )}
+
+              {scanning && (
+                <div className="flex flex-row items-center gap-3 text-sm text-gray-600 py-5">
+                  <l-line-spinner
+                    size="20"
+                    stroke="2"
+                    speed="1"
+                    color="gray"
+                  ></l-line-spinner>
+                  <span>Scanning</span>
+                </div>
+              )}
+            </div>
           </TabPanel>
         </TabContext>
 

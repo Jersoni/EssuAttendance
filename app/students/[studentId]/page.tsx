@@ -11,8 +11,8 @@ import { checkAuth, downloadImage } from "@/utils/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { PiTrashSimpleBold } from "react-icons/pi";
-import { RiEdit2Line } from "react-icons/ri";
+import { HiPencil } from "react-icons/hi";
+import { TbTrashFilled } from "react-icons/tb";
 
 const Student = ({ params }: { params: any }) => {
   const router = useRouter();
@@ -347,7 +347,7 @@ const Student = ({ params }: { params: any }) => {
                   }}
                   className="border-gray-200 pl-3 pr-8 w-full rounded-lg text-gray-800 font-medium flex flex-row items-center gap-3 active:bg-gray-100"
                 >
-                  <RiEdit2Line size={20} className="fill-gray-700" />
+                  <HiPencil size={20} className="fill-gray-700" />
                   <span className="py-3 text-sm">Edit Profile</span>
                 </button>
               </li>
@@ -376,7 +376,7 @@ const Student = ({ params }: { params: any }) => {
                   }}
                   className="border-gray-200 pl-3 pr-8 w-full rounded-lg text-gray-800 font-medium flex flex-row items-center gap-3 active:bg-gray-100"
                 >
-                  <PiTrashSimpleBold size={20} className="text-red-400" />
+                  <TbTrashFilled size={20} className="text-red-400" />
                   <span className="py-3 text-sm text-red-400">
                     Delete Student
                   </span>

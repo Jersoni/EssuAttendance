@@ -7,6 +7,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import ConfirmationModal from './ConfirmationModal';
 import { useState } from 'react';
 import supabase from '@/lib/supabaseClient';
+import { TbTrashFilled } from "react-icons/tb";
 
 const ArchiveEventCard = ({
   data,
@@ -93,7 +94,7 @@ const ArchiveEventCard = ({
               toggleConfirmationModal()
             }}
           >
-            <FaTrash />
+            <TbTrashFilled size={22} />
             Delete
           </button>
         </div>
