@@ -58,6 +58,7 @@ export interface headerProps {
     children?: React.ReactNode;
     returnPath?: string
     className?: string
+    buttonClassName?: string
 }
 
 export interface ButtonProps {

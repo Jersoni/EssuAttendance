@@ -4,7 +4,7 @@ import { IoChevronBack } from "react-icons/io5";
 import { headerProps } from '@/types';
 
 // PageHeader Component
-const PageHeader: React.FC<headerProps> = ({title, subtitle, children, returnPath = null, className}) => {
+const PageHeader: React.FC<headerProps> = ({title, subtitle, children, returnPath = null, className, buttonClassName}) => {
 
     const router = useRouter()
 
@@ -14,14 +14,14 @@ const PageHeader: React.FC<headerProps> = ({title, subtitle, children, returnPat
                 {/* return button */}
                 <button 
                     type="button" 
-                    className="z-30 grid place-items-center h-12 min-w-12 rounded-full active:bg-gray-200" 
+                    className={`z-30 grid place-items-center h-12 min-w-12 rounded-full active:bg-gray-200 text-emerald-700 ${buttonClassName}`}
                     onClick={() => {
                         returnPath
                         ? router.push(returnPath)
                         : router.back()
                     }}
                 >
-                    <IoChevronBack size={24} className='text-emerald-600 ' />
+                    <IoChevronBack size={20}/>
                 </button>
 
                 {/* header title */}

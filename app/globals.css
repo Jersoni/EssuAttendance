@@ -11,7 +11,7 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
+  background-color: rgb(var(--background-rgb));
   overflow-y: scroll;
   max-width: 500px;
   width: 100vw;

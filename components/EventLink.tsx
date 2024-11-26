@@ -19,6 +19,13 @@ export default function EventLink({
     studentId: string 
 }) {
 
+    useEffect(() => {
+        console.log("____")
+        console.log(attendanceData)
+        console.log(eventData)
+    }, [attendanceData, eventData])
+
+
     // get user role
     const router = useRouter()
     const [ auth, setAuth ] = useState<AuthProps>()
@@ -34,14 +41,15 @@ export default function EventLink({
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
     useEffect(() => {
-        if (attendanceData && attendanceData?.length > 0) {
+        console.log("setIsChecked")
+        if (attendanceData && attendanceData?.length > 0 && eventData) {
             attendanceData.forEach(attendance => {
-                if (studentId === attendance.studentId) {
+                if (eventData.id === attendance.eventId) {
                     setIsChecked(attendance.isPaid as boolean)
                 }
             })
         }
-    }, [attendanceData])
+    }, [attendanceData, eventData])
 
     const toggleDeleteModal = () => {
         setIsOpen(!isOpen)
@@ -55,6 +63,7 @@ export default function EventLink({
     // mark as paid in the database
     useEffect(() => {
         const updateIsPaid = async () => {
+            console.log("updateIsPaid()")
             try {
                 const { data, error } = await supabase
                     .from("attendance")
@@ -67,14 +76,14 @@ export default function EventLink({
                 if (error) {
                     console.error("Error updating isPaid:" + error)
                 } else {
-                    // console.log(`Successfully updated column 'isPaid' in table 'attendance'`)
+                    console.log(`Successfully updated column 'isPaid' in table 'attendance'`)
                 }
             } catch(err) {
                 console.error("Something went wrong: " + err)
             }
         }
 
-        updateIsPaid()
+        if (isChecked !== undefined) updateIsPaid()
     }, [isChecked])
 
     return (
@@ -83,7 +92,7 @@ export default function EventLink({
                 {auth?.role === "admin" && (
                     <div 
                         onClick={toggleDeleteModal}
-                        className={` bg-gray-100 bg-opacity-80 border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center`} 
+                        className={` bg-gray-200 bg-opacity-80 borde border-gray-300 h-9 min-w-9 rounded-md grid place-items-center`} 
                     >
                         {isChecked === true && <FaCheck className={"text-gray-600"} size={18} />}
                         {isChecked !== undefined && (

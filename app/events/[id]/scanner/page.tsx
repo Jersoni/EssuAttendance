@@ -4,7 +4,7 @@ import supabase from "@/lib/supabaseClient";
 import { StudentProps } from "@/types";
 import { lineSpinner } from "ldrs";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Camera } from "react-camera-pro";
 import { CameraType } from "react-camera-pro/dist/components/Camera/types";
 import { IoIosCloseCircleOutline } from "react-icons/io";
@@ -46,13 +46,6 @@ function a11yProps(index: number) {
 
 const Scanner = () => {
   lineSpinner.register();
-  // Change body styles
-  useEffect(() => {
-    document.body.style.backgroundColor = "rgb(243 244 246)";
-    return () => {
-      document.body.style.backgroundColor = ""; // Reset to default on unmount
-    };
-  }, []);
 
   const cameraErrorMessages = {
     noCameraAccessible:
@@ -172,21 +165,126 @@ const Scanner = () => {
   };
 
   // Tabs
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState("2");
+  const rfidInputRef = useRef<HTMLInputElement>(null)
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
+  // RFID input
   useEffect(() => {
-    setValue(1);
-  }, [])
+    if (rfidInputRef.current && value === "2") {
+      setScanning(true)
+      rfidInputRef.current?.focus()
+      const intervalID = setInterval(() => {
+        rfidInputRef.current?.focus()
+      }, 500)
+
+      return () => {
+        clearInterval(intervalID)
+      }
+    } else {
+      setScanning(false)
+    }
+  }, [value, rfidInputRef])
+
+  const [ rfid, setRfid ] = useState<string>("")
+
+  const handleRfidChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value) {
+      setRfid(e.target.value)
+    }
+  }
+
+  const handleRfidSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (rfid) {
+      try {
+        const { data, error } = await supabase 
+          .from("student")
+          .select()
+          .eq("rfid", Number(rfid))
+          .single()
+  
+        if (error) {
+          console.error(error)
+          setScanning(false)
+        } else {
+          console.log(data)
+          
+          const { data: data2, error: error2 } = await supabase
+          .from("attendance")
+          .select("isLoginPresent, isLogoutPresent")
+            .match({
+              studentId: data.id,
+              eventId: eventId 
+            })
+            .single()
+            
+            if (error2) {
+              console.error(error2)
+            } else {
+              console.log(data2)
+              setStudent({
+                ...data, 
+                isLoginPresent: data2.isLoginPresent, 
+                isLogoutPresent: data2.isLogoutPresent
+              } as StudentProps )
+              setRfid("")
+              setScanning(false)
+          }
+        }
+      } catch(e) {
+        console.error(e)
+        setStudent(null)
+        setScanning(true)
+      }
+    } else {
+      setStudent(null)
+      setScanning(true)
+    }
+  }
+
+  // useEffect(() => {
+  //   if (student && eventId) {
+  //     (async () => {
+  //       try {
+  //         const { data, error } = await supabase
+  //           .from("attendance")
+  //           .select("isLoginPresent, isLogoutPresent")
+  //           .match({
+  //             studentId: student.id,
+  //             eventId: eventId 
+  //           })
+  //           .single()
+  
+  //         if (error) {
+  //           console.error(error)
+  //         } else {
+  //           console.log(data)
+  //           const attendance = data as StudentProps
+  //           setStudent(prev => {
+  //             return {
+  //               ...prev, 
+  //               isLoginPresent: attendance.isLoginPresent, 
+  //               isLogoutPresent: attendance.isLogoutPresent
+  //             } as StudentProps
+  //           })
+  //         }
+  //       } catch(e) {
+  //         console.error(e)
+  //       }
+  //     })()
+  //   }
+  // }, [student, eventId])
 
   return (
     <div>
-      <PageHeader title={`Scanner ${value}`} className="!border-0" />
+      <PageHeader title={`Scanner`} className="!border-0" />
 
-      <div className="min-h-[100vh] w-full">
+      <div className="min-h-[100vh] w-full bg-gradient-to-b from-gray-100 to-gray-300">
 
         {/* TABLIST */}
         <TabContext value={value} >
@@ -226,104 +324,120 @@ const Scanner = () => {
             </Tabs>
           </Box>
           <TabPanel value="1">
-            <div className="h-[fit] rounded-lg border border-gray-200 overflow-hidden">
-              <div className="bg-gray-600 text-sm text-white w-full h-[30vh] overflow-hidden !border-0 relative">
-                <Camera
-                  ref={camera}
-                  numberOfCamerasCallback={(i) => {
-                    setNumberOfCameras(i);
-                  }}
-                  errorMessages={cameraErrorMessages}
-                />
-                {scanning ? (
+            <div className="p-5 bg-gray-100 rounded-2xl h-fit w-full">
+              <div className="rounded-xl border border-gray-200 overflow-hidden bg-white ">
+                <div className="bg-gray-600 text-sm text-white w-full h-[30vh] overflow-hidden !border-0 relative">
+                  <Camera
+                    ref={camera}
+                    numberOfCamerasCallback={(i) => {
+                      setNumberOfCameras(i);
+                    }}
+                    errorMessages={cameraErrorMessages}
+                  />
+                  {scanning ? (
+                    <div>
+                      <button
+                        onClick={() => setScanning(false)}
+                        className="absolute bg-gray-800 text-white bg-opacity-40 p-2.5 px-4 rounded-lg bottom-3 left-3 active:bg-gray-900 active:bg-opacity-50"
+                      >
+                        <span>Stop</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <button
+                        onClick={() => setScanning(true)}
+                        className="absolute bg-gray-800 text-white bg-opacity-40 p-2.5 px-4 rounded-lg bottom-3 left-3 active:bg-gray-900 active:bg-opacity-50"
+                      >
+                        <span>Scan</span>
+                      </button>
+                    </div>
+                  )}
+                  <button onClick={switchCamera}
+                    className=" w-10 h-10 ml-auto bg-gray-800 rounded-full bg-opacity-40 grid place-items-center absolute bottom-3 right-3"
+                  >
+                    <MdOutlineFlipCameraAndroid size={24} fill={"#ffffff"} />
+                  </button>
+                </div>
+              </div>
+              
+              {/* INFO */}
+              <div className="mt-5 bg-white w-full h-fit rounded-xl px-5 py-2 overflow-hidden borde border-gray-200">
+                {student !== null && scanning === false && (
                   <div>
-                    <button
-                      onClick={() => setScanning(false)}
-                      className="absolute bg-gray-800 text-white bg-opacity-40 p-2.5 px-4 rounded-lg bottom-3 left-3 active:bg-gray-900 active:bg-opacity-50"
-                    >
-                      <span>Stop</span>
-                    </button>
-                  </div>
-                ) : (
-                  <div>
-                    <button
-                      onClick={() => setScanning(true)}
-                      className="absolute bg-gray-800 text-white bg-opacity-40 p-2.5 px-4 rounded-lg bottom-3 left-3 active:bg-gray-900 active:bg-opacity-50"
-                    >
-                      <span>Scan</span>
-                    </button>
+                    <div className="w-full flex flex-row items-center text-xs text-gray-400 justify-between py-2 border- border-b-gray-200 bg-white">
+                      <span>Student</span>
+                      <div className="flex flex-row gap-2">
+                        <span>Login</span>
+                        <span>Logout</span>
+                      </div>
+                    </div>
+                    <StudentCard
+                      eventId={Number(eventId)}
+                      studentData={student}
+                      className="!border-0"
+                    />
                   </div>
                 )}
-                <button
-                  onClick={switchCamera}
-                  className=" w-10 h-10 ml-auto bg-gray-800 rounded-full bg-opacity-40 grid place-items-center absolute bottom-3 right-3"
-                >
-                  <MdOutlineFlipCameraAndroid size={24} fill={"#ffffff"} />
-                </button>
+
+                {student === null && scanning === false && (
+                  <div className="py-5 flex flex-row items-center gap-1.5">
+                    <IoIosCloseCircleOutline size={18} className="fill-gray-500" />
+                    <span className="text-gray-500 text-sm">No ID detected</span>
+                  </div>
+                )}
+
+                {scanning && (
+                  <div className="flex flex-row items-center gap-3 text-sm text-gray-600 py-5">
+                    <l-line-spinner
+                      size="20"
+                      stroke="2"
+                      speed="1"
+                      color="gray"
+                    ></l-line-spinner>
+                    <span>Scanning</span>
+                  </div>
+                )}
               </div>
             </div>
+            <div className="mt-7 flex flex-col text-xs bg-gray-10 borde border-gray-200 px-5 rounded-xl">
+              <ul className="list-disc ml-4 mt-1">
+                <li>Ensure the text on the ID is clear and legible.</li>
+                <li>
+                  You may only use either a{" "}
+                  <span className="font-semibold">Library ID</span> or a{" "}
+                  <span className="font-semibold">School ID</span> as valid
+                  identification.
+                </li>
+                <li>
+                  If School ID is used, Hold the ID horizontally, with the top
+                  edge rotated counterclockwise.
+                </li>
+              </ul>
+            </div>
           </TabPanel>
-          <TabPanel value="2">
-            Hello
+          <TabPanel value="2" className="!p-0">
+            <form 
+              onSubmit={handleRfidSubmit}
+              className="opacity-0 absolute bottom-0 pointer-events-none"
+            >
+              <label 
+                htmlFor="rfid"
+                className="text-sm text-gray-400 text-center"
+              >Swipe RFID card to enter </label> 
+              <input
+                name="rfid"
+                id="rfid"
+                value={rfid}
+                type="number"
+                onChange={handleRfidChange}
+                ref={rfidInputRef}
+                className="bg-gray-100 border-gray-200 outline-none border rounded-full p-2 text-sm w-full text-center pointer-events-none caret-transparent"   
+              />
+            </form>
           </TabPanel>
         </TabContext>
 
-        <div className="">
-          <div className="mt-5 bg-white w-full h-fit rounded-xl overflow-hidden border border-gray-200 shadow-sm px-5">
-            {student !== null && scanning === false && (
-              <div>
-                <div className="w-full flex flex-row items-center text-xs text-gray-400 justify-between py-2 border-b border-b-gray-200 bg-white">
-                  <span>Student</span>
-                  <div className="flex flex-row gap-2">
-                    <span>Login</span>
-                    <span>Logout</span>
-                  </div>
-                </div>
-                <StudentCard
-                  eventId={9}
-                  studentData={student}
-                  className="!border-0"
-                />
-              </div>
-            )}
-
-            {student === null && scanning === false && (
-              <div className="py-5 flex flex-row items-center gap-1.5">
-                <IoIosCloseCircleOutline size={18} className="fill-gray-500" />
-                <span className="text-gray-500 text-sm">No ID detected.</span>
-              </div>
-            )}
-
-            {scanning && (
-              <div className="flex flex-row items-center gap-3 text-sm text-gray-600 py-5">
-                <l-line-spinner
-                  size="20"
-                  stroke="2"
-                  speed="1"
-                  color="gray"
-                ></l-line-spinner>
-                <span>Scanning</span>
-              </div>
-            )}
-          </div>
-
-          <div className="mt-5 flex flex-col text-xs">
-            <span className="font-semibold">Guidelines</span>
-            <ul className="list-disc ml-4 mt-1">
-              <li>Ensure the text on the ID is clear and legible.</li>
-              <li>
-                You may only use either a{" "}
-                <span className="font-semibold">Library ID</span> or a{" "}
-                <span className="font-semibold">School ID</span> as valid
-                identification.
-              </li>
-              <li>
-                If School ID is used, Hold the ID horizontally, with the top
-                edge rotated counterclockwise.
-              </li>
-            </ul>
-          </div>
-        </div>
       </div>
       {/* <div className='w-full bg-white h-[100vh] p-5'>
           Photo taken:

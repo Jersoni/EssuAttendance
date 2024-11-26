@@ -62,16 +62,20 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
     // if isLoginPresent changes
     // A query to update 'isLoginPresent' in the database, table 'attendance'
     async function updateQuery( studentId: string, eventId: any, isLoginPresent:boolean | undefined) {
-      const { data, error } = await supabase
-      .from('attendance')
-      .update({ isLoginPresent: isLoginPresent })
-      .eq('studentId', studentId)
-      .eq('eventId', eventId)
-      if (error) {
-        console.error(error);
-        // Handle error, e.g., show error message to user
-      } else {
-        // console.log('Database updated successfully for login status');
+      try {
+        const { data, error } = await supabase
+        .from('attendance')
+        .update({ isLoginPresent: isLoginPresent })
+        .eq('studentId', studentId)
+        .eq('eventId', eventId)
+        if (error) {
+          console.error(error);
+          // Handle error, e.g., show error message to user
+        } else {
+          console.log('Database updated successfully for login status');
+        }
+      } catch(e) {
+        console.error(e)
       }
     }
     
@@ -83,18 +87,22 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
     // if isLogoutPresent changes
     // A query to update 'isLogoutPresent' in the database, table 'attendance'
     async function updateQuery( studentId: string, eventId: any, isLogoutPresent:boolean | undefined) {
-      const { data, error } = await supabase
-      .from('attendance')
-      .update({ isLogoutPresent: isLogoutPresent })
-      .match({
-        studentId: studentId,
-        eventId: eventId
-      })
-      if (error) {
-        console.error(error);
-        // Handle error, e.g., show error message to user
-      } else {
-        // console.log('Database updated successfully for logout status');
+      try {
+        const { data, error } = await supabase
+        .from('attendance')
+        .update({ isLogoutPresent: isLogoutPresent })
+        .match({
+          studentId: studentId,
+          eventId: eventId
+        })
+        if (error) {
+          console.error(error);
+          // Handle error, e.g., show error message to user
+        } else {
+          console.log('Database updated successfully for logout status');
+        }
+      } catch(e) {
+        console.error(e)
       }
     }
     
@@ -152,7 +160,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
         <div className={`flex flex-row gap-2 `}>
           <div
             onClick={handleLoginModalToggle} 
-            className={`bg-none border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center ${auth?.role === "student" ? "!bg-white " : ""}`}>
+            className={`bg-gray-100 borde border-gray-300 h-9 min-w-9 rounded-md grid place-items-center ${auth?.role === "student" ? "!bg-white " : ""}`}>
             {isLoginPresent && <FaCheck className={"text-gray-600"} size={18} />}
             <input 
               checked={isLoginPresent}
@@ -164,7 +172,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
           </div>
           <div
             onClick={handleLogoutModalToggle} 
-            className={`bg-none border border-gray-300 h-9 min-w-9 rounded-md grid place-items-center ${auth?.role === "student" ? "!bg-white " : ""}`}>
+            className={`bg-gray-200/60 borde border-gray-300 h-9 min-w-9 rounded-md grid place-items-center ${auth?.role === "student" ? "!bg-white " : ""}`}>
             {isLogoutPresent && <FaCheck className={"text-gray-600"} size={18} />}
             <input 
               checked={isLogoutPresent} 
