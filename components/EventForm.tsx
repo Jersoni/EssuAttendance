@@ -234,6 +234,7 @@ const EventForm: React.FC<{
   const bodyRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    console.log(isOpen)
     const main = bodyRef.current
     if (main) {
       if (isOpen) {
@@ -254,13 +255,13 @@ const EventForm: React.FC<{
 
   return (
     <div
-      ref={bodyRef} 
-      className="fixed top-0 transition-all duration-300 left-0 bg-black/50 backdrop-blur-sm h-[100vh] w-[100vw] z-[3000] grid place-items-center"
+      ref={bodyRef}
+      className="fixed hidden top-0 bottom-0 right-0 left-0 transition-all duration-300 bg-black/30 backdrop-blur-sm z-[2000] place-items-center"
     >
 
       {/* NEW EVENT FORM */}
       <div
-        className={`overflow-hidden pointer-events-auto h-fit max-h-[45rem] w-[90vw] bg-white z-[1400] transition-all duration-[400ms] ease-in-out flex flex-col justify-between rounded-2xl`}
+        className={`overflow-hidden pointer-events-auto h-fit max-h-[40rem] w-[90vw] bg-white z-[1400] transition-all duration-[400ms] ease-in-out flex flex-col justify-between rounded-3xl`}
       >
         <div className="flex flex-row items-center p-2 bg-white border- border-gray-300">
           <h1 className="font-semibold absolute p-3 text-emerald-600 w-full">
