@@ -145,7 +145,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
       <Link href={`/students/${studentData.id}`} className={`flex flex-row w-full items-center py-3 z-100`}>
         <FaCircleUser size={45} className="mr-3 text-gray-500" />
         <div className="">
-          <h2 className='text-sm'>{`${studentData.name}`} </h2>
+          <h2 className='text-sm text-nowrap text-ellipsis overflow-hidden inline-block w-60 '>{`${studentData.name}`}</h2>
           <div className={`student-card__info-container !z-100 mt-[2px] gap-3`}>
             <span className={`student-card__info !text-gray-700`}>{studentData.id}</span>
             {/* <div className='min-h-[2px] min-w-[2px] max-h-[2px] max-w-[2px] bg-black opacity-40 rounded-full m-2 z-100'></div> */}

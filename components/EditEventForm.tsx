@@ -144,7 +144,7 @@ const EditEventForm: React.FC<{
   return (
     <div 
       ref={bodyRef}
-      className={`fixed hidden top-0 bottom-0 right-0 left-0 transition-all duration-300 bg-black/30 backdrop-blur-sm z-[2000] place-items-center`}
+      className={`fixed hidden top-0 bottom-0 right-0 left-0 transition-all duration-200 bg-black/30 backdrop-blur-sm z-[2000] place-items-center`}
     >
       {/* EDIT EVENT FORM */}
       <div className={`overflow-hidden pointer-events-auto h-fit max-h-[40rem] w-[90vw] bg-white z-[1400] transition-all duration-[400ms] ease-in-out flex flex-col justify-between rounded-3xl`}>

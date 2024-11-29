@@ -109,7 +109,7 @@ const Filter = ({
             {/* Filter */}
             <div className=''>
                 <div className={`bg-gray-50 fixed w-[0vw] h-full right-0 mx-auto duration-300 ease-out transition-all bottom-0 overflow-hidden ${isOpen ? "!w-[85vw] xs:!w-[75vw]" : "" } z-[1500] flex flex-col text-sm border-l border-gray-300`}>
-                    <div className='text-base bg-white border-b p-3 pl-5 border-gray-200 flex flex-row items-center'>
+                    <div className='text-lg bg-white border- p-3 pl-5 border-gray-200 flex flex-row items-center'>
                         <h2 className=' font-bold text-emerald-700 text-opacity-80 w-full'>Filters</h2>
                     </div>
                     <div className='max-h-fit p-5 overflow-y-scroll h-full'>
@@ -136,9 +136,9 @@ const Filter = ({
                             <RadioList options={DISPLAY_OPTIONS} onChange={handleDisplayOptionChange} filters={displayOption} />
                         </div> */}
                     </div>
-                    <div className='flex flex-row gap-3 left-0 items-center justify-end p-3 pr-5 pb-8 border-t border-gray-200 bg-white z-[600] mt-auto'>
-                        <Button className=' min-w-20 !font-semibold text-gray-600' variant='secondary' onClick={resetFilters} >Reset</Button>
-                        <Button className=' min-w-20 !font-semibold' variant='primary' onClick={applyFilters}>Apply</Button>
+                    <div className='flex flex-row gap-3 left-0 items-center justify-end p-3 pr-5 pb-8 border- border-gray-200 bg-white z-[600] mt-auto'>
+                        <Button className=' min-w-24 !bg-gray-200 !border-0 !font-semibold text-gray-600' variant='secondary' onClick={resetFilters} >Reset</Button>
+                        <Button className=' min-w-24 !font-semibold' variant='primary' onClick={applyFilters}>Apply</Button>
                     </div>
                 </div>
                 <div onClick={setIsOpen} className={`bg-black bg-opacity-20 fixed pointer-events-auto z-[1400] top-0 left-0 right-0 bottom-0 transition-all ${isOpen ? "block" : "hidden"}`}></div>
@@ -236,7 +236,7 @@ const DropDownChecklist = ({options, label, onChange, filters}: HTMLInputList) =
                             className={`${filters?.includes(option.value)
                                 ? '!bg-emerald-600 text-white font-light'
                                 : ''
-                            } flex items-center relative bg-gray-100 rounded-full px-7 py-2`} 
+                            } flex items-center relative bg-gray-100 rounded-full px-4 py-2`} 
                         >
                             <input
                                 type="checkbox" 

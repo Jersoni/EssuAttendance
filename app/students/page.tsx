@@ -1,17 +1,15 @@
 'use client'
-import { Filter, SearchBar, StudentCard, StudentForm } from "@/components";
+import { Filter, SearchBar, Spinner, StudentCard, StudentForm, BatchRegistrationForm } from "@/components";
 import supabase from '@/lib/supabaseClient';
 import { AuthProps, StudentProps } from '@/types';
+import { checkAuth } from "@/utils/utils";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { IoSearch } from "react-icons/io5";
-import { RiFilter2Line } from "react-icons/ri";
+import { useEffect, useRef, useState } from "react";
+import { HiOutlineSearch } from "react-icons/hi";
+import { LuFileText, LuListFilter, LuUserPlus2 } from "react-icons/lu";
+import { MdPersonAdd } from "react-icons/md";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './styles.module.css';
-import { RotatingLines } from 'react-loader-spinner'
-import { Spinner } from "@/components";
-import { checkAuth } from "@/utils/utils";
-import { MdPersonAdd } from "react-icons/md";
 
 const StudentsPage = () => {
 
@@ -355,8 +353,72 @@ const StudentsPage = () => {
       setIsFormOpen(!isFormOpen);
   };
 
+  // add options modal & button
+  const [ isOptionsOpen, setIsOptionsOpen ] = useState(false)
+  const optionsModalRef = useRef<HTMLDivElement>(null)
+  const addButtonRef = useRef<HTMLButtonElement>(null)
+
+  const toggleOptionsOpen = () => {
+    setIsOptionsOpen(!isOptionsOpen)
+  }
+
+  useEffect(() => {
+  
+    const optionsModal = optionsModalRef.current
+    const addButton = addButtonRef.current
+
+    if (optionsModal && addButton) {
+
+      const closeOptionsModal = () => {
+        setIsOptionsOpen(false)
+        optionsModal.style.opacity = "0"
+        optionsModal.classList.toggle("translate-y-10")
+        setTimeout(() => {
+          optionsModal.style.display = "none"
+        }, 100)
+      }
+
+      const openOptionsModal = () => {
+        setIsOptionsOpen(true)
+        optionsModal.style.display = "flex"
+        setTimeout(() => {
+          optionsModal.classList.toggle("translate-y-10")
+          optionsModal.style.opacity = "1"
+        }, 100)
+      }
+  
+      const handleClick = (e: MouseEvent) => {
+        if ( e.target !== optionsModal && e.target !== addButton && isOptionsOpen) {
+          closeOptionsModal()
+        } else if (e.target === addButton) {
+          if (isOptionsOpen) {
+            openOptionsModal()
+          } else {
+            closeOptionsModal()
+          }
+        }
+      }
+  
+      window.addEventListener("click",handleClick)
+      window.addEventListener("scroll", closeOptionsModal)
+  
+      return () => {
+        window.removeEventListener("click", handleClick)
+        window.removeEventListener("scroll", closeOptionsModal)
+      }
+    }
+
+
+  }, [isOptionsOpen])
+
+  // BATCH REGISTRATION FORM
+  const [isBatchFormOpen, setBatchFormOpen] = useState(false)
+  const toggleBatchForm = () => {
+    setBatchFormOpen(!isBatchFormOpen)
+  }
+
   return (
-    <div className='bg-white min-h-[100vh] pt-20'>
+    <div className='bg-white min-h-[100vh] pt-20'> 
       <Filter
         // filters data
         courses={courses}
@@ -380,18 +442,54 @@ const StudentsPage = () => {
       />
 
       {auth?.role === "admin" && (
-        <>
-          <button 
-            className='fixed bottom-4 right-4 pl-4 grid place-items-center p-2.5 z-[500] bg-white border border-gray-100 w-16 h-16 shadow-md rounded-full' 
-            onClick={toggleStudentForm}
+        <div>
+          {/* ADD STUDENT BUTTON */}
+          <button
+            onClick={toggleOptionsOpen}
+            ref={addButtonRef}
+            className='fixed bottom-4 right-4 pl-4 grid place-items-center p-2.5 z-[500] bg-white border border-gray-100 w-16 h-16 shadow-lg rounded-full' 
           >
-            <MdPersonAdd size={22} className="text-green-700 -translate-x-1" />
+            <MdPersonAdd size={22} className="text-green-700 -translate-x-1 pointer-events-none" />
           </button>
-            <StudentForm 
-              isOpen={isFormOpen}
-              toggleStudentForm={toggleStudentForm}
-            />
-          </>
+
+          {/* MODAL */}
+          <div
+            ref={optionsModalRef}
+            className={`opacity-0 hidden translate-y-10 transition-all duration-200 h-fit w-fit p-1.5 fixed z-[500] bottom-24 right-4 rounded-xl bg-white border border-gray-200 shadow-md flex-col text-sm`}
+          >
+            <button
+              className="flex flex-col w-full rounded-md p-3 active:bg-gray-100"
+              onClick={toggleStudentForm}
+            >
+              <span className="text-nowrap w-fit text-gray-800 flex flex-row gap-3 items-center">
+                <LuUserPlus2 size={20} className=" text-gray-600 translate-x-0.5" />
+                Register student
+              </span>
+              <span></span>
+            </button>
+            <button 
+              onClick={toggleBatchForm}
+              className="flex flex-col w-full rounded-md p-3 active:bg-gray-100"
+            >
+              <span className="text-nowrap w-fit text-gray-800 flex flex-row gap-3 items-center">
+                <LuFileText size={20} className=" text-gray-600 " />
+                Batch registration (CSV)
+              </span>
+              <span></span>
+            </button>
+          </div>
+
+          <StudentForm 
+            isOpen={isFormOpen}
+            toggleStudentForm={toggleStudentForm}
+          />
+
+          <BatchRegistrationForm 
+            isOpen={isBatchFormOpen}
+            toggleForm={toggleBatchForm}
+          />
+
+        </div>
       )}
 
       {/* buttons */}
@@ -403,7 +501,7 @@ const StudentsPage = () => {
           }}
           className="grid place-items-center p-2 h-full bg-neutral-10 text-gray-700"
         >
-          <IoSearch size={20} />
+          <HiOutlineSearch size={20} />
         </button>
         <button 
           onClick={() => {
@@ -411,7 +509,7 @@ const StudentsPage = () => {
           }}
           className="grid place-items-center p-2 h-full bg-neutral-10 text-gray-700"
         >
-          <RiFilter2Line size={20} />
+          <LuListFilter size={21} />
         </button>
       </div>
 

@@ -256,7 +256,7 @@ const EventForm: React.FC<{
   return (
     <div
       ref={bodyRef}
-      className="fixed hidden top-0 bottom-0 right-0 left-0 transition-all duration-300 bg-black/30 backdrop-blur-sm z-[2000] place-items-center"
+      className="fixed hidden top-0 bottom-0 right-0 left-0 transition-all duration-200 bg-black/30 backdrop-blur-sm z-[2000] place-items-center"
     >
 
       {/* NEW EVENT FORM */}

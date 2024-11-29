@@ -15,6 +15,7 @@ import ArchiveEventCard from './ArchiveEventCard'
 import EditEventForm from './EditEventForm'
 import EditStudentForm from './EditStudentForm'
 import Spinner from './Spinner'
+import BatchRegistrationForm from './BatchRegistrationForm'
 
 export {
     Footer,
@@ -34,4 +35,5 @@ export {
     EditEventForm,
     EditStudentForm,
     Spinner,
+    BatchRegistrationForm,
 }

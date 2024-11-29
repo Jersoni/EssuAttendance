@@ -17,8 +17,8 @@ import { RotatingLines } from 'react-loader-spinner'
 import { Spinner } from "@/components";
 import NextTopLoader from "nextjs-toploader";
 import { HiOutlineSearch } from "react-icons/hi";
-import { IoScan } from "react-icons/io5";
 import { LuListFilter } from "react-icons/lu";
+import { IoScan } from "react-icons/io5";
 
 import styles from "./styles.module.css";import Link from "next/link";
 2
