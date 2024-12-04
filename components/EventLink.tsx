@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa"
 import ConfirmationModal from "./ConfirmationModal";
 import supabase from "@/lib/supabaseClient";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function EventLink({ 
     eventData,
@@ -28,11 +28,12 @@ export default function EventLink({
 
     // get user role
     const router = useRouter()
+    const pathname = usePathname()
     const [ auth, setAuth ] = useState<AuthProps>()
 
     useEffect(() => {
-        setAuth(checkAuth(router))
-    }, [router])
+        setAuth(checkAuth(router, pathname))
+    }, [router, pathname])
 
     const fine: string = "₱ " + eventData.fineAmount.toFixed(2).toString()
 

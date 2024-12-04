@@ -17,12 +17,13 @@ import { FaCircleUser } from "react-icons/fa6";
 const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, className?: string}> = ({ studentData, eventId, className }) => {
   
   const router = useRouter()
+  const pathname = usePathname();
 
   // auth verification
   const [ auth, setAuth ] = useState<AuthProps>()
   useEffect(() => {
-    setAuth(checkAuth(router))
-  }, [router])
+    setAuth(checkAuth(router, pathname))
+  }, [router, pathname])
 
   // Course formatting
   let course: string = studentData.course
@@ -33,7 +34,6 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
   // Section formatting
   let section = studentData.section.toUpperCase()
 
-  const pathname = usePathname()
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
   const [isLoginPresent, setIsLoginPresent] = useState(studentData.isLoginPresent)

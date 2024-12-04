@@ -4,7 +4,7 @@ import { Filter, PageHeader, SearchBar, StudentCard } from "@/components";
 import supabase from "@/lib/supabaseClient";
 import { Attendance, AuthProps, EventProps, QueryFiltersProps, StudentProps } from "@/types";
 import { checkAuth, formatDate } from "@/utils/utils";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LuScanLine } from "react-icons/lu";
 import { CgQr } from "react-icons/cg";
@@ -27,13 +27,14 @@ import styles from "./styles.module.css";import Link from "next/link";
 const EventPage: React.FC = ({ params }: any) => {
 
   const router = useRouter();
+  const pathname = usePathname();
 
   // auth verification
   const [ auth, setAuth ] = useState<AuthProps>()
   
   useEffect(() => {
-    setAuth(checkAuth(router))
-  }, [router])
+    setAuth(checkAuth(router, pathname))
+  }, [router, pathname]);
 
   const [program, setProgram] = useState<string>() // eg. BSINFOTECH
 

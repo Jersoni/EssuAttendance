@@ -16,6 +16,7 @@ import EditEventForm from './EditEventForm'
 import EditStudentForm from './EditStudentForm'
 import Spinner from './Spinner'
 import BatchRegistrationForm from './BatchRegistrationForm'
+import Combobox from './Combobox'
 
 export {
     Footer,
@@ -36,4 +37,5 @@ export {
     EditStudentForm,
     Spinner,
     BatchRegistrationForm,
+    Combobox,
 }

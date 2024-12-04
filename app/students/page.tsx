@@ -3,7 +3,7 @@ import { Filter, SearchBar, Spinner, StudentCard, StudentForm, BatchRegistration
 import supabase from '@/lib/supabaseClient';
 import { AuthProps, StudentProps } from '@/types';
 import { checkAuth } from "@/utils/utils";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
 import { LuFileText, LuListFilter, LuUserPlus2 } from "react-icons/lu";
@@ -14,13 +14,14 @@ import styles from './styles.module.css';
 const StudentsPage = () => {
 
   const router = useRouter()
+  const pathname = usePathname();
 
   // get user role
   const [ auth, setAuth ] = useState<AuthProps>()
 
   useEffect(() => {
-    setAuth(checkAuth(router))
-  }, [router])
+    setAuth(checkAuth(router, pathname))
+  }, [router, pathname])
 
   const [program, setProgram] = useState<string>() // eg. BSINFOTECH
 

@@ -4,7 +4,7 @@ import supabase from "@/lib/supabaseClient";
 import { AuthProps, EventProps } from "@/types";
 import { checkAuth } from "@/utils/utils";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 
@@ -14,10 +14,11 @@ const Page = () => {
   const [ auth, setAuth ] = useState<AuthProps>()
   const authRef = useRef<AuthProps | undefined>(auth);
   const router = useRouter()
+  const pathname = usePathname();
 
   useEffect(() => {
-    setAuth(checkAuth(router))
-  }, [router])
+    setAuth(checkAuth(router, pathname));
+  }, [router, pathname]);
 
   const [events, setEvents] = useState<EventProps[]>();
 

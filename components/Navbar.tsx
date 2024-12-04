@@ -30,7 +30,7 @@ const Navbar = ({ className }: { className?: string }) => {
   // auth verification
   const [ auth, setAuth ] = useState<AuthProps>()
   useEffect(() => {
-    setAuth(checkAuth(router))
+    setAuth(checkAuth(router, pathname))
   }, [router, pathname])
 
   let convertedPathname =

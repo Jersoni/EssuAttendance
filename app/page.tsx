@@ -13,13 +13,14 @@ import { checkAuth } from "@/utils/utils";
 const Home: React.FC = () => {
 
   const router = useRouter()
+  const pathname = usePathname()
 
   // get user role
   const [ auth, setAuth ] = useState<AuthProps>()
 
   useEffect(() => {
-    setAuth(checkAuth(router))
-  }, [router])
+    setAuth(checkAuth(router, pathname))
+  }, [router, pathname])
 
   // fetch program/course handled by the organization
   useEffect(() => {

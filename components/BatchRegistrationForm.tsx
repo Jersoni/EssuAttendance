@@ -71,7 +71,6 @@ const BatchRegistrationForm: React.FC<{
 					<p className="text-sm text-gray-800">
 						Tip: Datetime columns should be formatted as YYYY-MM-DD HH:mm:ss
 					</p>
-
 					<div className="form__input border border-black border-dashed !h-40 grid place-items-center">
 						<input
 							onChange={handleChange}

@@ -141,3 +141,8 @@ export interface QueryFiltersProps {
     order: string
     sortBy: string
 }
+
+export interface UniversityOptionsProps {
+    logo: string, 
+    name: string
+}

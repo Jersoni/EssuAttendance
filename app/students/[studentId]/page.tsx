@@ -8,7 +8,7 @@ import {
 import supabase from "@/lib/supabaseClient";
 import { Attendance, AuthProps, EventProps, StudentProps } from "@/types";
 import { checkAuth, downloadImage } from "@/utils/utils";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { HiPencil } from "react-icons/hi";
@@ -16,13 +16,14 @@ import { TbTrashFilled } from "react-icons/tb";
 
 const Student = ({ params }: { params: any }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const paramsID = params.studentId;
 
   // get user role
   const [auth, setAuth] = useState<AuthProps>();
   useEffect(() => {
-    setAuth(checkAuth(router));
-  }, [router]);
+    setAuth(checkAuth(router, pathname));
+  }, [router, pathname]);
 
   // FETCH STUDENT
   const [student, setStudent] = useState<StudentProps | undefined>(undefined);

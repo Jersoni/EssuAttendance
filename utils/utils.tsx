@@ -62,17 +62,19 @@ export function getTimeOfDay(timeString: string) {
 * if user is logged in, returns name, code, role, and signout function
 * else redirects user to login page
 */
-export function checkAuth(router: AppRouterInstance, onLogin = false) {
+export function checkAuth(router: AppRouterInstance, pathname: string) {
   let now = new Date()
   let authToken = localStorage.getItem("authToken")
   const signout = () => {
     localStorage.removeItem("authToken")
     router.push("/auth")
+    console.log("signed out")
   }
   
   if (authToken) {
-    if (onLogin) {
+    if (pathname === "/auth") {
       router.push("/")
+      console.log("home")
     }
 
     const { org_id, name, value, expiry } : { org_id: number, name: string, value: string, expiry: number } = authToken 
@@ -82,6 +84,7 @@ export function checkAuth(router: AppRouterInstance, onLogin = false) {
     if (now.getTime() > expiry) {
       localStorage.removeItem("authToken")
       router.push("/auth")
+      console.log("signed out")
     }
 
     return JSON.parse(authToken).value === ""
@@ -101,7 +104,9 @@ export function checkAuth(router: AppRouterInstance, onLogin = false) {
       } as AuthProps 
 
   } else {
-    router.push("/auth")
+    if (pathname !== "/signup") {
+      router.push("/auth")
+    }
   }
 }
 
