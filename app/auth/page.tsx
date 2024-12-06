@@ -77,7 +77,7 @@ const Auth = () => {
   }, [])
 
   const getData = async () => {
-
+    console.log("getdata")
     try {
       const { data, error } = await supabase
         .from("organizations")
@@ -124,6 +124,7 @@ const Auth = () => {
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    console.log("signing in")
     if (selectedUniversity && selectedOrganization && password !== "") {
       setIsSubmitLoading(true);
       getData();
@@ -183,298 +184,299 @@ const Auth = () => {
   }, [])
 
   return (
-
-    !isPageLoaded ? (
-      <div className="fixed top-0 left-0 right-0 bottom-0 grid place-items-center">
-        <Spinner />
-      </div>
-    ) : (
-    <div className="h-fit overflow-x-hidden">
-      <div className="bg-gradient-to-b. from-gray-100 to-gray-200 bg-white">
-        <div
-          className={`min-h-16 w-full items-center flex flex-row bg-white pl-6 border-b border-gray-400`}
-        >
-          <div className="flex flex-row items-center w-fit">
-            {/* <PiBookOpenTextFill className='text-emerald-700' size={26} /> */}
-            <Image 
-              src={logo} 
-              width={28} 
-              height={28} 
-              alt="app logo"
-              className="mr-2" 
-            />
-            <span className={`${balooBhai.className} font-medium text-2xl translate-y-[2.5px] text-gray-700`}>Presenxia</span>
-          </div>
-
-          <div className="flex flex-row gap-7 ml-auto mr-7">
-            <Link className="w-fit flex text-xs  " href={""}>
-              ABOUT US
-            </Link>
-            <Link className="w-fit flex text-xs  " href={""}>
-              FAQ
-            </Link>
-          </div>  
+    <>
+      {!isPageLoaded ? (
+        <div className="fixed top-0 left-0 right-0 bottom-0 grid place-items-center">
+          <Spinner />
         </div>
-
-        {/* main */}
-        <div className="main px-5 pt-20 pb-16 bg-gradient-to-b from-gray-50 via-gray-50 to-gray-100 min-h-[70vh] h-full ">
-          {page ? (
-            <div 
-              ref={loginContainer}
-              className={`flex flex-col relative h-fit w-full transition-all duration-300`}
+      ) : (
+        <div className="h-fit overflow-x-hidden">
+          <div className="bg-gradient-to-b. from-gray-100 to-gray-200 bg-white">
+            <div
+              className={`min-h-16 w-full items-center flex flex-row bg-white pl-6 border-b border-gray-400`}
             >
-              <div
-                id="page-1"
-                className={`${
-                  page === "1" ? "" : "-translate-x-[100vw] absolute"
-                } transition-all duration-300`}
-              >
-                <div className="flex flex-col">
-                  <span className="bg-cyan-100 p-1 w-fit">
-                    <h1 className="text-3xl font-bold ">
-                      Sign in.
-                    </h1>
-                  </span>
-                  <p className="text-gray-800 font-medium mt-2">
-                    Select your role to continue
-                  </p>
-                </div>
-
-                <div className="flex flex-col gap-3 mt-12">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setPage("student");
-                    }}
-                    className=" border border-gray-400 text-black w-full flex flex-row items-center gap-4 bg-none h-fit font-semibold rounded-xl pl-6 py-4 text-sm"
-                  >
-                    <FaUser size={26} className="text-gray-300" />
-                    <span>Sign in as student</span>
-                    <IoMdArrowForward size={20}  className="ml-auto mr-4 text-gray-500"/>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setPage("admin");
-                      setPassword("");
-                    }}
-                    className=" border border-gray-400 text-black w-full flex flex-row items-center gap-4 bg-none h-fit font-semibold rounded-xl pl-6 py-4 text-sm"
-                  >
-                    <FaKey size={26} className="text-gray-300" />
-                    <span>Sign in as admin</span>
-                    <IoMdArrowForward size={20}  className="ml-auto mr-4 text-gray-500"/>
-                  </button>
-                </div>
+              <div className="flex flex-row items-center w-fit">
+                {/* <PiBookOpenTextFill className='text-emerald-700' size={26} /> */}
+                <Image 
+                  src={logo} 
+                  width={28} 
+                  height={28} 
+                  alt="app logo"
+                  className="mr-2" 
+                />
+                <span className={`${balooBhai.className} font-medium text-2xl translate-y-[2.5px] text-gray-700`}>Presenxia</span>
               </div>
 
-              <div
-                id="page-student"
-                className={`${
-                  page === "student" ? "" : "translate-x-[100vw] absolute"
-                } transition-all duration-300`}
-              >
-                <div>
-                  <div className="flex flex-row gap-3 items-center">
-                    {/* <FaUser size={22} className="text-gray-600" /> */}
-                    <h1 className="text-xl font-semibold ">Sign in as student</h1>
-                  </div>
+              <div className="flex flex-row gap-7 ml-auto mr-7">
+                <Link className="w-fit flex text-xs  " href={""}>
+                  ABOUT US
+                </Link>
+                <Link className="w-fit flex text-xs  " href={""}>
+                  FAQ
+                </Link>
+              </div>  
+            </div>
 
-                  <form 
-                    action="" 
-                    className="mt-10"
-                    onSubmit={handleFormSubmit}
+            {/* main */}
+            <div className="main px-5 pt-20 pb-16 bg-gradient-to-b from-gray-50 via-gray-50 to-gray-100 min-h-[70vh] h-full ">
+              {page ? (
+                <div 
+                  ref={loginContainer}
+                  className={`flex flex-col relative h-fit w-full transition-all duration-300`}
+                >
+                  <div
+                    id="page-1"
+                    className={`${
+                      page === "1" ? "" : "-translate-x-[100vw] absolute"
+                    } transition-all duration-300`}
                   >
-                    <Combobox 
-                      label="University"
-                      placeholder="Select a university"
-                      options={UniversityOptions}
-                      selectedOption={selectedUniversity}
-                      setSelectedOption={setSelectedUniversity}
-                    />
+                    <div className="flex flex-col">
+                      <span className="bg-cyan-100 p-1 w-fit">
+                        <h1 className="text-3xl font-bold ">
+                          Sign in.
+                        </h1>
+                      </span>
+                      <p className="text-gray-800 font-medium mt-2">
+                        Select your role to continue
+                      </p>
+                    </div>
 
-                    <Combobox 
-                      label="School organization"
-                      placeholder="Select a school organization"
-                      options={organizationOptions}
-                      selectedOption={selectedOrganization}
-                      setSelectedOption={setSelectedOrganization}
-                      className="mt-6"
-                    />
-
-                    <div className="mt-12 flex flex-row justify-between items-center">
+                    <div className="flex flex-col gap-3 mt-12">
                       <button
-                        onClick={() => {
-                          setPage("1");
-                        }}
                         type="button"
-                        className="p-2 pl-0 text-gray-700 font-medium flex flex-row gap-2.5 items-center text-sm"
+                        onClick={() => {
+                          setPage("student");
+                        }}
+                        className=" border border-gray-400 text-black w-full flex flex-row items-center gap-4 bg-none h-fit font-semibold rounded-xl pl-6 py-4 text-sm"
                       >
-                        <GoArrowLeft size={18} />
-                        Back
+                        <FaUser size={26} className="text-gray-300" />
+                        <span>Sign in as student</span>
+                        <IoMdArrowForward size={20}  className="ml-auto mr-4 text-gray-500"/>
                       </button>
 
                       <button
-                        type="submit"
-                        className=" text-white w-fit max-h-10 bg-blue-500 h-fit font-semibold rounded-lg p-2.5 px-8 text-sm active:bg-blue-400 grid place-items-center"
+                        type="button"
+                        onClick={() => {
+                          setPage("admin");
+                          setPassword("");
+                        }}
+                        className=" border border-gray-400 text-black w-full flex flex-row items-center gap-4 bg-none h-fit font-semibold rounded-xl pl-6 py-4 text-sm"
                       >
-                        {isSubmitLoading && <Spinner size="1.4" />}
-                        Sign in
+                        <FaKey size={26} className="text-gray-300" />
+                        <span>Sign in as admin</span>
+                        <IoMdArrowForward size={20}  className="ml-auto mr-4 text-gray-500"/>
                       </button>
                     </div>
-                  </form>
-                </div>
-              </div>
-
-              <div
-                id="page-admin"
-                className={`${
-                  page === "admin" ? "" : "translate-x-[100vw] absolute"
-                } transition-all duration-300`}
-              >
-                <div>
-                  <div className="flex flex-row gap-3 items-center">
-                    {/* <FaKey size={22} className="text-gray-600" /> */}
-                    <h1 className="text-xl font-semibold ">Sign in as admin</h1>
                   </div>
 
-                  <form 
-                    action="" 
-                    className="mt-10"
-                    onSubmit={handleFormSubmit}
+                  <div
+                    id="page-student"
+                    className={`${
+                      page === "student" ? "" : "translate-x-[100vw] absolute"
+                    } transition-all duration-300`}
                   >
-                    <Combobox 
-                      label="University"
-                      placeholder="Select a university"
-                      options={UniversityOptions}
-                      selectedOption={selectedUniversity}
-                      setSelectedOption={setSelectedUniversity}
-                    />
-
-                    <Combobox 
-                      label="School organization"
-                      placeholder="Select a school organization"
-                      options={organizationOptions}
-                      selectedOption={selectedOrganization}
-                      setSelectedOption={setSelectedOrganization}
-                      className="mt-6"
-                    />
-
-                    <div className="flex flex-col gap-2 mt-6">
-                      <label
-                        htmlFor="pass"
-                        className="text-sm font-semibold text-gray-700 !mb-2 flex"
-                      >
-                        Password
-                      </label>
-                      <div className={`bg-gray-100 border border-gray-200 rounded-lg pl-4 focus:border-opacity-80 text-sm w-full flex flex-row items-center ${error === "password" ? "!border-red-300 !border-2" : ""}`}>
-                        <input
-                          type={showPassword ? "text" : "password"}
-                          placeholder="•••••"
-                          className="bg-transparent w-full mr-2 outline-none"
-                          onChange={handlePasswordChange}
-                        />
-                        <button
-                          className="text-gray-600 mr-1 p-3"
-                          type="button"
-                          onClick={() => {
-                            scrollTop();
-                            setShowPassword(true);
-                          }}
-                        >
-                          {showPassword ? (
-                            <FaRegEye size={16} />
-                          ) : (
-                            <FaRegEyeSlash size={16} />
-                          )}
-                        </button>
+                    <div>
+                      <div className="flex flex-row gap-3 items-center">
+                        {/* <FaUser size={22} className="text-gray-600" /> */}
+                        <h1 className="text-xl font-semibold ">Sign in as student</h1>
                       </div>
-                      {error === "password" && <span className="text-sm text-red-400">Password is incorrect</span>}
-                    </div>
 
-                    <div className="mt-12 flex flex-row justify-between items-center">
-                      <button
-                        onClick={() => {
-                          setPage("1");
-                        }}
-                        type="button"
-                        className="p-2 pl-0 text-gray-700 font-medium flex flex-row gap-2.5 items-center text-sm"
+                      <form 
+                        action="" 
+                        className="mt-10"
+                        onSubmit={handleFormSubmit}
                       >
-                        <GoArrowLeft size={18} />
-                        Back
-                      </button>
+                        <Combobox 
+                          label="University"
+                          placeholder="Select a university"
+                          options={UniversityOptions}
+                          selectedOption={selectedUniversity}
+                          setSelectedOption={setSelectedUniversity}
+                        />
 
-                      <button
-                        type="submit"
-                        className=" text-white w-fit max-h-10 bg-blue-500 h-fit font-semibold rounded-lg p-2.5 px-8 text-sm active:bg-blue-400 grid place-items-center"
-                      >
-                        {isSubmitLoading && <Spinner size="1.4" />}
-                        Sign in
-                      </button>
+                        <Combobox 
+                          label="School organization"
+                          placeholder="Select a school organization"
+                          options={organizationOptions}
+                          selectedOption={selectedOrganization}
+                          setSelectedOption={setSelectedOrganization}
+                          className="mt-6"
+                        />
+
+                        <div className="mt-12 flex flex-row justify-between items-center">
+                          <button
+                            onClick={() => {
+                              setPage("1");
+                            }}
+                            type="button"
+                            className="p-2 pl-0 text-gray-700 font-medium flex flex-row gap-2.5 items-center text-sm"
+                          >
+                            <GoArrowLeft size={18} />
+                            Back
+                          </button>
+
+                          <button
+                            type="submit"
+                            className=" text-white w-fit max-h-10 bg-blue-500 h-fit font-semibold rounded-lg p-2.5 px-8 text-sm active:bg-blue-400 grid place-items-center"
+                          >
+                            {isSubmitLoading && <Spinner size="1.4" />}
+                            Sign in
+                          </button>
+                        </div>
+                      </form>
                     </div>
-                  </form>
+                  </div>
+
+                  <div
+                    id="page-admin"
+                    className={`${
+                      page === "admin" ? "" : "translate-x-[100vw] absolute"
+                    } transition-all duration-300`}
+                  >
+                    <div>
+                      <div className="flex flex-row gap-3 items-center">
+                        {/* <FaKey size={22} className="text-gray-600" /> */}
+                        <h1 className="text-xl font-semibold ">Sign in as admin</h1>
+                      </div>
+
+                      <form 
+                        action="" 
+                        className="mt-10"
+                        onSubmit={handleFormSubmit}
+                      >
+                        <Combobox 
+                          label="University"
+                          placeholder="Select a university"
+                          options={UniversityOptions}
+                          selectedOption={selectedUniversity}
+                          setSelectedOption={setSelectedUniversity}
+                        />
+
+                        <Combobox 
+                          label="School organization"
+                          placeholder="Select a school organization"
+                          options={organizationOptions}
+                          selectedOption={selectedOrganization}
+                          setSelectedOption={setSelectedOrganization}
+                          className="mt-6"
+                        />
+
+                        <div className="flex flex-col gap-2 mt-6">
+                          <label
+                            htmlFor="pass"
+                            className="text-sm font-semibold text-gray-700 !mb-2 flex"
+                          >
+                            Password
+                          </label>
+                          <div className={`bg-gray-100 border border-gray-200 rounded-lg pl-4 focus:border-opacity-80 text-sm w-full flex flex-row items-center ${error === "password" ? "!border-red-300 !border-2" : ""}`}>
+                            <input
+                              type={showPassword ? "text" : "password"}
+                              placeholder="•••••"
+                              className="bg-transparent w-full mr-2 outline-none"
+                              onChange={handlePasswordChange}
+                            />
+                            <button
+                              className="text-gray-600 mr-1 p-3"
+                              type="button"
+                              onClick={() => {
+                                scrollTop();
+                                setShowPassword(true);
+                              }}
+                            >
+                              {showPassword ? (
+                                <FaRegEye size={16} />
+                              ) : (
+                                <FaRegEyeSlash size={16} />
+                              )}
+                            </button>
+                          </div>
+                          {error === "password" && <span className="text-sm text-red-400">Password is incorrect</span>}
+                        </div>
+
+                        <div className="mt-12 flex flex-row justify-between items-center">
+                          <button
+                            onClick={() => {
+                              setPage("1");
+                            }}
+                            type="button"
+                            className="p-2 pl-0 text-gray-700 font-medium flex flex-row gap-2.5 items-center text-sm"
+                          >
+                            <GoArrowLeft size={18} />
+                            Back
+                          </button>
+
+                          <button
+                            type="submit"
+                            className=" text-white w-fit max-h-10 bg-blue-500 h-fit font-semibold rounded-lg p-2.5 px-8 text-sm active:bg-blue-400 grid place-items-center"
+                          >
+                            {isSubmitLoading && <Spinner size="1.4" />}
+                            Sign in
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+
+                
+                </div>
+              ) : (
+                <div className="min-h-[50vh] grid place-items-center">
+                  <Spinner />
+                </div>
+              )}
+
+              {page !== "student" && (
+                <div className="w-full h-fit border-t border-gray-300 mt-20 flex flex-col items-center pt-16">
+                  <span className="text-sm text-center max-w-[300px]">
+                    Not registered yet? Join us to streamline attendance management!
+                  </span>
+                  <Link
+                    href={"/signup"}
+                    className="bg-white rounded-full border border-gray-400 cursor-pointer text-sm text- py-3 px-8 active:bg-gray-100 mt-6 font-medium flex flex-row items-center gap-2"
+                  >
+                    Sign up for free
+                    {/* <IoMdArrowForward size={16} /> */}
+                  </Link>
+                </div>
+              )}
+            </div>
+
+
+            <footer  
+              className={`mt-auto flex flex-col px-5 relative bg-gray-20 w-[100vw] h-fit`}
+            >
+              <div className="flex flex-col border- border-gray-400 w-full h-full pt-10 pb-14">
+                <h1 className="font-semibold text-gray-700">Get in touch</h1>
+                <div className="flex flex-col">
+                  <Link 
+                    href={""}
+                    className="flex flex-row items-center gap-4 mt-6"
+                  >
+                    <IoMail size={22} className="text-gray-300" />
+                    <span className="text-gray-500 text-xs font-normal ">jersoncaibog0423@gmail.com</span>
+                  </Link>
+
+                  <Link 
+                    href={""}
+                    className="flex flex-row items-center gap-4 mt-3"
+                  >
+                    <MdLocalPhone size={22} className="text-gray-300" />
+                    <span className="text-gray-500 text-xs font-normal">+639273240956</span>
+                  </Link>
+                </div>
+                <div className="mt-14 border-t border-gray-300 pt-8">
+                  <p className="text-xs text-gray-500 text-center">&copy; Jerson Caibog, 2024. All rights reserved.</p>
                 </div>
               </div>
 
-            
-            </div>
-          ) : (
-            <div className="min-h-[50vh] grid place-items-center">
-              <Spinner />
-            </div>
-          )}
-
-          {page !== "student" && (
-            <div className="w-full h-fit border-t border-gray-300 mt-20 flex flex-col items-center pt-16">
-              <span className="text-sm text-center max-w-[300px]">
-                Not registered yet? Join us to streamline attendance management!
-              </span>
-              <Link
-                href={"/signup"}
-                className="bg-white rounded-full border border-gray-400 cursor-pointer text-sm text- py-3 px-8 active:bg-gray-100 mt-6 font-medium flex flex-row items-center gap-2"
-              >
-                Sign up for free
-                {/* <IoMdArrowForward size={16} /> */}
-              </Link>
-            </div>
-          )}
-        </div>
-
-
-        <footer  
-          className={`mt-auto flex flex-col px-5 relative bg-gray-20 w-[100vw] h-fit`}
-        >
-          <div className="flex flex-col border- border-gray-400 w-full h-full pt-10 pb-14">
-            <h1 className="font-semibold text-gray-700">Get in touch</h1>
-            <div className="flex flex-col">
-              <Link 
-                href={""}
-                className="flex flex-row items-center gap-4 mt-6"
-              >
-                <IoMail size={22} className="text-gray-300" />
-                <span className="text-gray-500 text-xs font-normal ">jersoncaibog0423@gmail.com</span>
-              </Link>
-
-              <Link 
-                href={""}
-                className="flex flex-row items-center gap-4 mt-3"
-              >
-                <MdLocalPhone size={22} className="text-gray-300" />
-                <span className="text-gray-500 text-xs font-normal">+639273240956</span>
-              </Link>
-            </div>
-            <div className="mt-14 border-t border-gray-300 pt-8">
-              <p className="text-xs text-gray-500 text-center">&copy; Jerson Caibog, 2024. All rights reserved.</p>
-            </div>
+            </footer>
           </div>
 
-        </footer>
-      </div>
 
-
-      <div className=" bg-gray-600 md:w-full min-h-[100vh] max-sm:hidden "></div>
-    </div>
-    )
+          <div className=" bg-gray-600 md:w-full min-h-[100vh] max-sm:hidden "></div>
+        </div>
+      )}
+    </>
   );
 };
 
