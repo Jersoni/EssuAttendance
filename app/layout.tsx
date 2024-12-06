@@ -12,25 +12,30 @@ const inter = Inter({
   subsets: ["latin"], 
   weight: ["100" , "200" , "300" , "400" , "500" , "600" , "700" , "800" , "900"]
 });
-const bebasNeue = localFont({ src: '../public/fonts/BebasNeue-Regular.ttf' })
+// const bebasNeue = localFont({ src: '../public/fonts/BebasNeue-Regular.ttf' })
 
 export const metadata: Metadata = {
-  title: "SSC Logbook",
-  description: "Coded by yours truly",
+  title: "Presenxia",
+  applicationName: 'Presenxia',
+  creator: 'Jerson Caibog',
+  authors: [{ name: "Jerson Caibog", url: "https://github.com/Jersoni", }, ],
+  description: "Presenxia is a user-friendly attendance management system for schools and events, designed to efficiently track and record attendance with real-time updates and detailed reporting. Easily create, manage, and monitor event participation in just a few clicks.",
+  keywords: "presenxia, attendance, event management, school events, real-time updates, tracking, seminar attendance, seminar tracking, student events" ,
+  generator: 'Next.js',
   manifest: "/manifest.json",
-  authors: [
-    { 
-      name: "Jerson Caibog",
-      url: "https://github.com/Jersoni",
-    },
-    {
-      name: "Rhey Ranido",
-    },
-  ],
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   icons: [
     { rel: "apple-touch-icon", url: "icons/apple-touch-icon.png" },
     { rel: "icon", url: "icons/apple-touch-icon.png" },
   ],
+  openGraph: {
+    title: 'Presenxia | Efficient Attendance Management',
+  },
+
 };
 
 export const viewport = {

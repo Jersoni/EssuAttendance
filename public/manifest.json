@@ -1,8 +1,8 @@
 {
-  "name": "SSC Events",
-  "short_name": "SSC Events",
-  "theme_color": "#fff",
-  "background_color": "#fff",
+  "name": "Presenxia",
+  "short_name": "Presenxia",
+  "theme_color": "#FF0000",
+  "background_color": "#FF0000",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
