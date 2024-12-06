@@ -60,8 +60,11 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="theme-color" content="#39ff14 " />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover, user-scalable=no " />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="icon" href="/apple-touch-icon.png" />
+        
+        <link  rel="apple-touch-icon" href="/apple-touch-icon.png" type="image/png" />
+        <link  rel="icon" href="/icon.svg" type="image/svg+xml" sizes="any" />
+        <link  rel="icon" href="/favicon.ico" sizes="any" />
+
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <body 
