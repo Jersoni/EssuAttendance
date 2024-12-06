@@ -93,7 +93,7 @@ const Signup = () => {
   };
 
   const handleNextClick = () => {
-    if (page === 0 && formData.university && formData.organization && formData.program ) {
+    if (selectedUniversity && formData.organization && selectedProgram ) {
       setLoading(true)
 
       ;(async () => {
@@ -167,6 +167,10 @@ const Signup = () => {
   const handlePlanChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedPlan(event.target.value);
   };
+
+  useEffect(() => {
+    console.log(formData)
+  }, [formData])
 
   return (
     <div className="bg-white min-h-[100vh] pb-60 w-[100vw] overflow-x-hidden">
