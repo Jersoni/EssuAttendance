@@ -123,9 +123,8 @@ const Auth = () => {
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    console.log("signing in")
-    if (selectedUniversity && selectedOrganization && password !== "") {
+    
+    if (selectedUniversity && selectedOrganization) {
       setIsSubmitLoading(true);
       getData();
     }
@@ -185,11 +184,13 @@ const Auth = () => {
 
   return (
     <>
-      {!isPageLoaded ? (
+      {!isPageLoaded && (
         <div className="fixed top-0 left-0 right-0 bottom-0 grid place-items-center">
           <Spinner />
         </div>
-      ) : (
+      )}
+      
+      {isPageLoaded && (
         <div className="h-fit overflow-x-hidden">
           <div className="bg-gradient-to-b. from-gray-100 to-gray-200 bg-white">
             <div
