@@ -71,6 +71,17 @@ const Signup = () => {
     }
   }, [selectedProgram])
 
+  useEffect(() => {
+    if (selectedUniversity) {
+      setFormData(prev => {
+        return {
+         ...prev,
+          program: selectedUniversity,
+        };
+      })
+    }
+  }, [selectedUniversity])
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
