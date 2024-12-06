@@ -2,7 +2,7 @@
 import { Attendance, AuthProps, EventProps } from "@/types"
 import { GoArrowUpRight } from "react-icons/go";
 import Link from "next/link";
-import { checkAuth, formatDate } from "@/utils/utils";
+import { checkAuth, fetchOrganization, formatDate } from "@/utils/utils";
 import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa"
 import ConfirmationModal from "./ConfirmationModal";
@@ -25,14 +25,21 @@ export default function EventLink({
         console.log(eventData)
     }, [attendanceData, eventData])
 
-
-    // get user role
     const router = useRouter()
     const pathname = usePathname()
+
+    // auth verification
     const [ auth, setAuth ] = useState<AuthProps>()
 
     useEffect(() => {
-        setAuth(checkAuth(router, pathname))
+        (async () => {
+            const token = checkAuth(router, pathname);
+            
+            if (token?.id) {
+                const data = await fetchOrganization(token.id);
+                setAuth(data);
+            }
+        })();
     }, [router, pathname])
 
     const fine: string = "₱ " + eventData.fineAmount.toFixed(2).toString()

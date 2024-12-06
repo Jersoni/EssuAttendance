@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from "react"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useAppContext } from "@/context";
 import { IoAdd } from "react-icons/io5";
-import { checkAuth } from "@/utils/utils";
+import { checkAuth, fetchOrganization } from "@/utils/utils";
 
 
 // eslint-disable-next-line @next/next/no-async-client-component
@@ -16,23 +16,34 @@ const Home: React.FC = () => {
   const pathname = usePathname()
 
   // get user role
+  // auth verification
   const [ auth, setAuth ] = useState<AuthProps>()
-
+  
   useEffect(() => {
-    setAuth(checkAuth(router, pathname))
+    (async () => {
+      const token = checkAuth(router, pathname);
+
+      console.log(token)
+      
+      if (token?.id) {
+        const data = await fetchOrganization(token.id);
+        console.log(data)
+        setAuth(data);
+      }
+    })();
   }, [router, pathname])
 
   // fetch program/course handled by the organization
   useEffect(() => {
     let isMounted = true; // Track if the effect is still active
 
-    if (auth?.program === undefined && auth) {
+    if (auth?.organization === undefined && auth) {
       const fetchProgram = async () => {
         try {
           const { data, error } = await supabase
             .from("organizations")
             .select("program")
-            .eq("id", auth.org_id)
+            .eq("id", auth.id)
             .single()
 
           if (isMounted) {
@@ -69,12 +80,14 @@ const Home: React.FC = () => {
   const [ newEventId, setNewEventId ] = useState(0)
 
   const fetchEvents = async (newEventId?: number) => {
+
     // fetch org id
-    if (auth?.name !== undefined) {
+    if (auth?.organization !== undefined) {
+      console.log("Fetching events")
       const { data: org, error: idErr } = await supabase
         .from("organizations")
         .select("id")
-        .eq("name", auth.name)
+        .eq("organization", auth.organization)
         .single()
   
       if (idErr) {

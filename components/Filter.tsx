@@ -1,9 +1,6 @@
 "use client"
 import { Button } from '@/components';
-import { StudentProps } from '@/types';
 import React, { useEffect, useState } from 'react';
-import { GoChevronDown } from "react-icons/go";
-import { RiFilter2Line } from "react-icons/ri";
 
 /* eslint-disable react-hooks/exhaustive-deps */
 const Filter = ({

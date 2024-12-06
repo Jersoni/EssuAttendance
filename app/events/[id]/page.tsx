@@ -3,7 +3,7 @@
 import { Filter, PageHeader, SearchBar, StudentCard } from "@/components";
 import supabase from "@/lib/supabaseClient";
 import { Attendance, AuthProps, EventProps, QueryFiltersProps, StudentProps } from "@/types";
-import { checkAuth, formatDate } from "@/utils/utils";
+import { checkAuth, fetchOrganization, formatDate } from "@/utils/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LuScanLine } from "react-icons/lu";
@@ -33,33 +33,15 @@ const EventPage: React.FC = ({ params }: any) => {
   const [ auth, setAuth ] = useState<AuthProps>()
   
   useEffect(() => {
-    setAuth(checkAuth(router, pathname))
-  }, [router, pathname]);
-
-  const [program, setProgram] = useState<string>() // eg. BSINFOTECH
-
-  // fetch program
-  useEffect(() => {
-    if (auth) {
-      (async () => {
-        try {
-          const { data, error } = await supabase
-            .from("organizations")
-            .select("program")
-            .eq("id", auth.org_id)
-            .single()
-            
-          if (error) {
-            console.error(error)
-          } else {
-            setProgram(data.program)
-          }
-        } catch(e) {
-          console.error(e)
-        }
-      })()
-    }
-  }, [auth])
+    (async () => {
+      const token = checkAuth(router, pathname);
+      
+      if (token?.id) {
+        const data = await fetchOrganization(token.id);
+        setAuth(data);
+      }
+    })();
+  }, [router, pathname])
 
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -537,7 +519,7 @@ useEffect(() => {
           isOpen={isOpen}
           setIsOpen={() => {setIsOpen(!isOpen)}}
           // program/course
-          program={program}
+          program={auth?.program}
         />
 
         {isSearchOpen && (

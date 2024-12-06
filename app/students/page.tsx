@@ -33,7 +33,7 @@ const StudentsPage = () => {
           const { data, error } = await supabase
             .from("organizations")
             .select("program")
-            .eq("id", auth.org_id)
+            .eq("id", auth.id)
             .single()
             
           if (error) {

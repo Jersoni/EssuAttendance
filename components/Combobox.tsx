@@ -3,30 +3,28 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { IoChevronDown } from "react-icons/io5";
 import { MdClose } from "react-icons/md";
 import Image from "next/image";
-import { UniversityOptionsProps } from "@/types";
 
 interface ComboboxProps {
+    label?: string;
     placeholder?: string
-    options?: Array<{logo: string, name: string}>
+    options: Array<string>
     selectedOption?: string
     setSelectedOption: (value: string) => void
-    // open?: boolean,
-    // setOpen: (value: boolean) => void
+    className?: string
 }
 
 const Combobox = ({
-    placeholder, options, selectedOption, setSelectedOption
+    label, placeholder, options, selectedOption, setSelectedOption, className
 }: ComboboxProps ) => {
 
     const comboboxContainerRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
     const clearBtnRef = useRef<HTMLButtonElement>(null)
 
-    const [selectedLogo, setSelectedLogo] = useState<string>()
     const [query, setQuery] = useState<string>("")
     const [open, setOpen] = useState<boolean>(false)
 
-    const [results, setResults] = useState<UniversityOptionsProps[]>()
+    const [results, setResults] = useState<string[]>()
 
     useEffect(() => {
         if (selectedOption === "" ) {
@@ -48,8 +46,8 @@ const Combobox = ({
     useEffect(() => {
         
         if (options) {
-            const filteredOptions: Array<UniversityOptionsProps> = options.filter(option =>
-                option.name.toLowerCase().includes(query.toLowerCase())
+            const filteredOptions: Array<string> = options.filter(option =>
+                option.toLowerCase().includes(query.toLowerCase())
             )
             setResults(filteredOptions)
         }
@@ -68,7 +66,6 @@ const Combobox = ({
 
     function clearAll() {
         setQuery("")
-        setSelectedLogo("")
         setSelectedOption("")
         setResults(options)
     }
@@ -76,13 +73,16 @@ const Combobox = ({
     return (
         <div 
             ref={comboboxContainerRef}
-            className="combobox-container relative "
+            className={`"combobox-container relative ${className} `}
         >
+
+            <label className="text-sm font-semibold text-gray-700 !mb-2 flex ">{label}</label>
+
             <div
-                className="input-container pointer-events-none bg-gray-100 border border-gray-200 rounded-lg p-2.5 focus:border-opacity-80 text-sm w-full flex flex-row items-center "
+                className="input-container pointer-events-none bg-gray-100 border border-gray-200 rounded-lg p-2.5 pl-4 focus:border-opacity-80 text-sm w-full flex flex-row items-center "
             >
 
-                <div className="min-h-7 pointer-events-none relative min-w-7 mr-3 rounded-full bg-gray-200">
+                {/* <div className="min-h-7 pointer-events-none relative min-w-7 mr-3 rounded-full bg-gray-200">
                     {selectedLogo ? ( 
                         <Image
                         src={selectedLogo} 
@@ -93,8 +93,8 @@ const Combobox = ({
                     ) : (
                         <></>
                     )}
-                </div>
-                
+                </div> */}
+            
                 <input
                     ref={inputRef}
                     type="text"
@@ -130,21 +130,20 @@ const Combobox = ({
             
             {(results && results.length > 0 && open) && (
                 <div
-                    className={`z-[2000] dropdown-container p-1.5 absolute bg-white mt-2 max-h-60 overflow-y-scroll w-full border border-gray-200 rounded-lg shadow-md `}
+                    className={`z-[2000] dropdown-container p-2 absolute bg-white mt-2 max-h-60 overflow-y-scroll w-full border border-gray-200 rounded-lg shadow-md `}
                 >
 
                     {results?.map((option) => (
                         <div
-                            key={option.name}
-                            className="p-1 flex flex-row items-center transition-all active:bg-gray-200 cursor-pointer rounded-md"
+                            key={option}
+                            className="p-2 flex flex-row items-center transition-all active:bg-gray-100 cursor-pointer rounded-md"
                             onClick={() => {
-                                setSelectedLogo(option.logo)
-                                setQuery(option.name)
-                                setSelectedOption(option.name)
+                                setQuery(option)
+                                setSelectedOption(option)
                                 setOpen(false)
                             }}
                         >
-                            <div className="relative h-7 w-7 bg-gray-100 rounded-full">
+                            {/* <div className="relative h-7 w-7 bg-gray-100 rounded-full">
                                 {option.logo && (
                                     <Image 
                                         src={option.logo}
@@ -153,10 +152,10 @@ const Combobox = ({
                                         className="rounded-full"
                                     />
                                 )}
-                            </div>
+                            </div> */}
                                 
-                            <span className="name-container ml-3 text-sm">
-                                {option.name}
+                            <span className="name-container text-sm">
+                                {option}
                             </span>
                         </div>
                     ))}

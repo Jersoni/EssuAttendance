@@ -4,22 +4,16 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 // Imported icons from https://react-icons.github.io/react-icons/search/#q=help (see installation documentation)
-import { FiClipboard, FiMenu } from "react-icons/fi";
-import { BsClipboard2Fill } from "react-icons/bs";
-import { IoMdMenu } from "react-icons/io";
-import { LuArchive } from "react-icons/lu";
-import { TbUsers } from "react-icons/tb";
-import { AuthProps } from "@/types";
 import { checkAuth } from "@/utils/utils";
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { PiSignOutBold } from "react-icons/pi";
 import { FaSignOutAlt } from "react-icons/fa";
 import { useAppContext } from "@/context";
 import { FaCalendarWeek } from "react-icons/fa";
 import { HiArchiveBox } from "react-icons/hi2";
 import { TbMenu } from "react-icons/tb";
-
+import supabase from "@/lib/supabaseClient";
+import { AuthProps } from "@/types";
 
 const Navbar = ({ className }: { className?: string }) => {
   // given default value for navbar title
@@ -29,8 +23,36 @@ const Navbar = ({ className }: { className?: string }) => {
 
   // auth verification
   const [ auth, setAuth ] = useState<AuthProps>()
+
   useEffect(() => {
-    setAuth(checkAuth(router, pathname))
+    const payload = checkAuth(router, pathname) as { id: number, role: string }
+    
+    if (payload) {
+      ;(async () => {
+        try {
+          const {data, error} = await supabase
+           .from("organizations")
+           .select()
+           .eq("id", payload?.id)
+           .single()
+  
+          if (error) {
+            console.error(error);
+            return;
+          }
+  
+          setAuth({
+            university: data.university,
+            organization: data.organization,
+            role: payload.role,
+          });
+          
+        } catch (err) {
+          console.error(err)
+        }
+      })();
+    }
+
   }, [router, pathname])
 
   let convertedPathname =
@@ -179,7 +201,7 @@ const Navbar = ({ className }: { className?: string }) => {
             <HiMiniUserGroup size={24} className="text-gray-400" />
           </div>
           {auth
-            ? <span className="font-bold text-sm">{auth.name}</span>
+            ? <span className="font-bold text-sm">{auth.organization}</span>
             : <span className="w-28 h-5 rounded-md bg-gray-300 animate-pulse"></span>
           }
           {auth && <HiOutlineDotsHorizontal size={20} className="ml-auto mr-2 text-gray-400" />}
@@ -210,7 +232,8 @@ const Navbar = ({ className }: { className?: string }) => {
             onClick={() => {
               toggle()
               toggleProfileOptions()
-              auth?.signout()
+              localStorage.removeItem("presenxiaAuthToken")
+              router.push("/auth")
             }}
           >
             <FaSignOutAlt size={18} className="text-gray-400 ml-0.5" />

@@ -11,7 +11,7 @@ interface SpinnerProps {
 const Spinner = ({
     className,
     size = '2',
-    color = '#059669'
+    color = '#60a5fa'
 }: SpinnerProps) => {
   return (
     <div role="status" className={className}>

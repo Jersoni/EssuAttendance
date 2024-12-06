@@ -21,8 +21,10 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
 
   // auth verification
   const [ auth, setAuth ] = useState<AuthProps>()
+  
   useEffect(() => {
-    setAuth(checkAuth(router, pathname))
+    const token = checkAuth(router, pathname)
+    setAuth({ role: token?.role })
   }, [router, pathname])
 
   // Course formatting

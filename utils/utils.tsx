@@ -1,6 +1,8 @@
-import { AuthProps } from "@/types";
+import supabase from '@/lib/supabaseClient';
+import { AuthProps } from '@/types';
 import crypto from 'crypto';
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { usePathname, useRouter } from 'next/navigation';
 
 export function downloadImage(
   imageUrl: string, 
@@ -62,46 +64,21 @@ export function getTimeOfDay(timeString: string) {
 * if user is logged in, returns name, code, role, and signout function
 * else redirects user to login page
 */
-export function checkAuth(router: AppRouterInstance, pathname: string) {
-  let now = new Date()
-  let authToken = localStorage.getItem("authToken")
-  const signout = () => {
-    localStorage.removeItem("authToken")
-    router.push("/auth")
-    console.log("signed out")
-  }
-  
+
+export function checkAuth(router: AppRouterInstance, pathname: string) { // returns ID and role
+
+  let authToken = localStorage.getItem("presenxiaAuthToken")
+
   if (authToken) {
+
     if (pathname === "/auth") {
       router.push("/")
-      console.log("home")
     }
 
-    const { org_id, name, value, expiry } : { org_id: number, name: string, value: string, expiry: number } = authToken 
-      ? JSON.parse(authToken)
-      : {value: "", expiry: 0}
-  
-    if (now.getTime() > expiry) {
-      localStorage.removeItem("authToken")
-      router.push("/auth")
-      console.log("signed out")
-    }
-
-    return JSON.parse(authToken).value === ""
-      ? {
-        org_id: org_id,
-        name: name,
-        code: value, 
-        role: "student",
-        signout: signout,
-      } as AuthProps
-      : { 
-        org_id: org_id,
-        name: name, 
-        code: value, 
-        role: "admin", 
-        signout: signout,
-      } as AuthProps 
+    return {
+      id: Number(authToken.slice(0, authToken.indexOf('.'))),
+      role: authToken.slice(authToken.indexOf('.')+1)
+    } as AuthProps;
 
   } else {
     if (pathname !== "/signup") {
@@ -110,6 +87,43 @@ export function checkAuth(router: AppRouterInstance, pathname: string) {
   }
 }
 
+export async function fetchOrganization(id: number) {
+  console.log(id)
+  try {
+    const { data, error } = await supabase
+      .from("organizations")
+      .select("*")
+      .eq("id", id)
+      .single()
+
+    console.log("process")
+
+    if (error) {
+      console.error(error);
+    } else {
+      console.log(data)
+      return data as AuthProps;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// export function signout(router: AppRouterInstance) {
+//   localStorage.removeItem("presenxiaAuthToken")
+// }
+
 export async function hashString(input: string) {
   return crypto.createHash('sha256').update(input).digest('hex');
 }
+
+
+// (async () => {
+//   try {
+//     const { data, error } = await supabase
+//       .from("")
+//       .select()
+//   } catch (err) {
+//     console.error(err);
+//   }
+// })();

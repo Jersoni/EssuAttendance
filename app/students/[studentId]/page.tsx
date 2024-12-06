@@ -7,7 +7,7 @@ import {
 } from "@/components";
 import supabase from "@/lib/supabaseClient";
 import { Attendance, AuthProps, EventProps, StudentProps } from "@/types";
-import { checkAuth, downloadImage } from "@/utils/utils";
+import { checkAuth, downloadImage, fetchOrganization } from "@/utils/utils";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
@@ -19,11 +19,19 @@ const Student = ({ params }: { params: any }) => {
   const pathname = usePathname();
   const paramsID = params.studentId;
 
-  // get user role
-  const [auth, setAuth] = useState<AuthProps>();
+  // auth verification
+  const [ auth, setAuth ] = useState<AuthProps>()
+
   useEffect(() => {
-    setAuth(checkAuth(router, pathname));
-  }, [router, pathname]);
+    (async () => {
+      const token = checkAuth(router, pathname);
+      
+      if (token?.id) {
+        const data = await fetchOrganization(token.id);
+        setAuth(data);
+      }
+    })();
+  }, [router, pathname])
 
   // FETCH STUDENT
   const [student, setStudent] = useState<StudentProps | undefined>(undefined);

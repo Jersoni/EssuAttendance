@@ -2,7 +2,7 @@
 import { ArchiveEventCard } from "@/components";
 import supabase from "@/lib/supabaseClient";
 import { AuthProps, EventProps } from "@/types";
-import { checkAuth } from "@/utils/utils";
+import { checkAuth, fetchOrganization } from "@/utils/utils";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -17,14 +17,22 @@ const Page = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    setAuth(checkAuth(router, pathname));
-  }, [router, pathname]);
+    (async () => {
+      const token = checkAuth(router, pathname);
+      
+      if (token?.id) {
+        const data = await fetchOrganization(token.id);
+        setAuth(data);
+      }
+    })();
+  }, [router, pathname])
+
 
   const [events, setEvents] = useState<EventProps[]>();
 
   const getEvents = async () => {
     console.log(1)
-    if (authRef.current && authRef.current.org_id) {
+    if (authRef.current && authRef.current.id) {
       console.log(2)
       const today = new Date().toISOString().split('T')[0];
 
@@ -32,7 +40,7 @@ const Page = () => {
         const { data, error } = await supabase
           .from("event")
           .select()
-          .eq("org_id", authRef.current.org_id)
+          .eq("org_id", authRef.current.id)
           // .lt("eventDate", today)
         
         if (error) {

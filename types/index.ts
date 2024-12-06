@@ -1,12 +1,3 @@
-export interface AuthProps {
-    org_id: number
-    name: string
-    code: string
-    role: "student" | "admin"
-    signout: () => void
-    program?: string
-}
-
 export interface StudentProps {
     id: string
     name: string
@@ -142,7 +133,10 @@ export interface QueryFiltersProps {
     sortBy: string
 }
 
-export interface UniversityOptionsProps {
-    logo: string, 
-    name: string
+export interface AuthProps {
+    id?: number,
+    university?: string, 
+    organization?: string,
+    program?: string,
+    role?: string 
 }
