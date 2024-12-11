@@ -4,118 +4,157 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 // Imported icons from https://react-icons.github.io/react-icons/search/#q=help (see installation documentation)
-import { checkAuth } from "@/utils/utils";
-import { HiMiniUserGroup } from "react-icons/hi2";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { FaSignOutAlt } from "react-icons/fa";
 import { useAppContext } from "@/context";
-import { FaCalendarWeek } from "react-icons/fa";
-import { HiArchiveBox } from "react-icons/hi2";
-import { TbMenu } from "react-icons/tb";
 import supabase from "@/lib/supabaseClient";
 import { AuthProps } from "@/types";
+import { checkAuth } from "@/utils/utils";
+import { FaCalendarWeek, FaSignOutAlt } from "react-icons/fa";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import { HiArchiveBox, HiMiniUserGroup } from "react-icons/hi2";
+import { TbMenu } from "react-icons/tb";
 
 const Navbar = ({ className }: { className?: string }) => {
   // given default value for navbar title
 
   const pathname = usePathname();
-  const router = useRouter()
+  const router = useRouter();
 
   // auth verification
-  const [ auth, setAuth ] = useState<AuthProps>()
+  const [auth, setAuth] = useState<AuthProps>();
 
   useEffect(() => {
-    const payload = checkAuth(router, pathname) as { id: number, role: string }
-    
+    const payload = checkAuth(router, pathname) as { id: number; role: string };
+
     if (payload) {
-      ;(async () => {
+      (async () => {
         try {
-          const {data, error} = await supabase
-           .from("organizations")
-           .select()
-           .eq("id", payload?.id)
-           .single()
-  
+          const { data, error } = await supabase
+            .from("organizations")
+            .select()
+            .eq("id", payload?.id)
+            .single();
+
           if (error) {
             console.error(error);
             return;
           }
-  
+
           setAuth({
             university: data.university,
             organization: data.organization,
             role: payload.role,
           });
-          
         } catch (err) {
-          console.error(err)
+          console.error(err);
         }
       })();
     }
-
-  }, [router, pathname])
+  }, [router, pathname]);
 
   let convertedPathname =
     pathname.slice(1).charAt(0).toUpperCase() + pathname.slice(1).slice(1);
   if (convertedPathname === "") convertedPathname = "Schedule";
 
   const excludedRoutes = useMemo(
-    () => ["/login", "/signup", "/scanner", "/students/student", "/notfound", "/auth"],
+    () => [
+      "/login",
+      "/signup",
+      "/scanner",
+      "/students/student",
+      "/notfound",
+      "/auth",
+    ],
     []
   );
   const isDynamicRoute = /\w+\/\d+/.test(pathname);
   const condition = excludedRoutes.indexOf(pathname) === -1 && !isDynamicRoute;
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   function toggle() {
-    setIsOpen(!isOpen)
+    setIsOpen(!isOpen);
   }
 
   function handleClick() {
-      setTimeout(() => {
-        toggle()
-      }, 500)
+    setTimeout(() => {
+      toggle();
+    }, 500);
   }
 
-  const [isProfileOptionsOpen, setIsProfileOptionsOpen] = useState(false)
+  const [isProfileOptionsOpen, setIsProfileOptionsOpen] = useState(false);
   const toggleProfileOptions = () => {
-    setIsProfileOptionsOpen(!isProfileOptionsOpen)
-  }
+    setIsProfileOptionsOpen(!isProfileOptionsOpen);
+  };
 
   // app context
-  const { isNavOpen, setIsNavOpen } = useAppContext()
+  const { isNavOpen, setIsNavOpen } = useAppContext();
 
   useEffect(() => {
-    setIsNavOpen(isOpen)
-  }, [isOpen])
+    setIsNavOpen(isOpen);
+  }, [isOpen]);
 
   // scroll
-  const [scrollY, setSrollY] = useState(0)
+  const [scrollY, setSrollY] = useState(0);
 
   useEffect(() => {
-    window.addEventListener('scroll', () => {
-      setSrollY(window.scrollY)
-    });    
-  }, [])
-  
+    window.addEventListener("scroll", () => {
+      setSrollY(window.scrollY);
+    });
+  }, []);
+
+  function setThemeColor(color: string) {
+    let meta = document.querySelector("meta[name='theme-color']") as HTMLMetaElement;
+
+    if (meta !== null && meta.content === color) {
+      return null
+    }
+
+    if (meta) {
+      document.head.removeChild(meta)
+    }
+
+    meta = document.createElement("meta") as HTMLMetaElement;
+    meta.name = "theme-color";
+    meta.content = color;
+    document.head.appendChild(meta)
+  }
+
+  useEffect(() => {
+    if (isOpen === true) {
+      setThemeColor("#fff")
+    } else {
+      if (pathname === "/") {
+        setTimeout(() => {
+          if (scrollY > 40) {
+            setThemeColor("#fff")
+          } else {
+            setThemeColor("#f3f4f6")
+          }
+        }, 60)
+      } else {
+        setThemeColor("#fff")
+      }
+    }
+  }, [scrollY, pathname, isOpen])
+
   return condition ? (
     <div className="z-[1000]">
       {/* header */}
       <div
         className={` 
-          ${ pathname === "/" ? "" : "" } 
+          ${pathname === "/" ? "" : ""} 
           ${scrollY > 40 ? "border-b" : "bg-opacity-0"}
           h-14 flex items-center bg-white transition-all duration-200 border-gray-200 w-[100vw] fixed top-0 z-[1300]
         `}
       >
-        <button
-          onClick={toggle} 
-          className={` ml-3 rounded-full p-2`}
-        >
-          <TbMenu size={22} fill="blue" className="text-emerald-600" />
+        <button onClick={toggle} className={` ml-3 rounded-full p-2`}>
+          <TbMenu size={22} fill="blue" className="text-gray-800" />
         </button>
-        <h1 className={`text-emerald-600 h-fit z-30 text-[20px] ml-1 w-full text-base font-semibold ${className}`}>{convertedPathname}</h1>
+        <h1
+          className={`text-gray-600 h-fit z-30 text-[20px] ml-1 w-full text-base font-semibold ${className}`}
+        >
+          {convertedPathname}
+        </h1>
       </div>
 
       {/* Navbar menu */}
@@ -125,15 +164,21 @@ const Navbar = ({ className }: { className?: string }) => {
         `}
       >
         <ul className="flex flex-col gap-1">
-          <li onClick={handleClick} className={`px-5 w-full grid place-items-center py-4 ${pathname === "/" ? "bg-emerald-100 text-green-900 bg-opacity-50" : ""}`}>
-            <Link 
-                className="flex flex-row gap-4 items-center w-full" 
-                href="/"
-            >
+          <li
+            onClick={handleClick}
+            className={`px-5 w-full grid place-items-center py-4 ${
+              pathname === "/"
+                ? "bg-sky-100 text-blue-500 bg-opacity-50"
+                : ""
+            }`}
+          >
+            <Link className="flex flex-row gap-4 items-center w-full" href="/">
               <FaCalendarWeek
-                className={pathname === "/" 
-                  ? "text-green-900 text-opacity-90" 
-                    : "text-gray-400"}
+                className={
+                  pathname === "/"
+                    ? "text-blue-500 text-opacity-90"
+                    : "text-gray-400"
+                }
                 size={18}
               />
               <p
@@ -145,35 +190,51 @@ const Navbar = ({ className }: { className?: string }) => {
               </p>
             </Link>
           </li>
-          <li onClick={handleClick} className={`px-5 w-full grid place-items-center py-4 ${pathname === "/students" ? "bg-emerald-100 text-green-900 fill-green-900 bg-opacity-50" : ""}`}>
+          <li
+            onClick={handleClick}
+            className={`px-5 w-full grid place-items-center py-4 ${
+              pathname === "/students"
+                ? "bg-sky-100 text-blue-500 bg-opacity-50"
+                : ""
+            }`}
+          >
             <Link
               className="flex flex-row gap-4 items-center w-full"
               href="/students"
             >
               <HiMiniUserGroup
-                className={pathname === "/students" 
-                  ? "text-green-900 text-opacity-90" 
-                  : "text-gray-400"}
+                className={
+                  pathname === "/students"
+                    ? "text-blue-500 text-opacity-90"
+                    : "text-gray-400"
+                }
                 size={20}
               />
               <p
                 className={`text-sm font-semibold ${
-                  pathname === "/students" ? "text-green-900 text-opacity-90" : "text-gray-400"
+                  pathname === "/students"
+                    ? "text-blue-500 text-opacity-90"
+                    : "text-gray-400"
                 }`}
               >
                 Students
               </p>
             </Link>
           </li>
-          <li onClick={handleClick} className={`px-5 w-full grid place-items-center py-4 ${pathname === "/archive" ? "bg-emerald-100 text-green-900 fill-green-900 bg-opacity-50" : ""}`}>
+          <li
+            onClick={handleClick}
+            className={`px-5 w-full grid place-items-center py-4 ${
+              pathname === "/archive"
+                ? "bg-blue-100 text-blue-500 bg-opacity-50"
+                : ""
+            }`}
+          >
             <Link
               className="flex flex-row gap-4 items-center w-full"
               href="/archive"
             >
               <HiArchiveBox
-                className={pathname === "/archive" 
-                  ? "" 
-                  : "text-gray-400"}
+                className={pathname === "/archive" ? "" : "text-gray-400"}
                 size={20}
               />
               <p
@@ -200,15 +261,21 @@ const Navbar = ({ className }: { className?: string }) => {
           <div className="bg-gray-200 border border-gray-200 rounded-full p-1">
             <HiMiniUserGroup size={24} className="text-gray-400" />
           </div>
-          {auth
-            ? <span className="font-bold text-sm">{auth.organization}</span>
-            : <span className="w-28 h-5 rounded-md bg-gray-300 animate-pulse"></span>
-          }
-          {auth && <HiOutlineDotsHorizontal size={20} className="ml-auto mr-2 text-gray-400" />}
+          {auth ? (
+            <span className="font-bold text-sm">{auth.organization}</span>
+          ) : (
+            <span className="w-28 h-5 rounded-md bg-gray-300 animate-pulse"></span>
+          )}
+          {auth && (
+            <HiOutlineDotsHorizontal
+              size={20}
+              className="ml-auto mr-2 text-gray-400"
+            />
+          )}
         </div>
 
         {/* profile options modal */}
-        <div 
+        <div
           onClick={toggleProfileOptions}
           className={`fixed top-0 bottom-0 left-0 right-0 
             ${isProfileOptionsOpen ? "" : "hidden"}  
@@ -219,21 +286,21 @@ const Navbar = ({ className }: { className?: string }) => {
              ${isProfileOptionsOpen ? "" : "opacity-0 pointer-events-none"}
           `}
         >
-          <button 
-            className="p-3 w-full text-start bg-white rounded-md gap-4 flex flex-row items-center active:bg-gray-100" 
+          <button
+            className="p-3 w-full text-start bg-white rounded-md gap-4 flex flex-row items-center active:bg-gray-100"
             type="button"
           >
             <HiMiniUserGroup size={20} className="text-gray-400" />
             <span>Organization Profile</span>
           </button>
-          <button 
-            className="p-3 w-full text-start bg-white rounded-md gap-4 flex flex-row items-center active:bg-gray-100" 
+          <button
+            className="p-3 w-full text-start bg-white rounded-md gap-4 flex flex-row items-center active:bg-gray-100"
             type="button"
             onClick={() => {
-              toggle()
-              toggleProfileOptions()
-              localStorage.removeItem("presenxiaAuthToken")
-              router.push("/auth")
+              toggle();
+              toggleProfileOptions();
+              localStorage.removeItem("presenxiaAuthToken");
+              router.push("/auth");
             }}
           >
             <FaSignOutAlt size={18} className="text-gray-400 ml-0.5" />
@@ -242,11 +309,12 @@ const Navbar = ({ className }: { className?: string }) => {
         </div>
       </div>
 
-      <div 
+      <div
         onClick={toggle}
-        className={`fixed bg-black bg-opacity-10 top-0 left-0 bottom-0 right-0 z-[900] ${isOpen ? "" : "hidden"}`}
+        className={`fixed bg-black bg-opacity-10 top-0 left-0 bottom-0 right-0 z-[900] ${
+          isOpen ? "" : "hidden"
+        }`}
       ></div>
-
     </div>
   ) : (
     ""

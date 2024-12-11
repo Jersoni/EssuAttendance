@@ -285,6 +285,8 @@ const Scanner = () => {
     <div>
       <PageHeader title={`Scanner`} className="!border-0" />
 
+      
+
       <div className="min-h-[100vh] w-full bg-gradient-to-b from-gray-100 to-gray-300">
 
         {/* TABLIST */}
@@ -298,13 +300,13 @@ const Scanner = () => {
               aria-label="secondary tabs example"
               sx={{
                 '& .MuiTabs-indicator': {
-                  backgroundColor: '#16a34a', // Custom color for the indicator
+                  backgroundColor: '#3b82f6', // Custom color for the indicator
                 },
                 '& .MuiTab-root': {
                   color: 'gray', // Default text color for tabs
                 },
                 '& .MuiTab-root.Mui-selected': {
-                  color: '#16a34a', // Text color for selected tab
+                  color: '#3b82f6', // Text color for selected tab
                 },
               }}
             >

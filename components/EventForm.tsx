@@ -1,18 +1,17 @@
 "use client";
-import { Button } from "@/components";
+import { Button, Spinner } from "@/components";
 import supabase from "@/lib/supabaseClient";
 import { FormEventProps } from "@/types";
 import { useEffect, useRef, useState } from "react";
-import { IoAdd } from "react-icons/io5";
-import { Spinner } from '@/components';
 
-
-// NEW EVENT FORM COMPONENT
-const EventForm: React.FC<{
+interface EventFormProps {
   isOpen: boolean;
   toggleEventForm: () => void;
   orgId: number;
-}> = ({ isOpen, toggleEventForm, orgId }) => {
+}
+
+// NEW EVENT FORM COMPONENT
+const EventForm = ({ isOpen, toggleEventForm, orgId }: EventFormProps) => {
   const today = new Date().toISOString().split("T")[0];
 
   // Frontend
@@ -86,17 +85,14 @@ const EventForm: React.FC<{
   };
 
   const [error, setError] = useState<string>();
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
   const [formValidationError, setFormValidationError] = useState<string>();
 
   // form submit handler
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     setFormValidationError("");
-
-    console.log("handling submit");
-    console.log(formData);
 
     if (formData.loginTimeAM !== "" && formData.logoutTimeAM !== "") {
       const { loginTimeAM, logoutTimeAM, loginTimePM, logoutTimePM, ...rest } =
@@ -108,11 +104,8 @@ const EventForm: React.FC<{
         logoutTime: formData.logoutTimeAM,
       };
 
-      console.log(amForm);
-
       try {
         if (orgId !== 0) {
-          console.log(orgId);
 
           const { data, error } = await supabase
             .from("event")
@@ -120,18 +113,18 @@ const EventForm: React.FC<{
 
           if (error) {
             console.error(error);
-            setLoading(false)
+            setLoading(false);
             setError(error.message);
           } else {
             console.log(data);
             resetForm();
             toggleEventForm();
-            setLoading(false)
+            setLoading(false);
           }
         }
       } catch (e) {
         console.error(e);
-        setLoading(false)
+        setLoading(false);
       }
     }
 
@@ -145,11 +138,8 @@ const EventForm: React.FC<{
         logoutTime: formData.logoutTimePM,
       };
 
-      console.log(pmForm);
-
       try {
         if (orgId !== 0) {
-          console.log(orgId);
 
           const { data, error } = await supabase
             .from("event")
@@ -195,10 +185,6 @@ const EventForm: React.FC<{
   };
 
   useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
-  useEffect(() => {
     if (isMorningChecked === false) {
       setFormData((prev) => ({
         ...prev,
@@ -231,45 +217,43 @@ const EventForm: React.FC<{
   }, [isAfternoonChecked]);
 
   // open and close transition
-  const bodyRef = useRef<HTMLDivElement>(null)
+  const bodyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log(isOpen)
-    const main = bodyRef.current
+    const main = bodyRef.current;
     if (main) {
       if (isOpen) {
-        document.body.style.overflow = "hidden"
-        main.style.display = "grid"
+        document.body.style.overflow = "hidden";
+        main.style.display = "grid";
         setTimeout(() => {
-          main.style.opacity = "1"
-        }, 0)
+          main.style.opacity = "1";
+        }, 0);
       } else {
-        main.style.opacity = "0"
+        main.style.opacity = "0";
         setTimeout(() => {
-          main.style.display = "none"
-          document.body.style.overflow = "auto"
-        }, 300)
+          main.style.display = "none";
+          document.body.style.overflow = "auto";
+        }, 300);
       }
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   return (
     <div
       ref={bodyRef}
-      className="fixed hidden top-0 bottom-0 right-0 left-0 transition-all duration-200 bg-black/30 backdrop-blur-sm z-[2000] place-items-center"
+      className="fixed hidde top-0 bottom-0 right-0 left-0 transition-all duration-200 bg-black/30 backdrop-blur-sm z-[2000] place-items-center"
     >
-
       {/* NEW EVENT FORM */}
       <div
-        className={`overflow-hidden pointer-events-auto h-fit max-h-[40rem] w-[90vw] bg-white z-[1400] transition-all duration-[400ms] ease-in-out flex flex-col justify-between rounded-3xl`}
+        className={`overflow-hidden pointer-events-auto h-fit max-h-[40rem] w-[90vw] bg-white z-[1400] transition-all duration-[400ms] ease-in-out flex flex-col justify-between rounded-xl`}
       >
-        <div className="flex flex-row items-center p-2 bg-white border- border-gray-300">
-          <h1 className="font-semibold absolute p-3 text-emerald-600 w-full">
+        <div className="flex flex-row items-center p-2 bg-white border-b border-gray-300">
+          <h1 className="font-semibold absolute p-3 text-black w-full">
             Create attendance
           </h1>
           <Button
             variant="close"
-            className="bg-gray-10 h-fit w-fit !p-2.5 !rounded-full ml-auto z-[120] text-green-700"
+            className="bg-gray-10 h-fit w-fit !p-2.5 !rounded-full ml-auto z-[120] text-black"
             onClick={toggleEventForm}
           ></Button>
         </div>
@@ -277,9 +261,8 @@ const EventForm: React.FC<{
         <form
           id="form"
           onSubmit={handleSubmit}
-          className="transition-all duration-300 bg-gray-10 bg-white p-5 flex flex-col gap-5 overflow-y-scroll h-full"
+          className="transition-all duration-300 bg-gray-10 bg-white p-5 pb-20 flex flex-col gap-5 overflow-y-scroll h-full "
         >
-
           {error && (
             <div className="bg-red-200 border-red-300 border p-2 rounded-lg text-red-900">
               Something went wrong. Please reload the page and try again.
@@ -504,11 +487,11 @@ const EventForm: React.FC<{
               variant="primary"
               type="submit"
               form="form"
-              className=" bg-emerald-500 min-w-48 grid place-items-center text-sm py-2.5 font-semibold !rounded-full ml-auto"
+              className=" bg-blue-500 min-w-48 grid place-items-center text-sm py-2.5 font-medium !rounded-full ml-auto"
               disabled={loading}
             >
               {loading ? (
-                <Spinner size='1' color='white' className='translate-y-[3px]' />
+                <Spinner size="1" color="white" className="translate-y-[3px]" />
               ) : (
                 "Create attendance"
               )}

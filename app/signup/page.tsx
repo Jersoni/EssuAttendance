@@ -1,6 +1,6 @@
 "use client";
 
-import { InputComponent, Spinner, Combobox } from "@/components";
+import { Combobox, InputComponent, Spinner } from "@/components";
 import supabase from "@/lib/supabaseClient";
 import { Baloo_Bhai_2 } from "next/font/google";
 import Image from "next/image";
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { FaCheck, FaCheckCircle } from "react-icons/fa";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { IoCloseCircle } from "react-icons/io5";
-import logo from "/public/logo/presenxia-fill.svg";
+import logo from "/public/icon.svg";
 
 const balooBhai = Baloo_Bhai_2({ subsets: ["latin"], weight: "500" });
 
@@ -18,12 +18,10 @@ interface formProps {
   organization: string;
   password: string;
   repeatPassword: string;
-  program: string; 
+  program: string;
 }
 
-const UniversityOptions: Array<string> = [
-  "ESSU Guiuan",
- ]
+const UniversityOptions: Array<string> = ["ESSU Guiuan"];
 
 const programOptions: Array<string> = [
   "BS INFO TECH",
@@ -62,25 +60,25 @@ const Signup = () => {
 
   useEffect(() => {
     if (selectedProgram) {
-      setFormData(prev => {
+      setFormData((prev) => {
         return {
-         ...prev,
+          ...prev,
           program: selectedProgram,
         };
-      })
+      });
     }
-  }, [selectedProgram])
+  }, [selectedProgram]);
 
   useEffect(() => {
     if (selectedUniversity) {
-      setFormData(prev => {
+      setFormData((prev) => {
         return {
-         ...prev,
+          ...prev,
           program: selectedUniversity,
         };
-      })
+      });
     }
-  }, [selectedUniversity])
+  }, [selectedUniversity]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -93,10 +91,9 @@ const Signup = () => {
   };
 
   const handleNextClick = () => {
-    if (selectedUniversity && formData.organization && selectedProgram ) {
-      setLoading(true)
-
-      ;(async () => {
+    if (selectedUniversity && formData.organization && selectedProgram) {
+      setLoading(true);
+      (async () => {
         try {
           const { data, error } = await supabase
             .from("organizations")
@@ -169,8 +166,8 @@ const Signup = () => {
   };
 
   useEffect(() => {
-    console.log(formData)
-  }, [formData])
+    console.log(formData);
+  }, [formData]);
 
   return (
     <div className="bg-white min-h-[100vh] pb-60 w-[100vw] overflow-x-hidden">
@@ -229,7 +226,7 @@ const Signup = () => {
           )}
 
           <div className="mt-6 flex flex-col gap-6">
-            <Combobox 
+            <Combobox
               label="University"
               placeholder="Select a university"
               options={UniversityOptions}
@@ -243,7 +240,7 @@ const Signup = () => {
               name="organization"
               onChange={handleChange}
             />
-            
+
             <Combobox
               label="Program of students managed"
               options={programOptions}

@@ -1,12 +1,11 @@
 import { Navbar } from "@/components";
-import type { Metadata } from "next";
-import localFont from 'next/font/local'
-import Head from 'next/head';
-import "./globals.css";
-import NextTopLoader from 'nextjs-toploader';
 import { AppWrapper } from "@/context";
-import { Inter } from 'next/font/google'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import type { Metadata } from "next";
+import { Inter } from 'next/font/google';
+import Head from 'next/head';
+import NextTopLoader from 'nextjs-toploader';
+import "./globals.css";
 
 const inter = Inter({ 
   subsets: ["latin"], 
@@ -58,21 +57,22 @@ export default function RootLayout({
         {/* <meta name="theme-color" content="#fff"/> */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="theme-color" content="#39ff14 " />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover, user-scalable=no " />
         
         <link  rel="apple-touch-icon" href="/apple-touch-icon.png" type="image/png" />
         <link  rel="icon" href="/icon.svg" type="image/svg+xml" sizes="any" />
         <link  rel="icon" href="/favicon.ico" sizes="any" />
 
-        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="black" />
+        {/* <link rel="manifest" href="/manifest.json" /> */}
       </Head>
+      
       <body 
         className={inter.className}
       >
         <AppRouterCacheProvider>
           <NextTopLoader 
-            color="#16a34a"
+            color="#0ea5e9 "
             showSpinner={false}
             shadow={false}
           />

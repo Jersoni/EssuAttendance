@@ -1,20 +1,15 @@
 'use client'
 import supabase from '@/lib/supabaseClient';
 import { AuthProps, EventProps, FormEventProps } from '@/types';
-import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
-import { IoIosArrowForward } from "react-icons/io";
-import ConfirmationModal from './ConfirmationModal';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { formatDate } from '@/utils/utils';
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { useAppContext } from '@/context';
-import { PiClockCountdown } from "react-icons/pi";
-import { PiMapPinArea } from "react-icons/pi";
+import Link from 'next/link';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { HiOutlineDotsHorizontal, HiPencil } from "react-icons/hi";
 import { HiOutlineCalendar } from "react-icons/hi2";
-import { PiGavelLight } from "react-icons/pi";
-import { HiPencil } from "react-icons/hi";
+import { PiClockCountdown, PiGavelLight, PiMapPinArea } from "react-icons/pi";
 import { TbTrashFilled } from "react-icons/tb";
+import ConfirmationModal from './ConfirmationModal';
 
 // Main
 const EventsCard: React.FC<{ 
@@ -76,10 +71,35 @@ const EventsCard: React.FC<{
     }
   }
 
+  const modalRef = useRef<HTMLDivElement>(null)
+  const openModalBtnRef = useRef<HTMLButtonElement>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+
   function toggle() {
     setIsModalOpen(!isModalOpen)
   }
+
+  useEffect(() => {
+    const handleClick = (e: Event) => {
+      if (isModalOpen) {
+        if (e.target !== modalRef.current && e.target !==  openModalBtnRef.current) {
+          setIsModalOpen(false)
+        }
+      }
+    }
+
+    const handleScroll = (e: Event) => {
+      setIsModalOpen(false)
+    }
+
+    window.addEventListener('click', handleClick)
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('click', handleClick)
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [isModalOpen])
 
   const router = useRouter()
   const pathname = usePathname()
@@ -100,19 +120,19 @@ const EventsCard: React.FC<{
   const [dayTime, setDayTime] = useState<string>()
   useEffect(() => {
     const time = new Date(`1970-01-01T${eventData.loginTime}`);
-    console.log(time)
+
     const dayTime = time.getHours() < 12 ? "Morning" : "Afternoon"
     setDayTime(dayTime)
   }, [eventData.loginTime])
 
   return (
     <div>
-      <div className='flex flex-row h-fit border border-gray-200 pointer-events-auto bg-white z-[100] rounded-2xl'>
+      <div className='flex flex-row h-fit border border-gray-00 pointer-events-auto bg-white z-[100] rounded-2xl'>
         <Link href={`/events/${eventData.id}`} className='w-full'>
           <div className="flex flex-col p-5 py-8 min-w-full">
             <div className='flex flex-col gap-2'>
               <span className=" text-sm font-medium ">{eventData.title}</span>
-              <span className={`w-fit rounded-full -translate-x-1 text-xs text-gray-600 px-2 border ${dayTime === 'Morning' ? 'border-yellow-100 bg-yellow-100/80' : 'border-orange-100 bg-orange-100/80'}`}>{dayTime}</span>
+              {/* <span className={`w-fit rounded-full -translate-x-1 text-xs text-gray-600 px-2 border ${dayTime === 'Morning' ? 'border-yellow-100 bg-yellow-100/80' : 'border-orange-100 bg-orange-100/80'}`}>{dayTime}</span> */}
             </div>
             {/* <span className='text-xs font-medium text-gray-400 mt-0.5 '>
               {getTimeOfDay(eventData.loginTime)} session
@@ -144,7 +164,7 @@ const EventsCard: React.FC<{
               {!isHappeningNow && (
                 <div className='flex flex-row items-center gap-3 w-fit'>
                   <HiOutlineCalendar className='text-gray-400' />
-                  <span className="event__info">{formatDate(eventData.eventDate)}</span>
+                  <span className="event__info">{formatDate(eventData.eventDate)} • {dayTime}</span>
                 </div>
               )}
               {isHappeningNow && (
@@ -160,23 +180,30 @@ const EventsCard: React.FC<{
             </div>
           </div>
         </Link>
+        
+        
+
         <div>
-            {auth?.role === "admin" ? (
+            {auth?.role === "admin" && (
               <div className='flex flex-col h-full border-gray-200 relative'>
                 {/* button toggle */}
                 <button
+                  ref={openModalBtnRef}
                   onClick={() => {toggle()}}
                   className={`p-4 pr-5 grid place-items-center
                     ${isNavOpen ? "pointer-events-none" : ""}  
                     `}
-                    >
-                  <HiOutlineDotsHorizontal size={20} className="ml-auto text-gray-400" />
+                >
+                  <HiOutlineDotsHorizontal size={20} className="pointer-events-none ml-auto text-gray-400" />
                 </button>
 
                 {/* modal */}
-                <div className={`absolute bg-white translate-y-10 translate-x-[-5rem] rounded-lg transition-all overflow-hidden border border-gray-300 z-[400] p-1
+                <div 
+                  ref={modalRef}
+                  className={`absolute bg-white translate-y-10 translate-x-[-5rem] rounded-lg transition-all overflow-hidden border border-gray-300 z-[400] p-1
                   ${isModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"}  
-                  `}>
+                  `}
+                >
                   {/* edit button */}
                   <button 
                     className='h-full flex flex-row p-2 rounded-md w-28 items-center gap-2 active:bg-gray-100'
@@ -213,11 +240,12 @@ const EventsCard: React.FC<{
                     <span className='font-medium text-red-400 text-sm' >Delete</span>
                   </button>
                 </div>
+                
                 {/* backdrop */}
-                <div
+                {/* <div
                   onClick={() => {toggle()}}
                   className={`bg-black fixed top-0 left-0 right-0 bottom-0 bg-opacity-0 z-[300] ${isModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
-                  ></div>
+                  ></div> */}
 
                 {/* Delete Modal */}
                 <ConfirmationModal
@@ -230,8 +258,6 @@ const EventsCard: React.FC<{
                     type='delete'
                     />
               </div>
-            ) : (
-              <IoIosArrowForward size={18} className='opacity-30 absolute translate-y-5 right-7'/>
             )}
         </div>
 

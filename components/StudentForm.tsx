@@ -142,15 +142,15 @@ const StudentForm: React.FC<{
     >
       {/* NEW   STUDENT FORM */}
       <div
-         className={`overflow-hidden pointer-events-auto h-fit max-h-[40rem] w-[90vw] bg-white z-[1400] transition-all duration-[400ms] ease-in-out flex flex-col justify-between rounded-3xl`}
+        className={`overflow-hidden pointer-events-auto h-fit max-h-[40rem] w-[90vw] bg-white z-[1400] transition-all duration-[400ms] ease-in-out flex flex-col justify-between rounded-xl`}
       >
-        <div className="flex flex-row items-center p-2 bg-white border- border-gray-300">
-          <h1 className="font-semibold absolute p-3 text-emerald-600 w-full">
+        <div className="flex flex-row items-center p-2 bg-white border-b border-gray-300">
+          <h1 className="font-semibold absolute p-3 text-black w-full">
             Register Student
           </h1>
           <Button
             variant="close"
-            className="bg-gray-10 h-fit w-fit !p-2.5 !rounded-full ml-auto z-[120] text-green-700"
+            className="bg-gray-10 h-fit w-fit !p-2.5 !rounded-full ml-auto z-[120] text-black"
             onClick={toggleStudentForm}
           ></Button>
         </div>
@@ -314,7 +314,7 @@ const StudentForm: React.FC<{
               type="submit"
               form="newStudentForm"
               variant="primary"
-              className=" bg-emerald-500 min-w-48 grid place-items-center text-sm py-2.5 font-semibold !rounded-full ml-auto"
+              className=" bg-blue-500 min-w-48 grid place-items-center text-sm py-2.5 font-medium !rounded-full ml-auto"
               onClick={() => {
                 toggleStudentForm();
               }}

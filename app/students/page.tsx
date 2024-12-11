@@ -413,10 +413,7 @@ const StudentsPage = () => {
   }, [isOptionsOpen])
 
   // BATCH REGISTRATION FORM
-  const [isBatchFormOpen, setBatchFormOpen] = useState(false)
-  const toggleBatchForm = () => {
-    setBatchFormOpen(!isBatchFormOpen)
-  }
+  const [isBatchFormOpen, setBatchFormOpen] = useState<boolean>(false)
 
   return (
     <div className='bg-white min-h-[100vh] pt-20'> 
@@ -450,7 +447,7 @@ const StudentsPage = () => {
             ref={addButtonRef}
             className='fixed bottom-4 right-4 pl-4 grid place-items-center p-2.5 z-[500] bg-white border border-gray-100 w-16 h-16 shadow-lg rounded-full' 
           >
-            <MdPersonAdd size={22} className="text-green-700 -translate-x-1 pointer-events-none" />
+            <MdPersonAdd size={22} className="text-blue-500 -translate-x-1 pointer-events-none" />
           </button>
 
           {/* MODAL */}
@@ -469,7 +466,7 @@ const StudentsPage = () => {
               <span></span>
             </button>
             <button 
-              onClick={toggleBatchForm}
+              onClick={() => { setBatchFormOpen(true) }}
               className="flex flex-col w-full rounded-md p-3 active:bg-gray-100"
             >
               <span className="text-nowrap w-fit text-gray-800 flex flex-row gap-3 items-center">
@@ -487,7 +484,7 @@ const StudentsPage = () => {
 
           <BatchRegistrationForm 
             isOpen={isBatchFormOpen}
-            toggleForm={toggleBatchForm}
+            setOpen={setBatchFormOpen}
           />
 
         </div>

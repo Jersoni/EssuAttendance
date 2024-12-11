@@ -145,7 +145,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
     <div className={`flex flex-row items-center gap-4 border-gray-200 border- z-100 ${className}`}>
       {/* STUDENT */}
       <Link href={`/students/${studentData.id}`} className={`flex flex-row w-full items-center py-3 z-100`}>
-        <FaCircleUser size={45} className="mr-3 text-gray-500" />
+        <FaCircleUser size={45} className="mr-3 text-gray-300" />
         <div className="">
           <h2 className='text-sm text-nowrap text-ellipsis overflow-hidden inline-block w-60 '>{`${studentData.name}`}</h2>
           <div className={`student-card__info-container !z-100 mt-[2px] gap-3`}>
@@ -192,7 +192,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
         isOpen={isLoginModalOpen} 
         title="Confirm Attendance"
         content={
-          <div className="text-sm">Mark {getFirstName()}&apos;s login status as {isLoginPresent ? 'absent' : 'present'}?</div>
+          <div className="text-sm">Mark the selected student&apos;s login status as {isLoginPresent ? 'absent' : 'present'}?</div>
         } 
         onClose={handleLoginModalToggle}
         onConfirm={handleLoginCheckboxChange} 

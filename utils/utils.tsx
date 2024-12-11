@@ -9,7 +9,7 @@ export function downloadImage(
   filename: string, 
   setLoading: (loading: boolean) => void
 ) {
-  console.log('processing download')
+  // console.log('processing download')
   setLoading(true)
 
   fetch(imageUrl)
@@ -58,6 +58,18 @@ export function getTimeOfDay(timeString: string) {
   }
 }
 
+export function getFormattedTime(now: Date) {
+  let hours = now.getHours();
+  const minutes = now.getMinutes();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+
+  // Convert hours to 12-hour format
+  hours = hours % 12;
+  hours = hours || 12; // If hours is 0, set it to 12
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  return `${hours}:${formattedMinutes} ${ampm}`;
+}
 
 /*
 * redirects user to homepage if logged in
@@ -88,7 +100,7 @@ export function checkAuth(router: AppRouterInstance, pathname: string) { // retu
 }
 
 export async function fetchOrganization(id: number) {
-  console.log(id)
+  // console.log(id)
   try {
     const { data, error } = await supabase
       .from("organizations")
@@ -96,7 +108,7 @@ export async function fetchOrganization(id: number) {
       .eq("id", id)
       .single()
 
-    console.log("process")
+    // console.log("process")
 
     if (error) {
       console.error(error);

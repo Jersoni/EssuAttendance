@@ -1,9 +1,9 @@
 {
   "name": "Presenxia",
   "short_name": "Presenxia",
-  "theme_color": "#fff",
   "background_color": "#fff",
   "start_url": "/",
+
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",

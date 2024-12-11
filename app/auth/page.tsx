@@ -10,16 +10,14 @@ import { FaKey, FaRegEye, FaRegEyeSlash, FaUser } from "react-icons/fa";
 import { GoArrowLeft } from "react-icons/go";
 import { IoMail } from "react-icons/io5";
 import { MdLocalPhone } from "react-icons/md";
-import logo from "/public/logo/presenxia-fill.svg";
+import logo from "/public/icon.svg";
 
 // Logo Font
 import { Baloo_Bhai_2 } from "next/font/google";
 import { IoMdArrowForward } from "react-icons/io";
 const balooBhai = Baloo_Bhai_2({ subsets: ["latin"], weight: "500" });
 
-const UniversityOptions: Array<string> = [
- "ESSU Guiuan",
-]
+const UniversityOptions: Array<string> = ["ESSU Guiuan"];
 
 interface OrgProps {
   id: number;
@@ -29,7 +27,6 @@ interface OrgProps {
 }
 
 const Auth = () => {
-  
   function scrollTop() {
     window.scrollTo({
       top: 0,
@@ -46,14 +43,18 @@ const Auth = () => {
     checkAuth(router, pathname);
   }, [router, pathname]);
 
-  const [isPageLoaded, setPageLoaded] = useState(false)
-  const [organizationOptions, setSelectedOrganizationOptions] = useState<string[]>([])
+  const [isPageLoaded, setPageLoaded] = useState(false);
+  const [organizationOptions, setSelectedOrganizationOptions] = useState<
+    string[]
+  >([]);
   const [selectedUniversity, setSelectedUniversity] = useState<string>();
   const [selectedOrganization, setSelectedOrganization] = useState<string>();
   const [password, setPassword] = useState<string>();
-  
+
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<"query" | "runtime" | "password">();
+  const [error, setError] = useState<
+    "query" | "runtime" | "wrongPassword" | "emptyPassword"
+  >();
   const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
   // Get organizationOptions
@@ -62,22 +63,27 @@ const Auth = () => {
       try {
         const { data, error } = await supabase
           .from("organizations")
-          .select("organization")
-          
+          .select("organization");
+
         if (error) {
           console.error(error);
         } else {
-          console.log(data.map(item => item.organization))
-          setSelectedOrganizationOptions(data.map(item => item.organization));
+          console.log(data.map((item) => item.organization));
+          setSelectedOrganizationOptions(data.map((item) => item.organization));
         }
       } catch (err) {
         console.error(err);
       }
     })();
-  }, [])
+  }, []);
 
   const getData = async () => {
-    console.log("getdata")
+    if (password === "" && password !== undefined) {
+      console.log("password empty");
+      setError("emptyPassword");
+      return;
+    }
+
     try {
       const { data, error } = await supabase
         .from("organizations")
@@ -87,7 +93,7 @@ const Auth = () => {
           organization: selectedOrganization,
         })
         .single();
-  
+
       if (error) {
         console.error(error);
         setError("query");
@@ -104,18 +110,17 @@ const Auth = () => {
           router.push("/");
         } else {
           setIsSubmitLoading(false);
-          setError("password");
+          setError("wrongPassword");
 
-          console.error("wrong password")
+          console.error("wrong password");
           return;
         }
       } else {
-          setIsSubmitLoading(false);
-          localStorage.setItem("presenxiaAuthToken", `${orgData.id}.student`);
-          router.push("/");
+        setIsSubmitLoading(false);
+        localStorage.setItem("presenxiaAuthToken", `${orgData.id}.student`);
+        router.push("/");
       }
-      
-    } catch(e) {
+    } catch (e) {
       console.error(e);
       setError("runtime");
     }
@@ -123,7 +128,7 @@ const Auth = () => {
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (selectedUniversity && selectedOrganization) {
       setIsSubmitLoading(true);
       getData();
@@ -132,17 +137,17 @@ const Auth = () => {
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    if (error === "password") setError(undefined);
-  }
-  
+    if (error === "wrongPassword") setError(undefined);
+  };
+
   // Frontend functions _______________________________________________
-  
-  // toggle showPassword  
+
+  // toggle showPassword
   useEffect(() => {
     if (showPassword === true) {
       const timeoutID = setTimeout(() => {
         setShowPassword(false);
-      }, 3000);
+      }, 10000);
 
       return () => clearTimeout(timeoutID);
     }
@@ -152,35 +157,38 @@ const Auth = () => {
 
   // clear
   useEffect(() => {
-    setSelectedUniversity("")
-    setSelectedOrganization("")
-    setPassword("")
-  }, [page])
+    setSelectedUniversity("");
+    setSelectedOrganization("");
+    if (page !== "admin") {
+      setPassword(undefined);
+    }
+    setError(undefined);
+  }, [page]);
 
-  const loginContainer = useRef<HTMLDivElement>(null)
+  const loginContainer = useRef<HTMLDivElement>(null);
 
   // add / remove overflow-hidden
   useEffect(() => {
     if (loginContainer.current) {
-      const container = loginContainer.current
+      const container = loginContainer.current;
 
-      loginContainer.current.classList.add("overflow-hidden")
+      loginContainer.current.classList.add("overflow-hidden");
 
       const timeoutId = setTimeout(() => {
-        container.classList.remove("overflow-hidden")
-      }, 200)
+        container.classList.remove("overflow-hidden");
+      }, 200);
 
-      return () => clearTimeout(timeoutId)
+      return () => clearTimeout(timeoutId);
     }
-  }, [page])
+  }, [page]);
 
   useEffect(() => {
-    scrollTop()
+    scrollTop();
   }, [selectedUniversity, selectedOrganization]);
 
   useEffect(() => {
-    setPageLoaded(true)
-  }, [])
+    setPageLoaded(true);
+  }, []);
 
   return (
     <>
@@ -189,7 +197,7 @@ const Auth = () => {
           <Spinner />
         </div>
       )}
-      
+
       {isPageLoaded && (
         <div className="h-fit overflow-x-hidden">
           <div className="bg-gradient-to-b. from-gray-100 to-gray-200 bg-white">
@@ -198,14 +206,18 @@ const Auth = () => {
             >
               <div className="flex flex-row items-center w-fit">
                 {/* <PiBookOpenTextFill className='text-emerald-700' size={26} /> */}
-                <Image 
-                  src={logo} 
-                  width={28} 
-                  height={28} 
+                <Image
+                  src={logo}
+                  width={28}
+                  height={28}
                   alt="app logo"
-                  className="mr-2" 
+                  className="mr-2"
                 />
-                <span className={`${balooBhai.className} font-medium text-2xl translate-y-[2.5px] text-gray-700`}>Presenxia</span>
+                <span
+                  className={`${balooBhai.className} font-medium text-2xl translate-y-[2.5px] text-gray-700`}
+                >
+                  Presenxia
+                </span>
               </div>
 
               <div className="flex flex-row gap-7 ml-auto mr-7">
@@ -215,13 +227,13 @@ const Auth = () => {
                 <Link className="w-fit flex text-xs  " href={""}>
                   FAQ
                 </Link>
-              </div>  
+              </div>
             </div>
 
             {/* main */}
             <div className="main px-5 pt-20 pb-16 bg-gradient-to-b from-gray-50 via-gray-50 to-gray-100 min-h-[70vh] h-full ">
               {page ? (
-                <div 
+                <div
                   ref={loginContainer}
                   className={`flex flex-col relative h-fit w-full transition-all duration-300`}
                 >
@@ -233,9 +245,7 @@ const Auth = () => {
                   >
                     <div className="flex flex-col">
                       <span className="bg-cyan-100 p-1 w-fit">
-                        <h1 className="text-3xl font-bold ">
-                          Sign in.
-                        </h1>
+                        <h1 className="text-3xl font-bold ">Sign in.</h1>
                       </span>
                       <p className="text-gray-800 font-medium mt-2">
                         Select your role to continue
@@ -252,7 +262,10 @@ const Auth = () => {
                       >
                         <FaUser size={26} className="text-gray-300" />
                         <span>Sign in as student</span>
-                        <IoMdArrowForward size={20}  className="ml-auto mr-4 text-gray-500"/>
+                        <IoMdArrowForward
+                          size={20}
+                          className="ml-auto mr-4 text-gray-500"
+                        />
                       </button>
 
                       <button
@@ -265,7 +278,10 @@ const Auth = () => {
                       >
                         <FaKey size={26} className="text-gray-300" />
                         <span>Sign in as admin</span>
-                        <IoMdArrowForward size={20}  className="ml-auto mr-4 text-gray-500"/>
+                        <IoMdArrowForward
+                          size={20}
+                          className="ml-auto mr-4 text-gray-500"
+                        />
                       </button>
                     </div>
                   </div>
@@ -279,15 +295,17 @@ const Auth = () => {
                     <div>
                       <div className="flex flex-row gap-3 items-center">
                         {/* <FaUser size={22} className="text-gray-600" /> */}
-                        <h1 className="text-xl font-semibold ">Sign in as student</h1>
+                        <h1 className="text-xl font-semibold ">
+                          Sign in as student
+                        </h1>
                       </div>
 
-                      <form 
-                        action="" 
+                      <form
+                        action=""
                         className="mt-10"
                         onSubmit={handleFormSubmit}
                       >
-                        <Combobox 
+                        <Combobox
                           label="University"
                           placeholder="Select a university"
                           options={UniversityOptions}
@@ -295,7 +313,7 @@ const Auth = () => {
                           setSelectedOption={setSelectedUniversity}
                         />
 
-                        <Combobox 
+                        <Combobox
                           label="School organization"
                           placeholder="Select a school organization"
                           options={organizationOptions}
@@ -337,15 +355,17 @@ const Auth = () => {
                     <div>
                       <div className="flex flex-row gap-3 items-center">
                         {/* <FaKey size={22} className="text-gray-600" /> */}
-                        <h1 className="text-xl font-semibold ">Sign in as admin</h1>
+                        <h1 className="text-xl font-semibold ">
+                          Sign in as admin
+                        </h1>
                       </div>
 
-                      <form 
-                        action="" 
+                      <form
+                        action=""
                         className="mt-10"
                         onSubmit={handleFormSubmit}
                       >
-                        <Combobox 
+                        <Combobox
                           label="University"
                           placeholder="Select a university"
                           options={UniversityOptions}
@@ -353,7 +373,7 @@ const Auth = () => {
                           setSelectedOption={setSelectedUniversity}
                         />
 
-                        <Combobox 
+                        <Combobox
                           label="School organization"
                           placeholder="Select a school organization"
                           options={organizationOptions}
@@ -369,7 +389,13 @@ const Auth = () => {
                           >
                             Password
                           </label>
-                          <div className={`bg-gray-100 border border-gray-200 rounded-lg pl-4 focus:border-opacity-80 text-sm w-full flex flex-row items-center ${error === "password" ? "!border-red-300 !border-2" : ""}`}>
+                          <div
+                            className={`bg-gray-100 border border-gray-200 rounded-lg pl-4 focus:border-opacity-80 text-sm w-full flex flex-row items-center ${
+                              error === "wrongPassword"
+                                ? "!border-red-300 !border-2"
+                                : ""
+                            }`}
+                          >
                             <input
                               type={showPassword ? "text" : "password"}
                               placeholder="•••••"
@@ -391,7 +417,16 @@ const Auth = () => {
                               )}
                             </button>
                           </div>
-                          {error === "password" && <span className="text-sm text-red-400">Password is incorrect</span>}
+                          {error === "wrongPassword" && (
+                            <span className="text-sm text-red-400">
+                              Password is incorrect
+                            </span>
+                          )}
+                          {error === "emptyPassword" && (
+                            <span className="text-sm text-red-400">
+                              Enter your password
+                            </span>
+                          )}
                         </div>
 
                         <div className="mt-12 flex flex-row justify-between items-center">
@@ -417,8 +452,6 @@ const Auth = () => {
                       </form>
                     </div>
                   </div>
-
-                
                 </div>
               ) : (
                 <div className="min-h-[50vh] grid place-items-center">
@@ -429,7 +462,8 @@ const Auth = () => {
               {page !== "student" && (
                 <div className="w-full h-fit border-t border-gray-300 mt-20 flex flex-col items-center pt-16">
                   <span className="text-sm text-center max-w-[300px]">
-                    Not registered yet? Join us to streamline attendance management!
+                    Not registered yet? Join us to streamline attendance
+                    management!
                   </span>
                   <Link
                     href={"/signup"}
@@ -442,37 +476,40 @@ const Auth = () => {
               )}
             </div>
 
-
-            <footer  
+            <footer
               className={`mt-auto flex flex-col px-5 relative bg-gray-20 w-[100vw] h-fit`}
             >
               <div className="flex flex-col border- border-gray-400 w-full h-full pt-10 pb-14">
                 <h1 className="font-semibold text-gray-700">Get in touch</h1>
                 <div className="flex flex-col">
-                  <Link 
+                  <Link
                     href={""}
                     className="flex flex-row items-center gap-4 mt-6"
                   >
                     <IoMail size={22} className="text-gray-300" />
-                    <span className="text-gray-500 text-xs font-normal ">jersoncaibog0423@gmail.com</span>
+                    <span className="text-gray-500 text-xs font-normal ">
+                      jersoncaibog0423@gmail.com
+                    </span>
                   </Link>
 
-                  <Link 
+                  <Link
                     href={""}
                     className="flex flex-row items-center gap-4 mt-3"
                   >
                     <MdLocalPhone size={22} className="text-gray-300" />
-                    <span className="text-gray-500 text-xs font-normal">+639273240956</span>
+                    <span className="text-gray-500 text-xs font-normal">
+                      +639273240956
+                    </span>
                   </Link>
                 </div>
                 <div className="mt-14 border-t border-gray-300 pt-8">
-                  <p className="text-xs text-gray-500 text-center">&copy; Jerson Caibog, 2024. All rights reserved.</p>
+                  <p className="text-xs text-gray-500 text-center">
+                    &copy; Jerson Caibog, 2024. All rights reserved.
+                  </p>
                 </div>
               </div>
-
             </footer>
           </div>
-
 
           <div className=" bg-gray-600 md:w-full min-h-[100vh] max-sm:hidden "></div>
         </div>

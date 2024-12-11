@@ -580,7 +580,7 @@ useEffect(() => {
               href={`./${params.id}/scanner`}
               className="fixed bottom-4 right-4 grid place-items-center bg-white border border-gray-100 w-16 h-16 shadow-md rounded-full"
             >
-              <IoScan size={26} className="text-emerald-500" />
+              <IoScan size={26} className="text-blue-500" />
             </Link>
           )}
         </div>

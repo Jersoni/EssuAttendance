@@ -127,13 +127,13 @@ export default function EventLink({
                             {eventData.title}
                         </div>
                     </div>
-                    <span className=" text-xs text-gray-400 font-light w-full">{formatDate(eventData.eventDate)}</span>
+                    <span className=" text-xs text-gray-400 font-light w-full">{formatDate(eventData.eventDate)} • {dayTime}</span>
                     {/* <GoArrowUpRight className='min-w-fit' size={16}/>  */}
-                    <span 
+                    {/* <span 
                         className={`w-fit rounded-full -translate-x-1 text-xs mt-1.5 text-gray-600 px-2 border ${dayTime === 'Morning' ? 'border-yellow-100 bg-yellow-100/80' : 'border-orange-100 bg-orange-100/80'}`}
                     >
                         {dayTime}
-                    </span>
+                    </span> */}
                 </Link>
             </div>
             <p className={`${isChecked ? "line-through opacity-40" : ""} text-gray-500 ml-auto min-w-fit pt-1`}>{fine}</p>

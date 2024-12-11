@@ -10,8 +10,7 @@ import { Attendance, AuthProps, EventProps, StudentProps } from "@/types";
 import { checkAuth, downloadImage, fetchOrganization } from "@/utils/utils";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { HiPencil } from "react-icons/hi";
+import { HiOutlineDotsHorizontal, HiPencil } from "react-icons/hi";
 import { TbTrashFilled } from "react-icons/tb";
 
 const Student = ({ params }: { params: any }) => {
@@ -20,18 +19,18 @@ const Student = ({ params }: { params: any }) => {
   const paramsID = params.studentId;
 
   // auth verification
-  const [ auth, setAuth ] = useState<AuthProps>()
+  const [auth, setAuth] = useState<AuthProps>();
 
   useEffect(() => {
     (async () => {
       const token = checkAuth(router, pathname);
-      
+
       if (token?.id) {
         const data = await fetchOrganization(token.id);
         setAuth(data);
       }
     })();
-  }, [router, pathname])
+  }, [router, pathname]);
 
   // FETCH STUDENT
   const [student, setStudent] = useState<StudentProps | undefined>(undefined);
@@ -180,27 +179,23 @@ const Student = ({ params }: { params: any }) => {
 
   useEffect(() => {
     if (isUpdated && student) {
-      fetchAttendance(student)
-      setIsUpdated(false)
+      fetchAttendance(student);
+      setIsUpdated(false);
     }
   }, [isUpdated, student]);
 
   const fetchAttendance = async (student: StudentProps) => {
     try {
-      const { data, error } = await supabase
-        .from("attendance")
-        .select()
-        .match({
-          studentId: student.id,
-          isLogoutPresent: false,
-        });
+      const { data, error } = await supabase.from("attendance").select().match({
+        studentId: student.id,
+        isLogoutPresent: false,
+      });
 
       if (error) {
         console.error("Error fetching fines:", error);
       } else {
         setAttendancesAbsent(data as Attendance[]);
       }
-
     } catch (err) {
       console.error("Unexpected error:", err);
     }
@@ -236,15 +231,13 @@ const Student = ({ params }: { params: any }) => {
   };
 
   useEffect(() => {
-    const orgId = JSON.parse(
-      localStorage.getItem("authToken") as string
-    ).org_id;
+    const orgId = auth?.id
     const eventIds = attendancesAbsent?.map((event) => event.eventId);
 
-    if (eventIds && orgId > 0) {
+    if (eventIds && orgId) {
       fetchEventsAbsent(orgId, eventIds);
     }
-  }, [attendancesAbsent]);
+  }, [attendancesAbsent, auth]);
 
   // Calculate Total fines
   const [totalFines, setTotalFines] = useState<number>(0);
@@ -255,7 +248,7 @@ const Student = ({ params }: { params: any }) => {
     ) => {
       // console.log("calculate fines")
       // console.log(attendancesAbsent)
-  
+
       if (
         eventsAbsent !== undefined &&
         attendancesAbsent !== undefined &&
@@ -263,7 +256,7 @@ const Student = ({ params }: { params: any }) => {
         attendancesAbsent.length > 0
       ) {
         let total = 0;
-  
+
         eventsAbsent.forEach((event) => {
           attendancesAbsent.forEach((attendance) => {
             if (event.id === attendance.eventId) {
@@ -274,9 +267,9 @@ const Student = ({ params }: { params: any }) => {
             }
           });
         });
-  
+
         setTotalFines(total);
-  
+
         // console.log("done")
       }
     };
@@ -285,9 +278,9 @@ const Student = ({ params }: { params: any }) => {
   }, [eventsAbsent, attendancesAbsent]);
 
   const toggleUpdated = () => {
-    console.log("hi")
+    console.log("hi");
     setIsUpdated(true);
-    console.log("hello")
+    console.log("hello");
   };
 
   // TODO: FINES
@@ -323,7 +316,7 @@ const Student = ({ params }: { params: any }) => {
         <PageHeader
           title={` `}
           buttonClassName="text-white mt-5"
-          className="!bg-emerald-600 !border-0"
+          className="!bg-blue-500 !border-0"
         />
 
         {auth?.role === "admin" && (
@@ -331,7 +324,7 @@ const Student = ({ params }: { params: any }) => {
             onClick={toggleSettingsModal}
             className="absolute top-2.5 right-4 p-1.5 z-[800]"
           >
-            <HiOutlineDotsHorizontal size={20} className="ml-auto text-white" />
+            <HiOutlineDotsHorizontal size={20} className="ml-auto " />
           </button>
         )}
 
@@ -342,9 +335,7 @@ const Student = ({ params }: { params: any }) => {
             }}
             className={`rounded-lg shadow-md absolute right-3 top-12 bg-white z-[700] borde border-gray-300 transition-all opacity-0 duration-300 p-1
                 ${
-                  isSettingsModalOpen
-                    ? "!opacity-100"
-                    : "pointer-events-none"
+                  isSettingsModalOpen ? "!opacity-100" : "pointer-events-none"
                 }    
             `}
           >
@@ -403,7 +394,7 @@ const Student = ({ params }: { params: any }) => {
       </div>
 
       {student === undefined ? (
-        <div className="flex flex-col gap-1 h-fit px-12 pt-5 pb-20 pr-7 w-full shadow-sm rounded-br-x rounded-bl-x text-sm bg-emerald-600 absolute top-0 left-0  ">
+        <div className="flex flex-col gap-1 h-fit px-12 pt-5 pb-20 pr-7 w-full shadow-sm rounded-br-x rounded-bl-x text-sm bg-blue-500 absolute top-0 left-0  ">
           <div className="flex flex-row gap-4">
             <span className="bg-gray-300 animate-pulse rounded-md h-4 w-36 "></span>
           </div>
@@ -415,14 +406,14 @@ const Student = ({ params }: { params: any }) => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-row gap-3 h-fit px-12 pt-5 pb-20 pr-7 w-full bg-emerald-600 absolute top-0 left-0 shadow-sm rounded-br-x rounded-bl-x text-sm">
+        <div className="flex flex-row gap-3 h-fit px-12 pt-5 pb-20 pr-7 w-full bg-blue-500 absolute top-0 left-0 shadow-sm rounded-br-x rounded-bl-x text-sm">
           <div className="mt-0.5"></div>
           <div className="flex flex-col">
             <span className="text-white font-medium text-base">
               {student?.name}
             </span>
-            <span className="text-emerald-100 text-xs">{student?.id}</span>
-            <span className="text-emerald-100 text-xs">{`${course} ${student?.year}${student?.section}`}</span>
+            <span className="text-gray-100 text-xs">{student?.id}</span>
+            <span className="text-gray-100 text-xs">{`${course} ${student?.year}${student?.section}`}</span>
           </div>
         </div>
       )}
