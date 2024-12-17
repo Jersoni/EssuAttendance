@@ -304,7 +304,7 @@ const DropDownChecklist = ({
               key={option.value}
               className={`${
                 filters?.includes(option.value)
-                  ? "!bg-gray-600 !text-white font-light"
+                  ? " bg-gray-300"
                   : ""
               } flex text-black items-center relative bg-gray-100 rounded-lg px-4 py-2`}
             >
@@ -347,10 +347,10 @@ const RadioList: React.FC<HTMLInputList> = ({ options, filters, onChange }) => {
         <div className="flex items-center relative py-1" key={option.value}>
           {filters === option.value ? (
             <div className="min-h-5 min-w-5 bg-gray-20 border border-gray-600 rounded-full grid place-items-center">
-              <div className="bg-gray-600 h-3 w-3 rounded-full"></div>
+              <div className="bg-gray-500 h-3 w-3 rounded-full"></div>
             </div>
           ) : (
-            <div className="min-h-5 min-w-5 border border-gray-300 bg-gray-20 rounded-full"></div>
+            <div className="min-h-5 min-w-5 border border-gray-400 bg-gray-20 rounded-full"></div>
           )}
 
           {/* Hidden Radio Button */}

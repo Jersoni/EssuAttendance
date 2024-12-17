@@ -37,7 +37,10 @@ export default function EventLink({
             
             if (token?.id) {
                 const data = await fetchOrganization(token.id);
-                setAuth(data);
+                setAuth({
+                    ...data,
+                    role: token.role
+                });
             }
         })();
     }, [router, pathname])

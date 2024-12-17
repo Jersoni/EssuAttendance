@@ -27,7 +27,10 @@ const Student = ({ params }: { params: any }) => {
 
       if (token?.id) {
         const data = await fetchOrganization(token.id);
-        setAuth(data);
+        setAuth({
+          ...data,
+          role: token.role,
+        });
       }
     })();
   }, [router, pathname]);
@@ -324,7 +327,7 @@ const Student = ({ params }: { params: any }) => {
             onClick={toggleSettingsModal}
             className="absolute top-2.5 right-4 p-1.5 z-[800]"
           >
-            <HiOutlineDotsHorizontal size={20} className="ml-auto " />
+            <HiOutlineDotsHorizontal size={20} className="ml-auto text-white" />
           </button>
         )}
 

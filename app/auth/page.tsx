@@ -68,7 +68,6 @@ const Auth = () => {
         if (error) {
           console.error(error);
         } else {
-          console.log(data.map((item) => item.organization));
           setSelectedOrganizationOptions(data.map((item) => item.organization));
         }
       } catch (err) {
