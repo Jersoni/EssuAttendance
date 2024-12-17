@@ -269,7 +269,7 @@ const Home: React.FC = () => {
 
   return (
     <div
-      className={`px-5 pt-20 pb-40 flex flex-col bg-gray-100 bg- min-h-[200vh] ${
+      className={`px-5 pt-20 pb-40 flex flex-col bg-gray-100 bg- min-h-[100vh] ${
         isOpen ? "overflow-hidden overflow-y-hidden" : "overflow-y-scroll"
       }`}
     >
@@ -301,10 +301,10 @@ const Home: React.FC = () => {
               </p>
               <button
                 onClick={toggleNewEventForm}
-                className="flex flex-row items-center bg-blue-500 font-semibold p-1.5 px-5 rounded-lg text-sm gap-1 mx-auto mt-3"
+                className="flex flex-row items-center bg-blue-500 p-1.5 px-5 rounded-lg text-sm gap-1 mx-auto mt-3 text-gray-100"
               >
                 <IoAdd className="opacity-70" />
-                <span>New event</span>
+                <span className="">New event</span>
               </button>
             </div>
           )}

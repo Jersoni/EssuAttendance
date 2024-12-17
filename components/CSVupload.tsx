@@ -68,6 +68,8 @@ const CSVupload = ({
     
   };
 
+  
+
   return (
     <>
       <div className="form__input border !p-0 border-black border-dashed !h-40 grid place-items-center">
@@ -89,7 +91,7 @@ const CSVupload = ({
         </div>
       </div>
       {error && (
-        <div className="bg-red-400 text-sm text-white p-4 mb-4 rounded-lg">{error}</div>
+        <div className="bg-red-400 text-sm text-white p-4 rounded-lg">{error}</div>
       )}
     </>
   );

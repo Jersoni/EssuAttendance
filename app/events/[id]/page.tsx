@@ -21,7 +21,6 @@ import { LuListFilter } from "react-icons/lu";
 import { IoScan } from "react-icons/io5";
 
 import styles from "./styles.module.css";import Link from "next/link";
-2
 
 /* eslint-disable react-hooks/exhaustive-deps */
 const EventPage: React.FC = ({ params }: any) => {
@@ -30,18 +29,22 @@ const EventPage: React.FC = ({ params }: any) => {
   const pathname = usePathname();
 
   // auth verification
-  const [ auth, setAuth ] = useState<AuthProps>()
-  
+  const [auth, setAuth] = useState<AuthProps>();
+
   useEffect(() => {
     (async () => {
       const token = checkAuth(router, pathname);
-      
-      if (token?.id) {
+
+      if (token && token.id && token.role) {
         const data = await fetchOrganization(token.id);
-        setAuth(data);
+
+        setAuth({
+          ...data,
+          role: token.role,
+        });
       }
     })();
-  }, [router, pathname])
+  }, [router, pathname]);
 
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -67,6 +70,7 @@ const EventPage: React.FC = ({ params }: any) => {
   const allYears = [1, 2, 3, 4];
   const allSections = ["A", "B", "C", "D", "E"];
   const allCourses = [ "BSCE", "BSIT", "BOT", "BSHM", "BSTM", "BSE", "BSBA", "BSAIS", "BAC", "BTVTED", "BSED", "BEED", "BSN", "BSCRIM", "BSINFOTECH" ];
+  const [isUpcoming, setIsUpcoming] = useState<boolean>(false)
 
   function getQueryParams() {
     return {
@@ -108,6 +112,18 @@ const EventPage: React.FC = ({ params }: any) => {
 
     getEvent();
   }, [params.id]);
+
+  useEffect(() => {
+    if (event?.eventDate) {
+      const date = new Date(event.eventDate)
+      const today = new Date()
+
+      console.log(date);
+      console.log(today);
+
+      setIsUpcoming(today < date)
+    }
+  }, [event])
   
 // ATTENDANCE
   const fetchAttendanceData = async () => {
@@ -433,10 +449,6 @@ useEffect(() => {
 
     
   }, [updatedStudent])
-
-  useEffect(() => {
-    console.log(event)
-  }, [event])
   
   return (
     <div className="relative overflow-hidden min-h-[100vh] pt-24">
@@ -459,29 +471,33 @@ useEffect(() => {
         *  - [ ] close logout (prevent further logouts)
         */}
 
-        <div className="w-full flex flex-row items-center text-xs text-gray-400 justify-between px-5 py-2 border-b border-b-gray-200 bg-white" >
-          <span>Student</span>
-          <div className="flex flex-row gap-2">
-            <span>Login</span>
-            <span>Logout</span>
+        {!isUpcoming && (
+          <div className="w-full flex flex-row items-center text-xs text-gray-400 justify-between px-5 py-2 border-b border-b-gray-200 bg-white" >
+            <span>Student</span>
+            <div className="flex flex-row gap-2">
+              <span>Login</span>
+              <span>Logout</span>
+            </div>
           </div>
-        </div>
+        )}
         
         {/* buttons */}
-        <div className={`flex flex-row absolute top-3 right-3 gap-2 items-center `}>
-          <button 
-            onClick={() => {setIsSearchOpen(true)}}
-            className="grid place-items-center p-1.5 rounded-full bg-neutral-10"
-          >
-            <HiOutlineSearch size={20} />
-          </button>
-          <button 
-            onClick={() => {setIsOpen(true)}}
-            className="grid place-items-center -translate-y-[1px] p-1.5 rounded-full bg-neutral-10"
-          >
-            <LuListFilter size={22} />
-          </button>
-        </div>
+        {!isUpcoming && (
+          <div className={`flex flex-row absolute top-3 right-3 gap-2 items-center `}>
+            <button 
+              onClick={() => {setIsSearchOpen(true)}}
+              className="grid place-items-center p-1.5 rounded-full bg-neutral-10"
+            >
+              <HiOutlineSearch size={20} />
+            </button>
+            <button 
+              onClick={() => {setIsOpen(true)}}
+              className="grid place-items-center -translate-y-[1px] p-1.5 rounded-full bg-neutral-10"
+            >
+              <LuListFilter size={22} />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* loading ui */}
@@ -533,9 +549,19 @@ useEffect(() => {
           />
         )}
 
+        {isUpcoming && (
+          <div
+            className="grid place-items-center h-[50vh]"
+          >
+            <div className="text-center font-medium text-gray-400 ">
+              <p>There&apos;s nothing here yet.</p>
+            </div>
+          </div>
+        )}
+
         {/* STUDENTS LIST */}
         <div className={`${styles.studentsList}`}>
-          {(students && searchResults.length === 0) &&
+          {(students && searchResults.length === 0 && !isUpcoming ) &&
             <InfiniteScroll
               dataLength={students.length}
               next={() => {setPage(page + 1)}}
@@ -573,9 +599,8 @@ useEffect(() => {
               );
             })
           }
-
-
-          {auth?.role === "admin" && (
+          
+          {(auth?.role === "admin" && !isUpcoming) && (
             <Link 
               href={`./${params.id}/scanner`}
               className="fixed bottom-4 right-4 grid place-items-center bg-white border border-gray-100 w-16 h-16 shadow-md rounded-full"

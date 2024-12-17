@@ -10,6 +10,9 @@ import { FaCheck, FaCheckCircle } from "react-icons/fa";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { IoCloseCircle } from "react-icons/io5";
 import logo from "/public/icon.svg";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { checkAuth } from "@/utils/utils";
 
 const balooBhai = Baloo_Bhai_2({ subsets: ["latin"], weight: "500" });
 
@@ -19,6 +22,13 @@ interface formProps {
   password: string;
   repeatPassword: string;
   program: string;
+}
+
+interface OrgProps {
+  id: number;
+  university: string;
+  organization: string;
+  password: string;
 }
 
 const UniversityOptions: Array<string> = ["ESSU Guiuan"];
@@ -42,6 +52,16 @@ const programOptions: Array<string> = [
 ];
 
 const Signup = () => {
+
+  const router = useRouter();
+
+  // auth verification
+  const pathname = usePathname();
+
+  useEffect(() => {
+    checkAuth(router, pathname);
+  }, [router, pathname]);
+
   const [page, setPage] = useState(0);
   const [error, setError] = useState<
     "passwordMatch" | "passwordLength" | "accountExists"
@@ -90,36 +110,38 @@ const Signup = () => {
     }));
   };
 
-  const handleNextClick = () => {
-    if (selectedUniversity && formData.organization && selectedProgram) {
+  const handleNextClick = async () => {
+    
+    console.log("handle click")
+
+    if (page === 0 && selectedUniversity && formData.organization && selectedProgram) {
       setLoading(true);
-      (async () => {
-        try {
-          const { data, error } = await supabase
-            .from("organizations")
-            .select("*")
-            .ilike("university", `%${formData.university}%`)
-            .ilike("organization", `%${formData.organization}%`)
-            .limit(1)
-            .single();
+      try {
+        const { data, error } = await supabase
+          .from("organizations")
+          .select("*")
+          .ilike("university", `%${formData.university}%`)
+          .ilike("organization", `%${formData.organization}%`)
+          .limit(1)
+          .single();
 
-          if (error) {
-            if (error.code === "PGRST116") {
-              setPage(page + 1);
-            } else {
-              console.error(error);
-            }
+        if (error) {
+          if (error.code === "PGRST116") {
+            setPage(page + 1);
           } else {
-            console.log(data);
-            setError("accountExists");
+            console.error(error);
           }
-
-          setLoading(false);
-        } catch (err) {
-          console.error(err);
+        } else {
+          console.log(data);
+          setError("accountExists");
         }
-      })();
+
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+      }
     }
+
     if (page === 1 && formData.password && formData.repeatPassword) {
       if (formData.password !== formData.repeatPassword) {
         setError("passwordMatch");
@@ -127,29 +149,63 @@ const Signup = () => {
         setError("passwordLength");
       } else {
         setError(undefined);
+        console.log("next")
         setPage(page + 1);
       }
     }
   };
 
+  useEffect(() => {
+    console.log(page)
+  }, [page])
+
+  const getOrgData = async (data: formProps) => {
+    try {
+      const { data: result, error } = await supabase
+        .from("organizations")
+        .select()
+        .match({
+          university: data.university,
+          organization: data.organization,
+        })
+        .single();
+  
+      if (error) {
+        console.error(error);
+        return;
+      }
+  
+      const orgData = result as OrgProps
+      console.log(orgData)
+      localStorage.setItem("presenxiaAuthToken", `${orgData.id}.admin`);
+      router.push("/");
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     setLoading(true);
+    console.log("handling submit")
 
     e.preventDefault();
     console.log("Form Data:", formData);
 
     (async () => {
       try {
-        const { data, error } = await supabase.from("organizations").insert({
-          university: formData.university,
-          organization: formData.organization,
-          password: formData.password,
-        });
+        const { data, error } = await supabase
+          .from("organizations")
+          .insert({
+            university: formData.university,
+            organization: formData.organization,
+            password: formData.password,
+            program: formData.program,
+          });
 
         if (error) {
           console.error(error);
         } else {
-          console.log(data);
+          getOrgData(formData)
         }
 
         setLoading(false);
@@ -205,7 +261,6 @@ const Signup = () => {
       <form
         id="form"
         className="flex flex-col relative"
-        onSubmit={handleSubmit}
       >
         <div
           className={`${page === 0 ? "" : "-translate-x-[100vw] absolute"} 
@@ -434,8 +489,10 @@ const Signup = () => {
         {page !== 2 ? (
           <button
             type="button"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault()
               handleNextClick();
+              console.log("next")
             }}
             className=" text-white w-fit max-h-10 bg-blue-500 h-fit font-semibold rounded-lg p-2.5 px-6 text-sm active:bg-blue-400 min-w-28"
           >
@@ -453,8 +510,8 @@ const Signup = () => {
           <button
             type="submit"
             form="form"
-            onClick={() => {
-              console.log("submit");
+            onClick={(e) => {
+              handleSubmit(e);
             }}
             className="text-white grid place-items-center gap-2 w-fit min-w-40 max-h-10 bg-blue-500 h-fit font-semibold rounded-lg p-2.5 px-6 text-sm active:bg-blue-400"
           >

@@ -510,8 +510,6 @@ const Auth = () => {
               </div>
             </footer>
           </div>
-
-          <div className=" bg-gray-600 md:w-full min-h-[100vh] max-sm:hidden "></div>
         </div>
       )}
     </>

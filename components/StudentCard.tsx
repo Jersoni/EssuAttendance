@@ -74,7 +74,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
           console.error(error);
           // Handle error, e.g., show error message to user
         } else {
-          console.log('Database updated successfully for login status');
+          // console.log('Database updated successfully for login status');
         }
       } catch(e) {
         console.error(e)
@@ -101,7 +101,7 @@ const  StudentCard: React.FC<{studentData: StudentProps, eventId?: number, class
           console.error(error);
           // Handle error, e.g., show error message to user
         } else {
-          console.log('Database updated successfully for logout status');
+          // console.log('Database updated successfully for logout status');
         }
       } catch(e) {
         console.error(e)

@@ -101,6 +101,7 @@ const Combobox = ({
                     value={query}
                     onChange={onInputChange}
                     placeholder={placeholder}
+                    autoComplete="off"
                     className='bg-transparent pointer-events-none outline-none mr-2 w-full'
                 />
                 
